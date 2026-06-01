@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBAC Admin — Dashboard</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+
+  /* LAYOUT */
+  .layout{display:flex;min-height:100vh}
+
+  /* SIDEBAR */
+  .sidebar{width:240px;background:#0f172a;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;z-index:50}
+  .sb-logo{padding:20px 18px 16px;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:10px}
+  .sb-logo-icon{width:34px;height:34px;background:#6366f1;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .sb-logo-title{font-size:14px;font-weight:700;color:#fff;line-height:1.2}
+  .sb-logo-sub{font-size:10px;color:#475569}
+  .sb-section{padding:10px 0}
+  .sb-label{font-size:10px;font-weight:700;color:#334155;padding:8px 18px 4px;text-transform:uppercase;letter-spacing:.1em}
+  .sb-item{display:flex;align-items:center;gap:10px;padding:9px 18px;font-size:13px;color:#64748b;cursor:pointer;text-decoration:none;transition:.15s;border-left:2px solid transparent;position:relative}
+  .sb-item:hover{background:#1e293b;color:#e2e8f0;border-left-color:#334155}
+  .sb-item.active{background:#1e293b;color:#6366f1;font-weight:600;border-left-color:#6366f1}
+  .sb-item-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+  .sb-badge{margin-left:auto;background:#dc2626;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px}
+  .sb-badge.green{background:#16a34a}
+  .sb-badge.orange{background:#d97706}
+  .sb-divider{height:1px;background:#1e293b;margin:6px 0}
+  .sb-bottom{margin-top:auto;padding:14px 18px;border-top:1px solid #1e293b}
+  .sb-user{display:flex;align-items:center;gap:10px}
+  .sb-user-av{width:32px;height:32px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex-shrink:0}
+  .sb-user-name{font-size:12px;font-weight:600;color:#e2e8f0}
+  .sb-user-role{font-size:10px;color:#475569}
+
+  /* MAIN */
+  .main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+
+  /* TOPBAR */
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+  .topbar-left{display:flex;align-items:center;gap:12px}
+  .topbar-title{font-size:18px;font-weight:700;color:#0f172a}
+  .topbar-date{font-size:12px;color:#94a3b8;background:#f8fafc;padding:4px 10px;border-radius:6px}
+  .topbar-right{display:flex;align-items:center;gap:12px}
+  .notif-btn{width:36px;height:36px;border-radius:9px;background:#f1f5f9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative}
+  .notif-dot{width:8px;height:8px;background:#dc2626;border-radius:50%;position:absolute;top:6px;right:6px;border:2px solid #fff}
+  .user-pill{display:flex;align-items:center;gap:8px;background:#f1f5f9;border-radius:20px;padding:5px 12px 5px 5px;cursor:pointer}
+  .user-pill-av{width:28px;height:28px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
+  .user-pill-name{font-size:12px;font-weight:600;color:#374151}
+
+  /* CONTENT */
+  .content{padding:26px 28px;flex:1}
+
+  /* SETUP PROGRESS */
+  .setup-banner{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:14px;padding:22px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .setup-left h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+  .setup-left p{font-size:12px;color:#a5b4fc}
+  .setup-steps{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+  .setup-step{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border-radius:7px;padding:5px 10px;font-size:11px;font-weight:600;color:#c7d2fe;cursor:pointer;text-decoration:none;transition:.15s}
+  .setup-step:hover{background:rgba(255,255,255,.15);color:#fff}
+  .setup-step.done{background:rgba(99,102,241,.3);color:#a5b4fc}
+  .setup-step.done .ss-num{background:#6366f1;color:#fff}
+  .setup-step.pending{opacity:.5}
+  .ss-num{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+  .setup-progress-bar{flex:1;max-width:200px}
+  .spb-label{font-size:11px;color:#a5b4fc;margin-bottom:8px;text-align:right}
+  .spb-track{height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+  .spb-fill{height:100%;background:linear-gradient(90deg,#6366f1,#818cf8);border-radius:4px;width:62%}
+  .spb-pct{font-size:20px;font-weight:800;color:#fff;text-align:right;margin-top:6px}
+
+  /* STAT CARDS */
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+  .stat-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;display:flex;align-items:flex-start;gap:14px;transition:.15s;cursor:pointer;text-decoration:none}
+  .stat-card:hover{border-color:#6366f1;box-shadow:0 4px 20px rgba(99,102,241,.08);transform:translateY(-1px)}
+  .stat-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .stat-val{font-size:28px;font-weight:800;color:#0f172a;line-height:1}
+  .stat-label{font-size:12px;color:#64748b;margin-top:3px}
+  .stat-change{font-size:11px;margin-top:6px;font-weight:600}
+  .stat-change.up{color:#16a34a}
+  .stat-change.down{color:#dc2626}
+  .stat-change.neutral{color:#94a3b8}
+
+  /* TWO COL */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+  .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:24px}
+
+  /* CARDS */
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+  .card-header{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:14px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px}
+  .card-action{font-size:12px;color:#6366f1;text-decoration:none;font-weight:600}
+  .card-action:hover{color:#4f46e5}
+  .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;text-decoration:none}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-sm{padding:5px 10px;font-size:11px}
+
+  /* QUICK ACTIONS */
+  .qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+  .qa-item{display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #f1f5f9;border-radius:9px;padding:11px 14px;cursor:pointer;text-decoration:none;transition:.15s}
+  .qa-item:hover{background:#eef2ff;border-color:#c7d2fe}
+  .qa-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+  .qa-label{font-size:12px;font-weight:600;color:#374151}
+  .qa-sub{font-size:10px;color:#94a3b8;margin-top:1px}
+
+  /* ACTIVITY */
+  .activity-list{padding:4px 0}
+  .act-item{display:flex;align-items:flex-start;gap:12px;padding:12px 18px;border-bottom:1px solid #f8fafc}
+  .act-item:last-child{border-bottom:none}
+  .act-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .act-text{font-size:12px;color:#374151;line-height:1.5;flex:1}
+  .act-text strong{color:#0f172a}
+  .act-time{font-size:11px;color:#94a3b8;flex-shrink:0;margin-top:1px}
+  .act-tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:4px;font-weight:600;margin-left:4px}
+  .act-tag.assign{background:#dbeafe;color:#1d4ed8}
+  .act-tag.transfer{background:#ffedd5;color:#c2410c}
+  .act-tag.role{background:#ede9fe;color:#5b21b6}
+  .act-tag.tenant{background:#dcfce7;color:#15803d}
+  .act-tag.override{background:#fef9c3;color:#a16207}
+
+  /* TENANT STATUS TABLE */
+  .ts-table{width:100%;font-size:12px;border-collapse:collapse}
+  .ts-table td{padding:10px 18px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+  .ts-table tr:last-child td{border-bottom:none}
+  .ts-table tr:hover td{background:#fafafa}
+  .ts-name{font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px}
+  .ts-icon{font-size:14px}
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-red{background:#fee2e2;color:#dc2626}
+  .badge-blue{background:#dbeafe;color:#1d4ed8}
+  .badge-purple{background:#ede9fe;color:#5b21b6}
+  .badge-orange{background:#ffedd5;color:#c2410c}
+  .badge-gray{background:#f1f5f9;color:#64748b}
+  .mini-bar{height:5px;background:#f1f5f9;border-radius:3px;overflow:hidden;width:80px}
+  .mini-fill{height:100%;background:#6366f1;border-radius:3px}
+
+  /* MODULE LINKS */
+  .module-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px}
+  .mod-item{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:14px;text-align:center;cursor:pointer;text-decoration:none;transition:.15s;display:block}
+  .mod-item:hover{background:#eef2ff;border-color:#c7d2fe;transform:translateY(-1px)}
+  .mod-item-icon{font-size:24px;margin-bottom:8px}
+  .mod-item-label{font-size:12px;font-weight:600;color:#374151}
+  .mod-item-sub{font-size:10px;color:#94a3b8;margin-top:2px}
+
+  /* ALERTS */
+  .alerts-list{padding:6px 14px}
+  .alert-item{display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .alert-item:last-child{margin-bottom:0}
+  .alert-item.warn{background:#fffbeb;border:1px solid #fde68a}
+  .alert-item.info{background:#eff6ff;border:1px solid #bfdbfe}
+  .alert-item.error{background:#fef2f2;border:1px solid #fecaca}
+  .alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+  .alert-text{font-size:12px;line-height:1.5}
+  .alert-item.warn .alert-text{color:#92400e}
+  .alert-item.info .alert-text{color:#1e40af}
+  .alert-item.error .alert-text{color:#991b1b}
+  .alert-text a{font-weight:700;text-decoration:none;color:inherit;border-bottom:1px solid currentColor}
+
+  /* SETUP CHECKLIST */
+  .checklist{padding:10px 18px}
+  .cl-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #f8fafc}
+  .cl-item:last-child{border-bottom:none}
+  .cl-check{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+  .cl-check.done{background:#dcfce7;color:#15803d}
+  .cl-check.pending{background:#f1f5f9;color:#94a3b8;border:2px solid #e2e8f0}
+  .cl-label{font-size:13px;flex:1}
+  .cl-label.done{color:#64748b;text-decoration:line-through}
+  .cl-label.pending{color:#0f172a;font-weight:500}
+  .cl-link{font-size:11px;color:#6366f1;text-decoration:none;font-weight:600}
+
+  /* FOOTER */
+  .footer{background:#fff;border-top:1px solid #e2e8f0;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#94a3b8}
+  .footer a{color:#6366f1;text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-icon">🛡</div>
+      <div>
+        <div class="sb-logo-title">RBAC Admin</div>
+        <div class="sb-logo-sub">Platform Control Panel</div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">Main</div>
+      <a class="sb-item active" href="dashboard.html">
+        <span class="sb-item-icon">🏠</span> Dashboard
+      </a>
+      <a class="sb-item" href="start.html">
+        <span class="sb-item-icon">🚀</span> Setup Guide
+      </a>
+    </div>
+
+    <div class="sb-divider"></div>
+
+    <div class="sb-section">
+      <div class="sb-label">Core Setup</div>
+      <a class="sb-item" href="01-tenant.html">
+        <span class="sb-item-icon">🏛</span> Tenants
+        <span class="sb-badge green">3</span>
+      </a>
+      <a class="sb-item" href="03-modules.html">
+        <span class="sb-item-icon">📁</span> Modules
+      </a>
+      <a class="sb-item" href="02-roles.html">
+        <span class="sb-item-icon">👑</span> Roles
+      </a>
+      <a class="sb-item" href="04-permissions.html">
+        <span class="sb-item-icon">🔐</span> Permissions
+      </a>
+    </div>
+
+    <div class="sb-divider"></div>
+
+    <div class="sb-section">
+      <div class="sb-label">User Management</div>
+      <a class="sb-item" href="#">
+        <span class="sb-item-icon">👥</span> Users
+      </a>
+      <a class="sb-item" href="05-assignment.html">
+        <span class="sb-item-icon">🔗</span> Assignments
+        <span class="sb-badge orange">2</span>
+      </a>
+      <a class="sb-item" href="06-transfer.html">
+        <span class="sb-item-icon">🔄</span> Transfers
+      </a>
+      <a class="sb-item" href="07-override.html">
+        <span class="sb-item-icon">⚡</span> Overrides
+      </a>
+    </div>
+
+    <div class="sb-divider"></div>
+
+    <div class="sb-section">
+      <div class="sb-label">More</div>
+      <a class="sb-item" href="08-projects.html">
+        <span class="sb-item-icon">📋</span> Projects
+      </a>
+      <a class="sb-item" href="#">
+        <span class="sb-item-icon">⚙</span> Master Data
+      </a>
+      <a class="sb-item" href="#">
+        <span class="sb-item-icon">📊</span> Audit Logs
+      </a>
+      <a class="sb-item" href="#">
+        <span class="sb-item-icon">🔔</span> Notifications
+        <span class="sb-badge">4</span>
+      </a>
+      <a class="sb-item" href="documentation.html">
+        <span class="sb-item-icon">📖</span> Documentation
+      </a>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">Future</div>
+      <a class="sb-item" href="#" style="opacity:.4">
+        <span class="sb-item-icon">📱</span> API Access
+      </a>
+      <a class="sb-item" href="#" style="opacity:.4">
+        <span class="sb-item-icon">🌐</span> SSO Config
+      </a>
+      <a class="sb-item" href="#" style="opacity:.4">
+        <span class="sb-item-icon">📧</span> Email Templates
+      </a>
+      <a class="sb-item" href="#" style="opacity:.4">
+        <span class="sb-item-icon">🗺</span> Dynamic Masters
+      </a>
+    </div>
+
+    <div class="sb-bottom">
+      <div class="sb-user">
+        <div class="sb-user-av">SA</div>
+        <div>
+          <div class="sb-user-name">Super Admin</div>
+          <div class="sb-user-role">admin@platform.gov.in</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title">Dashboard</div>
+        <div class="topbar-date">📅 April 2026</div>
+      </div>
+      <div class="topbar-right">
+        <button class="notif-btn">🔔<div class="notif-dot"></div></button>
+        <div class="user-pill">
+          <div class="user-pill-av">SA</div>
+          <div class="user-pill-name">Super Admin ▾</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- SETUP PROGRESS BANNER -->
+      <div class="setup-banner">
+        <div class="setup-left">
+          <h3>🚀 Setup Progress — 5 of 8 steps complete</h3>
+          <p>Steps 6, 7, 8 abhi pending hain — Transfer, Override, Projects</p>
+          <div class="setup-steps">
+            <a href="01-tenant.html" class="setup-step done"><span class="ss-num">✓</span> Tenants</a>
+            <a href="03-modules.html" class="setup-step done"><span class="ss-num">✓</span> Modules</a>
+            <a href="02-roles.html" class="setup-step done"><span class="ss-num">✓</span> Roles</a>
+            <a href="04-permissions.html" class="setup-step done"><span class="ss-num">✓</span> Permissions</a>
+            <a href="05-assignment.html" class="setup-step done"><span class="ss-num">✓</span> Assignments</a>
+            <a href="06-transfer.html" class="setup-step pending"><span class="ss-num">6</span> Transfers</a>
+            <a href="07-override.html" class="setup-step pending"><span class="ss-num">7</span> Overrides</a>
+            <a href="08-projects.html" class="setup-step pending"><span class="ss-num">8</span> Projects</a>
+          </div>
+        </div>
+        <div class="setup-progress-bar">
+          <div class="spb-label">Overall Progress</div>
+          <div class="spb-track"><div class="spb-fill"></div></div>
+          <div class="spb-pct">62%</div>
+        </div>
+      </div>
+
+      <!-- STATS ROW -->
+      <div class="stats-grid">
+        <a href="01-tenant.html" class="stat-card">
+          <div class="stat-icon" style="background:#eef2ff">🏛</div>
+          <div>
+            <div class="stat-val">3</div>
+            <div class="stat-label">Active Tenants</div>
+            <div class="stat-change up">↑ SWCS, Parivesh, MP Urban</div>
+          </div>
+        </a>
+        <a href="02-roles.html" class="stat-card">
+          <div class="stat-icon" style="background:#f0fdf4">👑</div>
+          <div>
+            <div class="stat-val">14</div>
+            <div class="stat-label">Total Roles</div>
+            <div class="stat-change neutral">3 tenants ke roles</div>
+          </div>
+        </a>
+        <a href="05-assignment.html" class="stat-card">
+          <div class="stat-icon" style="background:#fffbeb">👤</div>
+          <div>
+            <div class="stat-val">248</div>
+            <div class="stat-label">Active Assignments</div>
+            <div class="stat-change up">↑ 12 this month</div>
+          </div>
+        </a>
+        <a href="06-transfer.html" class="stat-card">
+          <div class="stat-icon" style="background:#fdf4ff">🔄</div>
+          <div>
+            <div class="stat-val">18</div>
+            <div class="stat-label">Transfers (2024)</div>
+            <div class="stat-change neutral">Full history saved</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- SECOND STATS ROW -->
+      <div class="stats-grid" style="margin-top:-10px">
+        <a href="03-modules.html" class="stat-card">
+          <div class="stat-icon" style="background:#f0fdf4">📁</div>
+          <div>
+            <div class="stat-val">42</div>
+            <div class="stat-label">Modules Defined</div>
+            <div class="stat-change neutral">Admin + Dept + Investor</div>
+          </div>
+        </a>
+        <a href="04-permissions.html" class="stat-card">
+          <div class="stat-icon" style="background:#fef2f2">🔐</div>
+          <div>
+            <div class="stat-val">320</div>
+            <div class="stat-label">Permissions Set</div>
+            <div class="stat-change up">↑ Role × Module × Action</div>
+          </div>
+        </a>
+        <a href="07-override.html" class="stat-card">
+          <div class="stat-icon" style="background:#fffbeb">⚡</div>
+          <div>
+            <div class="stat-val">6</div>
+            <div class="stat-label">Active Overrides</div>
+            <div class="stat-change down">↓ 2 expire this week</div>
+          </div>
+        </a>
+        <a href="08-projects.html" class="stat-card">
+          <div class="stat-icon" style="background:#eef2ff">📋</div>
+          <div>
+            <div class="stat-val">7</div>
+            <div class="stat-label">Active Projects</div>
+            <div class="stat-change neutral">Across 3 tenants</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- ALERTS -->
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-header">
+          <div class="card-title">🔔 Alerts & Notifications</div>
+          <a href="#" class="card-action">Mark all read</a>
+        </div>
+        <div class="alerts-list">
+          <div class="alert-item warn">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-text">
+              <strong>2 user assignments expire in 7 days</strong> — Priya Verma (Block Officer, SWCS) aur Rahul Singh (Range Officer, Parivesh).
+              <a href="05-assignment.html">→ Renew karo</a>
+            </div>
+          </div>
+          <div class="alert-item error">
+            <div class="alert-icon">🚫</div>
+            <div class="alert-text">
+              <strong>District Officer role</strong> mein Dehradun ke 3 users hain lekin <strong>koi scope define nahi hua</strong> — sab districts ka data dekh sakte hain.
+              <a href="05-assignment.html">→ Fix karo</a>
+            </div>
+          </div>
+          <div class="alert-item info">
+            <div class="alert-icon">💡</div>
+            <div class="alert-text">
+              <strong>MP Urban tenant</strong> ke liye abhi koi module assign nahi hua — users login karenge to blank sidebar dikhega.
+              <a href="03-modules.html">→ Modules add karo</a>
+            </div>
+          </div>
+          <div class="alert-item info">
+            <div class="alert-icon">ℹ️</div>
+            <div class="alert-text">
+              <strong>Dynamic Master Management</strong> module coming soon — Country/State/District dynamically manage hoga admin panel se.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- THREE COL -->
+      <div class="three-col">
+
+        <!-- QUICK ACTIONS -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">⚡ Quick Actions</div>
+          </div>
+          <div class="qa-grid">
+            <a href="01-tenant.html" class="qa-item">
+              <div class="qa-icon" style="background:#eef2ff">🏛</div>
+              <div><div class="qa-label">Add Tenant</div><div class="qa-sub">New department</div></div>
+            </a>
+            <a href="02-roles.html" class="qa-item">
+              <div class="qa-icon" style="background:#f0fdf4">👑</div>
+              <div><div class="qa-label">Add Role</div><div class="qa-sub">New designation</div></div>
+            </a>
+            <a href="05-assignment.html" class="qa-item">
+              <div class="qa-icon" style="background:#fffbeb">🔗</div>
+              <div><div class="qa-label">Assign User</div><div class="qa-sub">New posting</div></div>
+            </a>
+            <a href="06-transfer.html" class="qa-item">
+              <div class="qa-icon" style="background:#fdf4ff">🔄</div>
+              <div><div class="qa-label">Transfer</div><div class="qa-sub">Change posting</div></div>
+            </a>
+            <a href="04-permissions.html" class="qa-item">
+              <div class="qa-icon" style="background:#fef2f2">🔐</div>
+              <div><div class="qa-label">Set Permissions</div><div class="qa-sub">Role matrix</div></div>
+            </a>
+            <a href="07-override.html" class="qa-item">
+              <div class="qa-icon" style="background:#fef9c3">⚡</div>
+              <div><div class="qa-label">Add Override</div><div class="qa-sub">Special case</div></div>
+            </a>
+          </div>
+        </div>
+
+        <!-- SETUP CHECKLIST -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">✅ Setup Checklist</div>
+            <a href="start.html" class="card-action">View Guide →</a>
+          </div>
+          <div class="checklist">
+            <div class="cl-item">
+              <div class="cl-check done">✓</div>
+              <div class="cl-label done">Step 1 — Tenants banao</div>
+            </div>
+            <div class="cl-item">
+              <div class="cl-check done">✓</div>
+              <div class="cl-label done">Step 2 — Modules define karo</div>
+            </div>
+            <div class="cl-item">
+              <div class="cl-check done">✓</div>
+              <div class="cl-label done">Step 3 — Roles banao</div>
+            </div>
+            <div class="cl-item">
+              <div class="cl-check done">✓</div>
+              <div class="cl-label done">Step 4 — Permissions set karo</div>
+            </div>
+            <div class="cl-item">
+              <div class="cl-check done">✓</div>
+              <div class="cl-label done">Step 5 — Users assign karo</div>
+            </div>
+            <div class="cl-item">
+              <div class="cl-check pending">6</div>
+              <div class="cl-label pending">Step 6 — Transfer setup karo</div>
+              <a href="06-transfer.html" class="cl-link">Go →</a>
+            </div>
+            <div class="cl-item">
+              <div class="cl-check pending">7</div>
+              <div class="cl-label pending">Step 7 — Override configure karo</div>
+              <a href="07-override.html" class="cl-link">Go →</a>
+            </div>
+            <div class="cl-item">
+              <div class="cl-check pending">8</div>
+              <div class="cl-label pending">Step 8 — Projects banao</div>
+              <a href="08-projects.html" class="cl-link">Go →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENT ACTIVITY -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📋 Recent Activity</div>
+            <a href="#" class="card-action">View All →</a>
+          </div>
+          <div class="activity-list">
+            <div class="act-item">
+              <div class="act-dot" style="background:#6366f1"></div>
+              <div class="act-text"><strong>Rajesh Sharma</strong> ko District Officer assign kiya <span class="act-tag assign">assignment</span></div>
+              <div class="act-time">2h ago</div>
+            </div>
+            <div class="act-item">
+              <div class="act-dot" style="background:#f59e0b"></div>
+              <div class="act-text"><strong>Priya Verma</strong> transfer — Dehradun → Almora <span class="act-tag transfer">transfer</span></div>
+              <div class="act-time">5h ago</div>
+            </div>
+            <div class="act-item">
+              <div class="act-dot" style="background:#7c3aed"></div>
+              <div class="act-text"><strong>Range Officer</strong> role banaya — Parivesh tenant <span class="act-tag role">role</span></div>
+              <div class="act-time">1d ago</div>
+            </div>
+            <div class="act-item">
+              <div class="act-dot" style="background:#16a34a"></div>
+              <div class="act-text"><strong>MP Urban</strong> tenant add kiya <span class="act-tag tenant">tenant</span></div>
+              <div class="act-time">2d ago</div>
+            </div>
+            <div class="act-item">
+              <div class="act-dot" style="background:#d97706"></div>
+              <div class="act-text"><strong>Amit Kumar</strong> ko State Reports EXPORT override <span class="act-tag override">override</span></div>
+              <div class="act-time">3d ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TENANT STATUS TABLE -->
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🏛 Tenant Status</div>
+            <a href="01-tenant.html" class="card-action">Manage →</a>
+          </div>
+          <table class="ts-table">
+            <tbody>
+              <tr>
+                <td><div class="ts-name"><span class="ts-icon">🏛</span> SWCS — Uttarakhand</div></td>
+                <td><span class="badge badge-purple">ENTERPRISE</span></td>
+                <td style="color:#374151">248 users</td>
+                <td><div class="mini-bar"><div class="mini-fill" style="width:80%"></div></div></td>
+                <td><span class="badge badge-green">Active</span></td>
+              </tr>
+              <tr>
+                <td><div class="ts-name"><span class="ts-icon">🌲</span> Parivesh — Delhi</div></td>
+                <td><span class="badge badge-blue">STANDARD</span></td>
+                <td style="color:#374151">86 users</td>
+                <td><div class="mini-bar"><div class="mini-fill" style="width:45%"></div></div></td>
+                <td><span class="badge badge-green">Active</span></td>
+              </tr>
+              <tr>
+                <td><div class="ts-name"><span class="ts-icon">🏙</span> MP Urban — MP</div></td>
+                <td><span class="badge badge-gray">FREE</span></td>
+                <td style="color:#374151">12 users</td>
+                <td><div class="mini-bar"><div class="mini-fill" style="width:15%"></div></div></td>
+                <td><span class="badge badge-orange">Setup Pending</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ALL MODULE LINKS -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🗺 All Pages</div>
+            <a href="index.html" class="card-action">Full Index →</a>
+          </div>
+          <div class="module-grid">
+            <a href="01-tenant.html" class="mod-item">
+              <div class="mod-item-icon">🏛</div>
+              <div class="mod-item-label">Tenants</div>
+              <div class="mod-item-sub">Step 1</div>
+            </a>
+            <a href="03-modules.html" class="mod-item">
+              <div class="mod-item-icon">📁</div>
+              <div class="mod-item-label">Modules</div>
+              <div class="mod-item-sub">Step 2</div>
+            </a>
+            <a href="02-roles.html" class="mod-item">
+              <div class="mod-item-icon">👑</div>
+              <div class="mod-item-label">Roles</div>
+              <div class="mod-item-sub">Step 3</div>
+            </a>
+            <a href="04-permissions.html" class="mod-item">
+              <div class="mod-item-icon">🔐</div>
+              <div class="mod-item-label">Permissions</div>
+              <div class="mod-item-sub">Step 4</div>
+            </a>
+            <a href="05-assignment.html" class="mod-item">
+              <div class="mod-item-icon">👤</div>
+              <div class="mod-item-label">Assignments</div>
+              <div class="mod-item-sub">Step 5</div>
+            </a>
+            <a href="06-transfer.html" class="mod-item">
+              <div class="mod-item-icon">🔄</div>
+              <div class="mod-item-label">Transfers</div>
+              <div class="mod-item-sub">Step 6</div>
+            </a>
+            <a href="07-override.html" class="mod-item">
+              <div class="mod-item-icon">⚡</div>
+              <div class="mod-item-label">Overrides</div>
+              <div class="mod-item-sub">Step 7</div>
+            </a>
+            <a href="08-projects.html" class="mod-item">
+              <div class="mod-item-icon">📋</div>
+              <div class="mod-item-label">Projects</div>
+              <div class="mod-item-sub">Step 8</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end content -->
+
+    <div class="footer">
+      <div>RBAC Admin Panel · Platform v1.0</div>
+      <div><a href="start.html">Setup Guide</a> · <a href="documentation.html">Documentation</a> · <a href="index.html">All Pages</a></div>
+    </div>
+
+  </div><!-- end main -->
+</div>
+</body>
+</html>

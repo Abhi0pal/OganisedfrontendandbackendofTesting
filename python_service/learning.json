@@ -1,0 +1,532 @@
+[
+  {
+    "source": "LOGID",
+    "target": "log_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "USERID",
+    "target": "user_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "ACTION",
+    "target": "action",
+    "confidence": 100.0
+  },
+  {
+    "source": "ENTITY",
+    "target": "entity",
+    "confidence": 100.0
+  },
+  {
+    "source": "ENTITYID",
+    "target": "entity_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "SESSIONID",
+    "target": "session_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "EVENTID",
+    "target": "event_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "EVENTID",
+    "target": "event_type",
+    "confidence": 50.0
+  },
+  {
+    "source": "DESCRIPTION",
+    "target": "description",
+    "confidence": 100.0
+  },
+  {
+    "source": "USERID",
+    "target": "user_agent",
+    "confidence": 50.0
+  },
+  {
+    "source": "SUCCESS",
+    "target": "success",
+    "confidence": 100.0
+  },
+  {
+    "source": "TARGETID",
+    "target": "target_entity",
+    "confidence": 50.0
+  },
+  {
+    "source": "TARGETID",
+    "target": "target_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "CAMPAIGNID",
+    "target": "campaign_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "CAMPAIGNID",
+    "target": "campaign_name",
+    "confidence": 50.0
+  },
+  {
+    "source": "STARTDATE",
+    "target": "start_date",
+    "confidence": 100.0
+  },
+  {
+    "source": "ENDDATE",
+    "target": "end_date",
+    "confidence": 100.0
+  },
+  {
+    "source": "BUDGET",
+    "target": "budget",
+    "confidence": 100.0
+  },
+  {
+    "source": "2)",
+    "target": "2)",
+    "confidence": 100.0
+  },
+  {
+    "source": "CHANNEL",
+    "target": "channel",
+    "confidence": 100.0
+  },
+  {
+    "source": "CREATEDDATE",
+    "target": "created_at",
+    "confidence": 50.0
+  },
+  {
+    "source": "LEADID",
+    "target": "lead_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "EMAIL",
+    "target": "email",
+    "confidence": 100.0
+  },
+  {
+    "source": "PRODUCTID",
+    "target": "product_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "PRODUCTID",
+    "target": "product_name",
+    "confidence": 50.0
+  },
+  {
+    "source": "CATEGORYID",
+    "target": "category_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "3)",
+    "target": "3)",
+    "confidence": 100.0
+  },
+  {
+    "source": "IMAGES",
+    "target": "images",
+    "confidence": 100.0
+  },
+  {
+    "source": "PRODUCTCODE",
+    "target": "product_name",
+    "confidence": 50.0
+  },
+  {
+    "source": "ORDERID",
+    "target": "order_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "CUSTOMERID",
+    "target": "customer_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "ORDERDATE",
+    "target": "order_date",
+    "confidence": 100.0
+  },
+  {
+    "source": "ITEMID",
+    "target": "line_id",
+    "confidence": 50.0
+  },
+  {
+    "source": "SKU",
+    "target": "sku",
+    "confidence": 100.0
+  },
+  {
+    "source": "WAREHOUSECODE",
+    "target": "warehouse_code",
+    "confidence": 100.0
+  },
+  {
+    "source": "DELIVERYDATE",
+    "target": "delivery_date",
+    "confidence": 100.0
+  },
+  {
+    "source": "INVOICEID",
+    "target": "invoice_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "INVOICEDATE",
+    "target": "invoice_date",
+    "confidence": 100.0
+  },
+  {
+    "source": "DUEDATE",
+    "target": "due_date",
+    "confidence": 100.0
+  },
+  {
+    "source": "ACCTID",
+    "target": "account_id",
+    "confidence": 50.0
+  },
+  {
+    "source": "CUSTID",
+    "target": "customer_id",
+    "confidence": 50.0
+  },
+  {
+    "source": "CURRENCY",
+    "target": "currency_code",
+    "confidence": 66.67
+  },
+  {
+    "source": "BALANCE",
+    "target": "current_balance",
+    "confidence": 66.67
+  },
+  {
+    "source": "OPENDATE",
+    "target": "open_date",
+    "confidence": 100.0
+  },
+  {
+    "source": "STATUS",
+    "target": "status",
+    "confidence": 100.0
+  },
+  {
+    "source": "BRANCHCODE",
+    "target": "branch_code",
+    "confidence": 100.0
+  },
+  {
+    "source": "POID",
+    "target": "po_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "SUPPLIERID",
+    "target": "supplier_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "PODATE",
+    "target": "po_date",
+    "confidence": 100.0
+  },
+  {
+    "source": "CURRENCYCODE",
+    "target": "currency_code",
+    "confidence": 100.0
+  },
+  {
+    "source": "DISCOUNTCODE",
+    "target": "discount_code",
+    "confidence": 100.0
+  },
+  {
+    "source": "TXNID",
+    "target": "txn_id",
+    "confidence": 100.0
+  },
+  {
+    "source": "BANKTXNID",
+    "target": "paid_at",
+    "confidence": 40.0
+  },
+  {
+    "source": "AMOUNT",
+    "target": "amount",
+    "confidence": 100.0
+  },
+  {
+    "source": "AUTHCODE",
+    "target": "auth_code",
+    "confidence": 100.0
+  },
+  {
+    "source": "EMAILID",
+    "target": "email",
+    "confidence": 66.67
+  },
+  {
+    "source": "COUNTRYCODE",
+    "target": "country_code",
+    "confidence": 100.0
+  },
+  {
+    "source": "CITY",
+    "target": "city",
+    "confidence": 100.0
+  },
+  {
+    "source": "STOCKID",
+    "target": "item_id",
+    "confidence": 50.0
+  },
+  {
+    "source": "LOCATIONCODE",
+    "target": "location_code",
+    "confidence": 100.0
+  },
+  {
+    "source": "QUANTITY",
+    "target": "quantity_on_hand",
+    "confidence": 50.0
+  },
+  {
+    "source": "USERID",
+    "target": "id",
+    "confidence": 66.67
+  },
+  {
+    "source": "PASSWORD",
+    "target": "password_hash",
+    "confidence": 66.67
+  },
+  {
+    "source": "TRAN_NO",
+    "target": "transaction_no",
+    "confidence": 82.33
+  },
+  {
+    "source": "TRAN_DATE",
+    "target": "transaction_date",
+    "confidence": 50.0
+  },
+  {
+    "source": "GSTNo",
+    "target": "gst_flag",
+    "confidence": 50.0
+  },
+  {
+    "source": "B2CGSTNumber",
+    "target": "gst_b2c_number",
+    "confidence": 50.0
+  },
+  {
+    "source": "CorrAddressAddressLine1",
+    "target": "corr_address_line1",
+    "confidence": 85.82
+  },
+  {
+    "source": "CorrAddressAddressLine2",
+    "target": "corr_address_line2",
+    "confidence": 85.82
+  },
+  {
+    "source": "CorrEmailId",
+    "target": "corr_district_id",
+    "confidence": 40.0
+  },
+  {
+    "source": "CorpEmailId",
+    "target": "corr_state_id",
+    "confidence": 40.0
+  },
+  {
+    "source": "CorrPincode",
+    "target": "corr_pincode",
+    "confidence": 100.0
+  },
+  {
+    "source": "CorrSTDCode",
+    "target": "corr_mobile_code",
+    "confidence": 40.0
+  },
+  {
+    "source": "CorpAddressAddressLine1",
+    "target": "corp_address_line1",
+    "confidence": 85.82
+  },
+  {
+    "source": "CorpAddressAddressLine2",
+    "target": "corp_address_line2",
+    "confidence": 85.82
+  },
+  {
+    "source": "CorrMobileCountryCode",
+    "target": "corp_pincode",
+    "confidence": 40.0
+  },
+  {
+    "source": "CorpPincode",
+    "target": "corp_mobile_code",
+    "confidence": 40.0
+  },
+  {
+    "source": "EXISTING_EMP_TOTAL",
+    "target": "has_existing_business",
+    "confidence": 33.33
+  },
+  {
+    "source": "PROPOSED_EMP_TOTAL",
+    "target": "proposed_employee_count",
+    "confidence": 33.33
+  },
+  {
+    "source": "BusinessStartDate",
+    "target": "business_start_date",
+    "confidence": 40.0
+  },
+  {
+    "source": "USERID",
+    "target": "USERID",
+    "confidence": 100.0
+  },
+  {
+    "source": "USERNAME",
+    "target": "USERNAME",
+    "confidence": 100.0
+  },
+  {
+    "source": "PASSWORD",
+    "target": "PASSWORD",
+    "confidence": 100.0
+  },
+  {
+    "source": "FULLNAME",
+    "target": "FULLNAME",
+    "confidence": 100.0
+  },
+  {
+    "source": "EMAIL",
+    "target": "EMAIL",
+    "confidence": 100.0
+  },
+  {
+    "source": "COUNTRYCODE",
+    "target": "COUNTRYCODE",
+    "confidence": 100.0
+  },
+  {
+    "source": "MOBILE",
+    "target": "MOBILE",
+    "confidence": 100.0
+  },
+  {
+    "source": "PASSWORDEXPIRYDATE",
+    "target": "PASSWORDEXPIRYDATE",
+    "confidence": 100.0
+  },
+  {
+    "source": "CREATEDDATE",
+    "target": "CREATEDDATE",
+    "confidence": 100.0
+  },
+  {
+    "source": "USERSTATUS",
+    "target": "USERSTATUS",
+    "confidence": 100.0
+  },
+  {
+    "source": "USERSTATUSREASON",
+    "target": "USERSTATUSREASON",
+    "confidence": 100.0
+  },
+  {
+    "source": "USERROLECODE",
+    "target": "USERROLECODE",
+    "confidence": 100.0
+  },
+  {
+    "source": "DSC_SERIALNO",
+    "target": "DSC_SERIALNO",
+    "confidence": 100.0
+  },
+  {
+    "source": "USERVESRION",
+    "target": "USERVESRION",
+    "confidence": 100.0
+  },
+  {
+    "source": "PASSWORDCHANGED",
+    "target": "PASSWORDCHANGED",
+    "confidence": 100.0
+  },
+  {
+    "source": "CorrMobileCountryCode",
+    "target": "corr_mobile_code",
+    "confidence": 40.0
+  },
+  {
+    "source": "EXISTING_EMP_TOTAL",
+    "target": "existing_employee_count",
+    "confidence": 33.33
+  },
+  {
+    "source": "GSTNo",
+    "target": "gst_number",
+    "confidence": 50.0
+  },
+  {
+    "source": "CorpAddressAddressLine1",
+    "target": "corr_address_line1",
+    "confidence": 33.33
+  },
+  {
+    "source": "CorpAddressAddressLine2",
+    "target": "corr_address_line2",
+    "confidence": 33.33
+  },
+  {
+    "source": "PANNumber",
+    "target": "pan_number",
+    "confidence": 100.0
+  },
+  {
+    "source": "GSTNumber",
+    "target": "gst_number",
+    "confidence": 100.0
+  },
+  {
+    "source": "CompanyName",
+    "target": "company_name",
+    "confidence": 100.0
+  },
+  {
+    "source": "CorrPhoneNumber",
+    "target": "corr_phone",
+    "confidence": 65.76
+  },
+  {
+    "source": "CorrMobileNumber",
+    "target": "corr_mobile_code",
+    "confidence": 84.59
+  },
+  {
+    "source": "CorrEmailId",
+    "target": "corr_email",
+    "confidence": 69.2
+  }
+]

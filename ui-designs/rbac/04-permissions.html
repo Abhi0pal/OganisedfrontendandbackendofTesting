@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Permission Matrix</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#6366f1;font-weight:600;border-left:2px solid #6366f1}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .toolbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;gap:12px;align-items:center;flex-shrink:0}
+  .select-filter{padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;background:#fff;color:#374151;outline:none}
+  .btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .matrix-wrap{flex:1;overflow:auto;padding:20px 24px}
+  .matrix-container{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+  .legend{display:flex;gap:16px;padding:12px 18px;border-bottom:1px solid #f1f5f9;font-size:12px;align-items:center}
+  .legend-item{display:flex;align-items:center;gap:6px}
+  .leg-box{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px}
+  .leg-allow{background:#dcfce7;color:#15803d}
+  .leg-deny{background:#fee2e2;color:#dc2626}
+  .leg-inherit{background:#f1f5f9;color:#94a3b8}
+  .leg-none{background:#fff;border:1px solid #e2e8f0;color:#cbd5e1}
+
+  /* MATRIX TABLE */
+  .matrix-table{border-collapse:collapse;min-width:900px;font-size:12px}
+  .matrix-table th{background:#f8fafc;padding:10px 14px;border:1px solid #e2e8f0;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;white-space:nowrap}
+  .matrix-table td{border:1px solid #f1f5f9;padding:0;vertical-align:middle}
+  .module-cell{padding:10px 14px;display:flex;align-items:center;gap:8px;background:#fff;min-width:220px}
+  .module-icon{font-size:14px}
+  .module-name{font-size:13px;font-weight:600;color:#374151}
+  .module-code{font-size:10px;font-family:monospace;color:#94a3b8}
+  .module-cell.group{background:#f8fafc}
+  .module-cell.group .module-name{color:#64748b;font-weight:700;font-size:11px;text-transform:uppercase}
+  .indent{display:inline-block;width:16px}
+  .perm-cell{text-align:center;padding:6px;cursor:pointer;min-width:72px}
+  .perm-btn{width:52px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer;border:none;transition:.15s}
+  .perm-allow{background:#dcfce7;color:#15803d}
+  .perm-deny{background:#fee2e2;color:#dc2626}
+  .perm-inherit{background:#f1f5f9;color:#94a3b8;border:1px dashed #e2e8f0}
+  .perm-none{background:#fff;color:#e2e8f0;border:1px solid #f1f5f9}
+  .perm-allow:hover{background:#bbf7d0}
+  .perm-deny:hover{background:#fecaca}
+  .perm-inherit:hover{background:#e2e8f0}
+  tr:hover .module-cell{background:#fafafa}
+  .role-header{background:#0f172a;color:#fff;padding:10px 14px;font-size:13px;font-weight:700;text-align:left;border:1px solid #1e293b}
+  .role-subheader{background:#1e293b;color:#94a3b8;padding:6px 14px;font-size:11px;font-style:italic;border:1px solid #334155}
+  .save-bar{background:#0f172a;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .save-bar-msg{font-size:13px;color:#94a3b8}
+  .save-bar-msg strong{color:#fff}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">🛡 RBAC Admin</div>
+      <div class="sidebar-logo-sub">Platform Control Panel</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Core</div>
+      <a class="nav-item" href="01-tenant.html">🏛 Tenants</a>
+      <a class="nav-item" href="02-roles.html">👑 Roles</a>
+      <a class="nav-item" href="03-modules.html">📁 Modules</a>
+      <a class="nav-item active" href="04-permissions.html">🔐 Permissions</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Users</div>
+      <a class="nav-item" href="05-assignment.html">👤 Assignments</a>
+      <a class="nav-item" href="06-transfer.html">🔄 Transfers</a>
+      <a class="nav-item" href="07-override.html">⚡ Overrides</a>
+      <a class="nav-item" href="08-projects.html">📋 Projects</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Permission Matrix</div>
+      <div class="avatar">A</div>
+    </div>
+
+    <div class="toolbar">
+      <select class="select-filter"><option>🏛 SWCS — Single Window</option><option>🌲 Forest Dept</option></select>
+      <select class="select-filter"><option>👑 District Officer (DO)</option><option>🏢 Director</option><option>👑 Commissioner</option><option>🏘 Block Officer</option></select>
+      <select class="select-filter"><option>📁 ADMIN Portal</option><option>🏢 DEPARTMENT Portal</option></select>
+      <div style="font-size:12px;color:#64748b;margin-left:auto">Click cell to toggle: <strong>ALLOW → DENY → Inherit → ALLOW</strong></div>
+      <button class="btn btn-ghost" style="font-size:12px">📥 Copy from Role</button>
+    </div>
+
+    <div class="matrix-wrap">
+      <div class="matrix-container">
+        <div class="legend">
+          <span style="font-size:12px;font-weight:700;color:#374151;margin-right:4px">Legend:</span>
+          <div class="legend-item"><div class="leg-box leg-allow">✓</div> <span>ALLOW (directly assigned)</span></div>
+          <div class="legend-item"><div class="leg-box leg-deny">✕</div> <span>DENY (blocked)</span></div>
+          <div class="legend-item"><div class="leg-box leg-inherit">↑</div> <span>Inherited from parent role</span></div>
+          <div class="legend-item"><div class="leg-box leg-none">—</div> <span>Not set</span></div>
+          <div style="margin-left:auto;font-size:11px;color:#94a3b8">Role: <strong style="color:#4f46e5">District Officer (DO)</strong> · Parent: Director</div>
+        </div>
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th style="min-width:220px">Module</th>
+              <th>READ</th>
+              <th>CREATE</th>
+              <th>UPDATE</th>
+              <th>DELETE</th>
+              <th>EXPORT</th>
+              <th>APPROVE</th>
+              <th>REJECT</th>
+              <th>MANAGE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- GROUP -->
+            <tr>
+              <td colspan="9"><div class="module-cell group"><span>📋</span><div><div class="module-name">Application Management</div></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="module-cell"><span class="indent"></span><span>📄</span><div><div class="module-name">Application List</div><div class="module-code">APP_LIST</div></div></div></td>
+              <td class="perm-cell"><button class="perm-btn perm-allow">✓ ALLOW</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-deny">✕ DENY</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-allow">✓ ALLOW</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-allow">✓ ALLOW</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-allow">✓ ALLOW</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+            </tr>
+            <tr>
+              <td><div class="module-cell"><span class="indent"></span><span>🔍</span><div><div class="module-name">Application Detail</div><div class="module-code">APP_DETAIL</div></div></div></td>
+              <td class="perm-cell"><button class="perm-btn perm-allow">✓ ALLOW</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-inherit">↑ inherit</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-inherit">↑ inherit</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+            </tr>
+            <!-- GROUP -->
+            <tr>
+              <td colspan="9"><div class="module-cell group"><span>👥</span><div><div class="module-name">User Management</div></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="module-cell"><span class="indent"></span><span>📋</span><div><div class="module-name">User List</div><div class="module-code">USER_LIST</div></div></div></td>
+              <td class="perm-cell"><button class="perm-btn perm-inherit">↑ inherit</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-deny">✕ DENY</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-deny">✕ DENY</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+            </tr>
+            <!-- GROUP -->
+            <tr>
+              <td colspan="9"><div class="module-cell group"><span>📊</span><div><div class="module-name">Reports</div></div></div></td>
+            </tr>
+            <tr>
+              <td><div class="module-cell"><span class="indent"></span><span>📈</span><div><div class="module-name">District Reports</div><div class="module-code">DIST_REPORT</div></div></div></td>
+              <td class="perm-cell"><button class="perm-btn perm-allow">✓ ALLOW</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-allow">✓ ALLOW</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+            </tr>
+            <tr>
+              <td><div class="module-cell"><span class="indent"></span><span>📊</span><div><div class="module-name">State Reports</div><div class="module-code">STATE_REPORT</div></div></div></td>
+              <td class="perm-cell"><button class="perm-btn perm-deny">✕ DENY</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-deny">✕ DENY</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+              <td class="perm-cell"><button class="perm-btn perm-none">—</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="save-bar">
+      <div class="save-bar-msg">Role: <strong>District Officer (DO)</strong> · <strong>3 unsaved changes</strong></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" style="color:#94a3b8">Discard</button>
+        <button class="btn btn-primary">💾 Save Permissions</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

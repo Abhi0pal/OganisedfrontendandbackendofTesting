@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPCB Waste AI — PoC</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; min-height: 100vh; }
+
+  .header {
+    background: linear-gradient(135deg, #1a6b3c, #2d9e5f);
+    color: white; padding: 16px 32px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .header h1 { font-size: 1.3rem; }
+  .header p  { font-size: 0.82rem; opacity: 0.85; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 24px auto;
+    padding: 0 20px;
+  }
+  @media(max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  .panel { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; }
+  .panel-header { padding: 14px 20px; display: flex; align-items: center; gap: 10px; }
+  .panel-header.green { background: #1a6b3c; color: white; }
+  .panel-header.blue  { background: #1a6b3c; color: white; }
+  .panel-header h2 { font-size: 1rem; }
+  .panel-header span { font-size: 0.8rem; opacity: 0.85; }
+  .panel-body { padding: 20px; }
+
+  .drop-zone {
+    border: 2px dashed #2d9e5f; border-radius: 10px;
+    padding: 36px 16px; cursor: pointer; text-align: center;
+    background: #f8fffe; transition: all 0.2s;
+  }
+  .drop-zone:hover, .drop-zone.dragover { background: #e8f8f0; border-color: #1a6b3c; }
+  .drop-zone .icon { font-size: 2.4rem; margin-bottom: 8px; }
+  .drop-zone p  { color: #555; font-size: 0.9rem; }
+  .drop-zone small { color: #999; font-size: 0.78rem; }
+  #fileInput { display: none; }
+
+  #preview-section { margin-top: 14px; display: none; text-align: center; }
+  #preview-img { max-height: 220px; max-width: 100%; border-radius: 8px; border: 1px solid #e0e0e0; }
+
+  .sat-form label { font-size: 0.8rem; color: #666; display: block; margin-bottom: 4px; margin-top: 12px; }
+  .sat-form input[type="number"] {
+    width: 100%; padding: 9px 12px; border: 1px solid #ddd;
+    border-radius: 7px; font-size: 0.95rem; outline: none; transition: border 0.2s;
+  }
+  .sat-form input[type="number"]:focus { border-color: #1a6b3c; }
+  .zoom-row { display: flex; align-items: center; gap: 10px; }
+  .zoom-row input[type="range"] { flex: 1; }
+
+  .quick-locations { margin-top: 12px; }
+  .quick-locations p { font-size: 0.78rem; color: #888; margin-bottom: 6px; }
+  .loc-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .loc-btn {
+    background: #e8f0fe; color: #1a6b3c; border: none;
+    border-radius: 6px; padding: 5px 10px; font-size: 0.78rem;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .loc-btn:hover { background: #c5d8fc; }
+
+  .btn-green {
+    background: #1a6b3c; color: white; border: none;
+    border-radius: 8px; padding: 11px 28px; font-size: 0.95rem;
+    cursor: pointer; margin-top: 14px; width: 100%; transition: background 0.2s;
+  }
+  .btn-green:hover { background: #145530; }
+  .btn-green:disabled { background: #aaa; cursor: not-allowed; }
+
+  .btn-blue {
+    background: #1a6b3c; color: white; border: none;
+    border-radius: 8px; padding: 11px 28px; font-size: 0.95rem;
+    cursor: pointer; margin-top: 14px; width: 100%; transition: background 0.2s;
+  }
+  .btn-blue:hover { background: #145530; }
+  .btn-blue:disabled { background: #aaa; cursor: not-allowed; }
+
+  .loader {
+    display: none; margin: 20px auto;
+    border: 4px solid #e0e0e0; border-radius: 50%;
+    width: 44px; height: 44px; animation: spin 0.8s linear infinite;
+  }
+  .loader.green { border-top-color: #1a6b3c; }
+  .loader.blue  { border-top-color: #1a6b3c; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .result-card { border-radius: 10px; overflow: hidden; margin-top: 18px; display: none; }
+  .result-head {
+    padding: 12px 18px; display: flex;
+    align-items: center; justify-content: space-between;
+  }
+  .result-head h3 { color: white; font-size: 0.95rem; }
+  .badge { background: rgba(255,255,255,0.25); color: white; padding: 3px 10px; border-radius: 14px; font-size: 0.75rem; font-weight: 600; }
+  .result-body { padding: 16px; background: white; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 10px 10px; }
+
+  .risk-low      { background: #2e7d32; }
+  .risk-medium   { background: #f57c00; }
+  .risk-high     { background: #c62828; }
+  .risk-critical { background: #6a0080; }
+  .risk-none     { background: #2e7d32; }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .info-item { background: #f8f9fa; border-radius: 7px; padding: 10px 12px; }
+  .info-item label { font-size: 0.7rem; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px; }
+  .info-item span  { font-size: 0.88rem; font-weight: 600; color: #222; }
+  .full { grid-column: 1 / -1; }
+
+  .obs-box { background: #fffde7; border-left: 4px solid #f9a825; border-radius: 0 7px 7px 0; padding: 10px 14px; margin-bottom: 10px; }
+  .act-box { background: #e8f5e9; border-left: 4px solid #2e7d32; border-radius: 0 7px 7px 0; padding: 10px 14px; }
+  .obs-box label, .act-box label { font-size: 0.7rem; color: #888; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .obs-box p { color: #555; font-size: 0.85rem; }
+  .act-box p { color: #1a5c28; font-size: 0.85rem; font-weight: 500; }
+
+  .illegal-flag {
+    background: #ffebee; border: 1px solid #ef9a9a;
+    border-radius: 7px; padding: 8px 14px;
+    color: #c62828; font-weight: 600; font-size: 0.85rem;
+    margin-bottom: 10px; display: none;
+  }
+
+  .sat-img-preview { width: 100%; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e0e0e0; }
+
+  .error-box { background: #ffebee; border-radius: 8px; padding: 12px; color: #c62828; display: none; margin-top: 12px; font-size: 0.88rem; }
+
+  .reset-btn {
+    background: #f0f4f8; color: #333; border: 1px solid #ddd;
+    border-radius: 7px; padding: 8px 20px; font-size: 0.85rem;
+    cursor: pointer; margin-top: 12px;
+  }
+  .reset-btn:hover { background: #e0e8f0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>CPCB Waste Classification — AI PoC</h1>
+    <p>Powered by Gemini 2.5 Flash &nbsp;|&nbsp; Site Inspection + Satellite Monitoring</p>
+  </div>
+</div>
+
+<div class="two-col">
+
+  <!-- LEFT: Image Classifier -->
+  <div class="panel">
+    <div class="panel-header green">
+      <div>
+        <h2>📸 Site Inspection Classifier</h2>
+        <span>Upload a waste photo — AI identifies type & risk</span>
+      </div>
+    </div>
+    <div class="panel-body">
+
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div class="icon">📷</div>
+        <p><strong>Click to upload</strong> or drag & drop</p>
+        <small>JPG, PNG, WEBP — Max 10MB</small>
+      </div>
+      <input type="file" id="fileInput" accept="image/*">
+
+      <div id="preview-section">
+        <img id="preview-img" src="" alt="Preview">
+        <button class="btn-green" id="analyzeBtn" onclick="classifyWaste()">Analyze Waste</button>
+      </div>
+
+      <div class="loader green" id="classifyLoader"></div>
+      <div class="error-box" id="classifyError"></div>
+
+      <div class="result-card" id="classifyResult">
+        <div class="result-head" id="classifyHead">
+          <h3 id="wasteType"></h3>
+          <span class="badge" id="classifyConf"></span>
+        </div>
+        <div class="result-body">
+          <div class="illegal-flag" id="illegalFlag">⚠️ Illegal Dumping Suspected</div>
+          <div class="info-grid">
+            <div class="info-item"><label>Sub Category</label><span id="subCat"></span></div>
+            <div class="info-item"><label>Risk Level</label><span id="riskLvl"></span></div>
+            <div class="info-item full"><label>Applicable Rule</label><span id="appRule"></span></div>
+          </div>
+          <div class="obs-box"><label>Observations</label><p id="obsText"></p></div>
+          <div class="act-box"><label>Recommended Action</label><p id="actText"></p></div>
+          <button class="reset-btn" onclick="resetClassify()">Analyze Another</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT: Satellite Monitor -->
+  <div class="panel">
+    <div class="panel-header blue">
+      <div>
+        <h2>🛰️ Satellite Dumping Monitor</h2>
+        <span>Enter coordinates — AI scans satellite imagery for illegal dumps</span>
+      </div>
+    </div>
+    <div class="panel-body">
+
+      <div class="sat-form">
+        <label>Latitude</label>
+        <input type="number" id="lat" step="any" placeholder="e.g. 28.6139">
+        <label>Longitude</label>
+        <input type="number" id="lng" step="any" placeholder="e.g. 77.2090">
+        <label>Zoom Level &nbsp;<small style="color:#999">(14=wide area, 19=street level)</small></label>
+        <div class="zoom-row">
+          <input type="range" id="zoom" min="14" max="19" value="17" oninput="document.getElementById('zoomVal').textContent=this.value">
+          <span id="zoomVal" style="font-size:0.9rem;font-weight:600;color:#1a6b3c;min-width:20px">17</span>
+        </div>
+      </div>
+
+      <div class="quick-locations">
+        <p>Quick test locations:</p>
+        <div class="loc-btns">
+          <button class="loc-btn" onclick="setCoords(28.6139,77.2090)">Delhi</button>
+          <button class="loc-btn" onclick="setCoords(19.0760,72.8777)">Mumbai</button>
+          <button class="loc-btn" onclick="setCoords(13.0827,80.2707)">Chennai</button>
+          <button class="loc-btn" onclick="setCoords(22.5726,88.3639)">Kolkata</button>
+          <button class="loc-btn" onclick="setCoords(17.3850,78.4867)">Hyderabad</button>
+          <button class="loc-btn" onclick="setCoords(12.9716,77.5946)">Bangalore</button>
+        </div>
+      </div>
+
+      <button class="btn-blue" id="satBtn" onclick="analyzeSatellite()">Scan Satellite Imagery</button>
+
+      <div class="loader blue" id="satLoader"></div>
+      <div class="error-box" id="satError"></div>
+
+      <div class="result-card" id="satResult">
+        <div class="result-head" id="satHead">
+          <h3 id="alertType"></h3>
+          <span class="badge" id="satConf"></span>
+        </div>
+        <div class="result-body">
+          <img id="satImg" class="sat-img-preview" src="" alt="Satellite View">
+          <div class="info-grid">
+            <div class="info-item"><label>Dumping Detected</label><span id="dumpDetected"></span></div>
+            <div class="info-item"><label>Risk Level</label><span id="satRisk"></span></div>
+            <div class="info-item"><label>Affected Area</label><span id="affArea"></span></div>
+            <div class="info-item"><label>Near Water Body</label><span id="nearWater"></span></div>
+          </div>
+          <div class="obs-box"><label>Detected Features</label><p id="satObs"></p></div>
+          <div class="act-box"><label>Recommended Action</label><p id="satAct"></p></div>
+          <button class="reset-btn" onclick="resetSat()">Scan Another Location</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  let selectedFile = null;
+
+  fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFile(e.dataTransfer.files[0]); });
+
+  function handleFile(file) {
+    if (!file) return;
+    selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('preview-img').src = e.target.result;
+      document.getElementById('preview-section').style.display = 'block';
+      document.getElementById('classifyResult').style.display = 'none';
+      document.getElementById('classifyError').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function classifyWaste() {
+    if (!selectedFile) return;
+    setLoading('classify', true);
+    const formData = new FormData();
+    formData.append('image', selectedFile);
+    try {
+      const res  = await fetch('/api/waste/classify', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Classification failed');
+      showClassifyResult(data.analysis);
+    } catch(err) {
+      showError('classifyError', err.message);
+    } finally {
+      setLoading('classify', false);
+    }
+  }
+
+  function showClassifyResult(a) {
+    document.getElementById('classifyHead').className    = 'result-head ' + riskClass(a.risk_level);
+    document.getElementById('wasteType').textContent     = a.waste_type;
+    document.getElementById('classifyConf').textContent  = 'Confidence: ' + a.confidence;
+    document.getElementById('subCat').textContent        = a.sub_category;
+    document.getElementById('riskLvl').textContent       = a.risk_level;
+    document.getElementById('appRule').textContent       = a.applicable_rule;
+    document.getElementById('obsText').textContent       = a.observations;
+    document.getElementById('actText').textContent       = a.recommended_action;
+    document.getElementById('illegalFlag').style.display = a.illegal_dumping_suspected ? 'block' : 'none';
+    document.getElementById('classifyResult').style.display = 'block';
+  }
+
+  function resetClassify() {
+    selectedFile = null; fileInput.value = '';
+    document.getElementById('preview-section').style.display  = 'none';
+    document.getElementById('classifyResult').style.display   = 'none';
+    document.getElementById('classifyError').style.display    = 'none';
+  }
+
+  function setCoords(lat, lng) {
+    document.getElementById('lat').value = lat;
+    document.getElementById('lng').value = lng;
+  }
+
+  async function analyzeSatellite() {
+    const lat  = parseFloat(document.getElementById('lat').value);
+    const lng  = parseFloat(document.getElementById('lng').value);
+    const zoom = parseInt(document.getElementById('zoom').value);
+    if (isNaN(lat) || isNaN(lng)) { showError('satError', 'Please enter valid latitude and longitude.'); return; }
+    setLoading('sat', true);
+    try {
+      const res  = await fetch('/api/waste/satellite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lat, lng, zoom })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Satellite analysis failed');
+      showSatResult(data);
+    } catch(err) {
+      showError('satError', err.message);
+    } finally {
+      setLoading('sat', false);
+    }
+  }
+
+  function showSatResult(data) {
+    const a  = data.analysis;
+    const rc = a.illegal_dumping_detected ? riskClass(a.risk_level) : 'risk-none';
+    document.getElementById('satHead').className         = 'result-head ' + rc;
+    document.getElementById('alertType').textContent     = a.alert_type;
+    document.getElementById('satConf').textContent       = 'Confidence: ' + a.confidence;
+    document.getElementById('satImg').src                = data.satellite_image_url;
+    document.getElementById('dumpDetected').textContent  = a.illegal_dumping_detected ? '🚨 Yes' : '✅ No';
+    document.getElementById('satRisk').textContent       = a.risk_level;
+    document.getElementById('affArea').textContent       = a.affected_area_estimate;
+    document.getElementById('nearWater').textContent     = a.nearby_water_body ? '⚠️ Yes' : 'No';
+    document.getElementById('satObs').textContent        = a.detected_features;
+    document.getElementById('satAct').textContent        = a.recommended_action;
+    document.getElementById('satResult').style.display   = 'block';
+  }
+
+  function resetSat() {
+    document.getElementById('satResult').style.display = 'none';
+    document.getElementById('satError').style.display  = 'none';
+  }
+
+  function riskClass(level) {
+    return { 'Low':'risk-low','Medium':'risk-medium','High':'risk-high','Critical':'risk-critical' }[level] || 'risk-medium';
+  }
+
+  function setLoading(panel, on) {
+    document.getElementById(panel + 'Loader').style.display = on ? 'block' : 'none';
+    document.getElementById(panel === 'classify' ? 'analyzeBtn' : 'satBtn').disabled = on;
+    document.getElementById(panel + 'Error').style.display = 'none';
+    if (panel === 'classify') document.getElementById('classifyResult').style.display = 'none';
+    if (panel === 'sat')      document.getElementById('satResult').style.display = 'none';
+  }
+
+  function showError(id, msg) {
+    const box = document.getElementById(id);
+    box.textContent = 'Error: ' + msg;
+    box.style.display = 'block';
+  }
+</script>
+</body>
+</html>

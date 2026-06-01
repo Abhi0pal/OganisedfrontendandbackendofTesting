@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap');
+@import url("applicant-theme.css");
+@import "tailwindcss";
+
+/* Scan these paths for Tailwind classes */
+@source "../../../components/(investor)/*.tsx";
+@source "../../../components/ui/DynamicForm/*.tsx";
+@source "./**/*.tsx";
+
+
+body { font-family:var(--font-family);background-color:#FFFFFF;padding-top:0;}
+
+.bg-primary { background-color:var(--primary-color);}
+.bg-primary-outline {
+    border-color:var(--primary-color);
+    &:hover { background-color:var(--primary-color);}
+}
+.bg-gray {
+    background-color:#f3f4f6;
+    &:hover { background-color:var(--primary-color);}
+}
+.text-primary { color:var(--primary-color);}
+.border-primary { border-color:var(--primary-color);}
+.icon-primary { color:var(--primary-color);}
+
+/* Header */
+.header-main {
+  .top-bar {
+    background-color:var(--primary-light-color);color:var(--primary-color);
+  }
+}
+
+/* Tailwind text colors for links */
+.tailwind-scope {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  a.text-gray-700 { color: #374151;}
+  a.text-gray-900 { color: #111827;}
+  a.text-red-600 { color: #dc2626;}
+  a.text-red-700 { color: #b91c1c;}
+  a.text-red-800 { color: #991b1b;}
+  a.text-white { color: #ffffff;}
+  a.hover\:text-red-700:hover { color: #b91c1c;}
+  a.hover\:bg-red-50:hover { background-color: #fef2f2;}
+  a.bg-red-100 { background-color: #fee2e2;}
+  a.bg-red-50 { background-color: #fef2f2;}
+  p.text-red-600 { margin-top: 0.25rem;margin-bottom: 0;font-size: 0.875rem;font-weight: 500;color: #dc2626;}
+  p.text-gray-500 { margin-top: 0.25rem;margin-bottom: 0;font-size: 0.875rem;color: #6b7280;}
+}
+.investor-bg { border-bottom:1px solid #DDDDDD;}
+.investor-header {
+  .header-icon-btn {
+    width:48px;height: 48px;display: inline-flex;align-items: center;justify-content: center;border-radius: 9999px;background: #ffffff;border: 1px solid #d9dee5;color: #2f2f2f;
+    &:hover { background: #f3f4f6;}
+  }
+  .header-icon { width: 22px;height: 22px;color: #2f2f2f;stroke-width: 2;}
+}
+
+.action-pill {
+  .action-label { max-width: 0 !important;opacity: 0 !important;overflow: hidden !important;white-space: nowrap !important;}
+  &:hover .action-label,
+  &.active .action-label {
+    max-width:220px !important;opacity:1 !important;
+  }
+  .action-icon {
+    img { display:block;}
+  }
+}
+
+.accordion-item {
+  &:first-of-type { border-top-right-radius: 20px !important;border-top-left-radius: 20px !important;}
+  &:last-of-type { border-bottom-right-radius: 20px !important;border-bottom-left-radius: 20px !important;}
+}
+
+.tailwind-scope {
+  .bg-primary { background-color: var(--primary-color) !important;}
+  .text-primary { color: var(--primary-color) !important;}
+  .hover\:text-primary:hover { color: var(--primary-color) !important;}
+  .bg-primary-outline { border-color: var(--primary-color);}
+  .bg-primary-outline:hover { background-color: var(--primary-color); color: #fff;}
+  .bg-gray { background-color:#f3f4f6;}
+  .bg-gray:hover { background-color:var(--primary-color); color:#fff;}
+}
+
+.investor-main-content { 
+  margin-left: 272px !important;
+  &.sidebar-collapsed { margin-left: 80px !important;}
+}
+
+/* Sidebar Layout Handling */
+@media (min-width: 992px) {
+  .investor-main-content {
+    margin-left:256px;transition:margin-left 0.3s ease-in-out;
+    &.sidebar-collapsed { margin-left:80px;}
+  }
+}
+
+@media (max-width: 991.98px) {
+  .investor-main-content { margin-left:0;}
+}
+
+/* Card Hover Effects */
+.stats-card {
+  &:hover { border-color:var(--color-primary);box-shadow:0 4px 12px rgba(220, 38, 38, 0.15);transform:translateY(-2px);}
+}
+
+.service-card {
+  &:hover { border-color:var(--color-primary);box-shadow:0 4px 12px rgba(220, 38, 38, 0.15);transform:translateY(-2px);}
+}
+
+.main-header-admin h1 { font-size: 18px; }
+
+/* Sidebar (theme) */
+.investor-sidebar {
+  background-color:#FFFFFF;border-color:#e5e7eb;border-right:1px solid #C3C0C2;
+
+  &.w-64 { width: 270px;}
+  &.w-20 { 
+    width: 80px;
+    .sidebar-toggle { right:25px;top:15px;}
+  }
+  .logo-investuk { width:190px;}
+  .sidebar-toggle { 
+    background-color:#e5e7eb;width:30px;height:30px;position:absolute;right:5px;border-radius:5px;
+    svg {
+      path { fill:#4b5563; stroke:none;}
+    }
+    &:hover { background-color:#d1d5db;}
+  }
+  nav {
+    background-color: transparent !important;
+    .menu-title { color:#9aa3b2;letter-spacing:0.05em;font-size:12px;font-weight:600;}
+    .menu-link { 
+      color:#0A1A1A;font-size: 14px;font-weight:400;gap:12px;text-align:left;line-height:1.5;margin-bottom:12px;
+      span { text-align:left;}
+      &:hover,
+      &.active { 
+        background-color:var(--primary-color);color:var(--primary-light-color);
+        span { 
+          color:var(--primary-light-color);font-weight:600;
+          svg {
+            * { fill:var(--primary-light-color);}
+          }
+        }
+      }
+    }
+    .menu-dropdown {
+      margin-bottom:6px;
+      .m-txt { color:#363636;word-wrap:break-word;}
+      &:hover,
+      &.active {
+        .m-txt { }
+      }
+      .sm-txt {
+        .bg-slate-400 { top:2px;}
+        &:hover { .bg-slate-400 { background-color:var(--primary-color);} }
+      }
+    }
+  }
+
+  a.sidebar-submenu-link {
+    color: #363636;text-decoration: none;padding: 8px 12px;font-size: 14px;line-height: 1.5;
+    .active { font-weight: 600;}
+  }
+}
+
+.dynamic-form {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select { border:2px solid #c1c1c1 !important;background-color:#FFFFFF;}
+  label { font-size:16px;font-weight:500;}
+  .radio-wrap {
+    input[type="radio"] {
+      vertical-align: text-top;
+      margin-right: 6px;
+    }
+    span { font-size:16px;}
+  }
+
+  .checkbox-wrap {
+    input[type="checkbox"] {
+      vertical-align: text-bottom;
+      margin-right: 5px;
+    }
+    span { font-size:16px;}
+  }
+
+  .p-inputwrapper {
+    position:relative;
+    .p-button { position:absolute;right:0;top:0;bottom:0;}
+  }
+}
+
+.counter-wrap {
+  background-color:#eff3f2;
+  .projectsinfo {
+    border: 1px solid #E6E7E8;border-radius: 10px;padding: 10px 20px;/*background: linear-gradient(180deg, #E6E7E8 0%, #FAFAFA 100%);*/
+    p.count { color:var(--color-primary);font-size:2rem;font-weight:600;}
+  }
+}
+.departmentService { background-color:#FAFAFA;padding: 5px 10px;border-radius: 5px;border-width: 1px;border-style: solid;border-color:var(--color-primary);border-image: initial;}
+
+.border-b-1 { border-bottom:1px solid #dfdfdf;}
+.border-t-1 { border-top:1px solid #dfdfdf;}
+
+.investor-stepper-label { display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;}
+.investor-route-loader { position: fixed;inset: 0;z-index: 9999;background: rgba(255, 255, 255, 0.85);display: flex;align-items: center;justify-content: center;}
+.investor-route-loader-track { width: 50vw;max-width: 520px;height: 56px;position: relative;overflow: hidden;}
+.investor-route-loader-logo { position: absolute;top: 50%;transform: translateY(-50%);height: 48px;animation:investor-loader-sweep 3s ease-in-out infinite;}
+
+@keyframes investor-loader-sweep {
+  0% { left: 0; }
+  50% { left: calc(100% - 140px); }
+  100% { left: 0; }
+}
+
+.rounded-full { border-radius:9999px;}
+.text-2xl { font-size:1.5rem;line-height:2rem;}
+.text-lg { font-size:1.125rem;line-height:1.75rem;}
+.text-xs { font-size:0.75rem;line-height:1rem;}
+
+.form-select { height:45px;}
+
+/* Dropdown — form fields */
+.p-dropdown {
+  border:2px solid #c1c1c1 !important;border-radius: 6px;height: 40px;width: 100%;background-color: #fff;transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  .p-dropdown-label { display: flex;align-items: center;padding: 0 0.75rem;font-size: 0.9rem;color: #212529;}
+  .p-dropdown-trigger { color: #6c757d;width: 2.5rem;}
+  &:hover { border-color: #888 !important;}
+  &.p-focus,
+  &:focus-within {
+    border-color: var(--primary-color) !important;box-shadow: 0 0 0 0.18rem rgba(233, 9, 12, 0.15);outline: none;
+  }
+  &.p-invalid { border-color: #dc3545 !important;}
+}
+
+/* Dropdown panel */
+.p-dropdown-panel {
+  border-radius:6px;border: 1px solid #dfdfdf;box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);overflow:hidden;
+  .p-dropdown-items-wrapper {
+    .p-dropdown-items {
+      padding: 4px 0;
+      .p-dropdown-item {
+        padding: 10px 15px;font-size: 0.9rem;
+        &.p-highlight { background-color: rgba(233, 9, 12, 0.08);color: var(--primary-color);font-weight: 500;}
+        &:not(.p-highlight):hover { background-color: #f5f5f5;}
+      }
+    }
+  }
+
+  .p-dropdown-header {
+    padding: 8px 10px;border-bottom: 1px solid #efefef;
+    .p-dropdown-filter-container {
+      .p-dropdown-filter { padding: 8px 12px; border: 1px solid #dfdfdf; border-radius: 4px; width: 100%; }
+      .p-dropdown-filter-icon { top: 50%; transform: translateY(-50%); right: 14px; }
+    }
+  }
+}
+
+/* MultiSelect — form fields */
+.p-multiselect {
+  border:2px solid #c1c1c1 !important;border-radius:6px;min-height:40px;width:100%;background-color:#fff;transition:all 0.15s ease;
+  .p-multiselect-label { display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding:4px 0.75rem;font-size:0.9rem;color:#212529;}
+  .p-multiselect-trigger { color:#6c757d;width:2.5rem;}
+  &:hover { border-color: #888 !important;}
+  &.p-focus,
+  &:focus-within {
+    border-color: var(--primary-color) !important;box-shadow: 0 0 0 0.18rem rgba(233, 9, 12, 0.15);outline: none;
+  }
+  &.p-invalid { border-color: #dc3545 !important;}
+}
+
+.p-multiselect-panel {
+  border-radius: 6px;border: 1px solid #dfdfdf;box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);overflow: hidden;
+  .p-multiselect-items {
+    padding: 4px 0;
+    .p-multiselect-item {
+      padding: 10px 15px;font-size: 0.9rem;
+      &.p-highlight { background-color: rgba(233, 9, 12, 0.08);color: var(--primary-color);}
+      &:not(.p-highlight):hover { background-color: #f5f5f5;}
+    }
+  }
+  .p-multiselect-header { padding: 8px 10px;border-bottom: 1px solid #efefef;}
+}
+
+/* Department Action Panel */
+.department-action-panel {
+  .p-fileupload {
+    .p-button {
+      color: #fff;height: 40px;padding:0 15px;border-radius:8px;background-color:#545454;
+      &:hover { background-color: var(--primary-color);border-color: var(--primary-color);color: #fff;}
+      svg { margin-right:10px;}
+    }
+  }
+}
+
+.process-wrap {
+  overflow:auto;overflow-y:hidden;
+  > div {
+    &:nth-child(odd) {
+      width:110px;height:100%;display:flex;flex-flow:column;justify-content:center;
+      button { text-align:center;}
+    }
+    &:nth-child(even) { width:150px;height:2px;margin-top:18px;background:#BBC3C8;}
+  }
+}
+
+.investor-main-content {
+  background-image: var(--footer-illustration, none), var(--bg-pattern);
+  background-repeat: no-repeat, no-repeat;
+  background-position: var(--footer-illustration-position, center bottom), center top;
+  background-size: var(--footer-illustration-size, 0 0), cover;
+}
+.inner-main-wrap {
+  padding-bottom: var(--footer-illustration-space, 0);
+}
+.footer-main { 
+  background-color:var(--primary-light-color);
+  p, a { font-size: 0.75rem;}
+}
+
+/* Main Popup Wrap */
+.main-popup-wrap {
+  > div { 
+    height:calc(100vh - 100px);
+    h2 { font-size:1.5rem;font-weight:600;color:var(--primary-color);}
+    .scl-content { 
+      height:calc(100vh - 310px);
+      ul.list-disc { 
+        list-style-type:number;margin-bottom:30px;
+        li {
+          margin-bottom:5px;
+        }
+      }
+    }
+  }
+}  
+
+.custom-card { 
+  border-radius:12px;border-bottom:10px solid var(--primary-color);background:#f5f5f5;box-shadow:0 0 8px rgba(0, 0, 0, 0.1);
+  svg {
+    path { fill:var(--primary-color);}
+  }
+}

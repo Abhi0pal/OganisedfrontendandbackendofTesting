@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Permission Override</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#6366f1;font-weight:600;border-left:2px solid #6366f1}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:24px 28px;display:flex;gap:22px}
+  .left-col{width:320px;flex-shrink:0}
+  .right-col{flex:1}
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:18px}
+  .card-header{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:14px;font-weight:700}
+  .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-sm{padding:5px 10px;font-size:11px}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-red{background:#fee2e2;color:#dc2626}
+  .badge-blue{background:#dbeafe;color:#1d4ed8}
+  .user-row{padding:12px 16px;border-bottom:1px solid #f8fafc;display:flex;align-items:center;gap:10px;cursor:pointer}
+  .user-row:hover{background:#fafafa}
+  .user-row.selected{background:#eef2ff;border-left:2px solid #6366f1}
+  .user-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;flex-shrink:0}
+  .user-name{font-size:13px;font-weight:600}
+  .user-meta{font-size:11px;color:#94a3b8}
+  .override-list{padding:4px 0}
+  .override-item{padding:14px 18px;border-bottom:1px solid #f8fafc;display:flex;align-items:flex-start;gap:12px}
+  .override-item:last-child{border-bottom:none}
+  .ov-effect{width:52px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+  .ov-allow{background:#dcfce7;color:#15803d}
+  .ov-deny{background:#fee2e2;color:#dc2626}
+  .ov-module{font-size:13px;font-weight:600;color:#0f172a}
+  .ov-action{font-size:11px;color:#6366f1;font-weight:600;margin-top:2px}
+  .ov-reason{font-size:11px;color:#64748b;margin-top:3px;font-style:italic}
+  .ov-meta{font-size:10px;color:#94a3b8;margin-top:3px}
+  .ov-remove{margin-left:auto;width:26px;height:26px;border-radius:6px;border:1px solid #fecaca;background:#fff;color:#dc2626;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;flex-shrink:0}
+  .empty-state{padding:40px;text-align:center;color:#94a3b8;font-size:13px}
+
+  /* ADD FORM */
+  .form-body{padding:18px}
+  .form-group{margin-bottom:14px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
+  .form-control:focus{border-color:#6366f1}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .effect-selector{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  .effect-card{border:2px solid #e2e8f0;border-radius:8px;padding:12px;cursor:pointer;text-align:center}
+  .effect-card.allow.selected{border-color:#16a34a;background:#f0fdf4}
+  .effect-card.deny.selected{border-color:#dc2626;background:#fef2f2}
+  .effect-icon{font-size:20px;margin-bottom:4px}
+  .effect-label{font-size:13px;font-weight:700}
+  .effect-card.allow.selected .effect-label{color:#15803d}
+  .effect-card.deny.selected .effect-label{color:#dc2626}
+  .effect-desc{font-size:11px;color:#64748b;margin-top:2px}
+  .rule-box{background:#f8fafc;border-radius:8px;padding:12px 14px;font-size:12px;color:#374151;margin-bottom:14px}
+  .rule-box strong{color:#0f172a}
+  .footer-btns{display:flex;justify-content:flex-end;gap:8px;padding:14px 18px;border-top:1px solid #f1f5f9}
+  .info-note{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:12px;color:#1e40af;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">🛡 RBAC Admin</div>
+      <div class="sidebar-logo-sub">Platform Control Panel</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Core</div>
+      <a class="nav-item" href="01-tenant.html">🏛 Tenants</a>
+      <a class="nav-item" href="02-roles.html">👑 Roles</a>
+      <a class="nav-item" href="03-modules.html">📁 Modules</a>
+      <a class="nav-item" href="04-permissions.html">🔐 Permissions</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Users</div>
+      <a class="nav-item" href="05-assignment.html">👤 Assignments</a>
+      <a class="nav-item" href="06-transfer.html">🔄 Transfers</a>
+      <a class="nav-item active" href="07-override.html">⚡ Overrides</a>
+      <a class="nav-item" href="08-projects.html">📋 Projects</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Permission Overrides</div>
+      <div class="avatar">A</div>
+    </div>
+
+    <div class="content">
+      <!-- LEFT: USER LIST -->
+      <div class="left-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title">👥 Select User</div></div>
+          <div class="user-row selected">
+            <div class="user-av" style="background:#6366f1">RS</div>
+            <div>
+              <div class="user-name">Rajesh Sharma</div>
+              <div class="user-meta">District Officer · SWCS · <strong style="color:#f59e0b">2 overrides</strong></div>
+            </div>
+          </div>
+          <div class="user-row">
+            <div class="user-av" style="background:#16a34a">PV</div>
+            <div>
+              <div class="user-name">Priya Verma</div>
+              <div class="user-meta">Block Officer · SWCS · <strong style="color:#f59e0b">1 override</strong></div>
+            </div>
+          </div>
+          <div class="user-row">
+            <div class="user-av" style="background:#7c3aed">AK</div>
+            <div>
+              <div class="user-name">Amit Kumar</div>
+              <div class="user-meta">Director · Forest · no overrides</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: OVERRIDES + ADD FORM -->
+      <div class="right-col">
+
+        <!-- EXISTING OVERRIDES -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">⚡ Active Overrides — Rajesh Sharma</div>
+              <div style="font-size:11px;color:#64748b;margin-top:2px">Assignment: District Officer · SWCS · Dehradun, Haridwar</div>
+            </div>
+            <button class="btn btn-primary btn-sm">＋ Add Override</button>
+          </div>
+
+          <div class="rule-box" style="margin:14px 18px 0">
+            <strong>Override Priority Rule:</strong> Override ALLOW + Role DENY = ✅ ALLOW &nbsp;|&nbsp; Override DENY + Role ALLOW = ❌ DENY &nbsp;|&nbsp; DENY always wins
+          </div>
+
+          <div class="override-list">
+            <div class="override-item">
+              <div class="ov-effect ov-allow">✓ ALLOW</div>
+              <div style="flex:1">
+                <div class="ov-module">📊 State Reports</div>
+                <div class="ov-action">Action: EXPORT</div>
+                <div class="ov-reason">"DM ke absence mein additional charge — temporarily state reports bhi export karna hai"</div>
+                <div class="ov-meta">Added by: Admin (id:1) · 15 Mar 2024</div>
+              </div>
+              <button class="ov-remove">🗑</button>
+            </div>
+            <div class="override-item">
+              <div class="ov-effect ov-deny">✕ DENY</div>
+              <div style="flex:1">
+                <div class="ov-module">👥 User Management</div>
+                <div class="ov-action">Action: CREATE</div>
+                <div class="ov-reason">"User create karna band kiya — investigation pending"</div>
+                <div class="ov-meta">Added by: Admin (id:1) · 20 Mar 2024</div>
+              </div>
+              <button class="ov-remove">🗑</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADD NEW OVERRIDE -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">➕ Add New Override</div></div>
+          <div class="form-body">
+            <div class="info-note">💡 Override sirf specific assignment ke liye hota hai — same role ke baaki users affect nahi honge</div>
+
+            <div class="form-group">
+              <label class="form-label">Module <span>*</span></label>
+              <select class="form-control">
+                <option>— Select Module —</option>
+                <option>📋 Application List (APP_LIST)</option>
+                <option>📊 State Reports (STATE_REPORT)</option>
+                <option>👥 User List (USER_LIST)</option>
+                <option>⚙ Master Management (MASTER)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Action <span>*</span></label>
+              <select class="form-control">
+                <option>READ</option><option>CREATE</option><option>UPDATE</option><option>DELETE</option><option>EXPORT</option><option>APPROVE</option><option>REJECT</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Effect <span>*</span></label>
+              <div class="effect-selector">
+                <div class="effect-card allow selected">
+                  <div class="effect-icon">✅</div>
+                  <div class="effect-label">ALLOW</div>
+                  <div class="effect-desc">Role mein nahi thi lekin specifically deni hai</div>
+                </div>
+                <div class="effect-card deny">
+                  <div class="effect-icon">🚫</div>
+                  <div class="effect-label">DENY</div>
+                  <div class="effect-desc">Role mein thi lekin specifically block karni hai</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Reason <span>*</span></label>
+              <input class="form-control" type="text" placeholder="Kyun override kar rahe ho — audit trail ke liye...">
+            </div>
+          </div>
+          <div class="footer-btns">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">⚡ Save Override</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

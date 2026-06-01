@@ -1,0 +1,388 @@
+/* WRAPPER */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+  background: #f3f3f3;
+}
+
+/* CARD */
+.login-wrapper .login-card {
+  display: flex;
+  width: 950px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1.5px solid #e5c46a;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* LEFT */
+.login-wrapper .login-left {
+  flex: 1;
+  padding: 40px 45px;
+}
+
+/* EY ACCENT */
+.login-wrapper .accent {
+  width: 42px;
+  height: 6px;
+  background: #FFDB00;
+  transform: skewX(-25deg);
+  margin-bottom: 12px;
+}
+
+/* TITLE */
+.login-wrapper .login-left h1 {
+  font-size: 30px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 6px;
+}
+
+/* SUBTITLE */
+.login-wrapper .subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+/* LABEL */
+.login-wrapper .login-left label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 14px;
+  display: block;
+  color: #374151;
+}
+
+/* INPUT */
+.login-wrapper .input-box input {
+  width: 100%;
+  padding: 13px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  background: #f9fafb;
+  transition: 0.2s;
+}
+
+.login-wrapper .input-box input:focus {
+  border-color: #FFDB00;
+  background: #ffffff;
+  outline: none;
+}
+
+/* PASSWORD ROW */
+.login-wrapper .password-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.login-wrapper .forgot {
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+/* PASSWORD BOX */
+.login-wrapper .password-box {
+  display: flex;
+}
+
+.login-wrapper .password-box input {
+  flex: 1;
+}
+
+.login-wrapper .show-btn {
+  padding: 0 16px;
+  border: 1px solid #d1d5db;
+  border-left: none;
+  background: #f3f4f6;
+  cursor: pointer;
+  border-radius: 0 8px 8px 0;
+}
+
+/* LOGIN BUTTON (IMPORTANT DESIGN FIX) */
+.login-wrapper .login-btn {
+  margin-top: 22px;
+  width: 100%;
+  padding: 13px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  background: linear-gradient(90deg, #ffd000, #f5b800);
+  color: #000;
+  box-shadow: 0 4px 12px rgba(245, 196, 0, 0.3);
+  cursor: pointer;
+}
+
+.login-wrapper .login-btn:hover {
+  opacity: 0.95;
+}
+
+/* SIGNUP */
+.login-wrapper .signup {
+  text-align: center;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.login-wrapper .signup span {
+  color: #FFDB00;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* DIVIDER */
+.login-wrapper .divider {
+  text-align: center;
+  margin: 12px 0;
+  position: relative;
+}
+
+.login-wrapper .divider span {
+  background: #fff;
+  padding: 0 12px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.login-wrapper .divider::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: #e5e7eb;
+  top: 50%;
+  left: 0;
+  z-index: -1;
+}
+
+/* RESEND */
+.login-wrapper .resend-btn {
+  width: 100%;
+  padding: 11px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+/* RIGHT IMAGE */
+.login-wrapper .login-right {
+  flex: 1;
+  background: url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab")
+    center/cover no-repeat;
+  position: relative;
+}
+
+/* OVERLAY */
+.login-wrapper .overlay {
+  position: absolute;
+  bottom: 30px;
+  left: 25px;
+  right: 25px;
+  color: #ffffff;
+}
+
+.login-wrapper .quote-icon {
+  font-size: 32px;
+  color: #FFDB00;
+}
+
+.login-wrapper .overlay p {
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.login-wrapper .overlay span {
+  font-size: 12px;
+  color: #d1d5db;
+}
+
+/* DOTS */
+.login-wrapper .dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #aaa;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.login-wrapper .dots .active {
+  background: #FFDB00;
+}
+
+.error-box {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.signup-section {
+  text-align: center;
+  margin-top: 15px;
+}
+/* TENANT LOGIN THEMES
+   Frontend applies one root class on .login-wrapper from URL ?tenant={slug}.
+   Missing/invalid tenant keeps .tenant-default, so existing design remains unchanged.
+   Designers can add all tenant-specific CSS below using this pattern:
+   .login-wrapper.tenant-{slug} .login-card { ... }
+*/
+.login-wrapper.tenant-default {
+  /* Default login keeps the existing styles above. */
+}
+
+.login-wrapper.tenant-trera {
+  --tenant-login-primary: #001b35;
+  --tenant-login-secondary: #c92824;
+  --tenant-login-surface: #ffffff;
+  --tenant-login-text: #111827;
+  --tenant-login-muted: #64748b;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(201, 40, 36, 0.20), transparent 24%),
+    linear-gradient(90deg, rgba(0, 18, 37, 0.98), rgba(0, 27, 53, 0.90)),
+    linear-gradient(135deg, #001225 0%, #001b35 58%, #f8fafc 58%);
+}
+
+.login-wrapper.tenant-trera .login-card {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 30px 90px rgba(0, 18, 37, 0.35);
+}
+
+.login-wrapper.tenant-trera .accent,
+.login-wrapper.tenant-trera .dots .active {
+  background: var(--tenant-login-secondary);
+}
+
+.login-wrapper.tenant-trera .login-left h1 {
+  color: var(--tenant-login-primary);
+}
+
+.login-wrapper.tenant-trera .subtitle,
+.login-wrapper.tenant-trera .login-left label {
+  color: var(--tenant-login-muted);
+}
+
+.login-wrapper.tenant-trera .input-box input:focus,
+.login-wrapper.tenant-trera .form-control:focus {
+  border-color: var(--tenant-login-secondary);
+  box-shadow: 0 0 0 0.16rem rgba(201, 40, 36, 0.16);
+}
+
+.login-wrapper.tenant-trera .login-btn {
+  background: linear-gradient(90deg, #c92824, #a91f1c);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(201, 40, 36, 0.28);
+}
+
+.login-wrapper.tenant-trera .login-btn:hover {
+  background: linear-gradient(90deg, #d7332f, #b92420);
+}
+
+.login-wrapper.tenant-trera .login-right {
+  background:
+    linear-gradient(180deg, rgba(0, 18, 37, 0.16), rgba(0, 18, 37, 0.88)),
+    url("/img/trera.png") center 42%/contain no-repeat,
+    linear-gradient(135deg, #001225, #001b35);
+}
+
+.login-wrapper.tenant-trera .quote-icon {
+  color: var(--tenant-login-secondary);
+}
+
+.login-wrapper.tenant-trera .overlay span {
+  color: #c7d3df;
+}
+
+.login-wrapper.tenant-trera .resend-btn {
+  border-color: rgba(0, 27, 53, 0.22);
+}
+
+.login-wrapper.tenant-trera .signup a {
+  color: var(--tenant-login-secondary);
+}
+
+.login-wrapper.tenant-nmc {
+  /* NMC starter hook. Designer can replace this block without touching TSX. */
+}
+
+.login-wrapper.tenant-cpcb {
+  --tenant-login-primary: #064d17;
+  --tenant-login-secondary: #0ea5d8;
+  --tenant-login-accent: #7ee681;
+  --tenant-login-text: #062f12;
+  --tenant-login-muted: #52645a;
+  background:
+    radial-gradient(circle at 70% 28%, rgba(126, 230, 129, 0.22), transparent 28%),
+    radial-gradient(circle at 12% 18%, rgba(14, 165, 216, 0.14), transparent 24%),
+    linear-gradient(135deg, #f3faec 0%, #edf6e8 56%, #ffffff 56%);
+}
+
+.login-wrapper.tenant-cpcb .login-card {
+  border: 1px solid rgba(6, 77, 23, 0.10);
+  border-radius: 28px;
+  box-shadow: 0 28px 80px rgba(6, 77, 23, 0.14);
+}
+
+.login-wrapper.tenant-cpcb .accent,
+.login-wrapper.tenant-cpcb .dots .active {
+  background: var(--tenant-login-accent);
+}
+
+.login-wrapper.tenant-cpcb .login-left h1 {
+  color: var(--tenant-login-primary);
+}
+
+.login-wrapper.tenant-cpcb .subtitle,
+.login-wrapper.tenant-cpcb .login-left label {
+  color: var(--tenant-login-muted);
+}
+
+.login-wrapper.tenant-cpcb .input-box input:focus,
+.login-wrapper.tenant-cpcb .form-control:focus {
+  border-color: var(--tenant-login-primary);
+  box-shadow: 0 0 0 0.16rem rgba(6, 77, 23, 0.14);
+}
+
+.login-wrapper.tenant-cpcb .login-btn {
+  background: linear-gradient(90deg, #064d17, #0f7a2b);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(6, 77, 23, 0.22);
+}
+
+.login-wrapper.tenant-cpcb .login-btn:hover {
+  background: linear-gradient(90deg, #075c1d, #118a31);
+}
+
+.login-wrapper.tenant-cpcb .login-right {
+  background:
+    linear-gradient(180deg, rgba(243, 250, 236, 0.50), rgba(6, 77, 23, 0.76)),
+    url("/img/cpcb.jpg") center 38%/450px auto no-repeat,
+    linear-gradient(135deg, #f3faec, #e9f5e3);
+}
+
+.login-wrapper.tenant-cpcb .quote-icon {
+  color: var(--tenant-login-accent);
+}
+
+.login-wrapper.tenant-cpcb .overlay span {
+  color: #e8f7e7;
+}
+
+.login-wrapper.tenant-cpcb .resend-btn {
+  border-color: rgba(6, 77, 23, 0.20);
+}
+
+.login-wrapper.tenant-cpcb .signup a {
+  color: var(--tenant-login-primary);
+}

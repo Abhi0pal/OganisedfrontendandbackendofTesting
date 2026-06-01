@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Role Management</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#6366f1;font-weight:600;border-left:2px solid #6366f1}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:24px 28px;display:flex;gap:22px}
+  .tree-panel{width:340px;flex-shrink:0}
+  .detail-panel{flex:1}
+  .panel-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+  .panel-header{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+  .panel-title{font-size:14px;font-weight:700}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-sm{padding:5px 10px;font-size:11px}
+
+  /* ROLE TREE */
+  .role-tree{padding:12px}
+  .role-node{margin-bottom:4px}
+  .role-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:.15s}
+  .role-row:hover{background:#f8fafc}
+  .role-row.selected{background:#eef2ff;border:1px solid #c7d2fe}
+  .role-indent{display:flex;align-items:center;gap:4px;flex:1}
+  .role-toggle{width:16px;height:16px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:10px;flex-shrink:0}
+  .role-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+  .role-name{font-size:13px;font-weight:600;color:#374151}
+  .role-code{font-size:10px;font-family:monospace;color:#94a3b8;background:#f1f5f9;padding:1px 5px;border-radius:3px;margin-left:4px}
+  .role-level{font-size:10px;color:#94a3b8}
+  .role-badge{font-size:10px;padding:2px 6px;border-radius:4px;background:#ede9fe;color:#5b21b6;font-weight:600}
+  .role-badge.system{background:#f0fdf4;color:#15803d}
+  .children{margin-left:22px;border-left:1px dashed #e2e8f0;padding-left:8px}
+
+  /* DETAIL */
+  .detail-section{padding:18px}
+  .detail-title{font-size:16px;font-weight:700;margin-bottom:4px}
+  .detail-sub{font-size:12px;color:#64748b;margin-bottom:16px}
+  .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  .meta-item{background:#f8fafc;border-radius:8px;padding:12px}
+  .meta-label{font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+  .meta-val{font-size:13px;font-weight:600;color:#1e293b}
+  .form-group{margin-bottom:14px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
+  .form-control:focus{border-color:#6366f1}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tag{display:inline-block;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600}
+  .tag-purple{background:#ede9fe;color:#5b21b6}
+  .tag-green{background:#dcfce7;color:#15803d}
+  .tag-blue{background:#dbeafe;color:#1d4ed8}
+  .divider{height:1px;background:#f1f5f9;margin:16px 0}
+  .perm-summary{background:#f8fafc;border-radius:8px;padding:14px}
+  .perm-summary-title{font-size:12px;font-weight:700;margin-bottom:10px}
+  .perm-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:12px}
+  .perm-row:last-child{border-bottom:none}
+  .perm-module{color:#374151}
+  .perm-actions{display:flex;gap:4px}
+  .perm-tag{padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600}
+  .perm-tag.allow{background:#dcfce7;color:#15803d}
+  .perm-tag.deny{background:#fee2e2;color:#dc2626}
+  .perm-tag.inherit{background:#f1f5f9;color:#64748b}
+  .footer-btns{display:flex;justify-content:flex-end;gap:8px;padding:14px 18px;border-top:1px solid #f1f5f9}
+  .tenant-filter{padding:12px 16px;border-bottom:1px solid #f1f5f9}
+  .tenant-filter select{width:100%;padding:7px 10px;border:1px solid #e2e8f0;border-radius:7px;font-size:13px;background:#fff;outline:none}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">🛡 RBAC Admin</div>
+      <div class="sidebar-logo-sub">Platform Control Panel</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Core</div>
+      <a class="nav-item" href="01-tenant.html">🏛 Tenants</a>
+      <a class="nav-item active" href="02-roles.html">👑 Roles</a>
+      <a class="nav-item" href="03-modules.html">📁 Modules</a>
+      <a class="nav-item" href="04-permissions.html">🔐 Permissions</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Users</div>
+      <a class="nav-item" href="05-assignment.html">👤 Assignments</a>
+      <a class="nav-item" href="06-transfer.html">🔄 Transfers</a>
+      <a class="nav-item" href="07-override.html">⚡ Overrides</a>
+      <a class="nav-item" href="08-projects.html">📋 Projects</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Role Management</div>
+      <div class="avatar">A</div>
+    </div>
+
+    <div class="content">
+      <!-- LEFT: ROLE TREE -->
+      <div class="tree-panel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">👑 Role Hierarchy</div>
+            <button class="btn btn-primary btn-sm">＋ Add Role</button>
+          </div>
+          <div class="tenant-filter">
+            <select><option>🏛 SWCS — Single Window</option><option>🌲 Forest Department</option><option>🌐 Platform (Global)</option></select>
+          </div>
+          <div class="role-tree">
+
+            <!-- Level 0 -->
+            <div class="role-node">
+              <div class="role-row">
+                <div class="role-indent">
+                  <div class="role-toggle">▼</div>
+                  <div class="role-icon" style="background:#eef2ff">👑</div>
+                  <div>
+                    <div class="role-name">Commissioner <span class="role-code">COMMR</span></div>
+                    <div class="role-level">Level 0 · Top authority</div>
+                  </div>
+                </div>
+                <span class="role-badge system">system</span>
+              </div>
+              <div class="children">
+
+                <!-- Level 1 -->
+                <div class="role-node">
+                  <div class="role-row">
+                    <div class="role-indent">
+                      <div class="role-toggle">▼</div>
+                      <div class="role-icon" style="background:#f0fdf4">🏢</div>
+                      <div>
+                        <div class="role-name">Director <span class="role-code">DIR</span></div>
+                        <div class="role-level">Level 1 · State level</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="children">
+
+                    <!-- Level 2 -->
+                    <div class="role-node">
+                      <div class="role-row selected">
+                        <div class="role-indent">
+                          <div class="role-toggle">▼</div>
+                          <div class="role-icon" style="background:#fffbeb">🏛</div>
+                          <div>
+                            <div class="role-name">District Officer <span class="role-code">DO</span></div>
+                            <div class="role-level">Level 2 · District level</div>
+                          </div>
+                        </div>
+                        <span class="role-badge">custom</span>
+                      </div>
+                      <div class="children">
+
+                        <!-- Level 3 -->
+                        <div class="role-node">
+                          <div class="role-row">
+                            <div class="role-indent">
+                              <div class="role-toggle">—</div>
+                              <div class="role-icon" style="background:#fdf4ff">🏘</div>
+                              <div>
+                                <div class="role-name">Block Officer <span class="role-code">BO</span></div>
+                                <div class="role-level">Level 3 · Block level</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="role-node">
+                      <div class="role-row">
+                        <div class="role-indent">
+                          <div class="role-toggle">—</div>
+                          <div class="role-icon" style="background:#fef2f2">⚖</div>
+                          <div>
+                            <div class="role-name">Joint Director <span class="role-code">JD</span></div>
+                            <div class="role-level">Level 2 · State level</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: DETAIL / EDIT PANEL -->
+      <div class="detail-panel">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">🏛 District Officer</div>
+              <div style="font-size:12px;color:#64748b;margin-top:2px">Edit role details and view permissions</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm">🗑 Delete</button>
+              <button class="btn btn-primary btn-sm">Save Changes</button>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <!-- META -->
+            <div class="meta-grid">
+              <div class="meta-item"><div class="meta-label">Role ID</div><div class="meta-val">3</div></div>
+              <div class="meta-item"><div class="meta-label">Level</div><div class="meta-val">2 (auto)</div></div>
+              <div class="meta-item"><div class="meta-label">Parent Role</div><div class="meta-val">Director (Level 1)</div></div>
+              <div class="meta-item"><div class="meta-label">Children</div><div class="meta-val">1 (Block Officer)</div></div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Role Name <span>*</span></label>
+                <input class="form-control" type="text" value="District Officer">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Role Code <span>*</span></label>
+                <input class="form-control" type="text" value="DO" style="font-family:monospace">
+                <div class="form-hint">UNIQUE per tenant — "DO", "COMMR", "BO"</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Tenant</label>
+                <select class="form-control"><option>🏛 SWCS — Single Window</option><option>🌐 Global (all tenants)</option></select>
+                <div class="form-hint">NULL = platform-wide role</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Parent Role</label>
+                <select class="form-control"><option>👑 Commissioner (L0)</option><option selected>🏢 Director (L1)</option><option>— None (top-level)</option></select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Description</label>
+              <input class="form-control" type="text" value="District level approval authority for all services">
+            </div>
+
+            <div style="display:flex;gap:16px;align-items:center;margin-bottom:14px">
+              <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer">
+                <input type="checkbox"> <span><strong>is_system</strong> — delete/rename nahi hoga</span>
+              </label>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- PERMISSION SUMMARY -->
+            <div class="perm-summary-title">🔐 Permission Summary (inherited + assigned)</div>
+            <div class="perm-summary">
+              <div style="font-size:11px;color:#64748b;margin-bottom:8px">✨ = Inherited from Director &nbsp;&nbsp; 🎯 = Directly assigned</div>
+              <div class="perm-row">
+                <span class="perm-module">📋 Application Management</span>
+                <div class="perm-actions">
+                  <span class="perm-tag allow">READ ✨</span>
+                  <span class="perm-tag allow">APPROVE 🎯</span>
+                  <span class="perm-tag deny">DELETE 🎯</span>
+                </div>
+              </div>
+              <div class="perm-row">
+                <span class="perm-module">👤 User Management</span>
+                <div class="perm-actions">
+                  <span class="perm-tag allow">READ ✨</span>
+                  <span class="perm-tag inherit">CREATE —</span>
+                </div>
+              </div>
+              <div class="perm-row">
+                <span class="perm-module">📊 Reports</span>
+                <div class="perm-actions">
+                  <span class="perm-tag allow">READ ✨</span>
+                  <span class="perm-tag allow">EXPORT 🎯</span>
+                </div>
+              </div>
+              <div style="margin-top:10px">
+                <a href="04-permissions.html" style="font-size:12px;color:#6366f1;text-decoration:none">→ Full Permission Matrix dekho</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

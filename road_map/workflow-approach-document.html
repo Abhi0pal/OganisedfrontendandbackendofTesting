@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow System — Technical & Functional Approach Document</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:#1a1a2e;background:#fff;line-height:1.6}
+
+/* Print-ready */
+@media print{
+  .no-print{display:none!important}
+  .page-break{page-break-before:always}
+  body{font-size:11px}
+  .hero{background:#1e2d50!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* ── Hero ── */
+.hero{background:linear-gradient(135deg,#1e2d50 0%,#2962d9 100%);color:#fff;padding:40px 60px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-60px;top:-60px;width:300px;height:300px;background:rgba(255,255,255,.05);border-radius:50%}
+.hero-tag{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#7eb3f5;font-weight:600;margin-bottom:10px}
+.hero-title{font-size:28px;font-weight:700;line-height:1.2;margin-bottom:10px}
+.hero-sub{font-size:14px;color:#b8d0f8;max-width:650px;line-height:1.6}
+.hero-meta{display:flex;gap:24px;margin-top:20px;font-size:11px;color:#7eb3f5}
+.hero-meta span{display:flex;align-items:center;gap:6px}
+
+/* ── Layout ── */
+.container{max-width:1000px;margin:0 auto;padding:0 32px}
+.section{padding:36px 0;border-bottom:1px solid #edf0f5}
+.section:last-child{border-bottom:none}
+.section-tag{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#2962d9;font-weight:700;margin-bottom:6px}
+.section-title{font-size:20px;font-weight:700;color:#1e2d50;margin-bottom:6px}
+.section-sub{font-size:13px;color:#667;margin-bottom:20px;line-height:1.6}
+
+/* ── Pillars ── */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.pillar{border:1px solid #dde3ee;border-radius:8px;padding:16px;position:relative;overflow:hidden}
+.pillar::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.p1::before{background:#2962d9}
+.p2::before{background:#7b1fa2}
+.p3::before{background:#2e7d32}
+.p4::before{background:#e65100}
+.pillar-icon{font-size:22px;margin-bottom:8px}
+.pillar-title{font-size:13px;font-weight:700;color:#1e2d50;margin-bottom:4px}
+.pillar-desc{font-size:11px;color:#667;line-height:1.5}
+
+/* ── Flow diagram ── */
+.flow-wrap{overflow-x:auto;padding:8px 0}
+.flow{display:flex;align-items:stretch;gap:0;min-width:700px}
+.flow-step{flex:1;display:flex;flex-direction:column;align-items:center;position:relative}
+.flow-step:not(:last-child)::after{content:'→';position:absolute;right:-14px;top:28px;font-size:20px;color:#2962d9;font-weight:700;z-index:1}
+.fs-box{border:2px solid #dde3ee;border-radius:8px;padding:12px 10px;text-align:center;width:100%;background:#fff;transition:.15s}
+.fs-box:hover{border-color:#2962d9;box-shadow:0 2px 12px rgba(41,98,217,.1)}
+.fs-icon{font-size:22px;margin-bottom:6px}
+.fs-title{font-size:11px;font-weight:700;color:#1e2d50;margin-bottom:4px}
+.fs-sub{font-size:10px;color:#667}
+.fs-tag{font-size:9px;background:#e8f0fe;color:#2962d9;padding:2px 6px;border-radius:3px;margin-top:6px;display:inline-block;font-weight:600}
+
+/* ── Tables ── */
+.tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.tbl th{background:#1e2d50;color:#fff;padding:9px 12px;text-align:left;font-size:11px;font-weight:600}
+.tbl td{border-bottom:1px solid #edf0f5;padding:9px 12px;vertical-align:top}
+.tbl tr:nth-child(even) td{background:#f8f9ff}
+.tbl tr:hover td{background:#f0f4ff}
+.field-name{font-family:monospace;font-size:11px;background:#f0f4ff;color:#2962d9;padding:1px 6px;border-radius:3px;white-space:nowrap}
+.type-tag{font-family:monospace;font-size:10px;color:#667;background:#f4f6fb;padding:1px 5px;border-radius:3px}
+.new-badge{background:#f0fff4;color:#276749;border:1px solid #9ae6b4;font-size:9px;padding:1px 6px;border-radius:3px;font-weight:700}
+.key-badge{background:#fef9c3;color:#854d0e;font-size:9px;padding:1px 6px;border-radius:3px;font-weight:700}
+
+/* ── DB Table card ── */
+.db-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.db-card{border:1px solid #dde3ee;border-radius:7px;overflow:hidden}
+.db-head{background:#1e2d50;color:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.db-head-name{font-family:monospace;font-size:12px;font-weight:700}
+.db-head-tag{font-size:9px;background:rgba(255,255,255,.15);padding:2px 7px;border-radius:3px}
+.db-body{padding:0}
+.db-row{display:flex;align-items:center;padding:7px 14px;border-bottom:1px solid #f0f2f7;gap:10px}
+.db-row:last-child{border-bottom:none}
+.db-row:nth-child(even){background:#f8f9ff}
+.db-fname{font-family:monospace;font-size:11px;color:#2962d9;flex:1.2}
+.db-ftype{font-size:10px;color:#7b1fa2;flex:.8}
+.db-fdesc{font-size:10px;color:#667;flex:2}
+.db-pk{background:#fef9c3;color:#854d0e;font-size:9px;padding:1px 5px;border-radius:3px}
+.db-fk{background:#e8f0fe;color:#1d4ed8;font-size:9px;padding:1px 5px;border-radius:3px}
+
+/* ── API endpoints ── */
+.api-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.api-item{border:1px solid #e8ecf4;border-radius:6px;padding:10px 14px;display:flex;align-items:flex-start;gap:12px}
+.api-method{font-family:monospace;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;flex-shrink:0;margin-top:1px}
+.m-get{background:#dcfce7;color:#166534}
+.m-post{background:#dbeafe;color:#1d4ed8}
+.m-patch{background:#fef9c3;color:#854d0e}
+.m-delete{background:#fee2e2;color:#991b1b}
+.api-path{font-family:monospace;font-size:11px;color:#1e2d50;font-weight:600;margin-bottom:3px}
+.api-desc{font-size:11px;color:#667}
+
+/* ── Frontend components ── */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px}
+.comp-card{border:1px solid #dde3ee;border-radius:7px;padding:14px}
+.comp-icon{font-size:20px;margin-bottom:6px}
+.comp-name{font-size:12px;font-weight:700;color:#1e2d50;margin-bottom:4px;font-family:monospace}
+.comp-desc{font-size:11px;color:#667;line-height:1.5}
+.comp-roles{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.role-chip{font-size:9px;background:#e8f0fe;color:#2962d9;padding:2px 7px;border-radius:10px;font-weight:600}
+
+/* ── Role dashboard mockup ── */
+.role-boxes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+.role-box{border-radius:8px;padding:16px;position:relative}
+.rb-investor{background:#fff8e1;border:1px solid #f6d860}
+.rb-verifier{background:#e8f0fe;border:1px solid #90cdf4}
+.rb-linedept{background:#f3e8ff;border:1px solid #c4b5fd}
+.rb-approver{background:#f0fff4;border:1px solid #9ae6b4}
+.rb-title{font-size:12px;font-weight:700;margin-bottom:4px}
+.rb-role{font-size:10px;color:#667;margin-bottom:10px}
+.rb-item{font-size:11px;color:#333;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:6px}
+.rb-item:last-child{border:none}
+.rb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* ── Roadmap ── */
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:12px}
+.phase{border:1px solid #dde3ee;border-radius:8px;overflow:hidden}
+.phase-head{padding:12px 16px;font-weight:700;font-size:13px;color:#fff}
+.ph1{background:#2962d9}
+.ph2{background:#7b1fa2}
+.ph3{background:#2e7d32}
+.phase-body{padding:14px 16px}
+.phase-item{font-size:12px;color:#333;padding:5px 0;border-bottom:1px solid #f0f2f7;display:flex;align-items:flex-start;gap:8px}
+.phase-item:last-child{border:none}
+.phase-item::before{content:'✓';color:#2962d9;font-weight:700;flex-shrink:0;margin-top:1px}
+.phase-days{font-size:10px;color:#9aa5b4;margin-top:6px;font-style:italic}
+
+/* ── Note boxes ── */
+.note{padding:12px 16px;border-radius:6px;font-size:12px;line-height:1.6;display:flex;gap:10px;margin-top:12px}
+.note-blue{background:#ebf8ff;border-left:4px solid #4a90d9;color:#2b4a7a}
+.note-yellow{background:#fffbeb;border-left:4px solid #f6ad55;color:#7b4f00}
+.note-green{background:#f0fff4;border-left:4px solid #68d391;color:#276749}
+.note-icon{font-size:18px;flex-shrink:0}
+
+/* ── Chips ── */
+.chip{display:inline-flex;align-items:center;padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700;margin:2px}
+.c-blue{background:#dbeafe;color:#1d4ed8}
+.c-green{background:#dcfce7;color:#166534}
+.c-orange{background:#fef3c7;color:#92400e}
+.c-purple{background:#ede9fe;color:#5b21b6}
+.c-red{background:#fee2e2;color:#991b1b}
+
+/* ── FormBuilder flow ── */
+.fb-flow{display:flex;flex-direction:column;gap:0;margin-top:12px}
+.fb-row{display:flex;align-items:stretch;gap:0}
+.fb-box{flex:1;border:1px solid #dde3ee;border-radius:6px;padding:12px 14px;margin:4px;background:#fff}
+.fb-box-title{font-size:11px;font-weight:700;color:#1e2d50;margin-bottom:4px}
+.fb-box-desc{font-size:10px;color:#667;line-height:1.5}
+.fb-arrow{display:flex;align-items:center;justify-content:center;color:#2962d9;font-size:18px;font-weight:700;padding:0 4px}
+.fb-box.highlight{background:#e8f0fe;border-color:#4a90d9}
+
+/* ── Generic badge ── */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.b-new{background:#f0fff4;color:#276749;border:1px solid #9ae6b4}
+
+/* Print header */
+.print-header{display:none}
+@media print{.print-header{display:block;font-size:10px;color:#9aa5b4;text-align:right;padding:10px 0 4px;border-bottom:1px solid #dde3ee;margin-bottom:20px}}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-tag">Technical & Functional Approach Document</div>
+  <div class="hero-title">Generic Workflow Engine System<br>SWCS 2.0 — Invest Uttarakhand</div>
+  <div class="hero-sub">
+    Kisi bhi service ka workflow — admin se configure karo, automatically sab roles ka dashboard, forms, aur actions handle ho jaayenge. Ek baar system bana lo, har nayi service sirf configuration se add ho jaayegi.
+  </div>
+  <div class="hero-meta">
+    <span>📅 March 2026</span>
+    <span>📌 Version 1.0</span>
+    <span>🏛 Invest Uttarakhand — SWCS 2.0</span>
+    <span>👥 For: Technical Manager · Functional Manager</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ══ SECTION 1 — VISION ════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 1 — Vision</div>
+  <div class="section-title">Hum Kya Bana Rahe Hain?</div>
+  <div class="section-sub">
+    Ek <strong>Generic Workflow Engine</strong> — jisme admin ek baar kisi bhi service ka workflow configure kare (kaun kaun se steps, roles, SLA, actions), aur uske baad applicant se lekar approval tak ka poora process automatically handle ho jaaye. Frontend ka ek bhi page kisi specific service ke liye hardcode nahi hoga.
+  </div>
+
+  <div class="pillars">
+    <div class="pillar p1">
+      <div class="pillar-icon">⚙️</div>
+      <div class="pillar-title">Pillar 1: Workflow Configurator</div>
+      <div class="pillar-desc">Admin panel se kisi bhi service ke workflow steps, roles, SLA, actions define karo. Config DB mein store hoti hai.</div>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-icon">📝</div>
+      <div class="pillar-title">Pillar 2: Form Builder</div>
+      <div class="pillar-desc">Applicant form bhi aur Department (processing) form bhi — dono FormBuilder se bante hain. Har step pe alag form.</div>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-icon">⚡</div>
+      <div class="pillar-title">Pillar 3: Runtime Engine</div>
+      <div class="pillar-desc">Jab applicant submit karta hai, engine automatically workflow start karta hai aur har action pe next step decide karta hai.</div>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-icon">🖥️</div>
+      <div class="pillar-title">Pillar 4: Generic Dashboard</div>
+      <div class="pillar-desc">Har role ka ek common dashboard — login ke baad role dekh ke automatically sahi applications dikhti hain.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 2 — END TO END FLOW ══════════════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 2 — End to End Flow</div>
+  <div class="section-title">Application Ka Safar — Start to Approval</div>
+  <div class="section-sub">Ye flow kisi bhi service ke liye same rahega — 591.0 ho ya koi aur. Sirf steps aur roles config se aayenge.</div>
+
+  <div class="flow-wrap">
+    <div class="flow">
+      <div class="flow-step">
+        <div class="fs-box">
+          <div class="fs-icon">⚙️</div>
+          <div class="fs-title">Admin Workflow Configure Karta Hai</div>
+          <div class="fs-sub">Steps, Roles, SLA, Actions DB mein save hoti hain</div>
+          <div class="fs-tag">One-time per service</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-box">
+          <div class="fs-icon">👤</div>
+          <div class="fs-title">Applicant Form Submit Karta Hai</div>
+          <div class="fs-sub">FormBuilder se bana hua applicant form</div>
+          <div class="fs-tag">t_wf_instance CREATE</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-box">
+          <div class="fs-icon">⚡</div>
+          <div class="fs-title">Engine Step 1 Start Karta Hai</div>
+          <div class="fs-sub">Config padhi, next role decide hua, SLA start</div>
+          <div class="fs-tag">Runtime Engine</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-box">
+          <div class="fs-icon">👮</div>
+          <div class="fs-title">Officer Dashboard Mein Dikhti Hai</div>
+          <div class="fs-sub">Sirf wahi applications jo uski role ko assign hain</div>
+          <div class="fs-tag">Generic Dashboard</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-box">
+          <div class="fs-icon">✅</div>
+          <div class="fs-title">Officer Action Leta Hai</div>
+          <div class="fs-sub">Forward / Approve / Reject / Revert</div>
+          <div class="fs-tag">t_wf_action_log + UPDATE</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-box" style="border-color:#2e7d32;background:#f0fff4">
+          <div class="fs-icon">🏆</div>
+          <div class="fs-title">Final State</div>
+          <div class="fs-sub">Approved / Rejected / Completed</div>
+          <div class="fs-tag" style="background:#dcfce7;color:#166534">Terminal Step</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Rule -->
+  <div class="note note-green" style="margin-top:16px">
+    <span class="note-icon">💡</span>
+    <div>
+      <strong>Sabse Important Rule:</strong> Frontend ka koi bhi page kisi specific service ka naam nahi jaanta. Wo sirf poochta hai — "Is user ki role kya hai? → Uski pending applications dikha do" aur "Is application mein abhi kaunse actions allowed hain? → Wahi buttons dikha do". Baaki sab workflow config se aata hai.
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 3 — FORM BUILDER CONNECTION ══════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 3 — FormBuilder Integration</div>
+  <div class="section-title">Forms Kaisa Kaam Karta Hai?</div>
+  <div class="section-sub">
+    Applicant form aur Department processing form — dono FormBuilder se bante hain. Workflow config mein sirf <code>formTypeId</code> store hota hai. Runtime mein us ID se form load ho jaata hai.
+  </div>
+
+  <div class="fb-flow">
+    <div class="fb-row">
+      <div class="fb-box highlight">
+        <div class="fb-box-title">📝 Applicant Form (FormType ID: 1)</div>
+        <div class="fb-box-desc">Admin FormBuilder se banata hai.<br>Fields: Name, Address, Investment Amount, Plant Details etc.<br>Kisi bhi service ke liye alag form banta hai same system se.</div>
+      </div>
+      <div class="fb-arrow">→</div>
+      <div class="fb-box">
+        <div class="fb-box-title">💾 Submit hone par</div>
+        <div class="fb-box-desc"><code>t_application_submission</code> mein form data (JSON) save hota hai.<br>Runtime engine automatically <code>t_wf_instance</code> create karta hai Step 1 ke saath.</div>
+      </div>
+      <div class="fb-arrow">→</div>
+      <div class="fb-box highlight">
+        <div class="fb-box-title">📋 Processing Form (Step 2, 3, 4...)</div>
+        <div class="fb-box-desc">Department officer ke liye alag form.<br>FormType ID workflow config ke <code>formTypeId</code> field se aata hai.<br>Har step pe alag FormType ho sakta hai.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tbl" style="margin-top:16px">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Workflow Step</th>
+          <th>formTypeId (Config mein)</th>
+          <th>Form Type Name</th>
+          <th>Kiske liye</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Step 1</td><td><span class="field-name">1</span></td><td>Applicant Form (AF)</td><td>Investor / Applicant</td></tr>
+        <tr><td>Step 2</td><td><span class="field-name">5</span></td><td>Processing Form – Verification Level</td><td>Verifier Officer</td></tr>
+        <tr><td>Step 3</td><td><span class="field-name">6</span></td><td>Processing Form – Dept Forward Level</td><td>Line Department Officer</td></tr>
+        <tr><td>Step 4</td><td><span class="field-name">7</span></td><td>Processing Form – Approver Level</td><td>Approver Officer</td></tr>
+        <tr><td>Any Step</td><td><span class="field-name">9</span></td><td>Processing Form – Inspection Level</td><td>Inspector</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note-blue" style="margin-top:12px">
+    <span class="note-icon">ℹ️</span>
+    <div>
+      <strong>Frontend ka kaam:</strong> Step ke config se <code>formTypeId</code> lo → FormBuilder API call karo → Jo form return ho wo render karo. Ye ek generic FormRenderer component karta hai. Service specific koi logic nahi.
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 4 — NEW DB TABLES ════════════════════════════════════ -->
+<div class="section page-break">
+  <div class="section-tag">Section 4 — Database Design</div>
+  <div class="section-title">New Database Tables</div>
+  <div class="section-sub">
+    Existing tables se independent — ye naye tables banenge jo generic workflow system ko support karenge.
+  </div>
+
+  <div class="db-grid">
+
+    <!-- Table 1 -->
+    <div class="db-card">
+      <div class="db-head">
+        <span class="db-head-name">t_wf_instance</span>
+        <span class="db-head-tag">NEW TABLE</span>
+      </div>
+      <div class="db-body">
+        <div class="db-row"><span class="db-fname">id</span><span class="db-ftype">BigInt PK</span><span class="db-fdesc">Auto increment <span class="db-pk">PK</span></span></div>
+        <div class="db-row"><span class="db-fname">submission_id</span><span class="db-ftype">BigInt</span><span class="db-fdesc">t_application_submission ka ID <span class="db-fk">FK</span></span></div>
+        <div class="db-row"><span class="db-fname">service_id</span><span class="db-ftype">String</span><span class="db-fdesc">Service code e.g. "591.0"</span></div>
+        <div class="db-row"><span class="db-fname">dept_id</span><span class="db-ftype">Int</span><span class="db-fdesc">Department ID</span></div>
+        <div class="db-row"><span class="db-fname">wf_config_version</span><span class="db-ftype">Int</span><span class="db-fdesc">Published workflow version jo use hua</span></div>
+        <div class="db-row"><span class="db-fname">current_step</span><span class="db-ftype">Int</span><span class="db-fdesc">Abhi kaunse step pe hai (e.g. 2)</span></div>
+        <div class="db-row"><span class="db-fname">current_role_id</span><span class="db-ftype">Int</span><span class="db-fdesc">Is step ki role (e.g. 7)</span></div>
+        <div class="db-row"><span class="db-fname">assigned_user_id</span><span class="db-ftype">BigInt?</span><span class="db-fdesc">Specific user ko assign hai to</span></div>
+        <div class="db-row"><span class="db-fname">jurisdiction_level</span><span class="db-ftype">Enum</span><span class="db-fdesc">DISTRICT / STATE / BLOCK</span></div>
+        <div class="db-row"><span class="db-fname">status</span><span class="db-ftype">Enum</span><span class="db-fdesc">IN_PROGRESS / APPROVED / REJECTED / WITHDRAWN</span></div>
+        <div class="db-row"><span class="db-fname">sla_due_at</span><span class="db-ftype">DateTime?</span><span class="db-fdesc">SLA deadline — breach detection ke liye</span></div>
+        <div class="db-row"><span class="db-fname">created_at</span><span class="db-ftype">DateTime</span><span class="db-fdesc">Application submit date</span></div>
+        <div class="db-row"><span class="db-fname">updated_at</span><span class="db-ftype">DateTime</span><span class="db-fdesc">Last action ka time</span></div>
+      </div>
+    </div>
+
+    <!-- Table 2 -->
+    <div class="db-card">
+      <div class="db-head">
+        <span class="db-head-name">t_wf_action_log</span>
+        <span class="db-head-tag">NEW TABLE</span>
+      </div>
+      <div class="db-body">
+        <div class="db-row"><span class="db-fname">id</span><span class="db-ftype">BigInt PK</span><span class="db-fdesc">Auto increment <span class="db-pk">PK</span></span></div>
+        <div class="db-row"><span class="db-fname">instance_id</span><span class="db-ftype">BigInt</span><span class="db-fdesc">t_wf_instance ka ID <span class="db-fk">FK</span></span></div>
+        <div class="db-row"><span class="db-fname">submission_id</span><span class="db-ftype">BigInt</span><span class="db-fdesc">Application ID (direct access ke liye)</span></div>
+        <div class="db-row"><span class="db-fname">from_step</span><span class="db-ftype">Int</span><span class="db-fdesc">Kahan se action liya</span></div>
+        <div class="db-row"><span class="db-fname">to_step</span><span class="db-ftype">Int?</span><span class="db-fdesc">Kahan gaya (null = terminal)</span></div>
+        <div class="db-row"><span class="db-fname">action_code</span><span class="db-ftype">String</span><span class="db-fdesc">F / A / R / RBI / RB / C</span></div>
+        <div class="db-row"><span class="db-fname">actor_user_id</span><span class="db-ftype">BigInt</span><span class="db-fdesc">Kisne action liya</span></div>
+        <div class="db-row"><span class="db-fname">actor_role_id</span><span class="db-ftype">Int</span><span class="db-fdesc">Actor ka role</span></div>
+        <div class="db-row"><span class="db-fname">from_role_id</span><span class="db-ftype">Int</span><span class="db-fdesc">Step ki role pehle</span></div>
+        <div class="db-row"><span class="db-fname">to_role_id</span><span class="db-ftype">Int?</span><span class="db-fdesc">Next step ki role</span></div>
+        <div class="db-row"><span class="db-fname">remarks</span><span class="db-ftype">Text?</span><span class="db-fdesc">Officer ka comment / reason</span></div>
+        <div class="db-row"><span class="db-fname">form_data_json</span><span class="db-ftype">Json?</span><span class="db-fdesc">Is step ka form fill hua data</span></div>
+        <div class="db-row"><span class="db-fname">sla_breached</span><span class="db-ftype">Boolean</span><span class="db-fdesc">Action SLA ke baad hua kya</span></div>
+        <div class="db-row"><span class="db-fname">created_at</span><span class="db-ftype">DateTime</span><span class="db-fdesc">Action ka exact time</span></div>
+      </div>
+    </div>
+
+    <!-- Table 3 -->
+    <div class="db-card">
+      <div class="db-head">
+        <span class="db-head-name">t_wf_parallel_tracker</span>
+        <span class="db-head-tag">NEW TABLE</span>
+      </div>
+      <div class="db-body">
+        <div class="db-row"><span class="db-fname">id</span><span class="db-ftype">BigInt PK</span><span class="db-fdesc">Auto increment <span class="db-pk">PK</span></span></div>
+        <div class="db-row"><span class="db-fname">instance_id</span><span class="db-ftype">BigInt</span><span class="db-fdesc">t_wf_instance ka ID <span class="db-fk">FK</span></span></div>
+        <div class="db-row"><span class="db-fname">submission_id</span><span class="db-ftype">BigInt</span><span class="db-fdesc">Application ID</span></div>
+        <div class="db-row"><span class="db-fname">parent_step</span><span class="db-ftype">Int</span><span class="db-fdesc">Kaunse step ne parallel bheja (e.g. Step 2)</span></div>
+        <div class="db-row"><span class="db-fname">target_role_id</span><span class="db-ftype">Int</span><span class="db-fdesc">Jis role ko bheja (e.g. Role 3)</span></div>
+        <div class="db-row"><span class="db-fname">target_user_id</span><span class="db-ftype">BigInt?</span><span class="db-fdesc">Specific user assign hua to</span></div>
+        <div class="db-row"><span class="db-fname">status</span><span class="db-ftype">Enum</span><span class="db-fdesc">PENDING / RESPONDED / SKIPPED</span></div>
+        <div class="db-row"><span class="db-fname">response_action</span><span class="db-ftype">String?</span><span class="db-fdesc">Kya action liya (CONSENT etc)</span></div>
+        <div class="db-row"><span class="db-fname">remarks</span><span class="db-ftype">Text?</span><span class="db-fdesc">Department ka comment</span></div>
+        <div class="db-row"><span class="db-fname">responded_at</span><span class="db-ftype">DateTime?</span><span class="db-fdesc">Kab respond kiya</span></div>
+        <div class="db-row"><span class="db-fname">sla_due_at</span><span class="db-ftype">DateTime?</span><span class="db-fdesc">Is department ka SLA</span></div>
+        <div class="db-row"><span class="db-fname">created_at</span><span class="db-ftype">DateTime</span><span class="db-fdesc">Forward ka time</span></div>
+      </div>
+    </div>
+
+    <!-- Table 4 -->
+    <div class="db-card">
+      <div class="db-head">
+        <span class="db-head-name">t_dept_officers</span>
+        <span class="db-head-tag">NEW TABLE</span>
+      </div>
+      <div class="db-body">
+        <div class="db-row"><span class="db-fname">id</span><span class="db-ftype">BigInt PK</span><span class="db-fdesc">Auto increment <span class="db-pk">PK</span></span></div>
+        <div class="db-row"><span class="db-fname">user_id</span><span class="db-ftype">BigInt</span><span class="db-fdesc">users table ka ID <span class="db-fk">FK</span></span></div>
+        <div class="db-row"><span class="db-fname">full_name</span><span class="db-ftype">String</span><span class="db-fdesc">Officer ka naam</span></div>
+        <div class="db-row"><span class="db-fname">role_id</span><span class="db-ftype">Int</span><span class="db-fdesc">Kaunsi role hai — m_roles se <span class="db-fk">FK</span></span></div>
+        <div class="db-row"><span class="db-fname">dept_id</span><span class="db-ftype">Int</span><span class="db-fdesc">Kaunsa department</span></div>
+        <div class="db-row"><span class="db-fname">district_id</span><span class="db-ftype">Int?</span><span class="db-fdesc">District (District level roles ke liye)</span></div>
+        <div class="db-row"><span class="db-fname">state_id</span><span class="db-ftype">Int?</span><span class="db-fdesc">State (State level roles ke liye)</span></div>
+        <div class="db-row"><span class="db-fname">jurisdiction_level</span><span class="db-ftype">Enum</span><span class="db-fdesc">DISTRICT / STATE / BLOCK</span></div>
+        <div class="db-row"><span class="db-fname">email</span><span class="db-ftype">String</span><span class="db-fdesc">Official email</span></div>
+        <div class="db-row"><span class="db-fname">mobile</span><span class="db-ftype">String</span><span class="db-fdesc">Mobile number</span></div>
+        <div class="db-row"><span class="db-fname">designation</span><span class="db-ftype">String?</span><span class="db-fdesc">Designation name</span></div>
+        <div class="db-row"><span class="db-fname">is_active</span><span class="db-ftype">Boolean</span><span class="db-fdesc">Active / Inactive</span></div>
+        <div class="db-row"><span class="db-fname">created_by</span><span class="db-ftype">BigInt?</span><span class="db-fdesc">Kisne create kiya (Admin user ID)</span></div>
+        <div class="db-row"><span class="db-fname">created_at</span><span class="db-ftype">DateTime</span><span class="db-fdesc">Creation time</span></div>
+      </div>
+    </div>
+
+  </div><!-- /db-grid -->
+
+  <!-- Table relationship note -->
+  <div class="note note-yellow" style="margin-top:16px">
+    <span class="note-icon">⚠️</span>
+    <div>
+      <strong>Existing tables se connection:</strong>
+      <code>t_application_submission</code> (application ka data) →
+      <code>t_wf_instance</code> (workflow state) →
+      <code>t_wf_action_log</code> (history).
+      FormBuilder tables (<code>m_fb_*</code>) se form render hoti hai.
+      Workflow config (<code>c_application_workflow_configuration</code>) se rules aate hain.
+      <strong>In 4 naye tables ke baad har kaam ho sakta hai.</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 5 — NEW BACKEND FILES ════════════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 5 — Backend Architecture</div>
+  <div class="section-title">New Backend Modules &amp; APIs</div>
+  <div class="section-sub">3 naye NestJS modules banana hai. Ye existing modules se alag aur independent rahenge.</div>
+
+  <!-- Module 1 -->
+  <div style="margin-bottom:20px">
+    <div style="font-size:13px;font-weight:700;color:#1e2d50;margin-bottom:8px;display:flex;align-items:center;gap:8px">
+      <span style="background:#e8f0fe;color:#2962d9;border-radius:5px;padding:3px 10px;font-size:11px">MODULE 1</span>
+      <code>apps/backend/src/modules/wf-engine/</code>
+    </div>
+    <div class="api-list">
+      <div class="api-item">
+        <span class="api-method m-post">POST</span>
+        <div>
+          <div class="api-path">/wf-engine/start</div>
+          <div class="api-desc">Application submit hone ke baad yahan call hota hai. Config padh ke instance create karta hai Step 1 ke saath. SLA timer shuru hota hai.</div>
+        </div>
+      </div>
+      <div class="api-item">
+        <span class="api-method m-post">POST</span>
+        <div>
+          <div class="api-path">/wf-engine/action</div>
+          <div class="api-desc">Officer action leta hai (FORWARD/APPROVE/REJECT etc). Engine transition validate karta hai → instance update karta hai → log entry karta hai.</div>
+        </div>
+      </div>
+      <div class="api-item">
+        <span class="api-method m-get">GET</span>
+        <div>
+          <div class="api-path">/wf-engine/inbox?roleId=7&districtId=5</div>
+          <div class="api-desc">Is role ki aur is district ki pending applications return karta hai. Dashboard ke liye main API.</div>
+        </div>
+      </div>
+      <div class="api-item">
+        <span class="api-method m-get">GET</span>
+        <div>
+          <div class="api-path">/wf-engine/application/:submissionId</div>
+          <div class="api-desc">Ek application ki detail — form data, current step, allowed actions, timeline. Frontend is ek API se sab render karta hai.</div>
+        </div>
+      </div>
+      <div class="api-item">
+        <span class="api-method m-get">GET</span>
+        <div>
+          <div class="api-path">/wf-engine/timeline/:submissionId</div>
+          <div class="api-desc">Application ki poori history — kab kaunse officer ne kya action liya, remarks, form data.</div>
+        </div>
+      </div>
+      <div class="api-item">
+        <span class="api-method m-get">GET</span>
+        <div>
+          <div class="api-path">/wf-engine/forward-preview</div>
+          <div class="api-desc">Forward karne se pehle — kaunse officers available hain next role mein us district mein. Dropdown ke liye.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 2 -->
+  <div style="margin-bottom:20px">
+    <div style="font-size:13px;font-weight:700;color:#1e2d50;margin-bottom:8px;display:flex;align-items:center;gap:8px">
+      <span style="background:#f3e8ff;color:#7b1fa2;border-radius:5px;padding:3px 10px;font-size:11px">MODULE 2</span>
+      <code>apps/backend/src/modules/dept-officer/</code>
+    </div>
+    <div class="api-list">
+      <div class="api-item">
+        <span class="api-method m-post">POST</span>
+        <div>
+          <div class="api-path">/dept-officer/create</div>
+          <div class="api-desc">Admin naaya department officer create karta hai. Users table mein entry + t_dept_officers table mein entry. Login credentials generate.</div>
+        </div>
+      </div>
+      <div class="api-item">
+        <span class="api-method m-get">GET</span>
+        <div>
+          <div class="api-path">/dept-officer/list?deptId=1&roleId=7</div>
+          <div class="api-desc">Department ke sab officers ki list. Filter by role, district, status.</div>
+        </div>
+      </div>
+      <div class="api-item">
+        <span class="api-method m-patch">PATCH</span>
+        <div>
+          <div class="api-path">/dept-officer/:id</div>
+          <div class="api-desc">Officer ki details update — role change, district change, active/inactive.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 3 -->
+  <div>
+    <div style="font-size:13px;font-weight:700;color:#1e2d50;margin-bottom:8px;display:flex;align-items:center;gap:8px">
+      <span style="background:#f0fff4;color:#276749;border-radius:5px;padding:3px 10px;font-size:11px">MODULE 3</span>
+      <code>apps/backend/src/modules/wf-sla-cron/</code>
+    </div>
+    <div class="api-list">
+      <div class="api-item">
+        <span class="api-method m-post">CRON</span>
+        <div>
+          <div class="api-path">Every 1 hour — SLA Breach Check</div>
+          <div class="api-desc">Sab instances check karta hai jahan sla_due_at pass ho gayi. Escalation rules ke hisaab se notify ya reassign karta hai.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 6 — FRONTEND ══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 6 — Frontend Architecture</div>
+  <div class="section-title">Generic Frontend — Common Components</div>
+  <div class="section-sub">
+    Ek bhi component kisi specific service ke liye nahi likhega. Sab kuch API response ke basis pe dynamically render hoga.
+  </div>
+
+  <div style="font-size:12px;font-weight:700;color:#1e2d50;margin-bottom:8px">📁 New Pages (apps/frontend/src/app/)</div>
+  <table class="tbl">
+    <thead>
+      <tr><th>Page Path</th><th>Purpose</th><th>Kaun dekh sakta hai</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="field-name">/dashboard</span></td>
+        <td>Login ke baad land karo — role dekh ke automatically sahi view dikhao</td>
+        <td>Sab roles</td>
+      </tr>
+      <tr>
+        <td><span class="field-name">/dashboard/application/[submissionId]</span></td>
+        <td>Ek application ki detail — form, history, actions</td>
+        <td>Sab roles (apna assigned application)</td>
+      </tr>
+      <tr>
+        <td><span class="field-name">/admin/officers</span></td>
+        <td>Department officers manage karo</td>
+        <td>Admin only</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="font-size:12px;font-weight:700;color:#1e2d50;margin:16px 0 8px">📦 New Components (apps/frontend/src/components/workflow/)</div>
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="comp-icon">📋</div>
+      <div class="comp-name">WorkflowDashboard.tsx</div>
+      <div class="comp-desc">Applications ki list — API se aati hai filtered by role+district. Status chips, SLA timer, quick actions.</div>
+      <div class="comp-roles"><span class="role-chip">All Roles</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">📄</div>
+      <div class="comp-name">ApplicationView.tsx</div>
+      <div class="comp-desc">API se current step ka formTypeId lo → FormRenderer call karo → form dikha do. Koi hardcoding nahi.</div>
+      <div class="comp-roles"><span class="role-chip">All Roles</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">⚡</div>
+      <div class="comp-name">ActionPanel.tsx</div>
+      <div class="comp-desc">API se allowed actions lo → buttons render karo. Forward dialog mein next officer select karo. Submit → /wf-engine/action</div>
+      <div class="comp-roles"><span class="role-chip">Officers</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">🕒</div>
+      <div class="comp-name">WorkflowTimeline.tsx</div>
+      <div class="comp-desc">Application ki poori journey — har step, action, officer name, time, remarks. Vertical timeline.</div>
+      <div class="comp-roles"><span class="role-chip">All Roles</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">📝</div>
+      <div class="comp-name">FormRenderer.tsx</div>
+      <div class="comp-desc">formTypeId + serviceId lo → FormBuilder API call karo → dynamic form render karo. Kisi bhi service ka form chal jaata hai.</div>
+      <div class="comp-roles"><span class="role-chip">All Roles</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">⏱</div>
+      <div class="comp-name">SlaTimer.tsx</div>
+      <div class="comp-desc">sla_due_at se countdown dikha do. Red ho jaaye breach par. Officer ko pata chale kitna time bacha hai.</div>
+      <div class="comp-roles"><span class="role-chip">Officers</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 7 — ROLE DASHBOARDS ══════════════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 7 — Role-Based Views</div>
+  <div class="section-title">Login ke Baad Har Role Kya Dekhega?</div>
+  <div class="section-sub">
+    Dashboard ek hi hai — lekin jo dikhta hai wo role aur assigned applications ke basis pe alag hoga. Koi alag page nahi.
+  </div>
+
+  <div class="role-boxes">
+    <div class="role-box rb-investor">
+      <div class="rb-title">👤 Applicant / Investor</div>
+      <div class="rb-role">user_type = INVESTOR</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2962d9"></span>My Applications — status wise</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2962d9"></span>Application submit karo</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2962d9"></span>Documents upload karo</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2962d9"></span>Revert notification dekho</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2962d9"></span>Approval letter download</div>
+    </div>
+    <div class="role-box rb-verifier">
+      <div class="rb-title">👮 Verifier / Nodal Officer</div>
+      <div class="rb-role">role_id = 7 (or any verifier role)</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#7b1fa2"></span>Pending applications (meri district)</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#7b1fa2"></span>Document verify karo</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#7b1fa2"></span>Line Dept ko parallel forward</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#7b1fa2"></span>Parallel responses track karo</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#7b1fa2"></span>Forward to Approver / Revert</div>
+    </div>
+    <div class="role-box rb-linedept">
+      <div class="rb-title">🏢 Line Department / NOC</div>
+      <div class="rb-role">role_id = 3 (or any line dept role)</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#e65100"></span>Pending consent requests</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#e65100"></span>Application + docs dekho</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#e65100"></span>Processing form fill karo</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#e65100"></span>CONSENT de do / Reject karo</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#e65100"></span>Completed history dekho</div>
+    </div>
+    <div class="role-box rb-approver">
+      <div class="rb-title">✅ Approver</div>
+      <div class="rb-role">role_id = 33 (or any approver role)</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2e7d32"></span>Pending approvals</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2e7d32"></span>Full application + all comments</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2e7d32"></span>Processing form fill karo</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2e7d32"></span>APPROVE / REJECT / Revert</div>
+      <div class="rb-item"><span class="rb-dot" style="background:#2e7d32"></span>Approval letter generate</div>
+    </div>
+  </div>
+
+  <div class="note note-blue" style="margin-top:14px">
+    <span class="note-icon">💡</span>
+    <div>
+      <strong>Generic Dashboard Logic (ek hi code):</strong><br>
+      1. Login → JWT mein <code>role_id</code> + <code>dept_id</code> + <code>district_id</code> hai<br>
+      2. Dashboard page: <code>GET /wf-engine/inbox?roleId={role_id}&districtId={district_id}</code> call karo<br>
+      3. API returns: pending applications list + counts per status<br>
+      4. Application click → <code>GET /wf-engine/application/{submissionId}</code> → current step config + form + allowed actions<br>
+      5. Component dynamically render karta hai — chahe koi bhi service ho
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 8 — USER CREATION ════════════════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 8 — User Management</div>
+  <div class="section-title">Officers Kaise Create Honge?</div>
+  <div class="section-sub">Do tarah ke users hain — Applicant (khud register karte hain) aur Department Officers (admin create karta hai).</div>
+
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>User Type</th>
+        <th>Kaise Create Hota Hai</th>
+        <th>DB Tables</th>
+        <th>Login ke baad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Applicant / Investor</strong></td>
+        <td>Website pe khud register karta hai. Email verify karta hai.</td>
+        <td><span class="field-name">users</span> + <span class="field-name">investor_profiles</span></td>
+        <td>Applicant dashboard — apni applications</td>
+      </tr>
+      <tr>
+        <td><strong>Department Officer</strong></td>
+        <td>Admin → Officer Management → New Officer create karo (name, email, role, dept, district)</td>
+        <td><span class="field-name">users</span> + <span class="field-name">t_dept_officers</span> (NEW)</td>
+        <td>Department dashboard — assigned applications</td>
+      </tr>
+      <tr>
+        <td><strong>Admin</strong></td>
+        <td>System setup mein manually seed kiya jaata hai</td>
+        <td><span class="field-name">users</span></td>
+        <td>Admin panel — workflow config, officer management</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:16px">
+    <div style="font-size:12px;font-weight:700;color:#1e2d50;margin-bottom:8px">Officer Create karne ka Flow:</div>
+    <div class="fb-flow">
+      <div class="fb-row">
+        <div class="fb-box highlight" style="text-align:center">
+          <div style="font-size:18px">👨‍💼</div>
+          <div class="fb-box-title">Admin → Officer Management</div>
+          <div class="fb-box-desc">Name, Email, Role (from m_roles), Department, District, Jurisdiction Level fill karo</div>
+        </div>
+        <div class="fb-arrow">→</div>
+        <div class="fb-box" style="text-align:center">
+          <div style="font-size:18px">💾</div>
+          <div class="fb-box-title">System Auto Create</div>
+          <div class="fb-box-desc"><code>users</code> table mein entry (user_type=DEPARTMENT)<br><code>t_dept_officers</code> mein entry<br>Temporary password generate</div>
+        </div>
+        <div class="fb-arrow">→</div>
+        <div class="fb-box" style="text-align:center">
+          <div style="font-size:18px">📧</div>
+          <div class="fb-box-title">Email Credentials</div>
+          <div class="fb-box-desc">Officer ko email jaata hai login link + temporary password ke saath</div>
+        </div>
+        <div class="fb-arrow">→</div>
+        <div class="fb-box highlight" style="text-align:center">
+          <div style="font-size:18px">🔐</div>
+          <div class="fb-box-title">Officer Login Karta Hai</div>
+          <div class="fb-box-desc">JWT mein role_id, dept_id, district_id aata hai → Dashboard automatically sahi applications dikhata hai</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 9 — HOW IT IS GENERIC ════════════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 9 — Key Concept</div>
+  <div class="section-title">System Generic Kaise Hai? Nayi Service Add Karna</div>
+  <div class="section-sub">Ek nayi service ke liye koi naya code nahi likhna. Sirf configuration aur form banana hai.</div>
+
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Kya Karna Hai</th>
+        <th>Kahan Karna Hai</th>
+        <th>Code Change?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Service register karo (name, ID, dept)</td>
+        <td>Service Master (admin panel)</td>
+        <td style="color:#2e7d32;font-weight:700">❌ Nahi</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Applicant Form banao (fields, validations)</td>
+        <td>Form Builder (admin panel)</td>
+        <td style="color:#2e7d32;font-weight:700">❌ Nahi</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Processing Forms banao (har step ke liye)</td>
+        <td>Form Builder (admin panel)</td>
+        <td style="color:#2e7d32;font-weight:700">❌ Nahi</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Workflow steps configure karo (roles, SLA, actions)</td>
+        <td>Workflow Configurator (admin panel)</td>
+        <td style="color:#2e7d32;font-weight:700">❌ Nahi</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Workflow publish karo</td>
+        <td>Workflow Configurator — Status: PUBLISHED</td>
+        <td style="color:#2e7d32;font-weight:700">❌ Nahi</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>✅ Done — Service live hai</td>
+        <td>Applicant apply kar sakta hai, workflow chalu hoga</td>
+        <td style="color:#2e7d32;font-weight:700">❌ Bilkul Nahi</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══ SECTION 10 — ROADMAP ══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 10 — Implementation Roadmap</div>
+  <div class="section-title">Implementation Plan — 3 Phases</div>
+  <div class="section-sub">Har phase ke baad ek working deliverable milega jo demo kiya ja sake.</div>
+
+  <div class="roadmap">
+    <div class="phase">
+      <div class="phase-head ph1">Phase 1 — Foundation (Week 1-2)</div>
+      <div class="phase-body">
+        <div class="phase-item">Prisma migration — 4 naye tables (t_wf_instance, t_wf_action_log, t_wf_parallel_tracker, t_dept_officers)</div>
+        <div class="phase-item">wf-engine NestJS module banao</div>
+        <div class="phase-item">POST /wf-engine/start — application submit pe instance create</div>
+        <div class="phase-item">GET /wf-engine/inbox — role-wise applications list</div>
+        <div class="phase-item">POST /wf-engine/action — Forward/Approve/Reject</div>
+        <div class="phase-item">dept-officer module — CRUD APIs</div>
+        <div class="phase-days">✅ Deliverable: Ek test workflow end-to-end chale (Postman se)</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-head ph2">Phase 2 — Frontend Dashboard (Week 3-4)</div>
+      <div class="phase-body">
+        <div class="phase-item">WorkflowDashboard component — applications list with filters</div>
+        <div class="phase-item">ApplicationView — FormRenderer with dynamic form loading</div>
+        <div class="phase-item">ActionPanel — Forward/Approve/Reject buttons + dialogs</div>
+        <div class="phase-item">WorkflowTimeline — history view</div>
+        <div class="phase-item">Officer Management page (admin)</div>
+        <div class="phase-item">SLA timer display</div>
+        <div class="phase-days">✅ Deliverable: Poora UI se ek service ka workflow chal jaaye</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-head ph3">Phase 3 — Advanced Features (Week 5-6)</div>
+      <div class="phase-body">
+        <div class="phase-item">Parallel forward + aggregation (ALL/ANY/MAJORITY)</div>
+        <div class="phase-item">Routing conditions (investment-based District/State split)</div>
+        <div class="phase-item">SLA breach cron job + escalation</div>
+        <div class="phase-item">Email/SMS notifications per action</div>
+        <div class="phase-item">Approval letter generation (PDF)</div>
+        <div class="phase-item">Step skip conditions</div>
+        <div class="phase-days">✅ Deliverable: Production-ready — koi bhi service add ho sake</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 11 — SUMMARY TABLE ═══════════════════════════════════ -->
+<div class="section">
+  <div class="section-tag">Section 11 — Summary</div>
+  <div class="section-title">Kya Banta Hai — Quick Reference</div>
+
+  <table class="tbl">
+    <thead>
+      <tr><th>Category</th><th>Item</th><th>Type</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="4"><strong>New DB Tables</strong></td><td><span class="field-name">t_wf_instance</span></td><td><span class="new-badge">NEW</span></td><td>Har application ka current workflow state</td></tr>
+      <tr><td><span class="field-name">t_wf_action_log</span></td><td><span class="new-badge">NEW</span></td><td>Poori history — har action ka log</td></tr>
+      <tr><td><span class="field-name">t_wf_parallel_tracker</span></td><td><span class="new-badge">NEW</span></td><td>Parallel department forward tracking</td></tr>
+      <tr><td><span class="field-name">t_dept_officers</span></td><td><span class="new-badge">NEW</span></td><td>Department officers ka profile</td></tr>
+      <tr><td rowspan="3"><strong>New Backend</strong></td><td><span class="field-name">wf-engine/ module</span></td><td><span class="new-badge">NEW</span></td><td>Core workflow state machine APIs</td></tr>
+      <tr><td><span class="field-name">dept-officer/ module</span></td><td><span class="new-badge">NEW</span></td><td>Officer create/manage APIs</td></tr>
+      <tr><td><span class="field-name">wf-sla-cron/ module</span></td><td><span class="new-badge">NEW</span></td><td>SLA breach detection + escalation</td></tr>
+      <tr><td rowspan="5"><strong>New Frontend</strong></td><td><span class="field-name">WorkflowDashboard.tsx</span></td><td><span class="new-badge">NEW</span></td><td>Generic applications list for any role</td></tr>
+      <tr><td><span class="field-name">ApplicationView.tsx</span></td><td><span class="new-badge">NEW</span></td><td>Application detail + form render</td></tr>
+      <tr><td><span class="field-name">ActionPanel.tsx</span></td><td><span class="new-badge">NEW</span></td><td>Action buttons (config se dynamic)</td></tr>
+      <tr><td><span class="field-name">WorkflowTimeline.tsx</span></td><td><span class="new-badge">NEW</span></td><td>Application history timeline</td></tr>
+      <tr><td><span class="field-name">FormRenderer.tsx</span></td><td><span class="new-badge">NEW</span></td><td>Dynamic form loading from FormBuilder</td></tr>
+      <tr><td rowspan="2"><strong>Existing (No Change)</strong></td><td><span class="field-name">c_application_workflow_configuration</span></td><td><span class="key-badge">EXISTING</span></td><td>Workflow rules store</td></tr>
+      <tr><td><span class="field-name">m_fb_* tables (FormBuilder)</span></td><td><span class="key-badge">EXISTING</span></td><td>Forms ka structure — koi change nahi</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- /container -->
+
+<!-- Footer -->
+<div style="background:#1e2d50;color:#7eb3f5;text-align:center;padding:16px;font-size:11px;margin-top:20px">
+  SWCS 2.0 — Invest Uttarakhand &nbsp;|&nbsp; Generic Workflow Engine — Technical Approach v1.0 &nbsp;|&nbsp; March 2026
+  <button class="no-print" onclick="window.print()" style="margin-left:20px;padding:5px 14px;background:#2962d9;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px">🖨 Print / Save as PDF</button>
+</div>
+
+</body>
+</html>

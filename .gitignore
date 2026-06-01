@@ -1,0 +1,91 @@
+# =============================
+# Dependencies
+# =============================
+node_modules/
+**/node_modules/
+
+# =============================
+# Python / Virtual Envs
+# =============================
+.venv/
+**/.venv/
+python_service/venv/
+python_testCaseGeneration_Service/.venv/
+__pycache__/
+*.pyc
+
+# =============================
+# Build outputs
+# =============================
+dist/
+**/dist/
+.next/
+**/.next/
+out/
+**/out/
+build/
+**/build/
+
+# =============================
+# Backend build artifacts
+# =============================
+apps/backend/**/*.js
+apps/backend/**/*.map
+apps/backend/**/*.d.ts
+
+# =============================
+# Logs
+# =============================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# =============================
+# Environment files & Secrets
+# =============================
+.env
+.env.local
+python_service/env
+
+# =============================
+# Databases / Large files
+# =============================
+python_service/chroma/
+
+# =============================
+# OS / Editor
+# =============================
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
+.vercel
+.claude/
+
+# =============================
+# Uploads
+# =============================
+uploads/
+uploads/documents/
+uploads/temp/
+
+# =============================
+# Database / Local infra
+# =============================
+postgres-docker/
+backend/migrations/
+
+# =============================
+# Large / generated files
+# =============================
+*.dump
+*.sql
+*-structure.txt
+~*.tmp
+
+# =============================
+# Misc
+# =============================
+todo.md
+scratch/
+apps/backend/prisma/manual-sql/20260308_add_service_name_in_hindi.sql

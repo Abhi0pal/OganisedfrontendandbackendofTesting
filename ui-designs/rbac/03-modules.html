@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module Management</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#6366f1;font-weight:600;border-left:2px solid #6366f1}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:24px 28px;display:flex;gap:20px}
+  .tree-col{width:380px;flex-shrink:0}
+  .form-col{flex:1}
+  .panel{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+  .panel-header{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+  .panel-title{font-size:14px;font-weight:700}
+  .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-sm{padding:5px 10px;font-size:11px}
+  .portal-tabs{display:flex;gap:0;padding:12px 16px;border-bottom:1px solid #f1f5f9}
+  .ptab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:#64748b}
+  .ptab.active{background:#eef2ff;color:#4f46e5}
+
+  /* MODULE TREE */
+  .module-tree{padding:10px}
+  .m-node{margin-bottom:2px}
+  .m-row{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;cursor:pointer}
+  .m-row:hover{background:#f8fafc}
+  .m-row.selected{background:#eef2ff}
+  .m-toggle{width:16px;font-size:10px;color:#94a3b8;text-align:center;flex-shrink:0}
+  .m-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+  .m-name{font-size:13px;color:#374151;flex:1}
+  .m-row.selected .m-name{font-weight:600;color:#4f46e5}
+  .m-code{font-size:10px;font-family:monospace;color:#94a3b8}
+  .m-badges{display:flex;gap:4px;align-items:center}
+  .mbadge{font-size:10px;padding:1px 6px;border-radius:4px}
+  .mbadge-leaf{background:#dcfce7;color:#15803d}
+  .mbadge-group{background:#f1f5f9;color:#64748b}
+  .mbadge-hidden{background:#fee2e2;color:#dc2626}
+  .m-children{margin-left:24px;border-left:1px dashed #e2e8f0;padding-left:6px}
+  .drag-handle{color:#cbd5e1;font-size:12px;cursor:grab;flex-shrink:0}
+
+  /* FORM */
+  .form-body{padding:18px}
+  .form-group{margin-bottom:14px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none;color:#1e293b}
+  .form-control:focus{border-color:#6366f1}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .section-div{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid #f1f5f9}
+  .actions-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .action-check{border:1px solid #e2e8f0;border-radius:7px;padding:9px;text-align:center;cursor:pointer}
+  .action-check.checked{background:#eef2ff;border-color:#c7d2fe}
+  .action-check-label{font-size:11px;font-weight:600;color:#374151}
+  .action-check.checked .action-check-label{color:#4f46e5}
+  .action-check-icon{font-size:16px;margin-bottom:4px}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f8fafc}
+  .toggle-label{font-size:13px;font-weight:500;color:#374151}
+  .toggle{width:38px;height:20px;background:#e2e8f0;border-radius:10px;position:relative;cursor:pointer;flex-shrink:0}
+  .toggle.on{background:#6366f1}
+  .toggle::after{content:'';width:14px;height:14px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:.2s}
+  .toggle.on::after{left:21px}
+  .footer-btns{display:flex;justify-content:flex-end;gap:8px;padding:14px 18px;border-top:1px solid #f1f5f9}
+  .info-note{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:12px;color:#1e40af;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">🛡 RBAC Admin</div>
+      <div class="sidebar-logo-sub">Platform Control Panel</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Core</div>
+      <a class="nav-item" href="01-tenant.html">🏛 Tenants</a>
+      <a class="nav-item" href="02-roles.html">👑 Roles</a>
+      <a class="nav-item active" href="03-modules.html">📁 Modules</a>
+      <a class="nav-item" href="04-permissions.html">🔐 Permissions</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Users</div>
+      <a class="nav-item" href="05-assignment.html">👤 Assignments</a>
+      <a class="nav-item" href="06-transfer.html">🔄 Transfers</a>
+      <a class="nav-item" href="07-override.html">⚡ Overrides</a>
+      <a class="nav-item" href="08-projects.html">📋 Projects</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Module / Menu Management</div>
+      <div class="avatar">A</div>
+    </div>
+
+    <div class="content">
+      <!-- LEFT: MODULE TREE -->
+      <div class="tree-col">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📁 Menu Tree</div>
+            <button class="btn btn-primary btn-sm">＋ Add Module</button>
+          </div>
+          <div class="portal-tabs">
+            <div class="ptab active">ADMIN</div>
+            <div class="ptab">DEPARTMENT</div>
+            <div class="ptab">INVESTOR</div>
+          </div>
+          <div class="module-tree">
+
+            <div class="m-node">
+              <div class="m-row">
+                <div class="drag-handle">⠿</div>
+                <div class="m-toggle">▼</div>
+                <div class="m-icon">🏠</div>
+                <div class="m-name">Dashboard <span class="m-code">DASHBOARD</span></div>
+                <div class="m-badges"><span class="mbadge mbadge-leaf">page</span></div>
+              </div>
+            </div>
+
+            <div class="m-node">
+              <div class="m-row">
+                <div class="drag-handle">⠿</div>
+                <div class="m-toggle">▼</div>
+                <div class="m-icon">👥</div>
+                <div class="m-name">User Management <span class="m-code">USER_MGMT</span></div>
+                <div class="m-badges"><span class="mbadge mbadge-group">group</span></div>
+              </div>
+              <div class="m-children">
+                <div class="m-row selected">
+                  <div class="drag-handle">⠿</div>
+                  <div class="m-toggle">—</div>
+                  <div class="m-icon">📋</div>
+                  <div class="m-name">User List <span class="m-code">USER_LIST</span></div>
+                  <div class="m-badges"><span class="mbadge mbadge-leaf">page</span></div>
+                </div>
+                <div class="m-row">
+                  <div class="drag-handle">⠿</div>
+                  <div class="m-toggle">—</div>
+                  <div class="m-icon">➕</div>
+                  <div class="m-name">Add User <span class="m-code">USER_CREATE</span></div>
+                  <div class="m-badges"><span class="mbadge mbadge-leaf">page</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-node">
+              <div class="m-row">
+                <div class="drag-handle">⠿</div>
+                <div class="m-toggle">▼</div>
+                <div class="m-icon">⚙</div>
+                <div class="m-name">Master Management <span class="m-code">MASTER</span></div>
+                <div class="m-badges"><span class="mbadge mbadge-group">group</span></div>
+              </div>
+              <div class="m-children">
+                <div class="m-row">
+                  <div class="drag-handle">⠿</div>
+                  <div class="m-toggle">—</div>
+                  <div class="m-icon">🗺</div>
+                  <div class="m-name">District Master <span class="m-code">DIST_MASTER</span></div>
+                  <div class="m-badges"><span class="mbadge mbadge-leaf">page</span></div>
+                </div>
+                <div class="m-row">
+                  <div class="drag-handle">⠿</div>
+                  <div class="m-toggle">—</div>
+                  <div class="m-icon">🏘</div>
+                  <div class="m-name">Block Master <span class="m-code">BLOCK_MASTER</span></div>
+                  <div class="m-badges"><span class="mbadge mbadge-hidden">hidden</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-node">
+              <div class="m-row">
+                <div class="drag-handle">⠿</div>
+                <div class="m-toggle">—</div>
+                <div class="m-icon">📊</div>
+                <div class="m-name">Reports <span class="m-code">REPORTS</span></div>
+                <div class="m-badges"><span class="mbadge mbadge-leaf">page</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: EDIT MODULE FORM -->
+      <div class="form-col">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">📋 User List — Edit Module</div>
+              <div style="font-size:12px;color:#64748b;margin-top:2px">code: USER_LIST · ADMIN portal</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm">🗑 Delete</button>
+              <button class="btn btn-primary btn-sm">Save Changes</button>
+            </div>
+          </div>
+          <div class="form-body">
+            <div class="info-note">💡 <strong>is_leaf: true</strong> — Ye ek actual page hai. Route aur permissions define hongi. Group (parent) modules mein route nahi hota.</div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Module Name <span>*</span></label>
+                <input class="form-control" value="User List">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Module Code <span>*</span></label>
+                <input class="form-control" value="USER_LIST" style="font-family:monospace">
+                <div class="form-hint">UNIQUE globally — frontend + backend dono use karte hain</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Hindi Name</label>
+                <input class="form-control" value="उपयोगकर्ता सूची">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Route / Path</label>
+                <input class="form-control" value="/admin/users" style="font-family:monospace">
+                <div class="form-hint">NULL = group hai, koi page nahi</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Icon</label>
+                <input class="form-control" value="FiUsers" style="font-family:monospace">
+                <div class="form-hint">Frontend icon library name</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Display Order</label>
+                <input class="form-control" value="1" type="number">
+                <div class="form-hint">0 = sabse pehle sidebar mein</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Portal <span>*</span></label>
+                <select class="form-control">
+                  <option selected>ADMIN</option>
+                  <option>DEPARTMENT</option>
+                  <option>INVESTOR</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Parent Module</label>
+                <select class="form-control">
+                  <option>👥 User Management (group)</option>
+                  <option>— None (top-level)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Tenant (optional)</label>
+              <select class="form-control">
+                <option>🌐 Global — sabhi tenants ko dikhega</option>
+                <option>🏛 SWCS only</option>
+                <option>🌲 Forest only</option>
+              </select>
+              <div class="form-hint">NULL = platform-wide. Value = sirf us tenant ko dikhega.</div>
+            </div>
+
+            <div class="section-div">Allowed Actions (ye permissions table mein rows banayega)</div>
+            <div class="actions-grid">
+              <div class="action-check checked"><div class="action-check-icon">👁</div><div class="action-check-label">READ</div></div>
+              <div class="action-check checked"><div class="action-check-icon">➕</div><div class="action-check-label">CREATE</div></div>
+              <div class="action-check checked"><div class="action-check-icon">✏</div><div class="action-check-label">UPDATE</div></div>
+              <div class="action-check"><div class="action-check-icon">🗑</div><div class="action-check-label">DELETE</div></div>
+              <div class="action-check"><div class="action-check-icon">📤</div><div class="action-check-label">EXPORT</div></div>
+              <div class="action-check"><div class="action-check-icon">✅</div><div class="action-check-label">APPROVE</div></div>
+              <div class="action-check"><div class="action-check-icon">❌</div><div class="action-check-label">REJECT</div></div>
+              <div class="action-check"><div class="action-check-icon">🔑</div><div class="action-check-label">MANAGE</div></div>
+            </div>
+            <div class="form-hint" style="margin-top:6px">Checked actions ke liye permissions table mein rows automatically create hongi</div>
+
+            <div class="section-div">Visibility</div>
+            <div class="toggle-row">
+              <div><div class="toggle-label">is_leaf</div><div style="font-size:11px;color:#94a3b8">true = actual page · false = group/folder</div></div>
+              <div class="toggle on"></div>
+            </div>
+            <div class="toggle-row">
+              <div><div class="toggle-label">is_active</div><div style="font-size:11px;color:#94a3b8">false = menu hidden hoga</div></div>
+              <div class="toggle on"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

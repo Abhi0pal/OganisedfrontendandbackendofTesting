@@ -1,0 +1,584 @@
+2026-02-03T08:06:08.622Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-02-03T08:06:08.637Z - [Service] getInspectorsByDepartment: Found 12 users
+2026-03-06T11:34:05.442Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:34:05.462Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:34:16.354Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:34:16.370Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:34:20.269Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:34:20.289Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:34:21.885Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:34:21.910Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:34:27.337Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:34:27.347Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:35:14.037Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:35:14.052Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:35:16.724Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:35:16.725Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:35:16.731Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:35:16.747Z - Found 14 candidates
+2026-03-06T11:35:16.773Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:35:16.774Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:35:16.783Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:35:16.796Z - Found 14 candidates
+2026-03-06T11:35:22.778Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:35:22.792Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:35:28.431Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:35:28.438Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:00.507Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:00.522Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:05.637Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:05.639Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:05.650Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:05.664Z - Found 14 candidates
+2026-03-06T11:45:05.695Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:05.696Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:05.707Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:05.719Z - Found 14 candidates
+2026-03-06T11:45:10.280Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:10.290Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:10.758Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:10.759Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:10.765Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:10.778Z - Found 14 candidates
+2026-03-06T11:45:10.804Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:10.806Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:10.816Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:10.828Z - Found 14 candidates
+2026-03-06T11:45:11.328Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:11.336Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:13.492Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:13.494Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:13.501Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:13.520Z - Found 14 candidates
+2026-03-06T11:45:13.551Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:13.555Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:13.564Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:13.584Z - Found 14 candidates
+2026-03-06T11:45:14.724Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:14.730Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:15.175Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:15.176Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:15.182Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:15.194Z - Found 14 candidates
+2026-03-06T11:45:15.216Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:15.217Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:15.225Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:15.236Z - Found 14 candidates
+2026-03-06T11:45:16.791Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:16.800Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:17.203Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:17.210Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:17.619Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:17.620Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:17.627Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:17.638Z - Found 14 candidates
+2026-03-06T11:45:17.658Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:17.659Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:17.665Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:17.677Z - Found 14 candidates
+2026-03-06T11:45:18.569Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:18.576Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:18.969Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:18.970Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:18.981Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:18.998Z - Found 14 candidates
+2026-03-06T11:45:19.025Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:19.027Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:19.033Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:19.050Z - Found 14 candidates
+2026-03-06T11:45:19.997Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:20.003Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:20.453Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:20.454Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:20.460Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:20.470Z - Found 14 candidates
+2026-03-06T11:45:20.491Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:45:20.492Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:20.498Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:20.511Z - Found 14 candidates
+2026-03-06T11:45:22.443Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:22.450Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:45:32.897Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:45:32.904Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:11.177Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:11.218Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:15.587Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:47:15.588Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:15.594Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:15.608Z - Found 14 candidates
+2026-03-06T11:47:15.641Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:47:15.642Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:15.650Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:15.664Z - Found 14 candidates
+2026-03-06T11:47:17.623Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:17.638Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:18.057Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:47:18.058Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:18.065Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:18.079Z - Found 14 candidates
+2026-03-06T11:47:18.108Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL
+2026-03-06T11:47:18.110Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:18.122Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:18.138Z - Found 14 candidates
+2026-03-06T11:47:18.891Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:18.897Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:23.294Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:23.302Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:25.973Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:25.982Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:36.743Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:36.750Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:47:41.782Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:47:41.794Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:48:02.753Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL
+2026-03-06T11:48:02.762Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:49:27.686Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:49:27.701Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:49:31.351Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:49:31.362Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:49:32.405Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:49:32.413Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:49:34.032Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:49:34.044Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:50:22.516Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:50:22.543Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:50:22.696Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:50:22.739Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:50:53.346Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:50:53.349Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:50:53.362Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:50:53.369Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:25.677Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:25.693Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:51:25.699Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:25.709Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:51:39.882Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:39.886Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:51:39.891Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:39.894Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:51:40.628Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:40.631Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:51:40.634Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:51:40.639Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:43.026Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:51:43.028Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:43.031Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:51:43.034Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:47.358Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:47.362Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:51:47.365Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:47.370Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:51:48.139Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:48.145Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:51:48.150Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:51:48.155Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:49.816Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=undefined
+2026-03-06T11:51:49.817Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:49.830Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:49.846Z - Found 14 candidates
+2026-03-06T11:51:49.875Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=undefined
+2026-03-06T11:51:49.876Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:49.886Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:49.900Z - Found 14 candidates
+2026-03-06T11:51:51.069Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:51.080Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:51.540Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=undefined
+2026-03-06T11:51:51.542Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:51.549Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:51.564Z - Found 14 candidates
+2026-03-06T11:51:51.586Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=undefined
+2026-03-06T11:51:51.587Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:51.595Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:51.609Z - Found 14 candidates
+2026-03-06T11:51:52.459Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:51:52.463Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:51:53.240Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:53.249Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:53.649Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=undefined
+2026-03-06T11:51:53.651Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:53.659Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:53.678Z - Found 14 candidates
+2026-03-06T11:51:53.706Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=undefined
+2026-03-06T11:51:53.707Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:53.716Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:53.732Z - Found 14 candidates
+2026-03-06T11:51:54.499Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:54.504Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:54.877Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=undefined
+2026-03-06T11:51:54.878Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:54.887Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:54.903Z - Found 14 candidates
+2026-03-06T11:51:54.931Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=undefined
+2026-03-06T11:51:54.932Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:51:54.938Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:51:54.955Z - Found 14 candidates
+2026-03-06T11:52:05.885Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:05.891Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:15.630Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-06T11:52:15.631Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:15.635Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:15.637Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:15.638Z - No inspectors found for dept: 9
+2026-03-06T11:52:15.643Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:25.295Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:25.304Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:26.927Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:26.932Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:27.621Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-06T11:52:27.622Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:27.629Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:27.630Z - No inspectors found for dept: 9
+2026-03-06T11:52:27.657Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-06T11:52:27.659Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:27.665Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:27.667Z - No inspectors found for dept: 9
+2026-03-06T11:52:28.564Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:28.568Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:30.345Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:30.350Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:30.930Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-06T11:52:30.932Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:30.936Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:30.937Z - No inspectors found for dept: 9
+2026-03-06T11:52:30.951Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-06T11:52:30.953Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:30.957Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:30.958Z - No inspectors found for dept: 9
+2026-03-06T11:52:35.411Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:35.416Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:40.793Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:52:40.802Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:52:42.940Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:42.944Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:45.804Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-06T11:52:45.810Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:45.814Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:45.815Z - No inspectors found for dept: 9
+2026-03-06T11:52:45.834Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-06T11:52:45.834Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:45.844Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:52:45.846Z - No inspectors found for dept: 9
+2026-03-06T11:52:47.472Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:52:47.476Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:53:10.627Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:53:10.631Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:53:19.302Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-06T11:53:19.318Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-06T11:53:26.454Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:53:26.459Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:53:54.082Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:53:54.094Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-06T11:54:08.100Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-06T11:54:08.105Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-07T05:18:58.439Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:18:58.441Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:18:58.452Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:18:58.461Z - Found 2 candidates
+2026-03-07T05:18:58.480Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:18:58.481Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:18:58.487Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:18:58.493Z - Found 2 candidates
+2026-03-07T05:19:00.350Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:00.362Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:00.790Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:00.791Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:00.797Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:00.804Z - Found 2 candidates
+2026-03-07T05:19:00.823Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:00.824Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:00.830Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:00.838Z - Found 2 candidates
+2026-03-07T05:19:01.640Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:01.647Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:02.011Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:02.012Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:02.018Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:02.023Z - Found 2 candidates
+2026-03-07T05:19:02.041Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:02.043Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:02.051Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:02.057Z - Found 2 candidates
+2026-03-07T05:19:02.766Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:02.771Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:03.162Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:03.163Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:03.170Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:03.176Z - Found 2 candidates
+2026-03-07T05:19:03.193Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:03.194Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:03.199Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:03.205Z - Found 2 candidates
+2026-03-07T05:19:04.100Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:04.108Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:04.409Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:04.411Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:04.415Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:04.421Z - Found 2 candidates
+2026-03-07T05:19:04.437Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:04.438Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:04.444Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:04.449Z - Found 2 candidates
+2026-03-07T05:19:05.238Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:05.245Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:05.613Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:05.614Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:05.621Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:05.627Z - Found 2 candidates
+2026-03-07T05:19:05.641Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:19:05.642Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:19:05.647Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:19:05.653Z - Found 2 candidates
+2026-03-07T05:26:05.873Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:05.884Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:06.248Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:26:06.249Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:06.260Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:06.269Z - Found 2 candidates
+2026-03-07T05:26:06.291Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:26:06.292Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:06.297Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:06.302Z - Found 2 candidates
+2026-03-07T05:26:07.045Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:07.058Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:07.455Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:26:07.457Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:07.463Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:07.469Z - Found 2 candidates
+2026-03-07T05:26:07.486Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:26:07.488Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:07.496Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:07.500Z - Found 2 candidates
+2026-03-07T05:26:07.952Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:07.958Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:09.909Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:26:09.919Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:09.956Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:09.964Z - Found 2 candidates
+2026-03-07T05:26:09.982Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-07T05:26:09.983Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:09.989Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:09.995Z - Found 2 candidates
+2026-03-07T05:26:10.498Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:10.503Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:12.426Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:12.431Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-07T05:26:36.768Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-07T05:26:36.778Z - [Service] getInspectorsByDepartment: Found 2 users
+2026-03-11T09:41:48.274Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:41:48.278Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:48.284Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:48.285Z - No inspectors found for dept: 1
+2026-03-11T09:41:48.301Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:41:48.302Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:48.308Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:48.309Z - No inspectors found for dept: 1
+2026-03-11T09:41:54.883Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:41:54.885Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:54.889Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:54.890Z - No inspectors found for dept: 9
+2026-03-11T09:41:54.905Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:41:54.906Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:54.911Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:54.912Z - No inspectors found for dept: 9
+2026-03-11T09:41:57.309Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:57.317Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:57.320Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:57.327Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:57.977Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:41:57.979Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:57.983Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:57.985Z - No inspectors found for dept: 1
+2026-03-11T09:41:57.988Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:41:57.989Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:57.994Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:57.995Z - No inspectors found for dept: 9
+2026-03-11T09:41:58.009Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:41:58.011Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:58.017Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:41:58.019Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:41:58.021Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:58.022Z - No inspectors found for dept: 1
+2026-03-11T09:41:58.025Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:41:58.026Z - No inspectors found for dept: 9
+2026-03-11T09:46:14.930Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:46:14.932Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:46:14.937Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:46:14.939Z - No inspectors found for dept: 9
+2026-03-11T09:46:14.955Z - getRecommendedInspector called: deptId=9, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:46:14.956Z - [Service] getInspectorsByDepartment: Fetching for dept: 9, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:46:14.962Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:46:14.963Z - No inspectors found for dept: 9
+2026-03-11T09:56:19.390Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:56:19.391Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:56:19.398Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:56:19.399Z - No inspectors found for dept: 1
+2026-03-11T09:56:19.417Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:56:19.418Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:56:19.422Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:56:19.424Z - No inspectors found for dept: 1
+2026-03-11T09:56:21.174Z - getRecommendedInspector called: deptId=1, type=THIRD_PARTY, districtId=543
+2026-03-11T09:56:21.232Z - Found 18 candidates
+2026-03-11T09:56:24.064Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T09:56:24.068Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T09:56:24.085Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T09:56:24.087Z - No inspectors found for dept: 1
+2026-03-11T09:56:25.399Z - getRecommendedInspector called: deptId=1, type=THIRD_PARTY, districtId=543
+2026-03-11T09:56:25.479Z - Found 18 candidates
+2026-03-11T09:56:30.492Z - getRecommendedInspector called: deptId=1, type=THIRD_PARTY, districtId=543
+2026-03-11T09:56:30.532Z - Found 18 candidates
+2026-03-11T09:56:30.601Z - getRecommendedInspector called: deptId=1, type=THIRD_PARTY, districtId=543
+2026-03-11T09:56:30.634Z - Found 18 candidates
+2026-03-11T10:03:42.092Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-11T10:03:42.129Z - [Service] getInspectorsByDepartment: Found 14 users
+2026-03-11T10:03:45.650Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T10:03:45.655Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T10:03:48.257Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T10:03:48.258Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T10:03:48.264Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T10:03:48.266Z - No inspectors found for dept: 1
+2026-03-11T10:03:48.284Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T10:03:48.286Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T10:03:48.291Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T10:03:48.293Z - No inspectors found for dept: 1
+2026-03-11T10:03:53.214Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T10:03:53.216Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T10:03:53.220Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T10:03:53.222Z - No inspectors found for dept: 1
+2026-03-11T10:03:53.244Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T10:03:53.246Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T10:03:53.254Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T10:03:53.256Z - No inspectors found for dept: 1
+2026-03-11T10:03:54.642Z - getRecommendedInspector called: deptId=1, type=THIRD_PARTY, districtId=543
+2026-03-11T10:03:54.667Z - Found 18 candidates
+2026-03-11T12:14:58.243Z - [Service] getInspectorsByDepartment: Fetching for dept: 2, type: DEPARTMENT_OFFICIAL, district: undefined
+2026-03-11T12:14:58.311Z - [Service] getInspectorsByDepartment: Found 8 users
+2026-03-11T12:15:00.814Z - [Service] getInspectorsByDepartment: Fetching for dept: 2, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T12:15:00.841Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T12:15:03.874Z - getRecommendedInspector called: deptId=2, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T12:15:03.878Z - [Service] getInspectorsByDepartment: Fetching for dept: 2, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T12:15:03.909Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T12:15:03.912Z - No inspectors found for dept: 2
+2026-03-11T12:15:03.970Z - getRecommendedInspector called: deptId=2, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T12:15:03.975Z - [Service] getInspectorsByDepartment: Fetching for dept: 2, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T12:15:03.990Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T12:15:03.993Z - No inspectors found for dept: 2
+2026-03-11T12:15:05.879Z - getRecommendedInspector called: deptId=2, type=THIRD_PARTY, districtId=543
+2026-03-11T12:15:05.943Z - Found 18 candidates
+2026-03-11T12:15:18.598Z - getRecommendedInspector called: deptId=2, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T12:15:18.605Z - [Service] getInspectorsByDepartment: Fetching for dept: 2, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T12:15:18.620Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T12:15:18.624Z - No inspectors found for dept: 2
+2026-03-11T12:18:09.254Z - getRecommendedInspector called: deptId=2, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T12:18:09.259Z - [Service] getInspectorsByDepartment: Fetching for dept: 2, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T12:18:09.274Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T12:18:09.277Z - No inspectors found for dept: 2
+2026-03-11T12:18:09.317Z - getRecommendedInspector called: deptId=2, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-11T12:18:09.321Z - [Service] getInspectorsByDepartment: Fetching for dept: 2, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-11T12:18:09.331Z - [Service] getInspectorsByDepartment: Found 0 users
+2026-03-11T12:18:09.335Z - No inspectors found for dept: 2
+2026-03-11T12:18:12.402Z - getRecommendedInspector called: deptId=2, type=THIRD_PARTY, districtId=543
+2026-03-11T12:18:12.493Z - Found 18 candidates
+2026-03-12T10:07:58.892Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-12T10:07:58.898Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-12T10:07:58.921Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-12T10:07:58.946Z - Found 1 candidates
+2026-03-12T10:07:59.004Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-12T10:07:59.007Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-12T10:07:59.026Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-12T10:07:59.044Z - Found 1 candidates
+2026-03-12T10:08:01.092Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-12T10:08:01.113Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-12T10:08:01.711Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-12T10:08:01.716Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-12T10:08:01.733Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-12T10:08:01.752Z - Found 1 candidates
+2026-03-12T10:08:01.826Z - getRecommendedInspector called: deptId=1, type=DEPARTMENT_OFFICIAL, districtId=543
+2026-03-12T10:08:01.830Z - [Service] getInspectorsByDepartment: Fetching for dept: 1, type: DEPARTMENT_OFFICIAL, district: 543
+2026-03-12T10:08:01.849Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-12T10:08:01.868Z - Found 1 candidates
+2026-03-12T10:08:09.201Z - getRecommendedInspector called: deptId=1, type=THIRD_PARTY, districtId=543
+2026-03-12T10:08:09.322Z - Found 18 candidates
+2026-03-12T10:08:11.701Z - getRecommendedInspector called: deptId=1, type=THIRD_PARTY, districtId=543
+2026-03-12T10:08:11.744Z - Found 18 candidates
+2026-03-12T10:08:11.852Z - getRecommendedInspector called: deptId=1, type=THIRD_PARTY, districtId=543
+2026-03-12T10:08:11.908Z - Found 18 candidates
+2026-03-13T10:09:15.501Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:15.511Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:15.540Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:15.640Z - Found 1 candidates
+2026-03-13T10:09:15.738Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:15.747Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:15.802Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:15.839Z - Found 1 candidates
+2026-03-13T10:09:17.738Z - getRecommendedInspector called: deptId=64, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:17.753Z - [Service] getInspectorsByDepartment: Fetching for dept: 64, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:17.792Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:17.820Z - Found 1 candidates
+2026-03-13T10:09:17.889Z - getRecommendedInspector called: deptId=64, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:17.893Z - [Service] getInspectorsByDepartment: Fetching for dept: 64, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:17.917Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:17.939Z - Found 1 candidates
+2026-03-13T10:09:25.862Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:25.871Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:25.903Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:25.923Z - Found 1 candidates
+2026-03-13T10:09:25.970Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:25.974Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:25.996Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:26.018Z - Found 1 candidates
+2026-03-13T10:09:29.680Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:29.702Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:30.275Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:30.280Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:30.301Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:30.322Z - Found 1 candidates
+2026-03-13T10:09:30.407Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:30.419Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:30.440Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:30.492Z - Found 1 candidates
+2026-03-13T10:09:31.326Z - getRecommendedInspector called: deptId=94, type=THIRD_PARTY, districtId=539
+2026-03-13T10:09:31.578Z - Found 18 candidates
+2026-03-13T10:09:32.069Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:32.073Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:32.104Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:32.134Z - Found 1 candidates
+2026-03-13T10:09:32.751Z - getRecommendedInspector called: deptId=94, type=THIRD_PARTY, districtId=539
+2026-03-13T10:09:32.825Z - Found 18 candidates
+2026-03-13T10:09:33.480Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:33.490Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:33.521Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:33.552Z - Found 1 candidates
+2026-03-13T10:09:35.942Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:35.950Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:35.971Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:35.996Z - Found 1 candidates
+2026-03-13T10:09:36.054Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-13T10:09:36.059Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-13T10:09:36.085Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-13T10:09:36.109Z - Found 1 candidates
+2026-03-13T10:09:36.782Z - getRecommendedInspector called: deptId=94, type=THIRD_PARTY, districtId=539
+2026-03-13T10:09:36.838Z - Found 18 candidates
+2026-03-17T05:57:56.395Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-17T05:57:56.398Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-17T05:57:56.418Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-17T05:57:56.431Z - Found 1 candidates
+2026-03-17T05:57:56.454Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-17T05:57:56.455Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-17T05:57:56.464Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-17T05:57:56.473Z - Found 1 candidates
+2026-03-17T05:58:01.206Z - getRecommendedInspector called: deptId=94, type=THIRD_PARTY, districtId=539
+2026-03-17T05:58:01.277Z - Found 18 candidates
+2026-03-17T05:58:02.177Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-17T05:58:02.178Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-17T05:58:02.187Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-17T05:58:02.196Z - Found 1 candidates
+2026-03-17T05:58:02.790Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-17T05:58:02.807Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-17T05:58:07.442Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-17T05:58:07.444Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-17T05:58:07.457Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-17T05:58:07.465Z - Found 1 candidates
+2026-03-17T05:58:07.487Z - getRecommendedInspector called: deptId=94, type=DEPARTMENT_OFFICIAL, districtId=539
+2026-03-17T05:58:07.489Z - [Service] getInspectorsByDepartment: Fetching for dept: 94, type: DEPARTMENT_OFFICIAL, district: 539
+2026-03-17T05:58:07.497Z - [Service] getInspectorsByDepartment: Found 1 users
+2026-03-17T05:58:07.504Z - Found 1 candidates

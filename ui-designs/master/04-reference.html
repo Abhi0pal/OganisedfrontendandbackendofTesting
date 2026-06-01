@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Data References</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#8b5cf6;font-weight:600;border-left:2px solid #8b5cf6}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#8b5cf6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:22px 26px}
+  .step-indicator{background:#ede9fe;border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px;margin-bottom:18px;font-size:13px;color:#6d28d9;font-weight:600;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-sm{padding:5px 10px;font-size:11px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:18px}
+  .card-header{padding:12px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:14px;font-weight:700}
+  .card-sub{font-size:11px;color:#64748b;margin-top:2px}
+  .stat-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px}
+  .stat-val{font-size:24px;font-weight:800;color:#0f172a}
+  .stat-label{font-size:12px;color:#64748b;margin-top:4px}
+  .stat-sub{font-size:11px;color:#94a3b8;margin-top:2px}
+  .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-blue{background:#dbeafe;color:#1d4ed8}
+  .badge-purple{background:#ede9fe;color:#6d28d9}
+  .badge-gray{background:#f1f5f9;color:#64748b}
+  table{width:100%;border-collapse:collapse}
+  th{background:#f8fafc;padding:9px 14px;font-size:11px;font-weight:700;color:#64748b;text-align:left;border-bottom:1px solid #e2e8f0;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+  td{padding:10px 14px;font-size:13px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+  tr:hover td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .from-node{display:inline-flex;align-items:center;gap:6px;background:#ede9fe;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:600;color:#6d28d9}
+  .to-node{display:inline-flex;align-items:center;gap:6px;background:#dbeafe;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:600;color:#1d4ed8}
+  .key-pill{display:inline-flex;align-items:center;background:#f1f5f9;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;color:#374151;font-family:monospace}
+  .arrow-icon{font-size:16px;color:#94a3b8}
+  .ref-count{font-size:11px;color:#64748b}
+  .toolbar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .search-box{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:7px 12px;max-width:260px}
+  .search-box input{border:none;outline:none;font-size:13px;width:100%}
+  .filter-select{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:7px 12px;font-size:13px;color:#374151;outline:none}
+  .chain-diagram{padding:20px;overflow-x:auto}
+  .chain{display:flex;align-items:center;gap:0;margin-bottom:16px}
+  .chain-node{background:#fff;border:2px solid #c4b5fd;border-radius:10px;padding:10px 16px;min-width:100px;text-align:center;flex-shrink:0}
+  .chain-node.active{border-color:#8b5cf6;background:#ede9fe}
+  .chain-node-icon{font-size:18px;margin-bottom:4px}
+  .chain-node-title{font-size:12px;font-weight:700;color:#1e293b}
+  .chain-node-count{font-size:10px;color:#7c3aed;margin-top:2px}
+  .chain-arrow{display:flex;flex-direction:column;align-items:center;padding:0 8px;flex-shrink:0}
+  .chain-arrow-line{width:40px;height:2px;background:#c4b5fd}
+  .chain-arrow-head{font-size:16px;color:#8b5cf6;margin-top:-8px}
+  .chain-key{font-size:9px;color:#94a3b8;text-align:center;margin-top:2px;font-family:monospace}
+  .info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:12px;color:#1e40af;margin-bottom:16px;line-height:1.6}
+  .warning-box{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:12px;color:#92400e;margin-bottom:16px;line-height:1.6}
+  .pagination{display:flex;align-items:center;gap:6px;padding:12px 16px;border-top:1px solid #f1f5f9;justify-content:flex-end}
+  .page-btn{width:28px;height:28px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;font-weight:600}
+  .page-btn.active{background:#7c3aed;color:#fff;border-color:#7c3aed}
+  .page-info{font-size:12px;color:#64748b;margin-right:8px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">⚙ Master Mgmt</div>
+      <div class="sidebar-logo-sub">Dynamic Data Configuration</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Setup Guide</div>
+      <a class="nav-item" href="start.html">📋 Step-by-Step Guide</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Modules</div>
+      <a class="nav-item" href="01-definition.html">📦 Master Definition</a>
+      <a class="nav-item" href="02-columns.html">📐 Column Definition</a>
+      <a class="nav-item" href="03-data.html">🗄 Master Data</a>
+      <a class="nav-item active" href="04-reference.html">🔗 Data References</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Data References</div>
+      <div class="avatar">A</div>
+    </div>
+
+    <div class="content">
+      <div class="step-indicator">
+        📍 Step 4 of 4 — References auto-create ho jaate hain jab SELECT (MASTER source) column fill hota hai
+        &nbsp;|&nbsp; <a href="03-data.html" style="color:#7c3aed">← Data Entry</a>
+        &nbsp;|&nbsp; ✅ Setup Complete
+      </div>
+
+      <div class="info-box">
+        💡 <strong>Yeh table manually manage nahi karna padta.</strong> Jab bhi koi data row save hoti hai aur usme koi SELECT column ho jiska source MASTER hai — toh automatically ek reference record ban jaata hai. Yeh cascading dropdowns aur fast filtering ke liye use hota hai.
+      </div>
+
+      <!-- Stats -->
+      <div class="grid-3">
+        <div class="stat-card">
+          <div class="stat-val">7,48,500</div>
+          <div class="stat-label">🔗 Total References</div>
+          <div class="stat-sub">Across all masters</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">5</div>
+          <div class="stat-label">📊 Reference Types</div>
+          <div class="stat-sub">country→state, state→district, district→block, block→village, district→division</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">3</div>
+          <div class="stat-label">⚠ Orphan References</div>
+          <div class="stat-sub" style="color:#dc2626">from_data_id deleted — cleanup needed</div>
+        </div>
+      </div>
+
+      <!-- Reference Chain Diagram -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🌳 Geographic Reference Chain</div>
+            <div class="card-sub">Country → State → District → Block → Village hierarchy</div>
+          </div>
+        </div>
+        <div class="chain-diagram">
+          <div class="chain">
+            <div class="chain-node">
+              <div class="chain-node-icon">🌍</div>
+              <div class="chain-node-title">Country</div>
+              <div class="chain-node-count">195 rows</div>
+            </div>
+            <div class="chain-arrow">
+              <div style="display:flex;align-items:center;gap:0">
+                <div class="chain-arrow-line"></div>
+                <span style="color:#8b5cf6;font-size:16px">→</span>
+              </div>
+              <div class="chain-key">country_id</div>
+            </div>
+            <div class="chain-node active">
+              <div class="chain-node-icon">🗺</div>
+              <div class="chain-node-title">State</div>
+              <div class="chain-node-count">36 rows</div>
+            </div>
+            <div class="chain-arrow">
+              <div style="display:flex;align-items:center;gap:0">
+                <div class="chain-arrow-line"></div>
+                <span style="color:#8b5cf6;font-size:16px">→</span>
+              </div>
+              <div class="chain-key">state_id</div>
+            </div>
+            <div class="chain-node active">
+              <div class="chain-node-icon">🏘</div>
+              <div class="chain-node-title">District</div>
+              <div class="chain-node-count">750 rows</div>
+            </div>
+            <div class="chain-arrow">
+              <div style="display:flex;align-items:center;gap:0">
+                <div class="chain-arrow-line"></div>
+                <span style="color:#8b5cf6;font-size:16px">→</span>
+              </div>
+              <div class="chain-key">district_id</div>
+            </div>
+            <div class="chain-node">
+              <div class="chain-node-icon">🏙</div>
+              <div class="chain-node-title">Block</div>
+              <div class="chain-node-count">6,800 rows</div>
+            </div>
+            <div class="chain-arrow">
+              <div style="display:flex;align-items:center;gap:0">
+                <div class="chain-arrow-line"></div>
+                <span style="color:#8b5cf6;font-size:16px">→</span>
+              </div>
+              <div class="chain-key">block_id</div>
+            </div>
+            <div class="chain-node">
+              <div class="chain-node-icon">🏡</div>
+              <div class="chain-node-title">Village</div>
+              <div class="chain-node-count">6,40,000 rows</div>
+            </div>
+          </div>
+
+          <div style="font-size:12px;color:#64748b;margin-top:8px;background:#f8fafc;border-radius:8px;padding:10px 14px">
+            <strong style="color:#374151">Cascading Dropdown Logic:</strong><br>
+            Jab user "State: Uttarakhand" select karta hai →
+            <code style="font-size:11px;background:#e2e8f0;padding:1px 5px;border-radius:3px">SELECT * FROM master_data_reference WHERE to_data_id = [uttarakhand_id] AND column_key = 'state_id'</code>
+            → sirf Uttarakhand ke 13 districts milenge
+          </div>
+        </div>
+      </div>
+
+      <!-- Reference Table -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🔗 master_data_reference Records</div>
+            <div class="card-sub">Filtered: District → State references · 750 records</div>
+          </div>
+          <button class="btn btn-ghost btn-sm">🧹 Cleanup Orphans</button>
+        </div>
+
+        <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;display:flex;gap:10px">
+          <div class="search-box">
+            <span style="color:#94a3b8">🔍</span>
+            <input placeholder="Search by name...">
+          </div>
+          <select class="filter-select">
+            <option>All Reference Types</option>
+            <option selected>District → State (state_id)</option>
+            <option>Block → District (district_id)</option>
+            <option>State → Country (country_id)</option>
+          </select>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Ref ID</th>
+              <th>From (Child)</th>
+              <th>Column Key</th>
+              <th>To (Parent)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code style="font-size:11px;color:#94a3b8">REF-001</code></td>
+              <td>
+                <div class="from-node">
+                  🏘 Dehradun
+                </div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 1 (DISTRICT)</div>
+              </td>
+              <td><span class="key-pill">state_id</span></td>
+              <td>
+                <div class="to-node">
+                  🗺 Uttarakhand
+                </div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 5 (STATE)</div>
+              </td>
+              <td><span class="badge badge-green">✓ Valid</span></td>
+            </tr>
+            <tr>
+              <td><code style="font-size:11px;color:#94a3b8">REF-002</code></td>
+              <td>
+                <div class="from-node">🏘 Haridwar</div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 2 (DISTRICT)</div>
+              </td>
+              <td><span class="key-pill">state_id</span></td>
+              <td>
+                <div class="to-node">🗺 Uttarakhand</div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 5 (STATE)</div>
+              </td>
+              <td><span class="badge badge-green">✓ Valid</span></td>
+            </tr>
+            <tr>
+              <td><code style="font-size:11px;color:#94a3b8">REF-003</code></td>
+              <td>
+                <div class="from-node">🏘 Nainital</div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 3 (DISTRICT)</div>
+              </td>
+              <td><span class="key-pill">state_id</span></td>
+              <td>
+                <div class="to-node">🗺 Uttarakhand</div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 5 (STATE)</div>
+              </td>
+              <td><span class="badge badge-green">✓ Valid</span></td>
+            </tr>
+            <tr>
+              <td><code style="font-size:11px;color:#94a3b8">REF-004</code></td>
+              <td>
+                <div class="from-node">🏘 Almora</div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 4 (DISTRICT)</div>
+              </td>
+              <td><span class="key-pill">state_id</span></td>
+              <td>
+                <div class="to-node">🗺 Uttarakhand</div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 5 (STATE)</div>
+              </td>
+              <td><span class="badge badge-green">✓ Valid</span></td>
+            </tr>
+            <tr>
+              <td><code style="font-size:11px;color:#94a3b8">REF-005</code></td>
+              <td>
+                <div class="from-node">🏘 New Delhi</div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 5 (DISTRICT)</div>
+              </td>
+              <td><span class="key-pill">state_id</span></td>
+              <td>
+                <div class="to-node">🗺 Delhi</div>
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">master_data.id = 8 (STATE)</div>
+              </td>
+              <td><span class="badge badge-green">✓ Valid</span></td>
+            </tr>
+            <tr style="background:#fffbeb">
+              <td><code style="font-size:11px;color:#94a3b8">REF-751</code></td>
+              <td>
+                <div class="from-node" style="background:#fee2e2;color:#dc2626;border:none">⚠ [Deleted Row]</div>
+                <div style="font-size:10px;color:#dc2626;margin-top:2px">master_data.id = 751 — NOT FOUND</div>
+              </td>
+              <td><span class="key-pill">state_id</span></td>
+              <td>
+                <div class="to-node">🗺 Uttarakhand</div>
+              </td>
+              <td><span class="badge" style="background:#fee2e2;color:#dc2626">⚠ Orphan</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <span class="page-info">Showing 1–25 of 750</span>
+          <button class="page-btn">←</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span style="font-size:13px;color:#94a3b8">...</span>
+          <button class="page-btn">30</button>
+          <button class="page-btn">→</button>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <div class="card">
+        <div class="card-header"><div class="card-title">⚙ Yeh kaise kaam karta hai — Backend Logic</div></div>
+        <div style="padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">On Data Save</div>
+            <div style="font-size:12px;color:#374151;line-height:1.8;background:#f8fafc;border-radius:8px;padding:12px">
+              1. Data row save hoti hai master_data mein<br>
+              2. Backend JSONB data mein SELECT columns scan karta hai<br>
+              3. Jo column ka options.source = "MASTER" ho, us value ke liye master_data_reference mein ek record INSERT karta hai<br>
+              4. UNIQUE constraint duplicate prevent karta hai
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">On Cascading Dropdown</div>
+            <div style="font-size:12px;color:#374151;line-height:1.8;background:#f8fafc;border-radius:8px;padding:12px">
+              User state = "Uttarakhand" (id=5) select karta hai →<br>
+              <code style="font-size:10px;display:block;margin-top:4px;background:#e2e8f0;padding:4px;border-radius:4px">
+              SELECT from_data_id<br>
+              FROM master_data_reference<br>
+              WHERE to_data_id = 5<br>
+              AND column_key = 'state_id'
+              </code>
+              → Sirf Uttarakhand ke districts milenge dropdown mein
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

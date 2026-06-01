@@ -1,0 +1,458 @@
+{
+  "id": 11,
+  "uid": "716b3599-94f0-4277-b5fe-8654f6aede96",
+  "tenantId": 6,
+  "departmentId": 16,
+  "subDepartmentId": null,
+  "serviceId": "12222.0",
+  "projectId": null,
+  "moduleId": null,
+  "code": "WF_AGENT_REG",
+  "name": "Agent Registration",
+  "description": "Workflow for Real Estate Agent Registration",
+  "version": 1,
+  "status": "PUBLISHED",
+  "createdBy": null,
+  "updatedBy": null,
+  "createdAt": "2026-04-21T11:46:46.022Z",
+  "updatedAt": "2026-04-21T11:46:46.022Z",
+  "processes": [
+    {
+      "id": 1,
+      "uid": "85b4492f-0947-4a7d-8e7d-fbdb2fabc5fa",
+      "workflowDefId": 11,
+      "processCode": "P_001",
+      "stepOrder": 1,
+      "name": "Submission",
+      "description": null,
+      "nodeType": "START",
+      "assigneeType": "ROLE",
+      "roleId": 210,
+      "userId": null,
+      "slaHours": 0,
+      "slaBreachAction": "NONE",
+      "positionX": 100,
+      "positionY": 200,
+      "canVerifyDocument": false,
+      "canRevertToApplicant": false,
+      "formTypeId": null,
+      "createdAt": "2026-04-21T11:46:46.022Z",
+      "updatedAt": "2026-04-21T11:46:46.022Z",
+      "actions": [
+        {
+          "id": 1,
+          "uid": "2838a5e4-e4bc-4190-86fb-8f3d5fe9d3b5",
+          "processId": 1,
+          "actionCode": "FORWARD",
+          "actionLabel": "Submit In-System Registration",
+          "requiresComment": false,
+          "requiresDocument": false,
+          "requiresReason": false,
+          "displayOrder": 0,
+          "createdAt": "2026-04-21T11:46:46.022Z",
+          "transitions": [
+            {
+              "id": 1,
+              "uid": "16ae079f-19ff-4798-8711-2f2686802643",
+              "sourceProcessId": 1,
+              "targetProcessId": 2,
+              "actionId": 1,
+              "conditionJson": null,
+              "conditionLabel": null,
+              "priority": 0,
+              "label": "Forward to Legal Officer",
+              "createdAt": "2026-04-21T11:46:46.022Z"
+            }
+          ]
+        }
+      ],
+      "outgoingTransitions": [
+        {
+          "id": 1,
+          "uid": "16ae079f-19ff-4798-8711-2f2686802643",
+          "sourceProcessId": 1,
+          "targetProcessId": 2,
+          "actionId": 1,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Forward to Legal Officer",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        }
+      ],
+      "incomingTransitions": []
+    },
+    {
+      "id": 2,
+      "uid": "12abd2fd-af1f-4a04-be4a-854768a36f3e",
+      "workflowDefId": 11,
+      "processCode": "P_002",
+      "stepOrder": 2,
+      "name": "Legal Scrutiny",
+      "description": null,
+      "nodeType": "STANDARD",
+      "assigneeType": "ROLE",
+      "roleId": 211,
+      "userId": null,
+      "slaHours": 0,
+      "slaBreachAction": "NONE",
+      "positionX": 450,
+      "positionY": 200,
+      "canVerifyDocument": true,
+      "canRevertToApplicant": false,
+      "formTypeId": 2,
+      "createdAt": "2026-04-21T11:46:46.022Z",
+      "updatedAt": "2026-04-21T11:46:46.022Z",
+      "actions": [
+        {
+          "id": 2,
+          "uid": "774fd6ef-1005-4ada-b587-4ca1e004b336",
+          "processId": 2,
+          "actionCode": "FORWARD",
+          "actionLabel": "Scrutinize & Forward",
+          "requiresComment": false,
+          "requiresDocument": false,
+          "requiresReason": false,
+          "displayOrder": 0,
+          "createdAt": "2026-04-21T11:46:46.022Z",
+          "transitions": [
+            {
+              "id": 2,
+              "uid": "c7196c36-5334-4d0f-bf4b-dce1c8eb9eb3",
+              "sourceProcessId": 2,
+              "targetProcessId": 3,
+              "actionId": 2,
+              "conditionJson": null,
+              "conditionLabel": null,
+              "priority": 0,
+              "label": "Forward to Authority",
+              "createdAt": "2026-04-21T11:46:46.022Z"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "uid": "7247c286-28bb-4fe4-a89d-c0da6dffae71",
+          "processId": 2,
+          "actionCode": "REVERT",
+          "actionLabel": "Return to Agent for observations",
+          "requiresComment": false,
+          "requiresDocument": false,
+          "requiresReason": false,
+          "displayOrder": 1,
+          "createdAt": "2026-04-21T11:46:46.022Z",
+          "transitions": [
+            {
+              "id": 3,
+              "uid": "e177eb64-ad68-4f63-9797-22b313110b9f",
+              "sourceProcessId": 2,
+              "targetProcessId": 4,
+              "actionId": 3,
+              "conditionJson": null,
+              "conditionLabel": null,
+              "priority": 0,
+              "label": "Return for Clarification",
+              "createdAt": "2026-04-21T11:46:46.022Z"
+            }
+          ]
+        }
+      ],
+      "outgoingTransitions": [
+        {
+          "id": 2,
+          "uid": "c7196c36-5334-4d0f-bf4b-dce1c8eb9eb3",
+          "sourceProcessId": 2,
+          "targetProcessId": 3,
+          "actionId": 2,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Forward to Authority",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        },
+        {
+          "id": 3,
+          "uid": "e177eb64-ad68-4f63-9797-22b313110b9f",
+          "sourceProcessId": 2,
+          "targetProcessId": 4,
+          "actionId": 3,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Return for Clarification",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        }
+      ],
+      "incomingTransitions": [
+        {
+          "id": 1,
+          "uid": "16ae079f-19ff-4798-8711-2f2686802643",
+          "sourceProcessId": 1,
+          "targetProcessId": 2,
+          "actionId": 1,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Forward to Legal Officer",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        },
+        {
+          "id": 6,
+          "uid": "35f9d81d-3a14-44a6-a482-606c326b590d",
+          "sourceProcessId": 4,
+          "targetProcessId": 2,
+          "actionId": 6,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Resubmit to Legal Officer",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "uid": "1ed60988-5c72-434c-bfcd-a1998afb8318",
+      "workflowDefId": 11,
+      "processCode": "P_003",
+      "stepOrder": 3,
+      "name": "Authority Decision",
+      "description": null,
+      "nodeType": "STANDARD",
+      "assigneeType": "ROLE",
+      "roleId": 212,
+      "userId": null,
+      "slaHours": 0,
+      "slaBreachAction": "NONE",
+      "positionX": 800,
+      "positionY": 200,
+      "canVerifyDocument": false,
+      "canRevertToApplicant": false,
+      "formTypeId": 2,
+      "createdAt": "2026-04-21T11:46:46.022Z",
+      "updatedAt": "2026-04-21T11:46:46.022Z",
+      "actions": [
+        {
+          "id": 4,
+          "uid": "4b51bc67-20f2-4c31-8e52-45328273fe32",
+          "processId": 3,
+          "actionCode": "APPROVE",
+          "actionLabel": "Approve Registration",
+          "requiresComment": false,
+          "requiresDocument": false,
+          "requiresReason": false,
+          "displayOrder": 0,
+          "createdAt": "2026-04-21T11:46:46.022Z",
+          "transitions": [
+            {
+              "id": 4,
+              "uid": "98807b5b-3b6c-4a57-ac46-129ea9e242e6",
+              "sourceProcessId": 3,
+              "targetProcessId": 5,
+              "actionId": 4,
+              "conditionJson": null,
+              "conditionLabel": null,
+              "priority": 0,
+              "label": "Approve",
+              "createdAt": "2026-04-21T11:46:46.022Z"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "uid": "ad9800e2-652f-44ac-ab88-8e8fd7c1ef4f",
+          "processId": 3,
+          "actionCode": "REJECT",
+          "actionLabel": "Reject Registration",
+          "requiresComment": false,
+          "requiresDocument": false,
+          "requiresReason": false,
+          "displayOrder": 1,
+          "createdAt": "2026-04-21T11:46:46.022Z",
+          "transitions": [
+            {
+              "id": 5,
+              "uid": "1f7d7c42-fa2a-40fe-8bcf-941c4bd751a6",
+              "sourceProcessId": 3,
+              "targetProcessId": 5,
+              "actionId": 5,
+              "conditionJson": null,
+              "conditionLabel": null,
+              "priority": 0,
+              "label": "Reject",
+              "createdAt": "2026-04-21T11:46:46.022Z"
+            }
+          ]
+        }
+      ],
+      "outgoingTransitions": [
+        {
+          "id": 4,
+          "uid": "98807b5b-3b6c-4a57-ac46-129ea9e242e6",
+          "sourceProcessId": 3,
+          "targetProcessId": 5,
+          "actionId": 4,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Approve",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        },
+        {
+          "id": 5,
+          "uid": "1f7d7c42-fa2a-40fe-8bcf-941c4bd751a6",
+          "sourceProcessId": 3,
+          "targetProcessId": 5,
+          "actionId": 5,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Reject",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        }
+      ],
+      "incomingTransitions": [
+        {
+          "id": 2,
+          "uid": "c7196c36-5334-4d0f-bf4b-dce1c8eb9eb3",
+          "sourceProcessId": 2,
+          "targetProcessId": 3,
+          "actionId": 2,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Forward to Authority",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "uid": "a3ce21b8-190e-4420-bfbb-b2feb81752c6",
+      "workflowDefId": 11,
+      "processCode": "P_004",
+      "stepOrder": 4,
+      "name": "Resubmission",
+      "description": null,
+      "nodeType": "STANDARD",
+      "assigneeType": "ROLE",
+      "roleId": 210,
+      "userId": null,
+      "slaHours": 0,
+      "slaBreachAction": "NONE",
+      "positionX": 450,
+      "positionY": 400,
+      "canVerifyDocument": false,
+      "canRevertToApplicant": false,
+      "formTypeId": 2,
+      "createdAt": "2026-04-21T11:46:46.022Z",
+      "updatedAt": "2026-04-21T11:46:46.022Z",
+      "actions": [
+        {
+          "id": 6,
+          "uid": "a2d3c7f4-68f8-4a89-978b-dea0f1ab39a5",
+          "processId": 4,
+          "actionCode": "FORWARD",
+          "actionLabel": "Resubmit Application",
+          "requiresComment": false,
+          "requiresDocument": false,
+          "requiresReason": false,
+          "displayOrder": 0,
+          "createdAt": "2026-04-21T11:46:46.022Z",
+          "transitions": [
+            {
+              "id": 6,
+              "uid": "35f9d81d-3a14-44a6-a482-606c326b590d",
+              "sourceProcessId": 4,
+              "targetProcessId": 2,
+              "actionId": 6,
+              "conditionJson": null,
+              "conditionLabel": null,
+              "priority": 0,
+              "label": "Resubmit to Legal Officer",
+              "createdAt": "2026-04-21T11:46:46.022Z"
+            }
+          ]
+        }
+      ],
+      "outgoingTransitions": [
+        {
+          "id": 6,
+          "uid": "35f9d81d-3a14-44a6-a482-606c326b590d",
+          "sourceProcessId": 4,
+          "targetProcessId": 2,
+          "actionId": 6,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Resubmit to Legal Officer",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        }
+      ],
+      "incomingTransitions": [
+        {
+          "id": 3,
+          "uid": "e177eb64-ad68-4f63-9797-22b313110b9f",
+          "sourceProcessId": 2,
+          "targetProcessId": 4,
+          "actionId": 3,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Return for Clarification",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "uid": "9934b9aa-6288-4635-876e-22323dea7490",
+      "workflowDefId": 11,
+      "processCode": "P_END",
+      "stepOrder": 5,
+      "name": "End",
+      "description": null,
+      "nodeType": "END",
+      "assigneeType": "ROLE",
+      "roleId": null,
+      "userId": null,
+      "slaHours": 0,
+      "slaBreachAction": "NONE",
+      "positionX": 1150,
+      "positionY": 200,
+      "canVerifyDocument": false,
+      "canRevertToApplicant": false,
+      "formTypeId": null,
+      "createdAt": "2026-04-21T11:46:46.022Z",
+      "updatedAt": "2026-04-21T11:46:46.022Z",
+      "actions": [],
+      "outgoingTransitions": [],
+      "incomingTransitions": [
+        {
+          "id": 4,
+          "uid": "98807b5b-3b6c-4a57-ac46-129ea9e242e6",
+          "sourceProcessId": 3,
+          "targetProcessId": 5,
+          "actionId": 4,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Approve",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        },
+        {
+          "id": 5,
+          "uid": "1f7d7c42-fa2a-40fe-8bcf-941c4bd751a6",
+          "sourceProcessId": 3,
+          "targetProcessId": 5,
+          "actionId": 5,
+          "conditionJson": null,
+          "conditionLabel": null,
+          "priority": 0,
+          "label": "Reject",
+          "createdAt": "2026-04-21T11:46:46.022Z"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+export const subSectorsData = [
+  {
+    name: "Automobiles",
+    isActive: true,
+    effectiveFrom: new Date("2025-11-11"),
+    effectiveTo: new Date("2040-11-11"),
+    sectorId: 1,
+  },
+  {
+    name: "Auto Components",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-05"),
+    effectiveTo: new Date("2040-12-05"),
+    sectorId: 1,
+  },
+  {
+    name: "Steel, Aluminium, coal to poly generation industries and other mineral based industries except cement",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-05"),
+    effectiveTo: new Date("2040-12-05"),
+    sectorId: 1,
+  },
+  {
+    name: "Ancillary and down-stream industries",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-05"),
+    effectiveTo: new Date("2040-12-05"),
+    sectorId: 1,
+  },
+  {
+    name: "Agro-processing / food processing, biotechnology / pharmaceuticals",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-05"),
+    effectiveTo: new Date("2040-12-05"),
+    sectorId: 1,
+  },
+  {
+    name: "Textile/ reeling/ spinning/ weaving/ garmenting projects / apparel",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-05"),
+    effectiveTo: new Date("2040-12-05"),
+    sectorId: 1,
+  },
+  {
+    name: "Information Technology (IT-ITeS industries",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-05"),
+    effectiveTo: new Date("2040-12-05"),
+    sectorId: 1,
+  },
+  {
+    name: "Cement",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-05"),
+    effectiveTo: new Date("2040-12-05"),
+    sectorId: 1,
+  },
+  {
+    name: "Others",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-05"),
+    effectiveTo: new Date("2040-12-05"),
+    sectorId: 1,
+  },
+
+];

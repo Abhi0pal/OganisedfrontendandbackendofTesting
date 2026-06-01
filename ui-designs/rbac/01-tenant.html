@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tenant Management</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0;display:flex;flex-direction:column}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#6366f1;font-weight:600;border-left:2px solid #6366f1}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:24px 28px}
+  .breadcrumb{font-size:12px;color:#94a3b8;margin-bottom:18px}
+  .breadcrumb a{color:#6366f1;text-decoration:none}
+  .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+  .page-title{font-size:22px;font-weight:700}
+  .page-sub{font-size:13px;color:#64748b;margin-top:2px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+  .search-box{position:relative;flex:1;min-width:200px}
+  .search-box input{width:100%;padding:8px 12px 8px 34px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;background:#fff;outline:none}
+  .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:14px}
+  .select-filter{padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;background:#fff;color:#374151;outline:none}
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+  .stat-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px}
+  .stat-val{font-size:26px;font-weight:800;color:#0f172a}
+  .stat-label{font-size:12px;color:#64748b;margin-top:2px}
+  .stat-card.blue .stat-val{color:#2563eb}
+  .stat-card.green .stat-val{color:#16a34a}
+  .stat-card.orange .stat-val{color:#d97706}
+  .stat-card.purple .stat-val{color:#7c3aed}
+  .table-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+  .table-head{padding:14px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+  .table-head-title{font-size:14px;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:#f8fafc;padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #e2e8f0}
+  td{padding:13px 16px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#fafafa}
+  .tenant-cell{display:flex;align-items:center;gap:10px}
+  .tenant-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .tenant-name{font-weight:600;color:#0f172a}
+  .tenant-slug{font-size:11px;font-family:monospace;color:#64748b;background:#f1f5f9;padding:1px 6px;border-radius:4px}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-red{background:#fee2e2;color:#dc2626}
+  .badge-blue{background:#dbeafe;color:#1d4ed8}
+  .badge-purple{background:#ede9fe;color:#5b21b6}
+  .badge-orange{background:#ffedd5;color:#c2410c}
+  .badge-gray{background:#f1f5f9;color:#374151}
+  .action-btns{display:flex;gap:6px}
+  .action-btn{width:30px;height:30px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:#64748b}
+  .action-btn:hover{background:#f1f5f9}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100}
+  .modal{background:#fff;border-radius:14px;width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+  .modal-header{padding:20px 24px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between}
+  .modal-title{font-size:16px;font-weight:700}
+  .modal-close{width:30px;height:30px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:#64748b}
+  .modal-body{padding:24px}
+  .modal-footer{padding:16px 24px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:10px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .form-group{margin-bottom:16px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:6px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:9px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none;color:#1e293b}
+  .form-control:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:4px}
+  .color-preview{width:34px;height:34px;border-radius:6px;border:1px solid #e2e8f0;flex-shrink:0}
+  .color-row{display:flex;gap:8px;align-items:center}
+  .section-divider{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin:20px 0 12px;padding-bottom:6px;border-bottom:1px solid #f1f5f9}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f8fafc}
+  .toggle-label{font-size:13px;font-weight:500;color:#374151}
+  .toggle-desc{font-size:11px;color:#94a3b8;margin-top:2px}
+  .toggle{width:40px;height:22px;background:#e2e8f0;border-radius:11px;position:relative;cursor:pointer;flex-shrink:0}
+  .toggle.on{background:#6366f1}
+  .toggle::after{content:'';width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:.2s}
+  .toggle.on::after{left:21px}
+  .plan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:6px}
+  .plan-card{border:2px solid #e2e8f0;border-radius:8px;padding:12px;cursor:pointer;text-align:center}
+  .plan-card.selected{border-color:#6366f1;background:#eef2ff}
+  .plan-name{font-size:13px;font-weight:700;color:#374151}
+  .plan-card.selected .plan-name{color:#4f46e5}
+  .plan-desc{font-size:11px;color:#94a3b8;margin-top:3px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">🛡 RBAC Admin</div>
+      <div class="sidebar-logo-sub">Platform Control Panel</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Core</div>
+      <a class="nav-item active" href="01-tenant.html">🏛 Tenants</a>
+      <a class="nav-item" href="02-roles.html">👑 Roles</a>
+      <a class="nav-item" href="03-modules.html">📁 Modules</a>
+      <a class="nav-item" href="04-permissions.html">🔐 Permissions</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Users</div>
+      <a class="nav-item" href="05-assignment.html">👤 Assignments</a>
+      <a class="nav-item" href="06-transfer.html">🔄 Transfers</a>
+      <a class="nav-item" href="07-override.html">⚡ Overrides</a>
+      <a class="nav-item" href="08-projects.html">📋 Projects</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Docs</div>
+      <a class="nav-item" href="documentation.html">📖 Documentation</a>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Tenant Management</div>
+      <div class="avatar">A</div>
+    </div>
+
+    <div class="content">
+      <div class="breadcrumb"><a href="index.html">Home</a> / Tenants</div>
+
+      <div class="page-header">
+        <div>
+          <div class="page-title">Tenants</div>
+          <div class="page-sub">Government departments aur organizations manage karo</div>
+        </div>
+        <button class="btn btn-primary">＋ Add Tenant</button>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card blue"><div class="stat-val">12</div><div class="stat-label">Total Tenants</div></div>
+        <div class="stat-card green"><div class="stat-val">10</div><div class="stat-label">Active</div></div>
+        <div class="stat-card orange"><div class="stat-val">2</div><div class="stat-label">Suspended</div></div>
+        <div class="stat-card purple"><div class="stat-val">4</div><div class="stat-label">Enterprise Plan</div></div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filters">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Search tenant name or slug...">
+        </div>
+        <select class="select-filter"><option>All Plans</option><option>FREE</option><option>STANDARD</option><option>ENTERPRISE</option></select>
+        <select class="select-filter"><option>All Status</option><option>Active</option><option>Suspended</option></select>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-wrap">
+        <div class="table-head">
+          <div class="table-head-title">All Tenants (12)</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Tenant</th>
+              <th>Slug / Domain</th>
+              <th>Plan</th>
+              <th>Users</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="tenant-cell"><div class="tenant-icon" style="background:#eef2ff">🏛</div><div><div class="tenant-name">Single Window Clearance System</div><div style="font-size:11px;color:#94a3b8">Directorate of Industries, Uttarakhand</div></div></div></td>
+              <td><div><span class="tenant-slug">swcs</span></div><div style="font-size:11px;color:#94a3b8;margin-top:3px">swcs.uk.gov.in</div></td>
+              <td><span class="badge badge-purple">ENTERPRISE</span></td>
+              <td>248</td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td style="font-size:12px;color:#64748b">Jan 2024</td>
+              <td><div class="action-btns"><div class="action-btn">✏</div><div class="action-btn">⚙</div><div class="action-btn">🗑</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="tenant-cell"><div class="tenant-icon" style="background:#f0fdf4">🌲</div><div><div class="tenant-name">Forest Department</div><div style="font-size:11px;color:#94a3b8">Forest Dept, Uttarakhand</div></div></div></td>
+              <td><div><span class="tenant-slug">forest</span></div><div style="font-size:11px;color:#94a3b8;margin-top:3px">forest.uk.gov.in</div></td>
+              <td><span class="badge badge-blue">STANDARD</span></td>
+              <td>86</td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td style="font-size:12px;color:#64748b">Mar 2024</td>
+              <td><div class="action-btns"><div class="action-btn">✏</div><div class="action-btn">⚙</div><div class="action-btn">🗑</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="tenant-cell"><div class="tenant-icon" style="background:#fffbeb">🏙</div><div><div class="tenant-name">Urban Development Authority</div><div style="font-size:11px;color:#94a3b8">UDA, Uttarakhand</div></div></div></td>
+              <td><div><span class="tenant-slug">uda</span></div><div style="font-size:11px;color:#94a3b8;margin-top:3px">—</div></td>
+              <td><span class="badge badge-gray">FREE</span></td>
+              <td>12</td>
+              <td><span class="badge badge-red">Suspended</span></td>
+              <td style="font-size:12px;color:#64748b">Aug 2024</td>
+              <td><div class="action-btns"><div class="action-btn">✏</div><div class="action-btn">⚙</div><div class="action-btn">🗑</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="tenant-cell"><div class="tenant-icon" style="background:#fdf4ff">🏥</div><div><div class="tenant-name">Health Department</div><div style="font-size:11px;color:#94a3b8">Health Dept, Uttarakhand</div></div></div></td>
+              <td><div><span class="tenant-slug">health</span></div><div style="font-size:11px;color:#94a3b8;margin-top:3px">health.uk.gov.in</div></td>
+              <td><span class="badge badge-blue">STANDARD</span></td>
+              <td>134</td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td style="font-size:12px;color:#64748b">Jun 2024</td>
+              <td><div class="action-btns"><div class="action-btn">✏</div><div class="action-btn">⚙</div><div class="action-btn">🗑</div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD TENANT MODAL -->
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">➕ New Tenant</div>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tenant Name <span>*</span></label>
+          <input class="form-control" type="text" placeholder="Single Window Clearance System">
+          <div class="form-hint">Full display name — portal header mein dikhega</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slug <span>*</span></label>
+          <input class="form-control" type="text" placeholder="swcs" style="font-family:monospace">
+          <div class="form-hint">URL: <strong>swcs</strong>.platform.gov.in — lowercase, no spaces</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Custom Domain</label>
+        <input class="form-control" type="text" placeholder="swcs.uk.gov.in">
+        <div class="form-hint">Optional — NULL rakho agar sirf slug se kaam chalega</div>
+      </div>
+
+      <div class="section-divider">Branding</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Logo URL</label>
+          <input class="form-control" type="text" placeholder="/uploads/logos/swcs.png">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Primary Color</label>
+          <div class="color-row">
+            <input class="form-control" type="text" placeholder="#1a5276" style="font-family:monospace">
+            <div class="color-preview" style="background:#1a5276"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider">Plan</div>
+      <div class="plan-grid">
+        <div class="plan-card">
+          <div class="plan-name">FREE</div>
+          <div class="plan-desc">Basic features<br>Up to 20 users</div>
+        </div>
+        <div class="plan-card selected">
+          <div class="plan-name">STANDARD</div>
+          <div class="plan-desc">Full features<br>Up to 200 users</div>
+        </div>
+        <div class="plan-card">
+          <div class="plan-name">ENTERPRISE</div>
+          <div class="plan-desc">Custom modules<br>Unlimited users</div>
+        </div>
+      </div>
+
+      <div class="section-divider">Settings</div>
+      <div class="toggle-row">
+        <div><div class="toggle-label">Investor Portal</div><div class="toggle-desc">Investor-facing portal enable karo</div></div>
+        <div class="toggle on"></div>
+      </div>
+      <div class="toggle-row">
+        <div><div class="toggle-label">Allow Custom Modules</div><div class="toggle-desc">Tenant-specific menus add kar sakta hai</div></div>
+        <div class="toggle"></div>
+      </div>
+      <div class="toggle-row">
+        <div><div class="toggle-label">is_active</div><div class="toggle-desc">false = tenant suspend ho jaata hai</div></div>
+        <div class="toggle on"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-primary">Save Tenant</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

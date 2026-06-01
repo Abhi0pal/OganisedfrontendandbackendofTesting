@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Master Data Entry</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#8b5cf6;font-weight:600;border-left:2px solid #8b5cf6}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .topbar-right{display:flex;align-items:center;gap:10px}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#8b5cf6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:0;display:flex;flex:1;overflow:hidden}
+  .left-col{width:240px;flex-shrink:0;background:#fff;border-right:1px solid #e2e8f0;overflow-y:auto}
+  .right-col{flex:1;overflow-y:auto;padding:20px 22px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#7c3aed;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-green{background:#16a34a;color:#fff}
+  .btn-sm{padding:5px 10px;font-size:11px}
+  .left-header{padding:12px 16px;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#374151;background:#f8fafc}
+  .master-item{padding:11px 16px;border-bottom:1px solid #f8fafc;cursor:pointer;display:flex;align-items:center;gap:10px}
+  .master-item:hover{background:#fafafa}
+  .master-item.selected{background:#ede9fe;border-left:2px solid #8b5cf6}
+  .master-icon{font-size:15px;width:28px;height:28px;background:#f1f5f9;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .master-item.selected .master-icon{background:#ddd6fe}
+  .master-nm{font-size:13px;font-weight:600}
+  .master-cd{font-size:10px;color:#94a3b8;margin-top:1px;font-family:monospace}
+  .master-count{font-size:10px;color:#7c3aed;font-weight:600;margin-top:1px}
+  .badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-red{background:#fee2e2;color:#dc2626}
+  .badge-blue{background:#dbeafe;color:#1d4ed8}
+  .badge-gray{background:#f1f5f9;color:#64748b}
+  .step-indicator{background:#ede9fe;border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:13px;color:#6d28d9;font-weight:600;flex-wrap:wrap}
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:18px}
+  .card-header{padding:12px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .card-title{font-size:14px;font-weight:700}
+  .card-meta{font-size:11px;color:#64748b;margin-top:2px}
+  .toolbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .search-box{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:7px 12px;flex:1;max-width:260px}
+  .search-box input{border:none;outline:none;font-size:13px;width:100%}
+  .filter-select{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:7px 12px;font-size:13px;color:#374151;outline:none}
+  table{width:100%;border-collapse:collapse}
+  th{background:#f8fafc;padding:9px 13px;font-size:11px;font-weight:700;color:#64748b;text-align:left;border-bottom:1px solid #e2e8f0;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+  td{padding:10px 13px;font-size:13px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+  tr:hover td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .data-id{font-family:monospace;font-size:11px;color:#94a3b8;background:#f8fafc;padding:2px 6px;border-radius:4px}
+  .data-name{font-weight:600;color:#0f172a}
+  .data-code{font-size:11px;color:#64748b;margin-top:2px;font-family:monospace}
+  .ref-tag{display:inline-flex;align-items:center;gap:4px;background:#ede9fe;color:#6d28d9;border-radius:6px;padding:3px 8px;font-size:12px;font-weight:600}
+  .action-btns{display:flex;gap:5px}
+  .icon-btn{width:26px;height:26px;border-radius:5px;border:1px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px}
+  .import-zone{border:2px dashed #c4b5fd;border-radius:10px;padding:24px;text-align:center;background:#faf5ff;margin-bottom:18px}
+  .import-zone-title{font-size:14px;font-weight:700;color:#6d28d9;margin-bottom:6px}
+  .import-zone-sub{font-size:12px;color:#64748b}
+  .json-preview{background:#0f172a;border-radius:8px;padding:12px 14px;font-family:monospace;font-size:11px;color:#e2e8f0;margin-top:8px;line-height:1.7}
+  .json-key{color:#93c5fd}
+  .json-val{color:#86efac}
+  .json-num{color:#fde68a}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-start;justify-content:center;padding-top:50px;z-index:100}
+  .modal{background:#fff;border-radius:14px;width:520px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+  .modal-header{padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff}
+  .modal-title{font-size:15px;font-weight:700}
+  .modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
+  .modal-body{padding:18px 20px}
+  .form-group{margin-bottom:14px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
+  .form-control:focus{border-color:#8b5cf6}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .dynamic-form-note{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:12px;color:#15803d;margin-bottom:14px}
+  .modal-footer{padding:13px 20px;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:#fff}
+  .divider-label{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;padding:6px 13px;background:#f8fafc;border-bottom:1px solid #f1f5f9}
+  .pagination{display:flex;align-items:center;gap:6px;padding:12px 16px;border-top:1px solid #f1f5f9;justify-content:flex-end}
+  .page-btn{width:28px;height:28px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;font-weight:600}
+  .page-btn.active{background:#7c3aed;color:#fff;border-color:#7c3aed}
+  .page-info{font-size:12px;color:#64748b;margin-right:8px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">⚙ Master Mgmt</div>
+      <div class="sidebar-logo-sub">Dynamic Data Configuration</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Setup Guide</div>
+      <a class="nav-item" href="start.html">📋 Step-by-Step Guide</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Modules</div>
+      <a class="nav-item" href="01-definition.html">📦 Master Definition</a>
+      <a class="nav-item" href="02-columns.html">📐 Column Definition</a>
+      <a class="nav-item active" href="03-data.html">🗄 Master Data</a>
+      <a class="nav-item" href="04-reference.html">🔗 Data References</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Master Data</div>
+      <div class="topbar-right">
+        <button class="btn btn-ghost btn-sm">📥 Import CSV</button>
+        <button class="btn btn-ghost btn-sm">📤 Export</button>
+        <button class="btn btn-primary btn-sm">＋ Add Row</button>
+        <div class="avatar">A</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- LEFT: Master selector -->
+      <div class="left-col">
+        <div class="left-header">📦 Select Master</div>
+        <div class="master-item">
+          <div class="master-icon">🌍</div>
+          <div>
+            <div class="master-nm">Country</div>
+            <div class="master-cd">COUNTRY</div>
+            <div class="master-count">195 rows</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">🗺</div>
+          <div>
+            <div class="master-nm">State</div>
+            <div class="master-cd">STATE</div>
+            <div class="master-count">36 rows</div>
+          </div>
+        </div>
+        <div class="master-item selected">
+          <div class="master-icon">🏘</div>
+          <div>
+            <div class="master-nm">District</div>
+            <div class="master-cd">DISTRICT</div>
+            <div class="master-count">750 rows</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">🏙</div>
+          <div>
+            <div class="master-nm">Block</div>
+            <div class="master-cd">BLOCK</div>
+            <div class="master-count">6,800 rows</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">🏡</div>
+          <div>
+            <div class="master-nm">Village</div>
+            <div class="master-cd">VILLAGE</div>
+            <div class="master-count">6,40,000 rows</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">📂</div>
+          <div>
+            <div class="master-nm">Category</div>
+            <div class="master-cd">CATEGORY · SWCS</div>
+            <div class="master-count">12 rows</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">🏙</div>
+          <div>
+            <div class="master-nm">Ward</div>
+            <div class="master-cd">WARD · MP Urban</div>
+            <div class="master-count" style="color:#dc2626">⚠ 0 rows</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Dynamic Data Table -->
+      <div class="right-col">
+        <div class="step-indicator">
+          📍 Step 3 of 4 — Data fill karo · Selected: 🏘 District Master
+          &nbsp;|&nbsp; <a href="02-columns.html" style="color:#7c3aed">← Columns</a>
+          &nbsp;|&nbsp; <a href="04-reference.html" style="color:#7c3aed">Next: References →</a>
+        </div>
+
+        <!-- Import Zone -->
+        <div class="import-zone">
+          <div class="import-zone-title">📥 CSV Import se bulk data add karo</div>
+          <div class="import-zone-sub">Column headers automatically map honge · Errors row-wise dikhenge · Partial success allowed</div>
+          <div style="margin-top:10px;display:flex;gap:8px;justify-content:center">
+            <button class="btn btn-ghost btn-sm">📄 Download Template</button>
+            <button class="btn btn-green btn-sm">📥 Upload CSV</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">🏘 District Master Data</div>
+              <div class="card-meta">750 total rows · 748 active · Global scope</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="toolbar" style="margin:0">
+                <div class="search-box" style="max-width:200px">
+                  <span style="color:#94a3b8">🔍</span>
+                  <input placeholder="Search name, code...">
+                </div>
+                <select class="filter-select">
+                  <option>All States</option>
+                  <option>Uttarakhand</option>
+                  <option>Delhi</option>
+                  <option>Madhya Pradesh</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic table columns come from master_column_definition -->
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <!-- These columns are dynamically generated from master_column_definition where is_listable=true -->
+                  <th>District Name</th>
+                  <th>Code</th>
+                  <th>State</th>
+                  <th>Division</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="data-id">1</span></td>
+                  <td>
+                    <div class="data-name">Dehradun</div>
+                    <div class="data-code">DDN</div>
+                  </td>
+                  <td><code style="font-size:11px">DDN</code></td>
+                  <td><span class="ref-tag">🗺 Uttarakhand</span></td>
+                  <td><span style="font-size:12px;color:#64748b">Garhwal</span></td>
+                  <td><span class="badge badge-blue">URBAN</span></td>
+                  <td><span class="badge badge-green">Active</span></td>
+                  <td><div class="action-btns">
+                    <button class="icon-btn">✏️</button>
+                    <button class="icon-btn" title="View JSON">{ }</button>
+                    <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td><span class="data-id">2</span></td>
+                  <td>
+                    <div class="data-name">Haridwar</div>
+                    <div class="data-code">HW</div>
+                  </td>
+                  <td><code style="font-size:11px">HW</code></td>
+                  <td><span class="ref-tag">🗺 Uttarakhand</span></td>
+                  <td><span style="font-size:12px;color:#64748b">Garhwal</span></td>
+                  <td><span class="badge badge-blue">URBAN</span></td>
+                  <td><span class="badge badge-green">Active</span></td>
+                  <td><div class="action-btns">
+                    <button class="icon-btn">✏️</button>
+                    <button class="icon-btn">{ }</button>
+                    <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td><span class="data-id">3</span></td>
+                  <td>
+                    <div class="data-name">Nainital</div>
+                    <div class="data-code">NTL</div>
+                  </td>
+                  <td><code style="font-size:11px">NTL</code></td>
+                  <td><span class="ref-tag">🗺 Uttarakhand</span></td>
+                  <td><span style="font-size:12px;color:#64748b">Kumaon</span></td>
+                  <td><span class="badge" style="background:#f3e8ff;color:#7c3aed">SEMI_URBAN</span></td>
+                  <td><span class="badge badge-green">Active</span></td>
+                  <td><div class="action-btns">
+                    <button class="icon-btn">✏️</button>
+                    <button class="icon-btn">{ }</button>
+                    <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td><span class="data-id">4</span></td>
+                  <td>
+                    <div class="data-name">Almora</div>
+                    <div class="data-code">ALM</div>
+                  </td>
+                  <td><code style="font-size:11px">ALM</code></td>
+                  <td><span class="ref-tag">🗺 Uttarakhand</span></td>
+                  <td><span style="font-size:12px;color:#64748b">Kumaon</span></td>
+                  <td><span class="badge badge-gray">RURAL</span></td>
+                  <td><span class="badge badge-green">Active</span></td>
+                  <td><div class="action-btns">
+                    <button class="icon-btn">✏️</button>
+                    <button class="icon-btn">{ }</button>
+                    <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td><span class="data-id">5</span></td>
+                  <td>
+                    <div class="data-name">New Delhi</div>
+                    <div class="data-code">NDL</div>
+                  </td>
+                  <td><code style="font-size:11px">NDL</code></td>
+                  <td><span class="ref-tag">🗺 Delhi</span></td>
+                  <td><span style="font-size:12px;color:#64748b">Central</span></td>
+                  <td><span class="badge badge-blue">URBAN</span></td>
+                  <td><span class="badge badge-green">Active</span></td>
+                  <td><div class="action-btns">
+                    <button class="icon-btn">✏️</button>
+                    <button class="icon-btn">{ }</button>
+                    <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                  </div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <span class="page-info">Showing 1–25 of 750</span>
+            <button class="page-btn">←</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <span style="font-size:13px;color:#94a3b8">...</span>
+            <button class="page-btn">30</button>
+            <button class="page-btn">→</button>
+          </div>
+        </div>
+
+        <!-- JSON Preview note -->
+        <div style="font-size:11px;color:#64748b;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.05em">📦 How data is stored in master_data.data (JSONB)</div>
+        <div class="json-preview">
+          {<br>
+          &nbsp;&nbsp;<span class="json-key">"name"</span>: <span class="json-val">"Dehradun"</span>,<br>
+          &nbsp;&nbsp;<span class="json-key">"code"</span>: <span class="json-val">"DDN"</span>,<br>
+          &nbsp;&nbsp;<span class="json-key">"state_id"</span>: <span class="json-num">5</span>,<span style="color:#64748b"> &nbsp;// → creates master_data_reference: Dehradun → Uttarakhand</span><br>
+          &nbsp;&nbsp;<span class="json-key">"division_id"</span>: <span class="json-num">12</span>,<br>
+          &nbsp;&nbsp;<span class="json-key">"district_type"</span>: <span class="json-val">"URBAN"</span>,<br>
+          &nbsp;&nbsp;<span class="json-key">"is_active"</span>: <span style="color:#f9a8d4">true</span><br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT ROW MODAL — dynamically generated from column definitions -->
+<div class="modal-overlay" style="display:none">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🗄 Add District Row</div>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="dynamic-form-note">
+        ✨ Yeh form dynamically ban raha hai master_column_definition se — columns add/remove karne par form automatically update hoga
+      </div>
+
+      <!-- These form fields are generated dynamically from column definitions -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">District Name <span>*</span></label>
+          <input class="form-control" placeholder="e.g. Pithoragarh">
+          <div class="form-hint">TEXT · required · searchable</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">District Code <span>*</span></label>
+          <input class="form-control" placeholder="e.g. PTG" style="text-transform:uppercase">
+          <div class="form-hint">TEXT · required · unique</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">State <span>*</span></label>
+        <select class="form-control">
+          <option>— Select State —</option>
+          <option>Uttarakhand</option>
+          <option>Delhi</option>
+          <option>Madhya Pradesh</option>
+          <option>Maharashtra</option>
+        </select>
+        <div class="form-hint">SELECT · source: STATE master · Reference auto-created on save</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Division</label>
+        <select class="form-control" disabled>
+          <option>— Select State first —</option>
+        </select>
+        <div class="form-hint">SELECT · cascades on State selection · filter_by: state_id</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">District Type</label>
+        <select class="form-control">
+          <option>URBAN</option>
+          <option>RURAL</option>
+          <option>SEMI_URBAN</option>
+        </select>
+        <div class="form-hint">SELECT · static options</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
+          Is Active
+          <span style="font-size:11px;color:#94a3b8;font-weight:400">BOOLEAN · default: true</span>
+        </label>
+        <select class="form-control">
+          <option>Yes (Active)</option>
+          <option>No (Inactive)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-primary">🗄 Save Row + Create References</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+/* Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap');
+@import url('../src/app/[locale]/investor/applicant-theme.css');
+
+:root {
+	/* ---------- BRAND COLORS ---------- */
+    
+	/*
+    --primary-color-rgb:255,61, 131;
+	
+	--secondary-color:#0069d9;
+	--secondary-color-rgb:0, 105, 217;
+
+	--success-color:#198754;
+	--danger-color:#dc3545;
+	--warning-color:#ffc107;
+	--info-color:#0dcaf0;*/
+	
+	
+	/* ---------- TYPOGRAPHY ---------- */
+	
+	--font-family-base:'Montserrat', sans-serif;
+	--font-size-base: 16px;
+	--fw-medium:500;
+	--fw-semibold:600;
+}

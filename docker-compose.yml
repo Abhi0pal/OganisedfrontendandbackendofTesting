@@ -1,0 +1,100 @@
+services:
+
+  # ─────────────────────────────────────────
+  # 1. PostgreSQL Database
+  # ─────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: swcs_postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: formbuilder
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d formbuilder"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ─────────────────────────────────────────
+  # 2. NestJS Backend
+  # ─────────────────────────────────────────
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    container_name: swcs_backend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/formbuilder
+      FRONTEND_URL: http://YOUR_SERVER_IP:3000
+      PORT: 3001
+      NODE_ENV: production
+      JWT_SECRET: your-super-secret-jwt-key-change-this
+      JWT_EXPIRATION: "3600"
+      FRS_BAP_PROXY_PORT: "3011"
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ─────────────────────────────────────────
+  # 3. Next.js Frontend
+  # ─────────────────────────────────────────
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    container_name: swcs_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://YOUR_SERVER_IP:3001
+      NEXT_PUBLIC_APP_NAME: MyApp
+      NEXT_PUBLIC_GEMINI_API_KEY: YOUR_GEMINI_KEY_HERE
+      NEXT_PUBLIC_FRS_BAP_PROXY_URL: http://YOUR_SERVER_IP:3011
+      NODE_ENV: production
+    depends_on:
+      - backend
+
+  # ─────────────────────────────────────────
+  # 4. AI Form Generator (Python)
+  # ─────────────────────────────────────────
+  python-form-service:
+    build:
+      context: ./python_service
+      dockerfile: Dockerfile
+    container_name: python-form-service
+    network_mode: host
+    env_file:
+      - ./python_service/.env
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────
+  # 5. Test Case Generator (Python)
+  # ─────────────────────────────────────────
+  python-test-case-service:
+    build:
+      context: ./python_testCaseGeneration_Service
+      dockerfile: Dockerfile
+    container_name: python-test-case-service
+    network_mode: host
+    env_file:
+      - ./python_testCaseGeneration_Service/.env
+    restart: unless-stopped
+    volumes:
+      - ./python_testCaseGeneration_Service/uploads:/app/uploads
+      - ./python_testCaseGeneration_Service/outputs:/app/outputs
+
+volumes:
+  postgres_data:
+  uploads_data:

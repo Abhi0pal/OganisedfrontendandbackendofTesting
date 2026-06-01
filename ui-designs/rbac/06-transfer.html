@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transfer & History</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#6366f1;font-weight:600;border-left:2px solid #6366f1}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:24px 28px;display:flex;gap:22px}
+  .left-col{flex:1}
+  .right-col{width:360px;flex-shrink:0}
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:18px}
+  .card-header{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:14px;font-weight:700}
+  .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-orange{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+  .filters{display:flex;gap:10px;padding:14px 18px;border-bottom:1px solid #f1f5f9}
+  .search-box{position:relative;flex:1}
+  .search-box input{width:100%;padding:7px 12px 7px 32px;border:1px solid #e2e8f0;border-radius:7px;font-size:12px;background:#fff;outline:none}
+  .search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:12px}
+  .select-filter{padding:7px 10px;border:1px solid #e2e8f0;border-radius:7px;font-size:12px;background:#fff;color:#374151;outline:none}
+  .user-row{padding:14px 18px;border-bottom:1px solid #f8fafc;display:flex;align-items:center;gap:12px;cursor:pointer}
+  .user-row:hover{background:#fafafa}
+  .user-row.selected{background:#eef2ff;border-left:2px solid #6366f1}
+  .user-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:600;flex-shrink:0}
+  .user-name{font-size:13px;font-weight:600}
+  .user-meta{font-size:11px;color:#94a3b8;margin-top:2px}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-red{background:#fee2e2;color:#dc2626}
+  .badge-blue{background:#dbeafe;color:#1d4ed8}
+  .badge-orange{background:#ffedd5;color:#c2410c}
+
+  /* TIMELINE */
+  .timeline{padding:18px}
+  .tl-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .tl-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:700;flex-shrink:0}
+  .tl-name{font-size:15px;font-weight:700}
+  .tl-sub{font-size:12px;color:#64748b}
+  .tl-items{position:relative;padding-left:28px}
+  .tl-items::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:#e2e8f0}
+  .tl-item{position:relative;margin-bottom:20px}
+  .tl-dot{width:20px;height:20px;border-radius:50%;position:absolute;left:-28px;top:2px;display:flex;align-items:center;justify-content:center;font-size:10px;z-index:1}
+  .tl-dot.active{background:#6366f1;color:#fff;box-shadow:0 0 0 4px #c7d2fe}
+  .tl-dot.closed{background:#e2e8f0;color:#94a3b8}
+  .tl-dot.transfer{background:#f59e0b;color:#fff}
+  .tl-content{background:#f8fafc;border-radius:9px;padding:12px 14px}
+  .tl-item.current .tl-content{background:#eef2ff;border:1px solid #c7d2fe}
+  .tl-role{font-size:13px;font-weight:700;color:#0f172a}
+  .tl-date{font-size:11px;color:#64748b;margin-top:3px}
+  .tl-scope{font-size:11px;color:#374151;margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+  .scope-tag{background:#fff;border:1px solid #e2e8f0;padding:2px 8px;border-radius:20px;font-size:10px}
+  .tl-reason{font-size:11px;color:#94a3b8;margin-top:6px;font-style:italic}
+  .tl-order{font-size:11px;font-family:monospace;color:#6366f1;margin-top:4px}
+  .current-badge{display:inline-block;background:#dcfce7;color:#15803d;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px}
+
+  /* TRANSFER FORM */
+  .form-group{margin-bottom:14px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
+  .form-control:focus{border-color:#6366f1}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+  .form-body{padding:18px}
+  .warn-note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:12px;color:#92400e;margin-bottom:14px}
+  .footer-btns{display:flex;justify-content:flex-end;gap:8px;padding:14px 18px;border-top:1px solid #f1f5f9}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">🛡 RBAC Admin</div>
+      <div class="sidebar-logo-sub">Platform Control Panel</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Core</div>
+      <a class="nav-item" href="01-tenant.html">🏛 Tenants</a>
+      <a class="nav-item" href="02-roles.html">👑 Roles</a>
+      <a class="nav-item" href="03-modules.html">📁 Modules</a>
+      <a class="nav-item" href="04-permissions.html">🔐 Permissions</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Users</div>
+      <a class="nav-item" href="05-assignment.html">👤 Assignments</a>
+      <a class="nav-item active" href="06-transfer.html">🔄 Transfers</a>
+      <a class="nav-item" href="07-override.html">⚡ Overrides</a>
+      <a class="nav-item" href="08-projects.html">📋 Projects</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Transfer & Posting History</div>
+      <div class="avatar">A</div>
+    </div>
+
+    <div class="content">
+      <!-- LEFT: USER LIST + TIMELINE -->
+      <div class="left-col">
+        <!-- USER LIST -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">👥 Select Officer</div>
+          </div>
+          <div class="filters">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search officer...">
+            </div>
+            <select class="select-filter"><option>All Tenants</option><option>SWCS</option></select>
+          </div>
+          <div class="user-row selected">
+            <div class="user-av" style="background:#6366f1">RS</div>
+            <div style="flex:1">
+              <div class="user-name">Rajesh Sharma</div>
+              <div class="user-meta">District Officer · SWCS · Dehradun, Haridwar</div>
+            </div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="user-row">
+            <div class="user-av" style="background:#16a34a">PV</div>
+            <div style="flex:1">
+              <div class="user-name">Priya Verma</div>
+              <div class="user-meta">Block Officer · SWCS · Raipur Block</div>
+            </div>
+            <span class="badge badge-orange">Expires Soon</span>
+          </div>
+          <div class="user-row">
+            <div class="user-av" style="background:#7c3aed">AK</div>
+            <div style="flex:1">
+              <div class="user-name">Amit Kumar</div>
+              <div class="user-meta">Director · Forest · Uttarakhand</div>
+            </div>
+            <span class="badge badge-green">Active</span>
+          </div>
+        </div>
+
+        <!-- TIMELINE -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📅 Posting History — Rajesh Sharma</div>
+            <button class="btn btn-orange">🔄 New Transfer</button>
+          </div>
+          <div class="timeline">
+            <div class="tl-header">
+              <div class="tl-av" style="background:#6366f1">RS</div>
+              <div>
+                <div class="tl-name">Rajesh Sharma <span class="current-badge">CURRENT</span></div>
+                <div class="tl-sub">rajesh.sharma@uk.gov.in · 3 postings in history</div>
+              </div>
+            </div>
+            <div class="tl-items">
+
+              <!-- Current -->
+              <div class="tl-item current">
+                <div class="tl-dot active">●</div>
+                <div class="tl-content">
+                  <div class="tl-role">🏛 District Officer <span style="font-size:11px;color:#6366f1;font-weight:600">← CURRENT</span></div>
+                  <div class="tl-date">01 Apr 2024 → Present (ongoing)</div>
+                  <div class="tl-scope">
+                    <span class="scope-tag">📍 Dehradun</span>
+                    <span class="scope-tag">📍 Haridwar</span>
+                  </div>
+                  <div class="tl-order">Order: TO/2024/DM/456</div>
+                </div>
+              </div>
+
+              <!-- Transfer event -->
+              <div class="tl-item">
+                <div class="tl-dot transfer">🔄</div>
+                <div class="tl-content" style="background:#fff7ed;border:1px solid #fed7aa">
+                  <div style="font-size:12px;font-weight:700;color:#c2410c">Transfer: Nainital → Dehradun</div>
+                  <div style="font-size:11px;color:#92400e;margin-top:3px">Reason: TRANSFER · Transferred by: Admin (id:1)</div>
+                </div>
+              </div>
+
+              <!-- Previous posting -->
+              <div class="tl-item">
+                <div class="tl-dot closed">○</div>
+                <div class="tl-content">
+                  <div class="tl-role">🏛 District Officer</div>
+                  <div class="tl-date">15 Jun 2023 → 31 Mar 2024 (closed)</div>
+                  <div class="tl-scope">
+                    <span class="scope-tag">📍 Nainital</span>
+                  </div>
+                  <div class="tl-order">Order: TO/2023/DM/212</div>
+                </div>
+              </div>
+
+              <!-- Transfer event -->
+              <div class="tl-item">
+                <div class="tl-dot transfer">🔄</div>
+                <div class="tl-content" style="background:#fff7ed;border:1px solid #fed7aa">
+                  <div style="font-size:12px;font-weight:700;color:#c2410c">Promoted: Block Officer → District Officer</div>
+                  <div style="font-size:11px;color:#92400e;margin-top:3px">Reason: PROMOTION</div>
+                </div>
+              </div>
+
+              <!-- First posting -->
+              <div class="tl-item">
+                <div class="tl-dot closed">○</div>
+                <div class="tl-content">
+                  <div class="tl-role">🏘 Block Officer</div>
+                  <div class="tl-date">01 Jan 2022 → 14 Jun 2023 (closed)</div>
+                  <div class="tl-scope">
+                    <span class="scope-tag">🏘 Doiwala Block</span>
+                  </div>
+                  <div class="tl-order">Order: TO/2022/BO/089</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: TRANSFER FORM -->
+      <div class="right-col">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🔄 Initiate Transfer</div>
+          </div>
+          <div class="form-body">
+            <div class="warn-note">⚠️ Transfer karne se purani posting automatically close hogi (valid_until = today). Nayi posting create hogi.</div>
+
+            <div class="form-group">
+              <label class="form-label">Transfer Reason <span>*</span></label>
+              <select class="form-control">
+                <option>TRANSFER</option>
+                <option>PROMOTION</option>
+                <option>DEPUTATION</option>
+                <option>RETIREMENT</option>
+                <option>RESIGNATION</option>
+                <option>ADMIN_CHANGE</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Transfer Order No.</label>
+              <input class="form-control" type="text" placeholder="TO/2024/DM/789">
+            </div>
+
+            <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:10px;margin-top:4px">New Posting Details</div>
+
+            <div class="form-group">
+              <label class="form-label">New Role <span>*</span></label>
+              <select class="form-control">
+                <option selected>🏛 District Officer (L2)</option>
+                <option>🏢 Joint Director (L2)</option>
+                <option>🏘 Block Officer (L3)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">New Tenant</label>
+              <select class="form-control">
+                <option>🏛 SWCS (same)</option>
+                <option>🌲 Forest Dept</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">New Geographic Scope <span>*</span></label>
+              <select class="form-control"><option>📍 Dehradun</option><option>📍 Haridwar</option><option selected>📍 Almora</option><option>📍 Pithoragarh</option></select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Effective Date <span>*</span></label>
+              <input class="form-control" type="date" value="2024-04-01">
+              <div class="form-hint">Is date se purani posting close, nayi start hogi</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Remarks</label>
+              <input class="form-control" type="text" placeholder="Additional notes...">
+            </div>
+          </div>
+          <div class="footer-btns">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">🔄 Confirm Transfer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

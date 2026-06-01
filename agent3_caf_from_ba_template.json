@@ -1,0 +1,666 @@
+{
+  "_template_source": "BA_Workflow_SRS_Template_CAF.pdf",
+  "_generated_by": "Agent 3",
+  "_note": "All roleId values marked _resolveRole must be resolved by querying m_roles WHERE name LIKE. All formTypeId values resolved from m_fb_form_types WHERE abbr = ?. All IDs marked _resolveId are assigned by DB auto-increment after insert.",
+
+  "meta": {
+    "serviceName": "Application for In-Principal Approval",
+    "departmentName": "Directorate of Industries",
+    "serviceId": "591.0",
+    "departmentId": { "_resolveId": "SELECT id FROM m_department WHERE name LIKE '%Directorate of Industries%'" },
+    "configVersion": 1,
+    "status": "DRAFT",
+    "totalSteps": 4
+  },
+
+  "workflowSteps": [
+
+    {
+      "_comment": "STEP 1 — Applicant / Investor submits the application",
+      "step": 1,
+      "serviceId": "591.0",
+      "departmentId": { "_resolveId": "SELECT id FROM m_department WHERE name LIKE '%Directorate of Industries%'" },
+      "configVersion": 1,
+      "status": "DRAFT",
+
+      "formTypeName": "Applicant Form",
+      "formTypeAbbr": "AF",
+      "formTypeId": { "_resolveId": "SELECT id FROM m_fb_form_types WHERE abbr = 'AF'" },
+
+      "roleName": "Investor",
+      "roleId": 0,
+
+      "jurisdictionLevel": "DISTRICT",
+      "jurisdictionLevelId": { "_resolveId": "SELECT id FROM m_workflow_jurisdiction_level WHERE code = 'DISTRICT'" },
+      "assignmentStrategy": "ROLE",
+      "assignmentStrategyId": { "_resolveId": "SELECT id FROM m_workflow_assignment_strategy WHERE code = 'ROLE'" },
+      "processingLevel": "District",
+      "subformActionName": "",
+
+      "slaHours": 0,
+      "timeInHours": "0",
+      "slaBreachRequiresReason": false,
+      "isDelayReasonRequired": "N",
+
+      "nextAllocationRoleName": "District Level Verifier",
+      "nextAllocationRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" },
+
+      "currentRoleId": 0,
+      "nextRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" },
+      "forwardRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" },
+      "revertRoleId": 0,
+      "approverId": 0,
+
+      "assignmentRuleJson": {
+        "targetRoleIds": [],
+        "enableParallelForward": false,
+        "parallelTargetRoleId": null,
+        "allowParallelForwardWhileRetainOwnership": false,
+        "manualUserIds": null
+      },
+
+      "actionNames": ["Pending"],
+      "actionCodes": ["SUBMIT"],
+      "actionMasterIds": [{ "_resolveId": "SELECT id FROM m_workflow_action_master WHERE code = 'SUBMIT'" }],
+      "actionAllowedJson": ["SUBMIT"],
+
+      "transitionMapJson": {
+        "SUBMIT": {
+          "next_step": 2,
+          "next_roles": [{ "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" }]
+        }
+      },
+
+      "canRevertToInvestor": "N",
+      "canVerifyDocument": "N",
+      "canForwardToMultipleRoleId": null,
+      "canForwardToMultipleUserId": null,
+      "isOwnDepartment": "N",
+      "permissableTabFormId": "",
+      "documentShowLast": "N",
+      "processAnytime": "N",
+      "showLiceneceList": "0",
+      "showFieldEditableOrNot": "0",
+      "formServiceJs": "",
+      "formActionController": "",
+
+      "departmentForm": null
+    },
+
+    {
+      "_comment": "STEP 2 — District Level Verifier: RBI | Forward to Dept | Forward to Approver",
+      "step": 2,
+      "serviceId": "591.0",
+      "departmentId": { "_resolveId": "SELECT id FROM m_department WHERE name LIKE '%Directorate of Industries%'" },
+      "configVersion": 1,
+      "status": "DRAFT",
+
+      "formTypeName": "Processing Form - Verification Level",
+      "formTypeAbbr": "PFVL",
+      "formTypeId": { "_resolveId": "SELECT id FROM m_fb_form_types WHERE abbr = 'PFVL'" },
+
+      "roleName": "District Level Verifier",
+      "roleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" },
+
+      "jurisdictionLevel": "DISTRICT",
+      "jurisdictionLevelId": { "_resolveId": "SELECT id FROM m_workflow_jurisdiction_level WHERE code = 'DISTRICT'" },
+      "assignmentStrategy": "ROLE",
+      "assignmentStrategyId": { "_resolveId": "SELECT id FROM m_workflow_assignment_strategy WHERE code = 'ROLE'" },
+      "processingLevel": "District",
+      "subformActionName": "DOCUMENT_VERIFICATION",
+
+      "slaHours": 72,
+      "timeInHours": "72",
+      "slaBreachRequiresReason": true,
+      "isDelayReasonRequired": "Y",
+
+      "nextAllocationRoleName": "District level Line Department",
+      "nextAllocationRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District level Line Department%'" },
+
+      "currentRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" },
+      "nextRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District level Line Department%'" },
+      "forwardRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District level Line Department%'" },
+      "revertRoleId": 0,
+      "approverId": 0,
+
+      "assignmentRuleJson": {
+        "targetRoleIds": [{ "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" }],
+        "enableParallelForward": true,
+        "parallelTargetRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District level Line Department%'" },
+        "allowParallelForwardWhileRetainOwnership": true,
+        "manualUserIds": null
+      },
+
+      "actionNames": ["Revert to Applicant", "Forward to Department", "Forward to Approver"],
+      "actionCodes": ["RBI", "F", "FA"],
+      "actionMasterIds": [
+        { "_resolveId": "SELECT id FROM m_workflow_action_master WHERE code = 'RBI'" },
+        { "_resolveId": "SELECT id FROM m_workflow_action_master WHERE code = 'F'" },
+        { "_resolveId": "SELECT id FROM m_workflow_action_master WHERE code = 'FA'" }
+      ],
+      "actionAllowedJson": ["RBI", "F", "FA"],
+
+      "transitionMapJson": {
+        "RBI": {
+          "next_step": 1,
+          "next_roles": [0]
+        },
+        "F": {
+          "next_step": 3,
+          "next_roles": [{ "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District level Line Department%'" }]
+        },
+        "FA": {
+          "next_step": 4,
+          "next_roles": [{ "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%Approver%'" }]
+        }
+      },
+
+      "canRevertToInvestor": "Y",
+      "canVerifyDocument": "N",
+      "canForwardToMultipleRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District level Line Department%'" },
+      "canForwardToMultipleUserId": null,
+      "isOwnDepartment": "N",
+      "permissableTabFormId": "",
+      "documentShowLast": "N",
+      "processAnytime": "N",
+      "showLiceneceList": "0",
+      "showFieldEditableOrNot": "0",
+      "formServiceJs": "",
+      "formActionController": "",
+
+      "departmentForm": {
+        "_comment": "BA Section 2 Step 1 — Role: Verifier Level | Category: For Department Use Only",
+        "_ba_section_ref": "Section 2, Step 1 (maps to workflow Step 2)",
+
+        "formMapping": {
+          "serviceId": "591.0",
+          "departmentId": { "_resolveId": "SELECT id FROM m_department WHERE name LIKE '%Directorate of Industries%'" },
+          "formTypeAbbr": "PFVL",
+          "formTypeId": { "_resolveId": "SELECT id FROM m_fb_form_types WHERE abbr = 'PFVL'" },
+          "formName": "CAF Verifier Form - 591.0",
+          "formCode": "CAF_PFVL_591",
+          "formVersion": "1.0",
+          "isActive": "Y"
+        },
+
+        "page": {
+          "_comment": "One page per officer form. Page belongs to the form_id from formMapping above.",
+          "pageName": "Verifier Processing Form",
+          "preference": 1,
+          "isActive": "Y"
+        },
+
+        "pageCategory": {
+          "_comment": "Links the page to the 'FOR DEPARTMENTAL USE ONLY' category.",
+          "categoryCode": "FOR_DEPARTMENTAL_USE_ONLY",
+          "_resolveCategoryId": "SELECT id FROM m_fb_form_categories WHERE category_code = 'FOR_DEPARTMENTAL_USE_ONLY'",
+          "preference": 1,
+          "isActive": "Y"
+        },
+
+        "fields": [
+          {
+            "_comment": "Field 1 — Comment. BA: Text Area, Grid 6, Mandatory, Max 1000 chars.",
+            "_ba_row": 1,
+            "_skip_insert_to": "m_fb_form_field first, then m_fb_form_builder_fields",
+
+            "formFieldLookup": {
+              "_query": "SELECT id FROM m_fb_form_field WHERE field_code = 'comments' LIMIT 1",
+              "_ifNotFound": "INSERT INTO m_fb_form_field (field_name, field_code, field_type) VALUES ('Comments', 'comments', 'TEXTAREA')"
+            },
+
+            "builderField": {
+              "input_type": "TEXTAREA",
+              "custom_label": "Comment",
+              "placeholder": "Enter your remarks...",
+              "gridSpan": 6,
+              "preference": 1,
+              "is_required": "Y",
+              "is_editable": "Y",
+              "is_readonly": "N",
+              "is_active": "Y",
+              "max_length": 1000,
+              "min_length": null,
+              "pattern": null,
+              "validation_rule": { "maxLength": 1000 },
+              "component_props": null
+            },
+            "options": null
+          },
+
+          {
+            "_comment": "Field 2 — Supportive Documents. BA: File type, Grid 6, Not Mandatory.",
+            "_ba_row": 2,
+
+            "formFieldLookup": {
+              "_query": "SELECT id FROM m_fb_form_field WHERE field_code = 'supportive_documents' LIMIT 1",
+              "_ifNotFound": "INSERT INTO m_fb_form_field (field_name, field_code, field_type) VALUES ('Supportive Documents', 'supportive_documents', 'FILE')"
+            },
+
+            "builderField": {
+              "input_type": "FILE",
+              "custom_label": "Supportive Documents",
+              "placeholder": null,
+              "gridSpan": 6,
+              "preference": 2,
+              "is_required": "N",
+              "is_editable": "Y",
+              "is_readonly": "N",
+              "is_active": "Y",
+              "max_length": null,
+              "min_length": null,
+              "pattern": null,
+              "validation_rule": { "accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 5 },
+              "component_props": null
+            },
+            "options": null
+          }
+        ],
+
+        "_skipped_fields": [
+          {
+            "_ba_row": 3,
+            "fieldName": "Button",
+            "_skip_reason": "Action buttons are NOT form fields. They are generated from actionAllowedJson = ['RBI','F','FA'] in workflow config. No DB insert needed."
+          }
+        ],
+
+        "rules": [
+          {
+            "_comment": "No conditional rules for Verifier form — both fields always visible. Action buttons handle routing."
+          }
+        ]
+      }
+    },
+
+    {
+      "_comment": "STEP 3 — District level Line Department: Submit to Nodal (Verifier)",
+      "step": 3,
+      "serviceId": "591.0",
+      "departmentId": { "_resolveId": "SELECT id FROM m_department WHERE name LIKE '%Directorate of Industries%'" },
+      "configVersion": 1,
+      "status": "DRAFT",
+
+      "formTypeName": "Processing Form - Department Forward Level",
+      "formTypeAbbr": "PFDFL",
+      "formTypeId": { "_resolveId": "SELECT id FROM m_fb_form_types WHERE abbr = 'PFDFL'" },
+
+      "roleName": "District level Line Department",
+      "roleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District level Line Department%'" },
+
+      "jurisdictionLevel": "DISTRICT",
+      "jurisdictionLevelId": { "_resolveId": "SELECT id FROM m_workflow_jurisdiction_level WHERE code = 'DISTRICT'" },
+      "assignmentStrategy": "ROLE",
+      "assignmentStrategyId": { "_resolveId": "SELECT id FROM m_workflow_assignment_strategy WHERE code = 'ROLE'" },
+      "processingLevel": "District",
+      "subformActionName": "",
+
+      "slaHours": 48,
+      "timeInHours": "48",
+      "slaBreachRequiresReason": true,
+      "isDelayReasonRequired": "Y",
+
+      "nextAllocationRoleName": "District Level Verifier",
+      "nextAllocationRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" },
+
+      "currentRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District level Line Department%'" },
+      "nextRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" },
+      "forwardRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" },
+      "revertRoleId": 0,
+      "approverId": 0,
+
+      "assignmentRuleJson": {
+        "targetRoleIds": [{ "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District level Line Department%'" }],
+        "enableParallelForward": false,
+        "parallelTargetRoleId": null,
+        "allowParallelForwardWhileRetainOwnership": false,
+        "manualUserIds": null
+      },
+
+      "actionNames": ["Submit to Nodal"],
+      "actionCodes": ["F"],
+      "_actionCodeNote": "BA wrote 'Submit to Nodal'. This maps to 'F' (Forward) — Line Dept forwards consent back to Verifier. next_step = 2.",
+      "actionMasterIds": [
+        { "_resolveId": "SELECT id FROM m_workflow_action_master WHERE code = 'F'" }
+      ],
+      "actionAllowedJson": ["F"],
+
+      "transitionMapJson": {
+        "F": {
+          "next_step": 2,
+          "next_roles": [{ "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" }]
+        }
+      },
+
+      "canRevertToInvestor": "N",
+      "canVerifyDocument": "N",
+      "canForwardToMultipleRoleId": null,
+      "canForwardToMultipleUserId": null,
+      "isOwnDepartment": "N",
+      "permissableTabFormId": "",
+      "documentShowLast": "N",
+      "processAnytime": "N",
+      "showLiceneceList": "0",
+      "showFieldEditableOrNot": "0",
+      "formServiceJs": "",
+      "formActionController": "",
+
+      "departmentForm": {
+        "_comment": "BA Section 2 Step 2 — Role: Line Department Level | Category: For Department Use Only",
+        "_ba_section_ref": "Section 2, Step 2 (maps to workflow Step 3)",
+
+        "formMapping": {
+          "serviceId": "591.0",
+          "departmentId": { "_resolveId": "SELECT id FROM m_department WHERE name LIKE '%Directorate of Industries%'" },
+          "formTypeAbbr": "PFDFL",
+          "formTypeId": { "_resolveId": "SELECT id FROM m_fb_form_types WHERE abbr = 'PFDFL'" },
+          "formName": "CAF Line Department Form - 591.0",
+          "formCode": "CAF_PFDFL_591",
+          "formVersion": "1.0",
+          "isActive": "Y"
+        },
+
+        "page": {
+          "pageName": "Line Department Processing Form",
+          "preference": 1,
+          "isActive": "Y"
+        },
+
+        "pageCategory": {
+          "categoryCode": "FOR_DEPARTMENTAL_USE_ONLY",
+          "_resolveCategoryId": "SELECT id FROM m_fb_form_categories WHERE category_code = 'FOR_DEPARTMENTAL_USE_ONLY'",
+          "preference": 1,
+          "isActive": "Y"
+        },
+
+        "fields": [
+          {
+            "_comment": "Field 1 — Comment. BA: Text Area, Grid 6, Mandatory, Max 1000 chars.",
+            "_ba_row": 1,
+
+            "formFieldLookup": {
+              "_query": "SELECT id FROM m_fb_form_field WHERE field_code = 'comments' LIMIT 1",
+              "_ifNotFound": "INSERT INTO m_fb_form_field (field_name, field_code, field_type) VALUES ('Comments', 'comments', 'TEXTAREA')"
+            },
+
+            "builderField": {
+              "input_type": "TEXTAREA",
+              "custom_label": "Comment",
+              "placeholder": "Enter your remarks...",
+              "gridSpan": 6,
+              "preference": 1,
+              "is_required": "Y",
+              "is_editable": "Y",
+              "is_readonly": "N",
+              "is_active": "Y",
+              "max_length": 1000,
+              "min_length": null,
+              "pattern": null,
+              "validation_rule": { "maxLength": 1000 },
+              "component_props": null
+            },
+            "options": null
+          },
+
+          {
+            "_comment": "Field 2 — Supportive Documents. BA: File type, Grid 6, Not Mandatory.",
+            "_ba_row": 2,
+
+            "formFieldLookup": {
+              "_query": "SELECT id FROM m_fb_form_field WHERE field_code = 'supportive_documents' LIMIT 1",
+              "_ifNotFound": "INSERT INTO m_fb_form_field (field_name, field_code, field_type) VALUES ('Supportive Documents', 'supportive_documents', 'FILE')"
+            },
+
+            "builderField": {
+              "input_type": "FILE",
+              "custom_label": "Supportive Documents",
+              "placeholder": null,
+              "gridSpan": 6,
+              "preference": 2,
+              "is_required": "N",
+              "is_editable": "Y",
+              "is_readonly": "N",
+              "is_active": "Y",
+              "max_length": null,
+              "min_length": null,
+              "pattern": null,
+              "validation_rule": { "accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 5 },
+              "component_props": null
+            },
+            "options": null
+          }
+        ],
+
+        "_skipped_fields": [
+          {
+            "_ba_row": 3,
+            "fieldName": "Button",
+            "_skip_reason": "Action button 'Submit to Applicant' is generated from actionAllowedJson = ['F']. No form field insert."
+          }
+        ],
+
+        "rules": []
+      }
+    },
+
+    {
+      "_comment": "STEP 4 — Approver: Approve | Reject | Revert to Nodal",
+      "step": 4,
+      "serviceId": "591.0",
+      "departmentId": { "_resolveId": "SELECT id FROM m_department WHERE name LIKE '%Directorate of Industries%'" },
+      "configVersion": 1,
+      "status": "DRAFT",
+
+      "formTypeName": "Processing Form - Approver Level",
+      "formTypeAbbr": "PFAL",
+      "formTypeId": { "_resolveId": "SELECT id FROM m_fb_form_types WHERE abbr = 'PFAL'" },
+
+      "roleName": "Approver",
+      "roleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%Approver%'" },
+
+      "jurisdictionLevel": "DISTRICT",
+      "jurisdictionLevelId": { "_resolveId": "SELECT id FROM m_workflow_jurisdiction_level WHERE code = 'DISTRICT'" },
+      "assignmentStrategy": "ROLE",
+      "assignmentStrategyId": { "_resolveId": "SELECT id FROM m_workflow_assignment_strategy WHERE code = 'ROLE'" },
+      "processingLevel": "District",
+      "subformActionName": "",
+
+      "slaHours": 24,
+      "timeInHours": "24",
+      "slaBreachRequiresReason": true,
+      "isDelayReasonRequired": "Y",
+
+      "nextAllocationRoleName": "Investor",
+      "nextAllocationRoleId": 0,
+      "_nextAllocationNote": "Investor = roleId 0. After Approve/Reject the application closes and Investor gets notified.",
+
+      "currentRoleId": { "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%Approver%'" },
+      "nextRoleId": 0,
+      "forwardRoleId": 0,
+      "revertRoleId": 0,
+      "approverId": 0,
+
+      "assignmentRuleJson": {
+        "targetRoleIds": [{ "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%Approver%'" }],
+        "enableParallelForward": false,
+        "parallelTargetRoleId": null,
+        "allowParallelForwardWhileRetainOwnership": false,
+        "manualUserIds": null
+      },
+
+      "actionNames": ["Approve", "Reject", "Revert to Nodal"],
+      "actionCodes": ["A", "R", "P"],
+      "_actionCodeNote": "'Revert to Nodal' maps to 'P' (Pending/Push Back) → sends back to Verifier at Step 2.",
+      "actionMasterIds": [
+        { "_resolveId": "SELECT id FROM m_workflow_action_master WHERE code = 'A'" },
+        { "_resolveId": "SELECT id FROM m_workflow_action_master WHERE code = 'R'" },
+        { "_resolveId": "SELECT id FROM m_workflow_action_master WHERE code = 'P'" }
+      ],
+      "actionAllowedJson": ["A", "R", "P"],
+
+      "transitionMapJson": {
+        "A": {
+          "next_step": null,
+          "next_roles": [],
+          "_note": "Application APPROVED — workflow ends. Investor notified."
+        },
+        "R": {
+          "next_step": null,
+          "next_roles": [],
+          "_note": "Application REJECTED — workflow ends. Investor notified."
+        },
+        "P": {
+          "next_step": 2,
+          "next_roles": [{ "_resolveId": "SELECT id FROM m_roles WHERE name LIKE '%District Level Verifier%'" }],
+          "_note": "Revert to Nodal — goes back to Verifier at Step 2."
+        }
+      },
+
+      "canRevertToInvestor": "N",
+      "canVerifyDocument": "N",
+      "canForwardToMultipleRoleId": null,
+      "canForwardToMultipleUserId": null,
+      "isOwnDepartment": "N",
+      "permissableTabFormId": "",
+      "documentShowLast": "N",
+      "processAnytime": "N",
+      "showLiceneceList": "0",
+      "showFieldEditableOrNot": "0",
+      "formServiceJs": "",
+      "formActionController": "",
+
+      "departmentForm": {
+        "_comment": "BA Section 2 Step 3 — Role: Approver | Category: For Department Use Only",
+        "_ba_section_ref": "Section 2, Step 3 (maps to workflow Step 4)",
+
+        "formMapping": {
+          "serviceId": "591.0",
+          "departmentId": { "_resolveId": "SELECT id FROM m_department WHERE name LIKE '%Directorate of Industries%'" },
+          "formTypeAbbr": "PFAL",
+          "formTypeId": { "_resolveId": "SELECT id FROM m_fb_form_types WHERE abbr = 'PFAL'" },
+          "formName": "CAF Approver Form - 591.0",
+          "formCode": "CAF_PFAL_591",
+          "formVersion": "1.0",
+          "isActive": "Y"
+        },
+
+        "page": {
+          "pageName": "Approver Processing Form",
+          "preference": 1,
+          "isActive": "Y"
+        },
+
+        "pageCategory": {
+          "categoryCode": "FOR_DEPARTMENTAL_USE_ONLY",
+          "_resolveCategoryId": "SELECT id FROM m_fb_form_categories WHERE category_code = 'FOR_DEPARTMENTAL_USE_ONLY'",
+          "preference": 1,
+          "isActive": "Y"
+        },
+
+        "fields": [
+          {
+            "_comment": "Field 1 — Comment. BA: Text Area, Grid 6, Mandatory, Max 1000 chars.",
+            "_ba_row": 1,
+
+            "formFieldLookup": {
+              "_query": "SELECT id FROM m_fb_form_field WHERE field_code = 'comments' LIMIT 1",
+              "_ifNotFound": "INSERT INTO m_fb_form_field (field_name, field_code, field_type) VALUES ('Comments', 'comments', 'TEXTAREA')"
+            },
+
+            "builderField": {
+              "input_type": "TEXTAREA",
+              "custom_label": "Comment",
+              "placeholder": "Enter your decision remarks...",
+              "gridSpan": 6,
+              "preference": 1,
+              "is_required": "Y",
+              "is_editable": "Y",
+              "is_readonly": "N",
+              "is_active": "Y",
+              "max_length": 1000,
+              "min_length": null,
+              "pattern": null,
+              "validation_rule": { "maxLength": 1000 },
+              "component_props": null
+            },
+            "options": null
+          },
+
+          {
+            "_comment": "Field 2 — Supportive Documents. BA: File type, Grid 6, Not Mandatory.",
+            "_ba_row": 2,
+
+            "formFieldLookup": {
+              "_query": "SELECT id FROM m_fb_form_field WHERE field_code = 'supportive_documents' LIMIT 1",
+              "_ifNotFound": "INSERT INTO m_fb_form_field (field_name, field_code, field_type) VALUES ('Supportive Documents', 'supportive_documents', 'FILE')"
+            },
+
+            "builderField": {
+              "input_type": "FILE",
+              "custom_label": "Supportive Documents",
+              "placeholder": null,
+              "gridSpan": 6,
+              "preference": 2,
+              "is_required": "N",
+              "is_editable": "Y",
+              "is_readonly": "N",
+              "is_active": "Y",
+              "max_length": null,
+              "min_length": null,
+              "pattern": null,
+              "validation_rule": { "accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 5 },
+              "component_props": null
+            },
+            "options": null
+          }
+        ],
+
+        "_skipped_fields": [
+          {
+            "_ba_row": 3,
+            "fieldName": "Action Buttons",
+            "_skip_reason": "Buttons (Approved | Reject | Revert to Nodal) are generated from actionAllowedJson = ['A','R','P']. No form field insert."
+          }
+        ],
+
+        "rules": []
+      }
+    }
+
+  ],
+
+  "insertionOrder": {
+    "_doc": "Agent must insert in this exact order due to FK dependencies.",
+    "1": "m_fb_form_types → verify formTypeId for AF, PFVL, PFDFL, PFAL",
+    "2": "m_fb_form_mapping → get form_id for each officer step",
+    "3": "m_fb_page_master → create one page per form_id → get page_id",
+    "4": "m_fb_form_categories → verify or get category_id for FOR_DEPARTMENTAL_USE_ONLY",
+    "5": "m_fb_page_category_mapping → link page_id + category_id",
+    "6": "m_fb_form_field → find or create base field entry → get form_field_id",
+    "7": "m_fb_form_builder_fields → insert with service_id + form_id + page_id + category_id + form_field_id",
+    "8": "m_fb_formfield_options → insert options (only for SELECT/MULTISELECT fields)",
+    "9": "m_fb_form_rules → insert conditional rules (when_json + then_json)",
+    "10": "c_application_workflow_configuration → insert workflow step rows (one per step)"
+  },
+
+  "agentParsingRules": {
+    "skipButtonRows": "Any BA field table row where Type = 'Button' or 'Action Buttons' → SKIP. Buttons come from actionAllowedJson.",
+    "gridSpanMapping": { "3": 3, "4": 4, "6": 6, "8": 8, "12": 12 },
+    "mandatoryMapping": { "Mandatory": "Y", "Not Mandatory": "N", "Optional": "N", "Conditional": "N" },
+    "inputTypeMapping": {
+      "Text Area": "TEXTAREA", "Text Input": "TEXT", "File type": "FILE", "File Upload": "FILE",
+      "Select Dropdown": "SELECT", "Multi-Select": "MULTISELECT", "Date Picker": "DATE",
+      "Number": "NUMBER", "Radio Button": "RADIO", "Checkbox": "CHECKBOX"
+    },
+    "actionCodeMapping": {
+      "Pending": "SUBMIT", "Revert to Applicant": "RBI", "Forward to Department": "F",
+      "Forward to Approver": "FA", "Submit to Nodal": "F", "Approve": "A",
+      "Reject": "R", "Revert to Nodal": "P", "Revert Back": "RB", "Approve Internal": "FA"
+    },
+    "formTypeAbbrMapping": {
+      "AF": "Applicant Form", "PFVL": "Verification Level", "PFDFL": "Dept Forward Level",
+      "PFAL": "Approver Level", "PFIL": "Inspection Level", "PFDIFL": "Dept Internal Forward Level",
+      "PFDL": "Director Level", "PFCL": "Commissioner Level", "CLF": "Comment Level Form"
+    }
+  }
+}

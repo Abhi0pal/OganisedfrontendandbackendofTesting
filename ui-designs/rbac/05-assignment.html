@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Role Assignment</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#6366f1;font-weight:600;border-left:2px solid #6366f1}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:24px 28px}
+  .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+  .page-title{font-size:22px;font-weight:700}
+  .page-sub{font-size:13px;color:#64748b;margin-top:2px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-sm{padding:6px 12px;font-size:12px}
+  .btn-red{background:#fee2e2;color:#dc2626;border:none}
+  .filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+  .search-box{position:relative;flex:1;min-width:200px}
+  .search-box input{width:100%;padding:8px 12px 8px 34px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;background:#fff;outline:none}
+  .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#94a3b8}
+  .select-filter{padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;background:#fff;color:#374151;outline:none}
+  .table-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:24px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:#f8fafc;padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #e2e8f0}
+  td{padding:13px 16px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  .user-cell{display:flex;align-items:center;gap:10px}
+  .user-av{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;flex-shrink:0}
+  .user-name{font-weight:600;color:#0f172a}
+  .user-email{font-size:11px;color:#94a3b8}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-red{background:#fee2e2;color:#dc2626}
+  .badge-blue{background:#dbeafe;color:#1d4ed8}
+  .badge-orange{background:#ffedd5;color:#c2410c}
+  .scope-chips{display:flex;gap:4px;flex-wrap:wrap}
+  .scope-chip{background:#f1f5f9;color:#374151;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
+  .action-btns{display:flex;gap:6px}
+  .action-btn{width:30px;height:30px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:#64748b}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:flex-end;z-index:100;padding:20px}
+  .modal{background:#fff;border-radius:14px;width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+  .modal-header{padding:18px 22px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
+  .modal-title{font-size:15px;font-weight:700}
+  .modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#64748b}
+  .modal-body{padding:20px 22px}
+  .step-indicator{display:flex;gap:0;margin-bottom:22px}
+  .step{flex:1;text-align:center;position:relative}
+  .step::after{content:'';position:absolute;top:14px;left:50%;width:100%;height:2px;background:#e2e8f0;z-index:0}
+  .step:last-child::after{display:none}
+  .step-circle{width:28px;height:28px;border-radius:50%;background:#e2e8f0;color:#94a3b8;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;position:relative;z-index:1}
+  .step.done .step-circle{background:#6366f1;color:#fff}
+  .step.active .step-circle{background:#6366f1;color:#fff;box-shadow:0 0 0 4px #c7d2fe}
+  .step-label{font-size:10px;color:#94a3b8;font-weight:600}
+  .step.active .step-label{color:#4f46e5}
+  .form-section{margin-bottom:20px}
+  .form-section-title{font-size:12px;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:6px}
+  .form-group{margin-bottom:14px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
+  .form-control:focus{border-color:#6366f1}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .scope-builder{background:#f8fafc;border-radius:8px;padding:14px}
+  .scope-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+  .scope-type-sel{padding:7px 10px;border:1px solid #e2e8f0;border-radius:7px;font-size:12px;background:#fff;outline:none;flex-shrink:0}
+  .scope-val-sel{padding:7px 10px;border:1px solid #e2e8f0;border-radius:7px;font-size:12px;background:#fff;outline:none;flex:1}
+  .scope-remove{width:26px;height:26px;border-radius:6px;border:1px solid #fecaca;background:#fff;color:#dc2626;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .add-scope-btn{font-size:12px;color:#6366f1;background:none;border:none;cursor:pointer;font-weight:600;padding:4px 0}
+  .modal-footer{padding:14px 22px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:#fff}
+  .info-note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:12px;color:#92400e;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">🛡 RBAC Admin</div>
+      <div class="sidebar-logo-sub">Platform Control Panel</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Core</div>
+      <a class="nav-item" href="01-tenant.html">🏛 Tenants</a>
+      <a class="nav-item" href="02-roles.html">👑 Roles</a>
+      <a class="nav-item" href="03-modules.html">📁 Modules</a>
+      <a class="nav-item" href="04-permissions.html">🔐 Permissions</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Users</div>
+      <a class="nav-item active" href="05-assignment.html">👤 Assignments</a>
+      <a class="nav-item" href="06-transfer.html">🔄 Transfers</a>
+      <a class="nav-item" href="07-override.html">⚡ Overrides</a>
+      <a class="nav-item" href="08-projects.html">📋 Projects</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">User Role Assignments</div>
+      <div class="avatar">A</div>
+    </div>
+    <div class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">User Role Assignments</div>
+          <div class="page-sub">Officer ko role, tenant aur geographic scope assign karo</div>
+        </div>
+        <button class="btn btn-primary">＋ New Assignment</button>
+      </div>
+
+      <div class="filters">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Search by user name or email...">
+        </div>
+        <select class="select-filter"><option>All Tenants</option><option>🏛 SWCS</option><option>🌲 Forest</option></select>
+        <select class="select-filter"><option>All Roles</option><option>Commissioner</option><option>Director</option><option>District Officer</option><option>Block Officer</option></select>
+        <select class="select-filter"><option>All Status</option><option>Active</option><option>Expired</option><option>Closed</option></select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Role</th>
+              <th>Tenant</th>
+              <th>Geographic Scope</th>
+              <th>Validity</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="user-cell"><div class="user-av">RS</div><div><div class="user-name">Rajesh Sharma</div><div class="user-email">rajesh.sharma@uk.gov.in</div></div></div></td>
+              <td><strong>District Officer</strong><div style="font-size:11px;color:#94a3b8">Level 2</div></td>
+              <td>🏛 SWCS</td>
+              <td><div class="scope-chips"><span class="scope-chip">📍 Dehradun</span><span class="scope-chip">📍 Haridwar</span></div></td>
+              <td><div style="font-size:12px">01 Apr 2024 →</div><div style="font-size:11px;color:#94a3b8">No expiry</div></td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td><div class="action-btns"><div class="action-btn" title="Edit">✏</div><div class="action-btn" title="Transfer">🔄</div><div class="action-btn" title="Override">⚡</div><div class="action-btn" title="Close">✕</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="user-cell"><div class="user-av" style="background:#16a34a">PV</div><div><div class="user-name">Priya Verma</div><div class="user-email">priya.verma@uk.gov.in</div></div></div></td>
+              <td><strong>Block Officer</strong><div style="font-size:11px;color:#94a3b8">Level 3</div></td>
+              <td>🏛 SWCS</td>
+              <td><div class="scope-chips"><span class="scope-chip">🏘 Raipur Block</span></div></td>
+              <td><div style="font-size:12px">15 Jan 2024 →</div><div style="font-size:11px;color:#94a3b8">31 Mar 2025</div></td>
+              <td><span class="badge badge-orange">Expires Soon</span></td>
+              <td><div class="action-btns"><div class="action-btn">✏</div><div class="action-btn">🔄</div><div class="action-btn">⚡</div><div class="action-btn">✕</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="user-cell"><div class="user-av" style="background:#7c3aed">AK</div><div><div class="user-name">Amit Kumar</div><div class="user-email">amit.kumar@uk.gov.in</div></div></div></td>
+              <td><strong>Director</strong><div style="font-size:11px;color:#94a3b8">Level 1</div></td>
+              <td>🌲 Forest</td>
+              <td><div class="scope-chips"><span class="scope-chip">🗺 Uttarakhand (State)</span></div></td>
+              <td><div style="font-size:12px">01 Apr 2023 →</div><div style="font-size:11px;color:#94a3b8">No expiry</div></td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td><div class="action-btns"><div class="action-btn">✏</div><div class="action-btn">🔄</div><div class="action-btn">⚡</div><div class="action-btn">✕</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="user-cell"><div class="user-av" style="background:#dc2626">SM</div><div><div class="user-name">Sunita Mehra</div><div class="user-email">sunita.mehra@uk.gov.in</div></div></div></td>
+              <td><strong>District Officer</strong><div style="font-size:11px;color:#94a3b8">Level 2</div></td>
+              <td>🏛 SWCS</td>
+              <td><div class="scope-chips"><span class="scope-chip">📍 Nainital</span></div></td>
+              <td><div style="font-size:12px">01 Apr 2023 →</div><div style="font-size:11px;color:#dc2626">31 Dec 2023</div></td>
+              <td><span class="badge badge-red">Expired</span></td>
+              <td><div class="action-btns"><div class="action-btn">👁</div><div class="action-btn">🔄</div><div class="action-btn" style="opacity:.4">⚡</div><div class="action-btn" style="opacity:.4">✕</div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW ASSIGNMENT MODAL -->
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">👤 New Assignment</div>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="step-indicator">
+        <div class="step done"><div class="step-circle">✓</div><div class="step-label">User</div></div>
+        <div class="step active"><div class="step-circle">2</div><div class="step-label">Role & Tenant</div></div>
+        <div class="step"><div class="step-circle">3</div><div class="step-label">Scope</div></div>
+        <div class="step"><div class="step-circle">4</div><div class="step-label">Validity</div></div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">👑 Role & Tenant</div>
+        <div class="form-group">
+          <label class="form-label">Tenant <span>*</span></label>
+          <select class="form-control"><option>🏛 SWCS — Single Window</option><option>🌲 Forest Department</option></select>
+          <div class="form-hint">Kis tenant mein ye assignment hoga</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role <span>*</span></label>
+          <select class="form-control"><option>— Select Role —</option><option>👑 Commissioner (L0)</option><option>🏢 Director (L1)</option><option selected>🏛 District Officer (L2)</option><option>🏘 Block Officer (L3)</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Project (optional)</label>
+          <select class="form-control"><option>— All Projects (no restriction) —</option><option>📋 MSME Clearance 2024</option><option>🌲 Forest NOC Phase-2</option></select>
+          <div class="form-hint">NULL = poore tenant mein access · Value = sirf us project ka access</div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">📍 Geographic Scope</div>
+        <div class="info-note">⚠️ Scope define nahi kiya to user sab districts ka data dekh sakta hai — sirf role ka scope limit karega</div>
+        <div class="scope-builder">
+          <div class="scope-row">
+            <select class="scope-type-sel"><option>DISTRICT</option><option>BLOCK</option><option>TEHSIL</option><option>STATE</option></select>
+            <select class="scope-val-sel"><option>Dehradun</option><option>Haridwar</option><option>Nainital</option></select>
+            <button class="scope-remove">✕</button>
+          </div>
+          <div class="scope-row">
+            <select class="scope-type-sel"><option>DISTRICT</option><option>BLOCK</option><option>TEHSIL</option><option>STATE</option></select>
+            <select class="scope-val-sel"><option>Haridwar</option><option>Dehradun</option></select>
+            <button class="scope-remove">✕</button>
+          </div>
+          <button class="add-scope-btn">＋ Add Scope</button>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">📅 Validity</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Valid From <span>*</span></label>
+            <input class="form-control" type="date" value="2024-04-01">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Valid Until</label>
+            <input class="form-control" type="date">
+            <div class="form-hint">Blank = no expiry (current posting)</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Transfer Order No.</label>
+          <input class="form-control" type="text" placeholder="TO/2024/DM/456">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Remarks</label>
+          <input class="form-control" type="text" placeholder="Additional charge, temporary arrangement...">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost">← Back</button>
+      <button class="btn btn-primary">Save Assignment →</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

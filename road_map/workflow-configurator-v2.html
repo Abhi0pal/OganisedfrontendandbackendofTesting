@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow Configurator</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;font-size:13px;background:#f0f2f7;color:#222}
+
+/* Layout */
+.app{display:flex;height:100vh;overflow:hidden}
+.left{width:260px;background:#1e2d50;color:#fff;display:flex;flex-direction:column;flex-shrink:0}
+.right{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* Left panel */
+.brand{padding:16px;font-size:14px;font-weight:700;color:#7fb3f5;border-bottom:1px solid #2d3f62}
+.brand small{display:block;font-size:10px;color:#6b7fa0;font-weight:400;margin-top:2px}
+.service-select-wrap{padding:14px}
+.service-select-wrap label{font-size:10px;color:#8a9bbf;text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:5px;display:block}
+.service-select-wrap select{width:100%;background:#2a3d62;color:#fff;border:1px solid #3a5080;border-radius:5px;padding:8px 10px;font-size:12px}
+.service-select-wrap select:focus{outline:none;border-color:#4a90d9}
+.steps-panel{flex:1;overflow-y:auto;padding:0 0 12px}
+.steps-label{padding:10px 14px 5px;font-size:10px;color:#8a9bbf;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.step-item{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;border-left:3px solid transparent;transition:.15s}
+.step-item:hover{background:#263554;border-left-color:#4a6090}
+.step-item.active{background:#2e4470;border-left-color:#4a90d9}
+.step-item.active .sn{background:#4a90d9}
+.sn{width:26px;height:26px;border-radius:50%;background:#3a5080;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.step-meta{flex:1;min-width:0}
+.step-meta .sm{font-size:12px;color:#c8d8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step-meta .ss{font-size:10px;color:#6b7fa0;margin-top:1px}
+.step-actions-bar{padding:12px 14px;border-top:1px solid #2d3f62}
+.btn-add-step{width:100%;padding:9px;background:#2962d9;color:#fff;border:none;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-add-step:hover{background:#1d4fbf}
+
+/* Right panel topbar */
+.topbar{background:#fff;border-bottom:1px solid #dde3ee;padding:0 22px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.page-title{font-size:14px;font-weight:700;color:#1e2d50}
+.page-sub{font-size:11px;color:#8a9bbf;margin-left:10px}
+.top-btns{display:flex;gap:8px}
+
+/* Content scroll */
+.content{flex:1;overflow-y:auto;padding:18px 22px}
+
+/* Version + Status bar */
+.vbar{background:#fff;border:1px solid #dde3ee;border-radius:7px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:flex-end;gap:16px}
+.vbar .field{flex:1}
+
+/* Cards */
+.card{background:#fff;border:1px solid #dde3ee;border-radius:7px;margin-bottom:12px;overflow:hidden}
+.card-title{padding:11px 16px;font-weight:700;font-size:12px;color:#1e2d50;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #edf0f5;cursor:pointer;user-select:none}
+.card-title-left{display:flex;align-items:center;gap:8px}
+.card-icon{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.card-body{padding:16px}
+.card-body.hide{display:none}
+
+/* Icon colors */
+.i1{background:#e8f0fe;color:#2962d9}
+.i2{background:#fff3e0;color:#e65100}
+.i3{background:#f3e5f5;color:#7b1fa2}
+.i4{background:#e3f2fd;color:#0277bd}
+.i5{background:#fff8e1;color:#f57f17}
+.i6{background:#fce4ec;color:#c62828}
+.i7{background:#e0f7fa;color:#00695c}
+
+/* Grid helpers */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+.g5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:12px}
+
+/* Field */
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:600;color:#556;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.req{color:#e53e3e}
+.new-tag{background:#f0fff4;color:#276749;border:1px solid #9ae6b4;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700}
+.field input,.field select,.field textarea{border:1px solid #cbd5e0;border-radius:5px;padding:7px 10px;font-size:12px;color:#2d3748;background:#fafbfc;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#4a90d9;background:#fff;box-shadow:0 0 0 2px rgba(74,144,217,.15)}
+.field textarea{min-height:68px;resize:vertical;font-family:monospace;font-size:11px}
+.hint{font-size:10px;color:#9aa5b4;font-style:italic;margin-top:2px}
+
+/* Checkbox */
+.chk-card{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border:1px solid #e2e8f0;border-radius:5px;background:#fafbfc;cursor:pointer}
+.chk-card:hover{border-color:#4a90d9;background:#f0f7ff}
+.chk-card input[type=checkbox]{width:14px;height:14px;accent-color:#2962d9;margin-top:2px;flex-shrink:0}
+.chk-title{font-size:12px;font-weight:600;color:#2d3748}
+.chk-sub{font-size:10px;color:#9aa5b4;margin-top:2px}
+
+/* Toggle */
+.toggle-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.toggle{position:relative;width:38px;height:20px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.tslider{position:absolute;cursor:pointer;inset:0;background:#cbd5e0;border-radius:20px;transition:.2s}
+.tslider:before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.toggle input:checked+.tslider{background:#4a90d9}
+.toggle input:checked+.tslider:before{transform:translateX(18px)}
+.toggle-label{font-size:12px;font-weight:600;color:#2d3748}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:#f0f4ff;color:#2d3a6e;padding:8px 10px;text-align:left;font-size:11px;font-weight:600;border:1px solid #dde3ee}
+.tbl td{border:1px solid #e8ecf4;padding:0}
+.tbl td input,.tbl td select{border:none;background:transparent;font-size:12px;width:100%;padding:7px 9px;outline:none;color:#2d3748}
+.tbl td input:focus,.tbl td select:focus{background:#f0f7ff}
+.tbl tr:nth-child(even) td{background:#f9fbff}
+.del-btn{padding:4px 8px;background:#fee2e2;color:#c53030;border:none;border-radius:4px;cursor:pointer;font-size:11px}
+
+/* Action chips */
+.chip{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin:1px}
+.ch-F{background:#dbeafe;color:#1d4ed8}
+.ch-A{background:#dcfce7;color:#166534}
+.ch-R{background:#fee2e2;color:#991b1b}
+.ch-RBI{background:#fef9c3;color:#854d0e}
+.ch-FA{background:#ede9fe;color:#5b21b6}
+.ch-RB{background:#fce7f3;color:#9d174d}
+.ch-C{background:#d1fae5;color:#065f46}
+.ch-P{background:#e0e7ff;color:#3730a3}
+.ch-DP{background:#fee2e2;color:#991b1b}
+.ch-ID{background:#fef3c7;color:#92400e}
+.ch-IS{background:#d1fae5;color:#065f46}
+.ch-SB{background:#f3f4f6;color:#374151}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.b-draft{background:#feebc8;color:#c05621}
+.b-pub{background:#c6f6d5;color:#22543d}
+.b-inactive{background:#e2e8f0;color:#4a5568}
+
+/* Steps preview table */
+.preview-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.preview-tbl th{background:#1e2d50;color:#fff;padding:9px 12px;text-align:left;font-size:11px;font-weight:600}
+.preview-tbl td{border-bottom:1px solid #edf0f5;padding:10px 12px;vertical-align:middle}
+.preview-tbl tr:hover td{background:#f8f9ff}
+
+/* Buttons */
+.btn{padding:7px 16px;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px;transition:.15s}
+.btn-primary{background:#2962d9;color:#fff}
+.btn-primary:hover{background:#1d4fbf}
+.btn-success{background:#2e7d32;color:#fff}
+.btn-success:hover{background:#1b5e20}
+.btn-outline{background:#fff;color:#2962d9;border:1px solid #2962d9}
+.btn-outline:hover{background:#ebf8ff}
+.btn-ghost{background:#f4f6fb;color:#4a5568;border:1px solid #dde3ee}
+.btn-ghost:hover{background:#e8ecf5}
+.btn-sm{padding:5px 11px;font-size:11px}
+.btn-plus{background:#f0f4ff;color:#2962d9;border:1px dashed #4a90d9;font-size:11px;padding:5px 12px;border-radius:4px;cursor:pointer;margin-top:8px}
+.btn-plus:hover{background:#e0eaff}
+.btn-row{display:flex;gap:10px;margin-top:4px}
+
+/* Note boxes */
+.note{padding:10px 14px;border-radius:5px;font-size:11px;line-height:1.5;display:flex;gap:8px;align-items:flex-start}
+.note-blue{background:#ebf8ff;border-left:3px solid #4a90d9;color:#2b4a7a}
+.note-yellow{background:#fffbeb;border-left:3px solid #f6ad55;color:#7b4f00}
+.note-green{background:#f0fff4;border-left:3px solid #68d391;color:#276749}
+.note-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+
+/* Transition entry form */
+.transition-entry{background:#f8f9ff;border:1px solid #e0e6f5;border-radius:6px;padding:14px;margin-bottom:12px}
+.transition-entry-title{font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
+
+/* Action condition badge */
+.cond-badge{background:#fef9c3;color:#854d0e;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600}
+
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#f1f1f1}
+::-webkit-scrollbar-thumb{background:#c0cad8;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ══ LEFT PANEL ══════════════════════════════════════════ -->
+<div class="left">
+  <div class="brand">
+    ⚙️ Workflow Configurator
+    <small>SWCS 2.0 — Invest Uttarakhand</small>
+  </div>
+
+  <!-- Service Selector -->
+  <div class="service-select-wrap">
+    <label>Department</label>
+    <select style="margin-bottom:8px" id="sel-dept" onchange="filterServices()">
+      <option value="">— Select Department —</option>
+      <option value="1">Directorate of Industries</option>
+      <option value="2">Revenue Department</option>
+      <option value="3">Forest Department</option>
+      <option value="4">Labour Department</option>
+      <option value="5">Fire & Emergency Services</option>
+    </select>
+    <label>Service</label>
+    <select id="sel-service">
+      <option value="">— Select Service —</option>
+      <option value="591">591.0 — In-principle Approval</option>
+      <option value="592">592.0 — Trade Licence</option>
+      <option value="593">593.0 — Factory Registration</option>
+    </select>
+  </div>
+
+  <!-- Steps list -->
+  <div class="steps-panel">
+    <div class="steps-label">Workflow Steps</div>
+    <div id="steps-list">
+      <div class="step-item active" onclick="loadStep(1)">
+        <div class="sn">1</div>
+        <div class="step-meta">
+          <div class="sm">Applicant Submission</div>
+          <div class="ss">Role: Applicant · AF</div>
+        </div>
+      </div>
+      <div class="step-item" onclick="loadStep(2)">
+        <div class="sn">2</div>
+        <div class="step-meta">
+          <div class="sm">Verifier Level</div>
+          <div class="ss">Role: Nodal Officer (7) · PF</div>
+        </div>
+      </div>
+      <div class="step-item" onclick="loadStep(3)">
+        <div class="sn">3</div>
+        <div class="step-meta">
+          <div class="sm">Line Department</div>
+          <div class="ss">Role: Dept Nodal Dist (3) · PF</div>
+        </div>
+      </div>
+      <div class="step-item" onclick="loadStep(4)">
+        <div class="sn">4</div>
+        <div class="step-meta">
+          <div class="sm">Verifier (Post-Consent)</div>
+          <div class="ss">Role: Nodal Officer (7) · PF</div>
+        </div>
+      </div>
+      <div class="step-item" onclick="loadStep(5)">
+        <div class="sn">5</div>
+        <div class="step-meta">
+          <div class="sm">Approver Level</div>
+          <div class="ss">Role: GM DIC (33) · PFA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-actions-bar">
+    <button class="btn-add-step" onclick="alert('New step added')">＋ Add New Step</button>
+  </div>
+</div>
+
+<!-- ══ RIGHT PANEL ══════════════════════════════════════════ -->
+<div class="right">
+  <div class="topbar">
+    <div style="display:flex;align-items:center">
+      <span class="page-title">Step 2 — Verifier Level</span>
+      <span class="page-sub">Service: 591.0 · In-principle Approval</span>
+    </div>
+    <div class="top-btns">
+      <button class="btn btn-ghost btn-sm" onclick="previewJSON()">👁 Preview JSON</button>
+      <button class="btn btn-success btn-sm" onclick="alert('Saved successfully!')">💾 Save Step</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- Version & Status -->
+    <div class="vbar">
+      <div class="field">
+        <label>Config Version</label>
+        <input type="number" value="1" min="1" style="width:90px"/>
+      </div>
+      <div class="field">
+        <label>Workflow Status</label>
+        <select style="width:160px">
+          <option value="DRAFT">🟡 DRAFT</option>
+          <option value="PUBLISHED">🟢 PUBLISHED</option>
+          <option value="INACTIVE">⚫ INACTIVE</option>
+          <option value="ARCHIVED">🔴 ARCHIVED</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Jurisdiction Level</label>
+        <select style="width:140px">
+          <option value="DISTRICT" selected>DISTRICT</option>
+          <option value="STATE">STATE</option>
+          <option value="BLOCK">BLOCK</option>
+          <option value="TEHSIL">TEHSIL</option>
+          <option value="GRAM_PANCHAYAT">GRAM PANCHAYAT</option>
+          <option value="VILLAGE">VILLAGE</option>
+        </select>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <span class="badge b-draft">DRAFT</span>
+        <span style="font-size:11px;color:#9aa5b4">Last saved: —</span>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 1: STEP BASICS ════════════════════════ -->
+    <div class="card">
+      <div class="card-title" onclick="tog(this)">
+        <div class="card-title-left">
+          <span class="card-icon i1">📋</span>
+          Step Information
+          <span style="font-size:10px;color:#9aa5b4;font-weight:400;margin-left:6px">— Is step mein kaunsi role kaam karegi</span>
+        </div>
+        <span style="color:#9aa5b4">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="g4">
+          <div class="field">
+            <label>Step Number <span class="req">*</span></label>
+            <input type="number" value="2" min="1"/>
+            <span class="hint">1 = Applicant, 2 onwards = Officers</span>
+          </div>
+          <div class="field">
+            <label>Role (Actor) <span class="req">*</span></label>
+            <select>
+              <option value="0">Applicant (Investor)</option>
+              <option value="2" selected>Investor (role 2)</option>
+              <option value="3">Dept Nodal CAF District (3)</option>
+              <option value="4">State Level CAF Verifier (4)</option>
+              <option value="5">Dept Nodal CAF State (5)</option>
+              <option value="7">Nodal Officer / District Support (7)</option>
+              <option value="33">GM DIC / Dist Level Approver (33)</option>
+              <option value="34">GM DOI / State Level Approver (34)</option>
+              <option value="68">Document Verifier (68)</option>
+              <option value="70">Inspection Nodal (70)</option>
+              <option value="87">Service Verifier (87)</option>
+              <option value="88">Service Approver (88)</option>
+              <option value="92">Tehsildar (92)</option>
+              <option value="94">SDM (94)</option>
+              <option value="99">Scrutiny Committee / Nodal (99)</option>
+              <option value="103">Director (103)</option>
+              <option value="106">Commissioner (106)</option>
+              <option value="115">Section Officer (115)</option>
+              <option value="119">General Manager (119)</option>
+            </select>
+            <span class="hint">Master table: m_roles</span>
+          </div>
+          <div class="field">
+            <label>Form Type <span class="req">*</span></label>
+            <select>
+              <option value="1">Applicant Form (AF)</option>
+              <option value="5" selected>Processing Form – Verification Level</option>
+              <option value="6">Processing Form – Dept Forward Level</option>
+              <option value="7">Processing Form – Approver Level</option>
+              <option value="8">Processing Form – Dept Internal Forward</option>
+              <option value="9">Processing Form – Inspection Level</option>
+              <option value="12">Scrutiny Committee</option>
+              <option value="14">Processing Form – Director Level</option>
+              <option value="20">Processing Form – Section Officer Level</option>
+              <option value="24">Processing Form – General Manager Level</option>
+              <option value="27">Comment Level Form</option>
+            </select>
+            <span class="hint">Master table: m_fb_form_types</span>
+          </div>
+          <div class="field">
+            <label>Assignment Strategy</label>
+            <select>
+              <option value="ROLE" selected>ROLE — Role ke basis pe assign</option>
+              <option value="USER">USER — Specific user ko assign</option>
+              <option value="OFFICE">OFFICE — Office ke basis pe</option>
+              <option value="RULE">RULE — Custom rule engine</option>
+            </select>
+            <span class="hint">Master table: m_workflow_assignment_strategy</span>
+          </div>
+        </div>
+        <div class="g3" style="margin-top:12px">
+          <div class="field">
+            <label>Next Allocation Role (Default)</label>
+            <select>
+              <option value="">— None —</option>
+              <option value="3">Dept Nodal CAF District (3)</option>
+              <option value="7">Nodal Officer (7)</option>
+              <option value="33" selected>GM DIC / Approver (33)</option>
+              <option value="34">GM DOI / State Approver (34)</option>
+              <option value="87">Service Verifier (87)</option>
+              <option value="88">Service Approver (88)</option>
+            </select>
+            <span class="hint">Forward action ke baad default next role</span>
+          </div>
+          <div class="field">
+            <label>Sub Responsibility <span class="new-tag">NEW</span></label>
+            <select>
+              <option value="">— None —</option>
+              <option value="DOC_VERIFY" selected>📄 Document Verification</option>
+              <option value="INSPECTION">🔍 Inspection</option>
+              <option value="TRANSACTION">💳 Transaction / Payment</option>
+              <option value="CONSENT">✅ Consent / NOC</option>
+            </select>
+            <span class="hint">Is step ki main responsibility</span>
+          </div>
+          <div class="field">
+            <label>Accessible Forms at this Step</label>
+            <input placeholder="e.g. 1,2,5" value=""/>
+            <span class="hint">permissableTabFormId — jo tabs dikhen (comma-sep)</span>
+          </div>
+        </div>
+        <div class="g4" style="margin-top:10px">
+          <label class="chk-card">
+            <input type="checkbox" checked/>
+            <div>
+              <div class="chk-title">Can Verify Document</div>
+              <div class="chk-sub">Document verification is step pe hogi</div>
+            </div>
+          </label>
+          <label class="chk-card">
+            <input type="checkbox"/>
+            <div>
+              <div class="chk-title">Own Department Only</div>
+              <div class="chk-sub">Sirf same dept ke officers assign hon</div>
+            </div>
+          </label>
+          <label class="chk-card">
+            <input type="checkbox"/>
+            <div>
+              <div class="chk-title">Document Show Last</div>
+              <div class="chk-sub">Documents form ke end mein dikhao</div>
+            </div>
+          </label>
+          <label class="chk-card">
+            <input type="checkbox"/>
+            <div>
+              <div class="chk-title">Show Licence List</div>
+              <div class="chk-sub">Is step pe licence list dikhao</div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 2: SLA ═════════════════════════════════ -->
+    <div class="card">
+      <div class="card-title" onclick="tog(this)">
+        <div class="card-title-left">
+          <span class="card-icon i2">⏱</span>
+          SLA &amp; Time Limit
+          <span style="font-size:10px;color:#9aa5b4;font-weight:400;margin-left:6px">— Kitne ghante mein action lena zaroori hai</span>
+        </div>
+        <span style="color:#9aa5b4">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="g4">
+          <div class="field">
+            <label>SLA Hours</label>
+            <input type="number" value="72" min="0"/>
+            <span class="hint">0 = koi time limit nahi</span>
+          </div>
+          <label class="chk-card">
+            <input type="checkbox" checked/>
+            <div>
+              <div class="chk-title">Breach Reason Required</div>
+              <div class="chk-sub">Time cross hone par officer ko reason dena hoga</div>
+            </div>
+          </label>
+          <label class="chk-card">
+            <input type="checkbox"/>
+            <div>
+              <div class="chk-title">Process Anytime</div>
+              <div class="chk-sub">Office hours ke bahar bhi process ho sakta hai</div>
+            </div>
+          </label>
+          <label class="chk-card">
+            <input type="checkbox"/>
+            <div>
+              <div class="chk-title">Exclude Holidays from SLA <span class="new-tag">NEW</span></div>
+              <div class="chk-sub">Sunday / public holidays count na hon</div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Escalation -->
+        <div style="margin-top:14px">
+          <div style="font-size:12px;font-weight:700;color:#445;margin-bottom:8px">
+            ⚠️ Escalation Rules
+            <span class="new-tag" style="margin-left:4px">NEW column: escalationJson</span>
+          </div>
+          <div class="note note-blue" style="margin-bottom:10px">
+            <span class="note-icon">ℹ️</span>
+            <div>SLA breach hone ke baad automatically escalate karo. e.g. 96 ghante baad Senior Officer ko notify/reassign karo.</div>
+          </div>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Breach ke baad (hours)</th>
+                <th>Escalate To (Role)</th>
+                <th>Action</th>
+                <th>Notify Kisko</th>
+                <th style="width:40px"></th>
+              </tr>
+            </thead>
+            <tbody id="esc-tbody">
+              <tr>
+                <td><input type="number" value="96" placeholder="96"/></td>
+                <td>
+                  <select>
+                    <option value="7" selected>Nodal Officer (7)</option>
+                    <option value="33">GM DIC (33)</option>
+                    <option value="34">GM DOI (34)</option>
+                    <option value="62">Dept HOD (62)</option>
+                    <option value="73">Chief Secretary (73)</option>
+                  </select>
+                </td>
+                <td>
+                  <select>
+                    <option>Sirf Notify Karo</option>
+                    <option>Auto-Reassign Karo</option>
+                    <option>Notify + Reassign</option>
+                  </select>
+                </td>
+                <td>
+                  <select>
+                    <option>Admin ko</option>
+                    <option>Department Head ko</option>
+                    <option>Dono ko</option>
+                  </select>
+                </td>
+                <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn-plus" onclick="addEsc()">＋ Add Escalation Rule</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 3: PARALLEL FORWARD ═══════════════════ -->
+    <div class="card">
+      <div class="card-title" onclick="tog(this)">
+        <div class="card-title-left">
+          <span class="card-icon i3">🔀</span>
+          Parallel Forward
+          <span style="font-size:10px;color:#9aa5b4;font-weight:400;margin-left:6px">— Ek saath multiple departments ko bhejo</span>
+        </div>
+        <span style="color:#9aa5b4">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="toggle-row" style="margin-bottom:12px">
+          <label class="toggle">
+            <input type="checkbox" id="pf-on" onchange="togglePF()" checked/>
+            <div class="tslider"></div>
+          </label>
+          <span class="toggle-label">Parallel Forward Enable karo</span>
+        </div>
+
+        <div id="pf-section">
+          <div class="g2" style="margin-bottom:14px">
+            <div class="field">
+              <label>Sabko respond karna hai ya koi ek kaafi hai? <span class="new-tag">NEW: parallelAggregation</span></label>
+              <select>
+                <option value="ALL">ALL — Sabke respond karne ke baad aage jao</option>
+                <option value="ANY">ANY — Koi ek respond kare to aage jao</option>
+                <option value="MAJORITY">MAJORITY — 50% ya zyada respond karen</option>
+                <option value="MANUAL">MANUAL — Verifier khud decide kare kab aage bheje</option>
+              </select>
+            </div>
+            <label class="chk-card" style="align-self:flex-end">
+              <input type="checkbox"/>
+              <div>
+                <div class="chk-title">Ownership Retain karo</div>
+                <div class="chk-sub">Parallel bhejne ke baad bhi is step ki ownership bani rahe</div>
+              </div>
+            </label>
+          </div>
+
+          <div style="font-size:12px;font-weight:700;color:#445;margin-bottom:8px">
+            📋 Parallel Departments / Roles
+          </div>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Department / Authority</th>
+                <th>Role</th>
+                <th>Zaroori? (Mandatory)</th>
+                <th>SLA Hours</th>
+                <th>Notes</th>
+                <th style="width:40px"></th>
+              </tr>
+            </thead>
+            <tbody id="pf-tbody">
+              <tr>
+                <td><input value="Line Department (Fire NOC)"/></td>
+                <td>
+                  <select>
+                    <option value="3" selected>Dept Nodal CAF District (3)</option>
+                    <option value="5">Dept Nodal CAF State (5)</option>
+                    <option value="68">Document Verifier (68)</option>
+                    <option value="70">Inspection Nodal (70)</option>
+                    <option value="87">Service Verifier (87)</option>
+                  </select>
+                </td>
+                <td><select><option>Haan (Y)</option><option>Nahi (N)</option></select></td>
+                <td><input type="number" value="48" style="width:70px"/></td>
+                <td><input value="Fire Safety NOC"/></td>
+                <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+              </tr>
+              <tr>
+                <td><input value="Pollution Control Board"/></td>
+                <td>
+                  <select>
+                    <option value="3" selected>Dept Nodal CAF District (3)</option>
+                    <option value="68">Document Verifier (68)</option>
+                    <option value="87">Service Verifier (87)</option>
+                  </select>
+                </td>
+                <td><select><option>Haan (Y)</option><option>Nahi (N)</option></select></td>
+                <td><input type="number" value="72" style="width:70px"/></td>
+                <td><input value="Pollution NOC"/></td>
+                <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn-plus" onclick="addPF()">＋ Add Department / Role</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 4: ACTIONS & TRANSITIONS ══════════════ -->
+    <div class="card">
+      <div class="card-title" onclick="tog(this)">
+        <div class="card-title-left">
+          <span class="card-icon i4">⚡</span>
+          Actions &amp; Transitions
+          <span style="font-size:10px;color:#9aa5b4;font-weight:400;margin-left:6px">— Is step se application kahan jaayegi</span>
+        </div>
+        <span style="color:#9aa5b4">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="note note-green" style="margin-bottom:12px">
+          <span class="note-icon">✅</span>
+          <div>Har action ke liye define karo: <strong>kaunsa action</strong> → <strong>next step number</strong> → <strong>next role</strong>. Optional condition bhi lag sakti hai.</div>
+        </div>
+
+        <!-- Add new transition -->
+        <div class="transition-entry">
+          <div class="transition-entry-title">➕ Naya Action Add Karo</div>
+          <div class="g5">
+            <div class="field">
+              <label>Action <span class="req">*</span></label>
+              <select id="new-action">
+                <option value="F">FORWARD — Aage bhejo</option>
+                <option value="A">APPROVE — Approve karo</option>
+                <option value="R">REJECT — Reject karo</option>
+                <option value="RBI">REVERT TO INVESTOR — Applicant ko wapas</option>
+                <option value="FA">FORWARD TO APPROVER — Seedha Approver ko</option>
+                <option value="RB">REVERT BACK — Pichli stage pe wapas</option>
+                <option value="C">CONSENT — Consent do</option>
+                <option value="P">PENDING — Pending rakho</option>
+                <option value="DP">DOCUMENT PENDING — Docs maango</option>
+                <option value="ID">INSPECTION DUE — Inspection schedule karo</option>
+                <option value="IS">INSPECTION SCHEDULED</option>
+                <option value="IC">INSPECTION CLEARED</option>
+                <option value="IF">INSPECTION FAILED</option>
+                <option value="SB">SEND BACK — Return karo</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Next Step # <span class="req">*</span></label>
+              <input type="number" id="new-step" placeholder="3" min="0"/>
+              <span class="hint">0 = Final / Closed</span>
+            </div>
+            <div class="field">
+              <label>Next Role <span class="req">*</span></label>
+              <select id="new-role">
+                <option value="">— None (Final) —</option>
+                <option value="0">Applicant / Investor</option>
+                <option value="3">Dept Nodal CAF District (3)</option>
+                <option value="4">State CAF Verifier (4)</option>
+                <option value="5">Dept Nodal CAF State (5)</option>
+                <option value="7">Nodal Officer (7)</option>
+                <option value="33">GM DIC – Dist Approver (33)</option>
+                <option value="34">GM DOI – State Approver (34)</option>
+                <option value="68">Document Verifier (68)</option>
+                <option value="70">Inspection Nodal (70)</option>
+                <option value="87">Service Verifier (87)</option>
+                <option value="88">Service Approver (88)</option>
+                <option value="92">Tehsildar (92)</option>
+                <option value="94">SDM (94)</option>
+                <option value="99">Scrutiny Committee (99)</option>
+                <option value="103">Director (103)</option>
+                <option value="106">Commissioner (106)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Condition <span class="new-tag">NEW</span></label>
+              <select id="new-cond">
+                <option value="">Hamesha (No condition)</option>
+                <option value="all_parallel_done">Jab sabka response aa jaaye (parallel)</option>
+                <option value="inv_gt_50cr">Investment > 50 Crore</option>
+                <option value="inv_lte_50cr">Investment ≤ 50 Crore</option>
+                <option value="custom">Custom expression...</option>
+              </select>
+            </div>
+            <div class="field" style="justify-content:flex-end">
+              <label>&nbsp;</label>
+              <button class="btn btn-primary" onclick="addTransition()">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transitions table -->
+        <table class="tbl" id="trans-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Action</th>
+              <th>Next Step</th>
+              <th>Next Role</th>
+              <th>Condition</th>
+              <th style="width:40px"></th>
+            </tr>
+          </thead>
+          <tbody id="trans-tbody">
+            <tr>
+              <td style="text-align:center;padding:8px;color:#9aa5b4">1</td>
+              <td style="padding:8px"><span class="chip ch-F">FORWARD</span></td>
+              <td style="text-align:center;font-weight:700;padding:8px">3</td>
+              <td style="padding:8px"><span class="badge" style="background:#dbeafe;color:#1d4ed8">Dept Nodal Dist (3)</span></td>
+              <td style="padding:8px"><span style="color:#9aa5b4;font-size:11px">— Hamesha</span></td>
+              <td style="padding:5px"><button class="del-btn" onclick="delRow(this)">✕</button></td>
+            </tr>
+            <tr>
+              <td style="text-align:center;padding:8px;color:#9aa5b4">2</td>
+              <td style="padding:8px"><span class="chip ch-F">FORWARD</span></td>
+              <td style="text-align:center;font-weight:700;padding:8px">5</td>
+              <td style="padding:8px"><span class="badge" style="background:#dcfce7;color:#166534">GM DIC Approver (33)</span></td>
+              <td style="padding:8px"><span class="cond-badge">Jab sabka response aa jaaye</span></td>
+              <td style="padding:5px"><button class="del-btn" onclick="delRow(this)">✕</button></td>
+            </tr>
+            <tr>
+              <td style="text-align:center;padding:8px;color:#9aa5b4">3</td>
+              <td style="padding:8px"><span class="chip ch-RBI">REVERT TO INVESTOR</span></td>
+              <td style="text-align:center;font-weight:700;padding:8px">1</td>
+              <td style="padding:8px"><span class="badge" style="background:#fef9c3;color:#854d0e">Applicant (0)</span></td>
+              <td style="padding:8px"><span style="color:#9aa5b4;font-size:11px">— Hamesha</span></td>
+              <td style="padding:5px"><button class="del-btn" onclick="delRow(this)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Generated JSON -->
+        <div class="field" style="margin-top:12px">
+          <label>Generated Transition Map (transitionMapJson)</label>
+          <textarea id="trans-json">{"F":{"nextStep":3,"nextRoles":[3],"parallel":true},"F_COND":{"nextStep":5,"nextRoles":[33],"condition":"all_parallel_responded"},"RBI":{"nextStep":1,"nextRoles":[]}}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 5: ROUTING CONDITIONS ═════════════════ -->
+    <div class="card">
+      <div class="card-title" onclick="tog(this)">
+        <div class="card-title-left">
+          <span class="card-icon i5">🔀</span>
+          Routing Conditions (Investment / Field-based)
+          <span class="new-tag" style="margin-left:6px">NEW column: routingConditionJson</span>
+        </div>
+        <span style="color:#9aa5b4">▼</span>
+      </div>
+      <div class="card-body hide">
+        <div class="note note-yellow" style="margin-bottom:12px">
+          <span class="note-icon">⚠️</span>
+          <div>
+            Agar application ke kisi field ki value ke basis pe alag route leni ho — jaise <strong>Plant &amp; Machinery investment > 50 Crore → State level, ≤ 50 Crore → District level</strong> — to yahan define karo.
+          </div>
+        </div>
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Form Field Name</th>
+              <th>Condition</th>
+              <th>Value</th>
+              <th>Result / Route To</th>
+              <th>Jump to Step</th>
+              <th>Notes</th>
+              <th style="width:40px"></th>
+            </tr>
+          </thead>
+          <tbody id="routing-tbody">
+            <tr>
+              <td><input value="plant_machinery_investment"/></td>
+              <td>
+                <select>
+                  <option>></option><option>>=</option>
+                  <option>&lt;</option><option selected>&lt;=</option><option>=</option><option>!=</option>
+                </select>
+              </td>
+              <td><input value="50000000"/></td>
+              <td>
+                <select>
+                  <option selected>DISTRICT level workflow</option>
+                  <option>STATE level workflow</option>
+                  <option>Step Skip karo</option>
+                  <option>Specific step pe jao</option>
+                </select>
+              </td>
+              <td><input type="number" placeholder="—" style="width:60px"/></td>
+              <td><input value="50 Cr ya kum → District"/></td>
+              <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+            </tr>
+            <tr>
+              <td><input value="plant_machinery_investment"/></td>
+              <td>
+                <select>
+                  <option>></option><option selected>>=</option>
+                  <option>&lt;</option><option>&lt;=</option><option>=</option>
+                </select>
+              </td>
+              <td><input value="50000001"/></td>
+              <td>
+                <select>
+                  <option>DISTRICT level workflow</option>
+                  <option selected>STATE level workflow</option>
+                  <option>Step Skip karo</option>
+                </select>
+              </td>
+              <td><input type="number" placeholder="—" style="width:60px"/></td>
+              <td><input value="50 Cr se zyada → State"/></td>
+              <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn-plus" onclick="addRouting()">＋ Add Routing Condition</button>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 6: DOCUMENT CHECKLIST ═════════════════ -->
+    <div class="card">
+      <div class="card-title" onclick="tog(this)">
+        <div class="card-title-left">
+          <span class="card-icon i6">📁</span>
+          Document Checklist
+          <span class="new-tag" style="margin-left:6px">NEW column: documentChecklistJson</span>
+          <span style="font-size:10px;color:#9aa5b4;font-weight:400;margin-left:4px">— Is step pe kaunse docs verify hone chahiye</span>
+        </div>
+        <span style="color:#9aa5b4">▼</span>
+      </div>
+      <div class="card-body hide">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Document Type ID</th>
+              <th>Document Name</th>
+              <th>Zaroori? (Mandatory)</th>
+              <th>Notes</th>
+              <th style="width:40px"></th>
+            </tr>
+          </thead>
+          <tbody id="doc-tbody">
+            <tr>
+              <td><input type="number" value="5" style="width:80px"/></td>
+              <td><input value="Incorporation Certificate"/></td>
+              <td><select><option>Haan (Y)</option><option>Nahi (N)</option></select></td>
+              <td><input value=""/></td>
+              <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+            </tr>
+            <tr>
+              <td><input type="number" value="8" style="width:80px"/></td>
+              <td><input value="Land Documents / Lease Deed"/></td>
+              <td><select><option>Haan (Y)</option><option>Nahi (N)</option></select></td>
+              <td><input value=""/></td>
+              <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn-plus" onclick="addDoc()">＋ Add Document</button>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 7: NOTIFICATIONS ══════════════════════ -->
+    <div class="card">
+      <div class="card-title" onclick="tog(this)">
+        <div class="card-title-left">
+          <span class="card-icon i7">🔔</span>
+          Notification Rules
+          <span class="new-tag" style="margin-left:6px">NEW column: notificationJson</span>
+          <span style="font-size:10px;color:#9aa5b4;font-weight:400;margin-left:4px">— Kisi action ke baad kisko inform karo</span>
+        </div>
+        <span style="color:#9aa5b4">▼</span>
+      </div>
+      <div class="card-body hide">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Kab bhejo (Trigger)</th>
+              <th>Kisko bhejo</th>
+              <th>Channel</th>
+              <th>Message Template</th>
+              <th style="width:40px"></th>
+            </tr>
+          </thead>
+          <tbody id="notif-tbody">
+            <tr>
+              <td>
+                <select>
+                  <option>Step Assign hone par</option>
+                  <option>Action lene par</option>
+                  <option>SLA breach par</option>
+                  <option>Approve par</option>
+                  <option>Reject par</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>Applicant ko</option>
+                  <option selected>Next role ko</option>
+                  <option>Admin ko</option>
+                  <option>Sabko</option>
+                </select>
+              </td>
+              <td><select><option>Email</option><option>SMS</option><option selected>Dono</option></select></td>
+              <td><input value="Application forward hui hai. {sla_hours} ghante mein action lo. Ref: {app_id}"/></td>
+              <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+            </tr>
+            <tr>
+              <td>
+                <select>
+                  <option>Step Assign hone par</option>
+                  <option>Action lene par</option>
+                  <option selected>SLA breach par</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>Applicant ko</option>
+                  <option>Next role ko</option>
+                  <option selected>Admin ko</option>
+                </select>
+              </td>
+              <td><select><option>Email</option><option>SMS</option><option selected>Dono</option></select></td>
+              <td><input value="SLA Breach: Application {app_id} Step {step} pe {hours} ghante se pending hai"/></td>
+              <td><button class="del-btn" onclick="delRow(this)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn-plus" onclick="addNotif()">＋ Add Notification Rule</button>
+      </div>
+    </div>
+
+    <!-- Bottom action row -->
+    <div class="btn-row" style="justify-content:flex-end;margin-bottom:24px">
+      <button class="btn btn-ghost" onclick="resetForm()">↺ Reset</button>
+      <button class="btn btn-outline" onclick="previewJSON()">👁 Preview JSON</button>
+      <button class="btn btn-primary" onclick="addStepToWorkflow()">＋ Add Step to Workflow</button>
+    </div>
+
+    <!-- ═══ WORKFLOW PREVIEW (Steps Grid) ════════════════ -->
+    <div class="card">
+      <div class="card-title">
+        <div class="card-title-left" style="gap:10px">
+          <span style="font-size:13px;font-weight:700">🗂 Workflow Preview — Service 591.0 v1 (District)</span>
+          <span class="badge b-draft">DRAFT</span>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm">⬇ Export JSON</button>
+          <button class="btn btn-success btn-sm" onclick="publishWorkflow()">🚀 Publish Workflow</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="preview-tbl">
+          <thead>
+            <tr>
+              <th style="width:50px">Step</th>
+              <th>Role</th>
+              <th>Form Type</th>
+              <th>Jurisdiction</th>
+              <th>Allowed Actions</th>
+              <th>Parallel Forward</th>
+              <th>SLA</th>
+              <th style="width:80px">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="width:28px;height:28px;border-radius:50%;background:#2962d9;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px">1</div>
+              </td>
+              <td><strong>Applicant / Investor (0)</strong></td>
+              <td style="color:#556;font-size:11px">Applicant Form (AF)</td>
+              <td><span class="badge" style="background:#e0e7ff;color:#3730a3">ANY</span></td>
+              <td><span class="chip ch-F">SUBMIT</span></td>
+              <td style="color:#9aa5b4;font-size:11px">—</td>
+              <td style="color:#9aa5b4">—</td>
+              <td><button class="btn btn-ghost btn-sm">✏</button></td>
+            </tr>
+            <tr style="background:#f0f7ff">
+              <td>
+                <div style="width:28px;height:28px;border-radius:50%;background:#2962d9;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px">2</div>
+              </td>
+              <td><strong style="color:#2962d9">Nodal Officer (7)</strong></td>
+              <td style="color:#556;font-size:11px">Processing Form – Verifier</td>
+              <td><span class="badge" style="background:#dbeafe;color:#1d4ed8">DISTRICT</span></td>
+              <td><span class="chip ch-F">F</span><span class="chip ch-RBI">RBI</span></td>
+              <td style="font-size:11px;color:#7b1fa2;font-weight:600">✓ ALL (2 depts)</td>
+              <td><strong>72h ⏰</strong></td>
+              <td><button class="btn btn-ghost btn-sm">✏</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="width:28px;height:28px;border-radius:50%;background:#2962d9;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px">3</div>
+              </td>
+              <td><strong>Dept Nodal CAF District (3)</strong></td>
+              <td style="color:#556;font-size:11px">Processing Form – Dept Forward</td>
+              <td><span class="badge" style="background:#dbeafe;color:#1d4ed8">DISTRICT</span></td>
+              <td><span class="chip ch-C">CONSENT</span></td>
+              <td style="color:#9aa5b4;font-size:11px">—</td>
+              <td><strong>48h ⏰</strong></td>
+              <td><button class="btn btn-ghost btn-sm">✏</button></td>
+            </tr>
+            <tr style="background:#f0f7ff">
+              <td>
+                <div style="width:28px;height:28px;border-radius:50%;background:#2962d9;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px">4</div>
+              </td>
+              <td><strong style="color:#2962d9">Nodal Officer (7)</strong></td>
+              <td style="color:#556;font-size:11px">Processing Form – Verifier</td>
+              <td><span class="badge" style="background:#dbeafe;color:#1d4ed8">DISTRICT</span></td>
+              <td><span class="chip ch-F">F</span><span class="chip ch-RBI">RBI</span></td>
+              <td style="color:#9aa5b4;font-size:11px">—</td>
+              <td><strong>24h ⏰</strong></td>
+              <td><button class="btn btn-ghost btn-sm">✏</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="width:28px;height:28px;border-radius:50%;background:#2e7d32;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px">5</div>
+              </td>
+              <td><strong style="color:#2e7d32">GM DIC – Dist Approver (33)</strong></td>
+              <td style="color:#556;font-size:11px">Processing Form – Approver</td>
+              <td><span class="badge" style="background:#dbeafe;color:#1d4ed8">DISTRICT</span></td>
+              <td><span class="chip ch-A">A</span><span class="chip ch-R">R</span><span class="chip ch-RB">RB</span></td>
+              <td style="color:#9aa5b4;font-size:11px">—</td>
+              <td><strong>48h ⏰</strong></td>
+              <td><button class="btn btn-ghost btn-sm">✏</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /right -->
+</div><!-- /app -->
+
+<script>
+// ── Collapse/Expand card ─────────────────────────────────
+function tog(titleEl){
+  const body = titleEl.nextElementSibling;
+  const arrow = titleEl.querySelector('span:last-child');
+  body.classList.toggle('hide');
+  arrow.textContent = body.classList.contains('hide') ? '▼' : '▲';
+}
+
+// ── Parallel Forward toggle ───────────────────────────────
+function togglePF(){
+  const on = document.getElementById('pf-on').checked;
+  const s = document.getElementById('pf-section');
+  s.style.opacity = on ? '1' : '.35';
+  s.style.pointerEvents = on ? 'auto' : 'none';
+}
+
+// ── Delete table row ──────────────────────────────────────
+function delRow(btn){
+  const row = btn.closest('tr');
+  const tbody = row.closest('tbody');
+  if(tbody.rows.length > 1) row.remove();
+}
+
+// ── Generic row clone ─────────────────────────────────────
+function cloneRow(tbodyId){
+  const tbody = document.getElementById(tbodyId);
+  const last = tbody.lastElementChild.cloneNode(true);
+  last.querySelectorAll('input').forEach(i => i.value = '');
+  last.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+  last.querySelectorAll('.del-btn').forEach(b => b.onclick = () => delRow(b));
+  tbody.appendChild(last);
+}
+
+function addEsc()     { cloneRow('esc-tbody'); }
+function addPF()      { cloneRow('pf-tbody'); }
+function addRouting() { cloneRow('routing-tbody'); }
+function addDoc()     { cloneRow('doc-tbody'); }
+function addNotif()   { cloneRow('notif-tbody'); }
+
+// ── Add transition row ────────────────────────────────────
+const ACTION_COLORS = {
+  F:'ch-F', A:'ch-A', R:'ch-R', RBI:'ch-RBI',
+  FA:'ch-FA', RB:'ch-RB', C:'ch-C',
+  P:'ch-P', DP:'ch-DP', ID:'ch-ID', IS:'ch-IS',
+  IC:'ch-A', IF:'ch-R', SB:'ch-SB'
+};
+let transCount = 4;
+
+function addTransition(){
+  const action = document.getElementById('new-action');
+  const step   = document.getElementById('new-step');
+  const role   = document.getElementById('new-role');
+  const cond   = document.getElementById('new-cond');
+
+  if(!step.value){ step.focus(); return; }
+
+  const aCode = action.value;
+  const aText = action.options[action.selectedIndex].text.split('—')[0].trim();
+  const roleText = role.options[role.selectedIndex].text || '—';
+  const condText = cond.value ? cond.options[cond.selectedIndex].text : '— Hamesha';
+  const cls = ACTION_COLORS[aCode] || 'ch-F';
+
+  const tbody = document.getElementById('trans-tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="text-align:center;padding:8px;color:#9aa5b4">${transCount++}</td>
+    <td style="padding:8px"><span class="chip ${cls}">${aText}</span></td>
+    <td style="text-align:center;font-weight:700;padding:8px">${step.value || '—'}</td>
+    <td style="padding:8px"><span class="badge" style="background:#f0f4ff;color:#2d3a6e">${roleText}</span></td>
+    <td style="padding:8px;font-size:11px">${cond.value ? `<span class="cond-badge">${condText}</span>` : '<span style="color:#9aa5b4">— Hamesha</span>'}</td>
+    <td style="padding:5px"><button class="del-btn" onclick="delRow(this)">✕</button></td>
+  `;
+  tbody.appendChild(tr);
+
+  // Reset inputs
+  action.selectedIndex = 0;
+  step.value = '';
+  role.selectedIndex = 0;
+  cond.selectedIndex = 0;
+}
+
+// ── Load step (demo) ──────────────────────────────────────
+function loadStep(n){
+  document.querySelectorAll('.step-item').forEach((el,i) => {
+    el.classList.toggle('active', i+1 === n);
+  });
+}
+
+// ── Preview JSON ──────────────────────────────────────────
+function previewJSON(){
+  const json = {
+    step: 2, serviceId: "591.0", departmentId: 1,
+    configVersion: 1, status: "DRAFT",
+    roleId: 7, formTypeId: 5,
+    jurisdictionLevel: "DISTRICT",
+    assignmentStrategy: "ROLE",
+    slaHours: 72, slaBreachRequiresReason: true,
+    actionAllowedJson: ["F","RBI"],
+    transitionMapJson: {
+      "F": {"nextStep":3,"nextRoles":[3],"parallel":true},
+      "F_COND": {"nextStep":5,"nextRoles":[33],"condition":"all_parallel_responded"},
+      "RBI": {"nextStep":1,"nextRoles":[]}
+    },
+    canForwardToMultipleRoleId: "3",
+    parallelAggregation: "ALL",
+    subResponsibility: "DOC_VERIFY",
+    escalationJson: [{"afterHours":96,"toRoleId":7,"action":"NOTIFY"}],
+    routingConditionJson: [
+      {"field":"plant_machinery_investment","op":"lte","val":50000000,"jurisdiction":"DISTRICT"},
+      {"field":"plant_machinery_investment","op":"gt","val":50000000,"jurisdiction":"STATE"}
+    ]
+  };
+  alert("Generated JSON:\n\n" + JSON.stringify(json, null, 2));
+}
+
+// ── Publish ───────────────────────────────────────────────
+function publishWorkflow(){
+  if(confirm('Publish karna chahte hain? Pehle se PUBLISHED workflow INACTIVE ho jaayegi.')){
+    alert('Workflow published successfully!\nService 591.0 v1 (DISTRICT) — PUBLISHED');
+  }
+}
+
+// ── Add step to workflow (demo) ───────────────────────────
+function addStepToWorkflow(){
+  alert('Step saved!\n\nActual app mein: POST /admin/workflow-config');
+}
+
+function resetForm(){
+  if(confirm('Form reset karna chahte hain?')) location.reload();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,818 @@
+[
+  {
+    "Test case No.": "TC-001",
+    "Function List/Test case description": "Verify 'New Or Existing Offline' radio field display and default value",
+    "Condition/Feature to be tested": "Page 1 - Company Details load",
+    "steps": "1. Navigate to In Principle Form Page 1.",
+    "data set / values": "N/A",
+    "expected_result": "'New Or Existing Offline' radio field is displayed, with 'new' option selected by default."
+  },
+  {
+    "Test case No.": "TC-002",
+    "Function List/Test case description": "Verify 'New Or Existing Offline' field is mandatory",
+    "Condition/Feature to be tested": "Form submission without selecting an option",
+    "steps": "1. Navigate to Page 1. 2. Ensure no option is selected (if possible, or attempt to change default and then clear). 3. Attempt to save/submit.",
+    "data set / values": "N/A",
+    "expected_result": "An error message is displayed for 'New Or Existing Offline' field, preventing form submission."
+  },
+  {
+    "Test case No.": "TC-003",
+    "Function List/Test case description": "Verify 'Type Of Proposal' dropdown display, mandatory status, and master data population",
+    "Condition/Feature to be tested": "Page 1 - Company Details load",
+    "steps": "1. Navigate to In Principle Form Page 1. 2. Click 'Type Of Proposal' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "'Type Of Proposal' dropdown is displayed, marked as mandatory, and populates with values from `MASTER (Type of Proposal master table)`."
+  },
+  {
+    "Test case No.": "TC-004",
+    "Function List/Test case description": "Verify 'CAF Id' field conditional display for 'expansion', 'diversification', 'modernization'",
+    "Condition/Feature to be tested": "Type Of Proposal selection",
+    "steps": "1. Select 'expansion' from 'Type Of Proposal' dropdown. 2. Select 'diversification'. 3. Select 'modernization'.",
+    "data set / values": "Type Of Proposal: 'expansion', 'diversification', 'modernization'",
+    "expected_result": "'CAF Id' dropdown field is displayed for all three selections."
+  },
+  {
+    "Test case No.": "TC-005",
+    "Function List/Test case description": "Verify 'CAF Id' field is not displayed for other 'Type Of Proposal'",
+    "Condition/Feature to be tested": "Type Of Proposal: 'new_project'",
+    "steps": "1. Select 'new_project' from 'Type Of Proposal' dropdown.",
+    "data set / values": "Type Of Proposal: 'new_project'",
+    "expected_result": "'CAF Id' dropdown field is not displayed."
+  },
+  {
+    "Test case No.": "TC-006",
+    "Function List/Test case description": "Verify 'CAF Id' dropdown populates from MASTER and auto-populates form data",
+    "Condition/Feature to be tested": "CAF Id selection",
+    "steps": "1. Select 'expansion' from 'Type Of Proposal'. 2. Click 'CAF Id' dropdown. 3. Select a valid 'CAF Id' (e.g., 'CAF123').",
+    "data set / values": "Type Of Proposal: 'expansion', CAF Id: 'CAF123'",
+    "expected_result": "Dropdown populates with approved CAF IDs for the logged-in investor from `MASTER`. Relevant data from selected CAF auto-populates current form fields."
+  },
+  {
+    "Test case No.": "TC-007",
+    "Function List/Test case description": "Verify 'Name Of Company Unit Trust' field auto-population and read-only",
+    "Condition/Feature to be tested": "Page 1 - Company Details load",
+    "steps": "1. Navigate to In Principle Form Page 1.",
+    "data set / values": "Investor registration data",
+    "expected_result": "'Name Of Company Unit Trust' field is auto-populated from investor registration details and is read-only."
+  },
+  {
+    "Test case No.": "TC-008",
+    "Function List/Test case description": "Verify 'Primary Activity Of Project' dropdown display, mandatory status, and master data population",
+    "Condition/Feature to be tested": "Page 1 - Company Details load",
+    "steps": "1. Navigate to In Principle Form Page 1. 2. Click 'Primary Activity Of Project' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "'Primary Activity Of Project' dropdown is displayed, marked as mandatory, and populates with relevant master data."
+  },
+  {
+    "Test case No.": "TC-009",
+    "Function List/Test case description": "Verify 'Constitution Of Establishment' field auto-population, read-only, and master data population",
+    "Condition/Feature to be tested": "Page 1 - Company Details load",
+    "steps": "1. Navigate to In Principle Form Page 1.",
+    "data set / values": "Investor registration data",
+    "expected_result": "'Constitution Of Establishment' field is auto-populated from investor registration, read-only, and its values are from `MASTER (Constitution of Establishment master)`."
+  },
+  {
+    "Test case No.": "TC-010",
+    "Function List/Test case description": "Verify 'Company PAN Number' field auto-population, read-only, masking, and validation",
+    "Condition/Feature to be tested": "Page 1 - Company Details load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 1. 2. (If editable for testing) Enter 'ABCDE1234F' (valid) and 'ABCDE1234FG' (11 chars) or 'ABCDE12345' (invalid pattern).",
+    "data set / values": "Investor registration PAN: ABCDE1234F",
+    "expected_result": "'Company PAN Number' is auto-populated, read-only, displayed as '******234F'. Valid PAN is accepted. Invalid PAN (length/pattern) shows validation error."
+  },
+  {
+    "Test case No.": "TC-011",
+    "Function List/Test case description": "Verify 'Corporate Identification Number' field conditional display for company types",
+    "Condition/Feature to be tested": "Constitution Of Establishment: 'public_limited', 'private_limited', 'one_person_company', 'section_8'",
+    "steps": "1. Set 'Constitution Of Establishment' to 'public_limited'. 2. Set to 'private_limited'. 3. Set to 'one_person_company'. 4. Set to 'section_8'.",
+    "data set / values": "Constitution Of Establishment: 'public_limited', 'private_limited', 'one_person_company', 'section_8'",
+    "expected_result": "'Corporate Identification Number' text field is displayed for all specified selections."
+  },
+  {
+    "Test case No.": "TC-012",
+    "Function List/Test case description": "Verify 'Corporate Identification Number' field is not displayed for non-company types",
+    "Condition/Feature to be tested": "Constitution Of Establishment: 'sole_proprietorship'",
+    "steps": "1. Set 'Constitution Of Establishment' to 'sole_proprietorship'.",
+    "data set / values": "Constitution Of Establishment: 'sole_proprietorship'",
+    "expected_result": "'Corporate Identification Number' text field is not displayed."
+  },
+  {
+    "Test case No.": "TC-013",
+    "Function List/Test case description": "Verify CIN field max length, pattern validation, and API authentication",
+    "Condition/Feature to be tested": "CIN field input and API integration",
+    "steps": "1. Set 'Constitution Of Establishment' to 'public_limited'. 2. Enter 'L12345KA2000PTC0000001' (valid). 3. Enter 'L12345KA2000PTC00000012' (22 chars). 4. Enter '12345KA2000PTC0000001' (invalid pattern). 5. Enter 'L99999KA9999PTC9999999' (unregistered CIN).",
+    "data set / values": "Valid CIN: 'L12345KA2000PTC0000001'",
+    "expected_result": "Valid CIN is accepted and authenticated via CIN API. Input restricted to 21 characters. Invalid pattern shows error. Unregistered CIN shows API authentication failure."
+  },
+  {
+    "Test case No.": "TC-014",
+    "Function List/Test case description": "Verify 'LLPIN Number' field conditional display, max length, and API authentication",
+    "Condition/Feature to be tested": "Constitution Of Establishment: 'llp'",
+    "steps": "1. Set 'Constitution Of Establishment' to 'llp'. 2. Enter 'AAB-123' (valid). 3. Enter 'AAB-12345' (8 chars). 4. Enter 'AAB#123' (invalid pattern). 5. Enter 'ZZZ-999' (unregistered LLPIN).",
+    "data set / values": "Constitution Of Establishment: 'llp', Valid LLPIN: 'AAB-123'",
+    "expected_result": "'LLPIN Number' text field is displayed. Valid LLPIN is accepted and authenticated via CIN API. Input restricted to 7 characters. Invalid pattern/unregistered LLPIN shows error/API failure."
+  },
+  {
+    "Test case No.": "TC-015",
+    "Function List/Test case description": "Verify 'LLPIN Number' field is not displayed for non-LLP types",
+    "Condition/Feature to be tested": "Constitution Of Establishment: 'public_limited'",
+    "steps": "1. Set 'Constitution Of Establishment' to 'public_limited'.",
+    "data set / values": "Constitution Of Establishment: 'public_limited'",
+    "expected_result": "'LLPIN Number' text field is not displayed."
+  },
+  {
+    "Test case No.": "TC-016",
+    "Function List/Test case description": "Verify 'Do You Have GST Number' radio field display and mandatory status",
+    "Condition/Feature to be tested": "Page 1 - Company Details load",
+    "steps": "1. Navigate to In Principle Form Page 1.",
+    "data set / values": "N/A",
+    "expected_result": "'Do You Have GST Number' radio field is displayed and marked as mandatory."
+  },
+  {
+    "Test case No.": "TC-017",
+    "Function List/Test case description": "Verify 'GST Number' field conditional display, max length, pattern validation, and API validation",
+    "Condition/Feature to be tested": "Do You Have GST Number: 'yes'",
+    "steps": "1. Select 'yes' for 'Do You Have GST Number'. 2. Enter '29ABCDE1234F1Z5' (valid). 3. Enter '29ABCDE1234F1Z5A' (16 chars). 4. Enter '29ABCDE1234F1Z0' (invalid pattern). 5. Enter '99ABCDE9999F9Z9' (unregistered GSTIN).",
+    "data set / values": "Do You Have GST Number: 'yes', Valid GSTIN: '29ABCDE1234F1Z5'",
+    "expected_result": "'GST Number' text field is displayed. Valid GSTIN is accepted and validated via GST API. Input restricted to 15 characters. Invalid pattern/unregistered GSTIN shows error/API failure."
+  },
+  {
+    "Test case No.": "TC-018",
+    "Function List/Test case description": "Verify 'GST Number' field is not displayed when 'Do You Have GST Number' is 'no'",
+    "Condition/Feature to be tested": "Do You Have GST Number: 'no'",
+    "steps": "1. Select 'no' for 'Do You Have GST Number'.",
+    "data set / values": "Do You Have GST Number: 'no'",
+    "expected_result": "'GST Number' text field is not displayed."
+  },
+  {
+    "Test case No.": "TC-019",
+    "Function List/Test case description": "Verify 'Date Of Incorporation' field auto-population, read-only, and editability for Sole Proprietorship",
+    "Condition/Feature to be tested": "Page 1 - Company Details load and Constitution Of Establishment change",
+    "steps": "1. Navigate to In Principle Form Page 1. 2. Set 'Constitution Of Establishment' to 'public_limited'. 3. Set 'Constitution Of Establishment' to 'sole_proprietorship'.",
+    "data set / values": "Investor registration date: 2020-01-01",
+    "expected_result": "'Date Of Incorporation' is auto-populated and read-only by default. It becomes editable only when 'Constitution Of Establishment' is 'sole_proprietorship'."
+  },
+  {
+    "Test case No.": "TC-020",
+    "Function List/Test case description": "Verify 'Date Of Business Commencement' field conditional display and date validations",
+    "Condition/Feature to be tested": "Type Of Proposal selection and date input",
+    "steps": "1. Select 'expansion' from 'Type Of Proposal'. 2. Enter today's date (valid). 3. Enter a future date. 4. Enter a date prior to 'Date Of Incorporation' (e.g., 2019-12-31 if Incorporation is 2020-01-01). 5. Select 'new_project'.",
+    "data set / values": "Type Of Proposal: 'expansion', Date Of Incorporation: 2020-01-01",
+    "expected_result": "'Date Of Business Commencement' is displayed for 'expansion'. Today's date is accepted. Future dates show error. Dates prior to 'Date Of Incorporation' show error. Field is not displayed for 'new_project'."
+  },
+  {
+    "Test case No.": "TC-021",
+    "Function List/Test case description": "Verify 'Is A Startup Company' radio field display and optional status",
+    "Condition/Feature to be tested": "Page 1 - Company Details load",
+    "steps": "1. Navigate to In Principle Form Page 1.",
+    "data set / values": "N/A",
+    "expected_result": "'Is A Startup Company' radio field is displayed and is optional."
+  },
+  {
+    "Test case No.": "TC-022",
+    "Function List/Test case description": "Verify Corporate Address fields (Line 1, Line 2, City, Pin Code, Std Code, Phone Number, Mobile Number) display, mandatory/optional status, and max lengths/special character validation",
+    "Condition/Feature to be tested": "Page 1 - Corporate Address load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 1. 2. Attempt to submit with mandatory fields empty. 3. Enter max+1 characters into each text field. 4. Enter special characters into 'City', 'Pin Code', 'Mobile Number'.",
+    "data set / values": "Max length strings, special characters",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Max length validations trigger errors. 'City', 'Pin Code', 'Mobile Number' show errors for special characters. 'Address Line 1' auto-fetches for company types, allows manual for others."
+  },
+  {
+    "Test case No.": "TC-023",
+    "Function List/Test case description": "Verify 'Corporate Country', 'State', 'District', 'Taluk' dropdowns populate from master and cascade correctly",
+    "Condition/Feature to be tested": "Dropdown selections",
+    "steps": "1. Select 'India' from 'Corporate Country'. 2. Select 'Karnataka' from 'Corporate State'. 3. Select 'Bengaluru Urban' from 'Corporate District'.",
+    "data set / values": "Country: 'India', State: 'Karnataka', District: 'Bengaluru Urban'",
+    "expected_result": "'Corporate Country' populates with ISO ALPHA codes. 'Corporate State' populates with states of India. 'Corporate District' populates with districts of Karnataka. 'Corporate Taluk' populates with taluks of Bengaluru Urban."
+  },
+  {
+    "Test case No.": "TC-024",
+    "Function List/Test case description": "Verify 'Corporate Country Code' dropdown populates from master and displays Country Name",
+    "Condition/Feature to be tested": "Country Code selection",
+    "steps": "1. Click 'Corporate Country Code' dropdown. 2. Select '+91'.",
+    "data set / values": "Country Code: '+91'",
+    "expected_result": "Dropdown populates from `MASTER (ISD Country Code master)`. 'India' is displayed next to '+91' upon selection."
+  },
+  {
+    "Test case No.": "TC-025",
+    "Function List/Test case description": "Verify 'Corporate Email' field format validation, encryption, and non-exposure NFR",
+    "Condition/Feature to be tested": "Email input and security",
+    "steps": "1. Enter 'test@example.com' (valid). 2. Enter 'invalid-email' (invalid). 3. Submit form. 4. Check database for encryption. 5. Check UI/logs for unauthorized exposure.",
+    "data set / values": "Email: 'test@example.com', 'invalid-email'",
+    "expected_result": "Valid email is accepted. Invalid email shows format error. Email is stored encrypted. Email address is not exposed without investor consent."
+  },
+  {
+    "Test case No.": "TC-026",
+    "Function List/Test case description": "Verify 'Correspondence Address Same As Corporate' checkbox functionality",
+    "Condition/Feature to be tested": "Checkbox interaction",
+    "steps": "1. Fill all Corporate Address fields. 2. Check 'Correspondence Address Same As Corporate'. 3. Uncheck the checkbox.",
+    "data set / values": "Corporate Address: fully populated",
+    "expected_result": "Checkbox is displayed and optional. When checked, all Corporate Address details are copied to Correspondence Address fields, and the 'Correspondence Address' section is hidden. When unchecked, the section is displayed, allowing manual input."
+  },
+  {
+    "Test case No.": "TC-027",
+    "Function List/Test case description": "Verify Correspondence Address fields (Line 1, Line 2, City, Pin Code, Std Code, Phone Number, Mobile Number) display, mandatory/optional status, and max lengths/special character validation",
+    "Condition/Feature to be tested": "Correspondence Address section display and input validation",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Attempt to submit with mandatory fields empty. 3. Enter max+1 characters into each text field. 4. Enter special characters into 'Mobile Number'.",
+    "data set / values": "Max length strings, special characters",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Max length validations trigger errors. 'Correspondence Mobile Number' shows errors for special characters."
+  },
+  {
+    "Test case No.": "TC-028",
+    "Function List/Test case description": "Verify 'Correspondence Country', 'State', 'District', 'Taluk' dropdowns populate from master and cascade correctly",
+    "Condition/Feature to be tested": "Dropdown selections in Correspondence Address",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Select 'India' from 'Correspondence Country'. 3. Select 'Karnataka' from 'Correspondence State'. 4. Select 'Bengaluru Urban' from 'Correspondence District'.",
+    "data set / values": "Country: 'India', State: 'Karnataka', District: 'Bengaluru Urban'",
+    "expected_result": "'Correspondence Country' populates with ISO ALPHA codes. 'Correspondence State' populates with states of India. 'Correspondence District' populates with districts of Karnataka. 'Correspondence Taluk' populates with taluks of Bengaluru Urban."
+  },
+  {
+    "Test case No.": "TC-029",
+    "Function List/Test case description": "Verify 'Correspondence Country Code' dropdown populates from master and displays Country Name",
+    "Condition/Feature to be tested": "Country Code selection in Correspondence Address",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Click 'Correspondence Country Code' dropdown. 3. Select '+91'.",
+    "data set / values": "Country Code: '+91'",
+    "expected_result": "Dropdown populates with ISD Country Codes from `MASTER`. 'India' is displayed next to '+91' upon selection."
+  },
+  {
+    "Test case No.": "TC-030",
+    "Function List/Test case description": "Verify 'Correspondence Email' field format validation and encryption",
+    "Condition/Feature to be tested": "Email input and security in Correspondence Address",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 'corr@example.com' (valid). 3. Enter 'invalid-corr-email' (invalid). 4. Submit form. 5. Check database for encryption.",
+    "data set / values": "Email: 'corr@example.com', 'invalid-corr-email'",
+    "expected_result": "Valid email is accepted. Invalid email shows format error. Email is stored encrypted."
+  },
+  {
+    "Test case No.": "TC-031",
+    "Function List/Test case description": "Verify Authorized Signatory fields (Name, Designation, Address Line 1, Address Line 2, City) display, mandatory/optional status, and max lengths",
+    "Condition/Feature to be tested": "Page 2 - Authorized Signatory load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 2. 2. Attempt to submit with mandatory fields empty. 3. Enter max+1 characters into each text field.",
+    "data set / values": "Max length strings",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Max length validations trigger errors."
+  },
+  {
+    "Test case No.": "TC-032",
+    "Function List/Test case description": "Verify 'Authorized Signatory PAN' field pattern validation and masking",
+    "Condition/Feature to be tested": "PAN field input",
+    "steps": "1. Enter 'ABCDE1234F' (valid). 2. Enter 'ABCDE12345' (invalid pattern).",
+    "data set / values": "PAN: 'ABCDE1234F', 'ABCDE12345'",
+    "expected_result": "Valid PAN is accepted. Invalid pattern shows error. PAN is displayed masked (e.g., '******234F')."
+  },
+  {
+    "Test case No.": "TC-033",
+    "Function List/Test case description": "Verify 'Authorized Signatory Aadhaar' field pattern validation, masking, and encryption",
+    "Condition/Feature to be tested": "Aadhaar field input and security",
+    "steps": "1. Enter '123456789012' (valid). 2. Enter '12345678901A' (invalid char) or '12345678901' (11 chars). 3. Submit form. 4. Check database for encryption.",
+    "data set / values": "Aadhaar: '123456789012', '12345678901A'",
+    "expected_result": "Valid Aadhaar is accepted. Invalid pattern shows error. Aadhaar is displayed masked (e.g., 'XXXXXXXX9012') and stored encrypted."
+  },
+  {
+    "Test case No.": "TC-034",
+    "Function List/Test case description": "Verify 'Authorized Signatory Mobile Number' field pattern validation and encryption",
+    "Condition/Feature to be tested": "Mobile Number field input and security",
+    "steps": "1. Enter '9876543210' (valid). 2. Enter '1234567890' (invalid start digit). 3. Submit form. 4. Check database for encryption.",
+    "data set / values": "Mobile: '9876543210', '1234567890'",
+    "expected_result": "Valid mobile number is accepted. Invalid pattern shows error. Mobile number is stored encrypted."
+  },
+  {
+    "Test case No.": "TC-035",
+    "Function List/Test case description": "Verify 'Authorized Signatory Email' field format validation and encryption",
+    "Condition/Feature to be tested": "Email field input and security",
+    "steps": "1. Enter 'auth@example.com' (valid). 2. Enter 'invalid-auth-email' (invalid). 3. Submit form. 4. Check database for encryption.",
+    "data set / values": "Email: 'auth@example.com', 'invalid-auth-email'",
+    "expected_result": "Valid email is accepted. Invalid email shows format error. Email is stored encrypted."
+  },
+  {
+    "Test case No.": "TC-036",
+    "Function List/Test case description": "Verify 'Authorized Signatory DIN' field conditional display, validation, and API authentication",
+    "Condition/Feature to be tested": "Constitution Of Establishment: 'public_limited', 'private_limited', 'one_person_company', 'section_8' and DIN input",
+    "steps": "1. Set 'Constitution Of Establishment' to 'public_limited'. 2. Enter '12345678' (valid). 3. Enter '123456789' (9 chars) or '1234567A' (invalid char). 4. Enter '99999999' (unregistered DIN). 5. Set 'Constitution Of Establishment' to 'sole_proprietorship'.",
+    "data set / values": "Constitution Of Establishment: 'public_limited', Valid DIN: '12345678'",
+    "expected_result": "DIN field is displayed for specified company types. Valid DIN is accepted and authenticated via MCA API. Input restricted to 8 digits. Invalid pattern/unregistered DIN shows error/API failure. Field is not displayed for 'sole_proprietorship'."
+  },
+  {
+    "Test case No.": "TC-037",
+    "Function List/Test case description": "Verify 'Authorized Signatory Country', 'State', 'District', 'Taluk' dropdowns populate from master and cascade correctly",
+    "Condition/Feature to be tested": "Dropdown selections in Authorized Signatory Address",
+    "steps": "1. Select 'India' from 'Authorized Signatory Country'. 2. Select 'Karnataka' from 'Authorized Signatory State'. 3. Select 'Bengaluru Urban' from 'Authorized Signatory District'.",
+    "data set / values": "Country: 'India', State: 'Karnataka', District: 'Bengaluru Urban'",
+    "expected_result": "'Authorized Signatory Country' populates with ISO ALPHA codes. 'Authorized Signatory State' populates with states of India. 'Authorized Signatory District' populates with districts of Karnataka. 'Authorized Signatory Taluk' populates with taluks of Bengaluru Urban."
+  },
+  {
+    "Test case No.": "TC-038",
+    "Function List/Test case description": "Verify 'Authorized Signatory Pin Code' field max length and pattern validation",
+    "Condition/Feature to be tested": "Pin Code field input",
+    "steps": "1. Enter '560001' (valid). 2. Enter '1234567' (7 chars) or '12345A' (invalid char).",
+    "data set / values": "Pin Code: '560001', '1234567'",
+    "expected_result": "Valid Pin Code is accepted. Input restricted to 6 digits. Invalid pattern shows error."
+  },
+  {
+    "Test case No.": "TC-039",
+    "Function List/Test case description": "Verify adding/deleting promoter rows, minimum/maximum limits",
+    "Condition/Feature to be tested": "Promoter Details section functionality",
+    "steps": "1. Add 10 promoter rows. 2. Attempt to add an 11th row. 3. Attempt to delete the only remaining promoter row.",
+    "data set / values": "N/A",
+    "expected_result": "New promoter rows are added dynamically up to 10. Adding beyond 10 is prevented. Deleting the last promoter row is prevented."
+  },
+  {
+    "Test case No.": "TC-040",
+    "Function List/Test case description": "Verify Promoter fields (Name, Designation, Gender, Social Category, Mobile, Email) display, mandatory status, and max lengths for each row",
+    "Condition/Feature to be tested": "Promoter row fields load and input validation",
+    "steps": "1. Add a promoter row. 2. Attempt to submit with mandatory fields empty. 3. Enter max+1 characters into text fields. 4. Click dropdowns.",
+    "data set / values": "Max length strings",
+    "expected_result": "All specified fields are displayed and mandatory for each promoter row. Mandatory fields prevent submission if empty. Max length validations trigger errors. Dropdowns populate with master data."
+  },
+  {
+    "Test case No.": "TC-041",
+    "Function List/Test case description": "Verify 'Promoter PAN' field pattern validation and masking for each row",
+    "Condition/Feature to be tested": "Promoter PAN input",
+    "steps": "1. Add a promoter row. 2. Enter 'ABCDE1234F' (valid). 3. Enter 'ABCDE12345' (invalid pattern).",
+    "data set / values": "PAN: 'ABCDE1234F', 'ABCDE12345'",
+    "expected_result": "Valid PAN is accepted. Invalid pattern shows error. PAN is displayed masked (e.g., '******234F')."
+  },
+  {
+    "Test case No.": "TC-042",
+    "Function List/Test case description": "Verify 'Promoter Aadhaar' field pattern validation, masking, and encryption for each row",
+    "Condition/Feature to be tested": "Promoter Aadhaar input and security",
+    "steps": "1. Add a promoter row. 2. Enter '123456789012' (valid). 3. Enter '12345678901A' (invalid char). 4. Submit form. 5. Check database for encryption.",
+    "data set / values": "Aadhaar: '123456789012', '12345678901A'",
+    "expected_result": "Valid Aadhaar is accepted. Invalid pattern shows error. Aadhaar is displayed masked and stored encrypted."
+  },
+  {
+    "Test case No.": "TC-043",
+    "Function List/Test case description": "Verify 'Promoter Date Of Birth' field max date validation for each row",
+    "Condition/Feature to be tested": "Promoter Date Of Birth input",
+    "steps": "1. Add a promoter row. 2. Enter today's date (valid). 3. Enter a future date.",
+    "data set / values": "Date: Today's date, Tomorrow's date",
+    "expected_result": "Today's date is accepted. Future dates show error."
+  },
+  {
+    "Test case No.": "TC-044",
+    "Function List/Test case description": "Verify 'Promoter Mobile Number' field pattern validation for each row",
+    "Condition/Feature to be tested": "Promoter Mobile Number input",
+    "steps": "1. Add a promoter row. 2. Enter '9876543210' (valid). 3. Enter '1234567890' (invalid start digit).",
+    "data set / values": "Mobile: '9876543210', '1234567890'",
+    "expected_result": "Valid mobile number is accepted. Invalid pattern shows error."
+  },
+  {
+    "Test case No.": "TC-045",
+    "Function List/Test case description": "Verify 'Promoter Email' field format validation for each row",
+    "Condition/Feature to be tested": "Promoter Email input",
+    "steps": "1. Add a promoter row. 2. Enter 'promoter@example.com' (valid). 3. Enter 'invalid-promoter-email' (invalid).",
+    "data set / values": "Email: 'promoter@example.com', 'invalid-promoter-email'",
+    "expected_result": "Valid email is accepted. Invalid email shows format error."
+  },
+  {
+    "Test case No.": "TC-046",
+    "Function List/Test case description": "Verify 'Promoter Share Percentage' field min/max values and total sum validation",
+    "Condition/Feature to be tested": "Promoter Share Percentage input",
+    "steps": "1. Add a promoter row. 2. Enter -1 or 101. 3. Add 2 promoters, set P1: 60%, P2: 30%. 4. Add 2 promoters, set P1: 60%, P2: 40%.",
+    "data set / values": "Share: -1, 101, P1:60, P2:30, P1:60, P2:40",
+    "expected_result": "Values outside 0-100 show error. Total shareholding sum of 90% shows error. Total sum of 100% is accepted."
+  },
+  {
+    "Test case No.": "TC-047",
+    "Function List/Test case description": "Verify 'Promoter DIN' field conditional display and validation for each row",
+    "Condition/Feature to be tested": "Constitution Of Establishment: 'public_limited', 'private_limited', 'one_person_company', 'section_8' and DIN input",
+    "steps": "1. Set 'Constitution Of Establishment' to 'public_limited'. 2. Add a promoter row. 3. Enter '12345678' (valid). 4. Enter '123456789' (9 chars). 5. Set 'Constitution Of Establishment' to 'sole_proprietorship'.",
+    "data set / values": "Constitution Of Establishment: 'public_limited', Valid DIN: '12345678'",
+    "expected_result": "Promoter DIN field is displayed for specified company types. Valid DIN is accepted. Input restricted to 8 digits. Invalid length shows error. Field is not displayed for 'sole_proprietorship'."
+  },
+  {
+    "Test case No.": "TC-048",
+    "Function List/Test case description": "Verify Project Basic Information fields (Name, NIC Code, Industry Type, Products/Services, Is Existing MSME Unit, Whether Pollution Causing Industry) display, mandatory/optional status, and max lengths",
+    "Condition/Feature to be tested": "Page 3 - Project Basic Information load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 3. 2. Attempt to submit with mandatory fields empty. 3. Enter max+1 characters into text fields. 4. Click dropdowns.",
+    "data set / values": "Max length strings",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Max length validations trigger errors. Dropdowns populate with master data (NIC Code, Industry Type)."
+  },
+  {
+    "Test case No.": "TC-049",
+    "Function List/Test case description": "Verify 'Udyam Registration Number' field conditional display and validation",
+    "Condition/Feature to be tested": "Is Existing MSME Unit: 'yes' and Udyam input",
+    "steps": "1. Select 'yes' for 'Is Existing MSME Unit'. 2. Enter 'UDYAM-KA-01-1234567' (valid). 3. Enter 'UDYAM-KA-01-12345678' (20 chars) or 'UDYAM-KA-01-123456A' (invalid char). 4. Select 'no'.",
+    "data set / values": "Is Existing MSME Unit: 'yes', Valid Udyam: 'UDYAM-KA-01-1234567'",
+    "expected_result": "Udyam Registration Number field is displayed. Valid Udyam is accepted. Input restricted to 19 characters. Invalid pattern shows error. Field is not displayed when 'Is Existing MSME Unit' is 'no'."
+  },
+  {
+    "Test case No.": "TC-050",
+    "Function List/Test case description": "Verify 'Pollution Category' field conditional display and master data population",
+    "Condition/Feature to be tested": "Whether Pollution Causing Industry: 'yes'",
+    "steps": "1. Select 'yes' for 'Whether Pollution Causing Industry'. 2. Click 'Pollution Category' dropdown. 3. Select 'no'.",
+    "data set / values": "Whether Pollution Causing Industry: 'yes'",
+    "expected_result": "'Pollution Category' dropdown is displayed and populates with master data when 'yes' is selected. Field is not displayed when 'no' is selected."
+  },
+  {
+    "Test case No.": "TC-051",
+    "Function List/Test case description": "Verify Project Location fields (District, Taluk, Hobli, Village, Zone, Address Line 1, Address Line 2, Pin Code, Industrial Area Name) display, mandatory/optional status, and max lengths",
+    "Condition/Feature to be tested": "Page 3 - Location Details load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 3. 2. Attempt to submit with mandatory fields empty. 3. Enter max+1 characters into text fields. 4. Click dropdowns.",
+    "data set / values": "Max length strings",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Max length validations trigger errors. Dropdowns populate with master data (District, Taluk, Hobli, Village, Zone)."
+  },
+  {
+    "Test case No.": "TC-052",
+    "Function List/Test case description": "Verify 'Project Location District', 'Taluk', 'Hobli', 'Village' dropdowns populate from master and cascade correctly (Karnataka only)",
+    "Condition/Feature to be tested": "Dropdown selections in Project Location",
+    "steps": "1. Select 'Bengaluru Urban' from 'Project Location District'. 2. Select 'Bengaluru North' from 'Project Location Taluk'. 3. Select 'Yelahanka' from 'Project Location Hobli'.",
+    "data set / values": "District: 'Bengaluru Urban', Taluk: 'Bengaluru North', Hobli: 'Yelahanka'",
+    "expected_result": "'Project Location District' populates with Karnataka districts only. 'Project Location Taluk' populates with taluks of selected district. 'Project Location Hobli' populates with hoblis of selected taluk. 'Project Location Village' populates with villages of selected hobli."
+  },
+  {
+    "Test case No.": "TC-053",
+    "Function List/Test case description": "Verify 'Project Pin Code' field max length and pattern validation",
+    "Condition/Feature to be tested": "Pin Code field input",
+    "steps": "1. Enter '560001' (valid). 2. Enter '1234567' (7 chars) or '12345A' (invalid char).",
+    "data set / values": "Pin Code: '560001', '1234567'",
+    "expected_result": "Valid Pin Code is accepted. Input restricted to 6 digits. Invalid pattern shows error."
+  },
+  {
+    "Test case No.": "TC-054",
+    "Function List/Test case description": "Verify Land Details fields (Availability Status, Source, Total Land Required, Built Up Area Required) display, mandatory/optional status, and min/max values",
+    "Condition/Feature to be tested": "Page 3 - Land Details load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 3. 2. Attempt to submit with mandatory fields empty. 3. Enter -1 for number fields. 4. Enter 0.00 or 9999.01 for 'Total Land Required'.",
+    "data set / values": "Number inputs: -1, 0.00, 9999.01",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Negative values show error. 'Total Land Required' accepts 0.01-9999. 'Built Up Area Required' accepts 0."
+  },
+  {
+    "Test case No.": "TC-055",
+    "Function List/Test case description": "Verify 'Land Availability Status' and 'Land Source' dropdowns populate from master",
+    "Condition/Feature to be tested": "Dropdown options loading",
+    "steps": "1. Click 'Land Availability Status' dropdown. 2. Click 'Land Source' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Both dropdowns populate with relevant master data."
+  },
+  {
+    "Test case No.": "TC-056",
+    "Function List/Test case description": "Verify 'Total Land Required In Acres' triggers LAC meeting rule",
+    "Condition/Feature to be tested": "Land required business rule",
+    "steps": "1. Enter 10.00 into 'Total Land Required In Acres'. 2. Enter 10.01.",
+    "data set / values": "Acres: 10.00, 10.01",
+    "expected_result": "Entering 10.00 acres does NOT trigger LAC meeting. Entering 10.01 acres triggers an indication that an LAC meeting is required."
+  },
+  {
+    "Test case No.": "TC-057",
+    "Function List/Test case description": "Verify 'Survey Or Katha Number' field conditional display, mandatory status, and max length",
+    "Condition/Feature to be tested": "Land Availability Status: 'available'",
+    "steps": "1. Select 'available' for 'Land Availability Status'. 2. Enter 101 characters. 3. Select 'not_available'.",
+    "data set / values": "Land Availability Status: 'available', Number: 'O' * 101",
+    "expected_result": "'Survey Or Katha Number' field is displayed and mandatory when 'available' is selected. Input restricted to 100 characters. Field is not displayed when 'not_available' is selected."
+  },
+  {
+    "Test case No.": "TC-058",
+    "Function List/Test case description": "Verify 'Existing Plant Area In Acres' field conditional display and min value",
+    "Condition/Feature to be tested": "Type Of Proposal: 'expansion', 'diversification', 'modernization'",
+    "steps": "1. Select 'expansion' from 'Type Of Proposal'. 2. Enter -1. 3. Select 'new_project'.",
+    "data set / values": "Type Of Proposal: 'expansion', Acres: -1",
+    "expected_result": "'Existing Plant Area In Acres' field is displayed and mandatory when 'expansion', 'diversification', or 'modernization' is selected. Negative value shows error (0 is accepted). Field is not displayed for 'new_project'."
+  },
+  {
+    "Test case No.": "TC-059",
+    "Function List/Test case description": "Verify Investment Details fields (Land, Building, Plant/Machinery, Other Fixed Assets, Working Capital, FDI) display, mandatory/optional status, and min values (in INR Lakhs)",
+    "Condition/Feature to be tested": "Page 3 - Investment Details load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 3. 2. Attempt to submit with mandatory fields empty. 3. Enter -1 for all number fields.",
+    "data set / values": "Investment: -1",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Negative values show error (0 is accepted). All values are in INR Lakhs."
+  },
+  {
+    "Test case No.": "TC-060",
+    "Function List/Test case description": "Verify 'Total Fixed Capital Investment' and 'Total Project Cost' auto-calculation and read-only",
+    "Condition/Feature to be tested": "Investment fields input",
+    "steps": "1. Enter Land: 10, Building: 20, Plant: 30, Other: 5. 2. Enter Working Capital: 10.",
+    "data set / values": "Land: 10, Building: 20, Plant: 30, Other: 5, Working Capital: 10",
+    "expected_result": "'Total Fixed Capital Investment' auto-calculates to 65. 'Total Project Cost' auto-calculates to 75. Both are read-only."
+  },
+  {
+    "Test case No.": "TC-061",
+    "Function List/Test case description": "Verify 'Existing Investment In VFA' field conditional display and min value",
+    "Condition/Feature to be tested": "Type Of Proposal: 'expansion', 'diversification', 'modernization'",
+    "steps": "1. Select 'expansion' from 'Type Of Proposal'. 2. Enter -1. 3. Select 'new_project'.",
+    "data set / values": "Type Of Proposal: 'expansion', VFA: -1",
+    "expected_result": "'Existing Investment In VFA' field is displayed and mandatory when 'expansion', 'diversification', or 'modernization' is selected. Negative value shows error (0 is accepted). Field is not displayed for 'new_project'."
+  },
+  {
+    "Test case No.": "TC-062",
+    "Function List/Test case description": "Verify 'Source Of FDI' field conditional display and max length",
+    "Condition/Feature to be tested": "FDI Investment > 0",
+    "steps": "1. Enter 10 for 'FDI Investment'. 2. Enter 256 characters into 'Source Of FDI'. 3. Enter 0 for 'FDI Investment'.",
+    "data set / values": "FDI Investment: 10, Source: 'P' * 256",
+    "expected_result": "'Source Of FDI' field is displayed when 'FDI Investment' > 0. Input restricted to 255 characters. Field is not displayed when 'FDI Investment' is 0."
+  },
+  {
+    "Test case No.": "TC-063",
+    "Function List/Test case description": "Verify Financing Pattern fields (Own Funds, Bank Loan, Subsidy, Other Source Amount) display, mandatory/optional status, and min values (in INR Lakhs)",
+    "Condition/Feature to be tested": "Page 3 - Financing Pattern load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 3. 2. Attempt to submit with mandatory fields empty. 3. Enter -1 for all number fields.",
+    "data set / values": "Investment: -1",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Negative values show error (0 is accepted). All values are in INR Lakhs."
+  },
+  {
+    "Test case No.": "TC-064",
+    "Function List/Test case description": "Verify 'Name Of Bank Or Financial Institution' field conditional display and max length",
+    "Condition/Feature to be tested": "Bank Loan > 0",
+    "steps": "1. Enter 10 for 'Bank Loan'. 2. Enter 256 characters into 'Name Of Bank Or Financial Institution'. 3. Enter 0 for 'Bank Loan'.",
+    "data set / values": "Bank Loan: 10, Name: 'Q' * 256",
+    "expected_result": "'Name Of Bank Or Financial Institution' field is displayed when 'Bank Loan' > 0. Input restricted to 255 characters. Field is not displayed when 'Bank Loan' is 0."
+  },
+  {
+    "Test case No.": "TC-065",
+    "Function List/Test case description": "Verify 'Other Source Description' field conditional display and max length",
+    "Condition/Feature to be tested": "Other Source Amount > 0",
+    "steps": "1. Enter 10 for 'Other Source Amount'. 2. Enter 256 characters into 'Other Source Description'. 3. Enter 0 for 'Other Source Amount'.",
+    "data set / values": "Other Source Amount: 10, Description: 'R' * 256",
+    "expected_result": "'Other Source Description' field is displayed when 'Other Source Amount' > 0. Input restricted to 255 characters. Field is not displayed when 'Other Source Amount' is 0."
+  },
+  {
+    "Test case No.": "TC-066",
+    "Function List/Test case description": "Verify 'Total Financing' auto-calculation and read-only",
+    "Condition/Feature to be tested": "Financing fields input",
+    "steps": "1. Enter Own Funds: 50, Bank Loan: 20, Subsidy: 5, Other Source: 0.",
+    "data set / values": "Own Funds: 50, Bank Loan: 20, Subsidy: 5, Other Source: 0",
+    "expected_result": "'Total Financing' auto-calculates to 75 and is read-only."
+  },
+  {
+    "Test case No.": "TC-067",
+    "Function List/Test case description": "Verify 'Total Financing' must equal 'Total Project Cost' business rule",
+    "Condition/Feature to be tested": "Financing sum validation",
+    "steps": "1. Set Total Project Cost to 75. 2. Set Total Financing to 75. 3. Set Total Financing to 70. 4. Attempt to save.",
+    "data set / values": "Total Project Cost: 75, Total Financing: 75, 70",
+    "expected_result": "When Total Financing equals Total Project Cost, submission proceeds. When they don't match, a validation error is displayed."
+  },
+  {
+    "Test case No.": "TC-068",
+    "Function List/Test case description": "Verify Water Requirement fields (Total Water, Source, Industrial Use, Domestic Use) display, mandatory/optional status, and min values (in KLD)",
+    "Condition/Feature to be tested": "Page 3 - Water Requirement load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 3. 2. Attempt to submit with mandatory fields empty. 3. Enter -1 for number fields. 4. Click 'Source Of Water' dropdown.",
+    "data set / values": "Water: -1",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Negative values show error (0 is accepted). 'Source Of Water' dropdown populates with master data. All values are in KLD."
+  },
+  {
+    "Test case No.": "TC-069",
+    "Function List/Test case description": "Verify 'Water Source Other Description' field conditional display and max length",
+    "Condition/Feature to be tested": "Source Of Water: 'other'",
+    "steps": "1. Select 'other' for 'Source Of Water'. 2. Enter 256 characters. 3. Select 'borewell'.",
+    "data set / values": "Source Of Water: 'other', Description: 'S' * 256",
+    "expected_result": "'Water Source Other Description' field is displayed when 'other' is selected. Input restricted to 255 characters. Field is not displayed when 'borewell' is selected."
+  },
+  {
+    "Test case No.": "TC-070",
+    "Function List/Test case description": "Verify Power Requirement fields (Total Power, Connected Load, Source, Renewable Energy Percentage) display, mandatory/optional status, and min/max values",
+    "Condition/Feature to be tested": "Page 3 - Power Requirement load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 3. 2. Attempt to submit with mandatory fields empty. 3. Enter -1 for number fields. 4. Enter -1 or 101 for 'Renewable Energy Percentage'. 5. Click 'Source Of Power' dropdown.",
+    "data set / values": "Power: -1, Percentage: -1, 101",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Negative values show error (0 is accepted). 'Renewable Energy Percentage' accepts 0-100, shows error for values outside this range. 'Source Of Power' dropdown populates with master data."
+  },
+  {
+    "Test case No.": "TC-071",
+    "Function List/Test case description": "Verify 'Power Source Other Description' field conditional display and max length",
+    "Condition/Feature to be tested": "Source Of Power: 'other'",
+    "steps": "1. Select 'other' for 'Source Of Power'. 2. Enter 256 characters. 3. Select 'grid'.",
+    "data set / values": "Source Of Power: 'other', Description: 'T' * 256",
+    "expected_result": "'Power Source Other Description' field is displayed when 'other' is selected. Input restricted to 255 characters. Field is not displayed when 'grid' is selected."
+  },
+  {
+    "Test case No.": "TC-072",
+    "Function List/Test case description": "Verify Manpower Requirement fields (Male Direct, Female Direct, Skilled, Semi Skilled, Unskilled, Karnataka State, Local District, Indirect) display, mandatory/optional status, and min values",
+    "Condition/Feature to be tested": "Page 3 - Manpower Requirement load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 3. 2. Attempt to submit with mandatory fields empty. 3. Enter -1 for all number fields.",
+    "data set / values": "Employment: -1",
+    "expected_result": "All specified fields are displayed. Mandatory fields prevent submission if empty. Negative values show error (0 is accepted). Employment figures are projected after full commissioning."
+  },
+  {
+    "Test case No.": "TC-073",
+    "Function List/Test case description": "Verify 'Total Direct Employment' auto-calculation and read-only",
+    "Condition/Feature to be tested": "Employment fields input",
+    "steps": "1. Enter Male Employment Direct: 10, Female Employment Direct: 5.",
+    "data set / values": "Male: 10, Female: 5",
+    "expected_result": "'Total Direct Employment' auto-calculates to 15 and is read-only."
+  },
+  {
+    "Test case No.": "TC-074",
+    "Function List/Test case description": "Verify Government Assistance fields (Type Of Assistance, Social Category Benefit, Tumakuru Machine Tool Park, Remarks) display, optional status, and max length",
+    "Condition/Feature to be tested": "Page 6 - Government Assistance load and input validation",
+    "steps": "1. Navigate to In Principle Form Page 6. 2. Enter 1001 characters into 'Assistance Remarks'. 3. Click 'Type Of Assistance Required' dropdown.",
+    "data set / values": "Remarks: 'U' * 1001",
+    "expected_result": "All specified fields are displayed and optional. 'Assistance Remarks' input restricted to 1000 characters. 'Type Of Assistance Required' dropdown populates from master data."
+  },
+  {
+    "Test case No.": "TC-075",
+    "Function List/Test case description": "Verify 'Social Category For Benefit' field conditional display and master data population",
+    "Condition/Feature to be tested": "Whether Applying For Social Category Benefit: 'yes'",
+    "steps": "1. Select 'yes' for 'Whether Applying For Social Category Benefit'. 2. Click 'Social Category For Benefit' dropdown. 3. Select 'no'.",
+    "data set / values": "Social Category Benefit: 'yes'",
+    "expected_result": "'Social Category For Benefit' dropdown is displayed and populates with master data when 'yes' is selected. Field is not displayed when 'no' is selected."
+  },
+  {
+    "Test case No.": "TC-076",
+    "Function List/Test case description": "Verify all document upload fields support file uploads and DMS API integration",
+    "Condition/Feature to be tested": "Document Upload section functionality",
+    "steps": "1. Navigate to Documents Checklist. 2. Click 'Upload' for any document. 3. Upload a file. 4. Delete the file.",
+    "data set / values": "File: 'test.pdf'",
+    "expected_result": "File upload dialog opens. Documents are successfully uploaded/deleted via DMS API, and status is reflected in UI."
+  },
+  {
+    "Test case No.": "TC-077",
+    "Function List/Test case description": "Verify 'Company PAN Card' upload field mandatory, file types, and size validation",
+    "Condition/Feature to be tested": "Upload field validation",
+    "steps": "1. Attempt to submit without uploading. 2. Upload '.txt' file. 3. Upload 2.1 MB file. 4. Upload valid 'company_pan.pdf' (1MB).",
+    "data set / values": "File: 'company_pan.txt' (invalid type), 'large_pan.pdf' (2.1 MB)",
+    "expected_result": "Mandatory error. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 2MB is accepted."
+  },
+  {
+    "Test case No.": "TC-078",
+    "Function List/Test case description": "Verify 'Authorized Signatory Aadhaar Card' upload field mandatory, file types, and size validation",
+    "Condition/Feature to be tested": "Upload field validation",
+    "steps": "1. Attempt to submit without uploading. 2. Upload '.doc' file. 3. Upload 2.1 MB file. 4. Upload valid 'aadhaar.png' (1MB).",
+    "data set / values": "File: 'aadhaar.doc' (invalid type), 'large_aadhaar.png' (2.1 MB)",
+    "expected_result": "Mandatory error. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 2MB is accepted."
+  },
+  {
+    "Test case No.": "TC-079",
+    "Function List/Test case description": "Verify 'Certificate Of Incorporation Or Registration' upload field conditional display, mandatory status, file types, and size validation",
+    "Condition/Feature to be tested": "Constitution Of Establishment: 'public_limited', 'private_limited', 'one_person_company', 'section_8', 'llp', 'partnership' and upload validation",
+    "steps": "1. Set 'Constitution Of Establishment' to 'public_limited'. 2. Attempt to submit without uploading. 3. Upload '.gif' file. 4. Upload 5.1 MB file. 5. Set 'Constitution Of Establishment' to 'sole_proprietorship'.",
+    "data set / values": "Constitution Of Establishment: 'public_limited', File: 'cert.gif' (invalid type), 'large_cert.pdf' (5.1 MB)",
+    "expected_result": "Upload field is displayed and mandatory for specified types. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 5MB is accepted. Field is not displayed for 'sole_proprietorship'."
+  },
+  {
+    "Test case No.": "TC-080",
+    "Function List/Test case description": "Verify 'GST Certificate' upload field conditional display, mandatory status, file types, and size validation",
+    "Condition/Feature to be tested": "Do You Have GST Number: 'yes' and upload validation",
+    "steps": "1. Select 'yes' for 'Do You Have GST Number'. 2. Attempt to submit without uploading. 3. Upload '.bmp' file. 4. Upload 2.1 MB file. 5. Select 'no'.",
+    "data set / values": "Do You Have GST Number: 'yes', File: 'gst.bmp' (invalid type), 'large_gst.pdf' (2.1 MB)",
+    "expected_result": "Upload field is displayed and mandatory. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 2MB is accepted. Field is not displayed when 'no' is selected."
+  },
+  {
+    "Test case No.": "TC-081",
+    "Function List/Test case description": "Verify 'Land Document Or Title Deed' upload field conditional display, mandatory status, file types, and size validation",
+    "Condition/Feature to be tested": "Land Availability Status: 'available' and upload validation",
+    "steps": "1. Select 'available' for 'Land Availability Status'. 2. Attempt to submit without uploading. 3. Upload '.doc' file. 4. Upload 10.1 MB file. 5. Select 'not_available'.",
+    "data set / values": "Land Availability Status: 'available', File: 'land.doc' (invalid type), 'large_land.pdf' (10.1 MB)",
+    "expected_result": "Upload field is displayed and mandatory. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 10MB is accepted. Field is not displayed when 'not_available' is selected."
+  },
+  {
+    "Test case No.": "TC-082",
+    "Function List/Test case description": "Verify 'Detailed Project Report' upload field mandatory, file type, and size validation",
+    "Condition/Feature to be tested": "Upload field validation",
+    "steps": "1. Attempt to submit without uploading. 2. Upload '.jpg' file. 3. Upload 10.1 MB file. 4. Upload valid 'dpr.pdf' (5MB).",
+    "data set / values": "File: 'dpr.jpg' (invalid type), 'large_dpr.pdf' (10.1 MB)",
+    "expected_result": "Mandatory error. Invalid file type error. File size error. Valid PDF up to 10MB is accepted."
+  },
+  {
+    "Test case No.": "TC-083",
+    "Function List/Test case description": "Verify 'Bank Statement Or Net Worth Certificate' upload field mandatory, file types, and size validation",
+    "Condition/Feature to be tested": "Upload field validation",
+    "steps": "1. Attempt to submit without uploading. 2. Upload '.txt' file. 3. Upload 5.1 MB file. 4. Upload valid 'bank.pdf' (2MB).",
+    "data set / values": "File: 'bank.txt' (invalid type), 'large_bank.pdf' (5.1 MB)",
+    "expected_result": "Mandatory error. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 5MB is accepted."
+  },
+  {
+    "Test case No.": "TC-084",
+    "Function List/Test case description": "Verify 'Partnership Deed' upload field conditional display, mandatory status, file types, and size validation",
+    "Condition/Feature to be tested": "Constitution Of Establishment: 'partnership' and upload validation",
+    "steps": "1. Set 'Constitution Of Establishment' to 'partnership'. 2. Attempt to submit without uploading. 3. Upload '.doc' file. 4. Upload 5.1 MB file. 5. Set 'Constitution Of Establishment' to 'sole_proprietorship'.",
+    "data set / values": "Constitution Of Establishment: 'partnership', File: 'deed.doc' (invalid type), 'large_deed.pdf' (5.1 MB)",
+    "expected_result": "Upload field is displayed and mandatory. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 5MB is accepted. Field is not displayed for 'sole_proprietorship'."
+  },
+  {
+    "Test case No.": "TC-085",
+    "Function List/Test case description": "Verify 'Promoter Photograph' upload field optional, file types, and size validation",
+    "Condition/Feature to be tested": "Upload field validation",
+    "steps": "1. Upload '.pdf' file. 2. Upload 1.1 MB file. 3. Upload valid 'photo.jpg' (0.5MB).",
+    "data set / values": "File: 'photo.pdf' (invalid type), 'large_photo.jpg' (1.1 MB)",
+    "expected_result": "Optional field. Invalid file type error. File size error. Valid JPG/JPEG/PNG up to 1MB is accepted."
+  },
+  {
+    "Test case No.": "TC-086",
+    "Function List/Test case description": "Verify 'Udyam Registration Certificate' upload field conditional display, mandatory status, file types, and size validation",
+    "Condition/Feature to be tested": "Is Existing MSME Unit: 'yes' and upload validation",
+    "steps": "1. Select 'yes' for 'Is Existing MSME Unit'. 2. Attempt to submit without uploading. 3. Upload '.doc' file. 4. Upload 2.1 MB file. 5. Select 'no'.",
+    "data set / values": "Is Existing MSME Unit: 'yes', File: 'udyam.doc' (invalid type), 'large_udyam.pdf' (2.1 MB)",
+    "expected_result": "Upload field is displayed and mandatory. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 2MB is accepted. Field is not displayed when 'no' is selected."
+  },
+  {
+    "Test case No.": "TC-087",
+    "Function List/Test case description": "Verify 'Previous CAF Approval Letter' upload field conditional display, mandatory status, file types, and size validation",
+    "Condition/Feature to be tested": "Type Of Proposal: 'expansion', 'diversification', 'modernization' and upload validation",
+    "steps": "1. Select 'expansion' from 'Type Of Proposal'. 2. Attempt to submit without uploading. 3. Upload '.txt' file. 4. Upload 5.1 MB file. 5. Select 'new_project'.",
+    "data set / values": "Type Of Proposal: 'expansion', File: 'caf.txt' (invalid type), 'large_caf.pdf' (5.1 MB)",
+    "expected_result": "Upload field is displayed and mandatory for specified proposal types. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 5MB is accepted. Field is not displayed for 'new_project'."
+  },
+  {
+    "Test case No.": "TC-088",
+    "Function List/Test case description": "Verify 'Any Other Document' upload field optional, file types, and size validation",
+    "Condition/Feature to be tested": "Upload field validation",
+    "steps": "1. Upload '.doc' file. 2. Upload 5.1 MB file. 3. Upload valid 'other.pdf' (2MB).",
+    "data set / values": "File: 'other.doc' (invalid type), 'large_other.pdf' (5.1 MB)",
+    "expected_result": "Optional field. Invalid file type error. File size error. Valid PDF/JPG/JPEG/PNG up to 5MB is accepted."
+  },
+  {
+    "Test case No.": "TC-089",
+    "Function List/Test case description": "Verify JD DIC role access to 'For Department Use Only' section, 'Comment' field, 'Supportive Documents' and action buttons",
+    "Condition/Feature to be tested": "JD DIC workflow section",
+    "steps": "1. Log in as JD DIC. 2. Access an application form. 3. Attempt to submit without comment. 4. Enter 1001 chars into 'Comment'. 5. Verify 'Supportive Documents' field. 6. Verify action buttons.",
+    "data set / values": "User Role: JD DIC, Comment: 'V' * 1001",
+    "expected_result": "'For Department Use Only' section is visible and accessible. 'Comment' field is displayed, mandatory, and restricts input to 1000 characters. 'Supportive Documents' upload field is displayed and optional. Action buttons 'Revert to Applicant', 'Forward to AD DIC', 'Approve', 'Reject' are displayed."
+  },
+  {
+    "Test case No.": "TC-090",
+    "Function List/Test case description": "Verify AD DIC role access to 'For Department Use Only' section, 'Comment' field, 'Supportive Documents' and action buttons",
+    "Condition/Feature to be tested": "AD DIC workflow section",
+    "steps": "1. Log in as AD DIC. 2. Access an application form. 3. Attempt to submit without comment. 4. Enter 1001 chars into 'Comment'. 5. Verify 'Supportive Documents' field. 6. Verify action buttons.",
+    "data set / values": "User Role: AD DIC, Comment: 'W' * 1001",
+    "expected_result": "'For Department Use Only' section is visible and accessible. 'Comment' field is displayed, mandatory, and restricts input to 1000 characters. 'Supportive Documents' upload field is displayed and optional. Action button 'Forward to DD DIC' is displayed."
+  },
+  {
+    "Test case No.": "TC-091",
+    "Function List/Test case description": "Verify DD DIC role access to 'For Department Use Only' section, 'Comment' field, 'Supportive Documents' and action buttons",
+    "Condition/Feature to be tested": "DD DIC workflow section",
+    "steps": "1. Log in as DD DIC. 2. Access an application form. 3. Attempt to submit without comment. 4. Enter 1001 chars into 'Comment'. 5. Verify 'Supportive Documents' field. 6. Verify action buttons.",
+    "data set / values": "User Role: DD DIC, Comment: 'X' * 1001",
+    "expected_result": "'For Department Use Only' section is visible and accessible. 'Comment' field is displayed, mandatory, and restricts input to 1000 characters. 'Supportive Documents' upload field is displayed and optional. Action buttons 'Forward to JD DIC', 'Revert to AD DIC' are displayed."
+  },
+  {
+    "Test case No.": "TC-092",
+    "Function List/Test case description": "End-to-End: Successful application submission by Investor",
+    "Condition/Feature to be tested": "Full application workflow",
+    "steps": "1. Investor fills all mandatory fields with valid data. 2. Uploads all mandatory documents. 3. Clicks 'Submit'.",
+    "data set / values": "Valid data for all mandatory fields and documents",
+    "expected_result": "Application submitted successfully, status updated, and a confirmation message is displayed to the investor."
+  },
+  {
+    "Test case No.": "TC-093",
+    "Function List/Test case description": "End-to-End: JD DIC approves application",
+    "Condition/Feature to be tested": "JD DIC workflow - Approve action",
+    "steps": "1. Investor submits application. 2. JD DIC logs in, accesses application. 3. Enters a mandatory comment. 4. Clicks 'Approve'.",
+    "data set / values": "Valid application, JD DIC comment",
+    "expected_result": "Application status changes to 'Approved'. Investor is notified. JD DIC cannot perform other actions (Revert/Forward/Reject) for this application."
+  },
+  {
+    "Test case No.": "TC-094",
+    "Function List/Test case description": "End-to-End: JD DIC rejects application",
+    "Condition/Feature to be tested": "JD DIC workflow - Reject action",
+    "steps": "1. Investor submits application. 2. JD DIC logs in, accesses application. 3. Enters a mandatory comment. 4. Clicks 'Reject'.",
+    "data set / values": "Valid application, JD DIC comment",
+    "expected_result": "Application status changes to 'Rejected'. Investor is notified. JD DIC cannot perform other actions (Revert/Forward/Approve) for this application."
+  },
+  {
+    "Test case No.": "TC-095",
+    "Function List/Test case description": "End-to-End: JD DIC reverts application to Applicant",
+    "Condition/Feature to be tested": "JD DIC workflow - Revert action",
+    "steps": "1. Investor submits application. 2. JD DIC logs in, accesses application. 3. Enters a mandatory comment. 4. Clicks 'Revert to Applicant'.",
+    "data set / values": "Valid application, JD DIC comment",
+    "expected_result": "Application status changes to 'Reverted to Applicant'. Investor can edit and resubmit the application. JD DIC cannot perform other actions (Approve/Reject/Forward) for this application."
+  },
+  {
+    "Test case No.": "TC-096",
+    "Function List/Test case description": "End-to-End: Full departmental workflow (JD -> AD -> DD -> JD)",
+    "Condition/Feature to be tested": "Sequential workflow actions",
+    "steps": "1. Investor submits application. 2. JD DIC logs in, comments, clicks 'Forward to AD DIC'. 3. AD DIC logs in, comments, clicks 'Forward to DD DIC'. 4. DD DIC logs in, comments, clicks 'Forward to JD DIC'.",
+    "data set / values": "Valid application, comments at each stage",
+    "expected_result": "Application status updates correctly at each stage. Each officer sees only their allowed actions. The application successfully returns to JD DIC."
+  },
+  {
+    "Test case No.": "TC-097",
+    "Function List/Test case description": "End-to-End: DD DIC reverts application to AD DIC",
+    "Condition/Feature to be tested": "DD DIC workflow - Revert to AD DIC action",
+    "steps": "1. Investor submits. 2. JD DIC forwards to AD DIC. 3. AD DIC forwards to DD DIC. 4. DD DIC logs in, comments, clicks 'Revert to AD DIC'.",
+    "data set / values": "Valid application, comments at each stage",
+    "expected_result": "Application status changes to 'Reverted to AD DIC'. AD DIC can then access the application and take further action."
+  },
+  {
+    "Test case No.": "TC-098",
+    "Function List/Test case description": "Security: Unauthorized user attempts to access department section",
+    "Condition/Feature to be tested": "Role-based access control",
+    "steps": "1. Log in as Investor. 2. Attempt to navigate directly to a department section URL (e.g., JD DIC's view).",
+    "data set / values": "User Role: Investor",
+    "expected_result": "Access is denied, and the user is redirected to an unauthorized page or an appropriate error message is displayed."
+  },
+  {
+    "Test case No.": "TC-099",
+    "Function List/Test case description": "Security: Verify data encryption for sensitive fields at rest",
+    "Condition/Feature to be tested": "Database inspection after submission",
+    "steps": "1. Submit an application with sensitive data (Corporate Mobile, Corporate Email, Authorized Signatory Aadhaar, Authorized Signatory Mobile, Authorized Signatory Email, Promoter Aadhaar, Promoter Mobile, Promoter Email). 2. Inspect the database records directly.",
+    "data set / values": "Sensitive data: Mobile Numbers, Email Addresses, Aadhaar Numbers",
+    "expected_result": "All specified sensitive fields are stored in an encrypted format in the database."
+  },
+  {
+    "Test case No.": "TC-100",
+    "Function List/Test case description": "Security: Verify data masking for sensitive fields in UI",
+    "Condition/Feature to be tested": "UI display of sensitive data",
+    "steps": "1. View an application containing Company PAN, Authorized Signatory Aadhaar, and Promoter PAN/Aadhaar.",
+    "data set / values": "PAN: ABCDE1234F, Aadhaar: 123456789012",
+    "expected_result": "Company PAN is displayed as '******234F'. All Aadhaar numbers (Authorized Signatory, Promoter) are displayed masked (e.g., 'XXXXXXXX9012')."
+  },
+  {
+    "Test case No.": "TC-101",
+    "Function List/Test case description": "Integration: Verify master data API calls for all dropdowns",
+    "Condition/Feature to be tested": "Page loads with dropdowns",
+    "steps": "1. Load Page 1, Page 2, Page 3, Page 6. 2. Monitor network calls for master data APIs (Type of Proposal, Country, State, District, Taluk, NIC Code, Industry Type, Pollution Category, Land Availability Status, Land Source, Source of Water, Source of Power, Type of Assistance Required, Social Category For Benefit, etc.).",
+    "data set / values": "N/A",
+    "expected_result": "API calls are made to respective master tables, and all dropdowns are populated with data as per their sources."
+  },
+  {
+    "Test case No.": "TC-102",
+    "Function List/Test case description": "Integration: Verify CIN API call for Corporate Address Line 1 auto-fetch",
+    "Condition/Feature to be tested": "CIN entry and auto-population",
+    "steps": "1. Set 'Constitution Of Establishment' to 'public_limited'. 2. Enter a valid CIN (e.g., 'L12345KA2000PTC0000001'). 3. Monitor network calls.",
+    "data set / values": "CIN: 'L12345KA2000PTC0000001'",
+    "expected_result": "An API call is made to the CIN API, and 'Corporate Address Line 1' is auto-populated with the fetched address."
+  }
+]

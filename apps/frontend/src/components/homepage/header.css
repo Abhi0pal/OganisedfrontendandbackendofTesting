@@ -1,0 +1,336 @@
+/* HEADER BASE */
+.header { 
+  width:100%;background:#FFFFFF;border-bottom:1px solid #e5e7eb;
+  .topbar { 
+    display:flex;justify-content:space-between;align-items:center;padding:6px 30px;font-size:16px;color:#000000;background:#FFFFFF;position:sticky;top:0;left:0;right:0;z-index:9999;
+    .top-left {
+      .logo { 
+        display:flex;align-items:center;font-weight:700;font-size:24px;margin-right:40px;
+        img { height:50px;width:auto;}
+      }
+    }
+    .top-right { 
+      display:flex;align-items:center;gap:12px;
+      .login-btn { 
+        margin-left:10px;padding:8px 18px;border-radius:8px;border:1px solid #7E898A;font-weight:500;background:#FFFFFF;cursor:pointer;color:var(--primary-color);font-size:14px;width:112px;height:44px;
+        &:hover { background:var(--primary-color);color:#FFFFFF;border-color:var(--primary-color);}
+      }
+      .register-btn { background:var(--primary-color);color:#FFFFFF;width:112px;height:44px;padding:8px 18px;border-radius:8px;font-size:14px;border:none;}
+    }
+  }
+}
+
+.sticky-header {
+  .header {
+    .topbar { position:fixed;}
+  }
+}
+
+.navbar {
+  display:flex;align-items:center;padding:14px 30px;background:#797878;color:#000;border-top:1px solid #e5e7eb;
+}
+
+.ey-mark {
+  width:40px;height:6px;background:#f5c400;transform:skewX(-25deg);margin-right:8px;
+}
+
+/* NAV LINKS */
+.nav-links {
+  display:flex;gap:26px;list-style:none;font-size:18px;color:#010101;
+  li {
+    cursor:pointer;position:relative;transition:0.2s;
+    &:hover { 
+      color:#000;
+      &::after { width:100%;}
+    }
+    &::after { content:"";position:absolute;bottom:-6px;left:0;width:0%;height:2px;background:#f5c400;transition:0.3s;}
+  }
+}
+
+.login-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  min-width: 160px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  z-index: 9999; /* VERY IMPORTANT */
+}
+.login-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* ITEMS */
+.dropdown-item {
+  display: block;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #797878;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+/* ITEM HOVER */
+.dropdown-item:hover {
+  background: #797878;
+  color: #FFDB00;
+  padding-left: 18px;
+}
+.topbar,
+.header {
+  overflow: visible;
+}
+/* CENTER ALIGNMENT */
+.top-center {
+  display: flex;
+  justify-content: center;
+}
+/* DEBUG (TEMP) */
+.premium-title {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #1f2937;
+  position: relative;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* EY STYLE ACCENT LINE */
+.premium-title::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 40px;
+  height: 4px;
+  background: linear-gradient(90deg, #ffd700, #e6c200);
+  border-radius: 2px;
+}
+
+/* VERSION HIGHLIGHT */
+.premium-title strong {
+  color: #ffd700;
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+/* OPTIONAL SUBTLE HOVER */
+.premium-title:hover {
+  letter-spacing: 1.5px;
+  transition: 0.3s ease;
+}
+
+/* TENANT HEADER THEMES */
+.header .tenant-header-logo {
+  display: none;
+}
+
+.header .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: auto;
+  display: block;
+  min-width: 160px;
+  padding: 0;
+  background: #fff;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  z-index: 9999;
+}
+
+.header .dropdown-menu.show,
+.header .login-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.header.tenant-trera {
+  background: #ffffff;
+  border-bottom: 1px solid #d7dee8;
+  box-shadow: 0 8px 22px rgba(0, 18, 37, 0.08);
+}
+
+.header.tenant-trera::before {
+  content: "GOVERNMENT OF TELANGANA | DEPARTMENT OF HOUSING";
+  display: block;
+  padding: 7px 24px;
+  background: #001225;
+  color: #ffffff;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.header.tenant-trera .topbar {
+  min-height: 84px;
+  padding: 10px 32px;
+  background: #ffffff;
+  color: #001b35;
+}
+
+.header.tenant-trera .logo img {
+  display: none;
+}
+
+.header.tenant-trera .tenant-header-logo {
+  display: block;
+  width: 142px;
+  height: 58px;
+  background: url("/img/trera.png") left center / contain no-repeat;
+}
+
+.header.tenant-trera .premium-title {
+  font-size: 0;
+  letter-spacing: 0;
+}
+
+.header.tenant-trera .premium-title::before {
+  content: "Telangana Real Estate Regulatory Authority";
+  position: static;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  background: transparent;
+  color: #001b35;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.header.tenant-trera .premium-title strong {
+  display: none;
+}
+
+.header.tenant-trera .login-btn {
+  background: #001b35;
+  color: #ffffff;
+  border-radius: 7px;
+  box-shadow: none;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.header.tenant-trera .login-btn:hover {
+  background: #c92824;
+  box-shadow: 0 8px 18px rgba(201, 40, 36, 0.22);
+}
+
+.header.tenant-trera .dropdown-item:hover {
+  background: #001b35;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .header.tenant-trera .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header.tenant-trera .top-center {
+    justify-content: flex-start;
+  }
+}
+
+.header.tenant-cpcb {
+  background: #f7fbf0;
+  border-bottom: 1px solid #dfead8;
+  box-shadow: 0 8px 22px rgba(6, 77, 23, 0.08);
+}
+
+.header.tenant-cpcb .topbar {
+  min-height: 92px;
+  padding: 14px 32px;
+  background: #f7fbf0;
+  color: #064d17;
+}
+
+.header.tenant-cpcb .logo img {
+  display: none;
+}
+
+.header.tenant-cpcb .tenant-header-logo {
+  display: block;
+  width: 190px;
+  height: 62px;
+  background: url("/img/cpcb.png") left center / contain no-repeat;
+}
+
+.header.tenant-cpcb .premium-title {
+  font-size: 0;
+  letter-spacing: 0;
+}
+
+.header.tenant-cpcb .premium-title::before {
+  content: "Central Pollution Control Board";
+  position: static;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  background: transparent;
+  color: #064d17;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.header.tenant-cpcb .premium-title strong {
+  display: none;
+}
+
+.header.tenant-cpcb .login-btn {
+  background: #064d17;
+  color: #ffffff;
+  border-radius: 7px;
+  box-shadow: none;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.header.tenant-cpcb .login-btn:hover {
+  background: #0f7a2b;
+  box-shadow: 0 8px 18px rgba(6, 77, 23, 0.20);
+}
+
+.header.tenant-cpcb .dropdown-item:hover {
+  background: #064d17;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .header.tenant-cpcb .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header.tenant-cpcb .top-center {
+    justify-content: flex-start;
+  }
+}

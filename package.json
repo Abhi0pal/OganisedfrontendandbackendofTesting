@@ -1,0 +1,21 @@
+{
+  "name": "nextjs-nestjs-monolith",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parse": "^6.1.0",
+    "jquery": "^3.7.1",
+    "pytz": "^10.1.1",
+    "swiper": "^12.0.3"
+  },
+  "devDependencies": {
+    "@prisma/internals": "^7.4.1"
+  }
+}

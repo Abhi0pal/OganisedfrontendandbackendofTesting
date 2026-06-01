@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Project Management</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#6366f1;font-weight:600;border-left:2px solid #6366f1}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:24px 28px}
+  .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+  .page-title{font-size:22px;font-weight:700}
+  .page-sub{font-size:13px;color:#64748b;margin-top:2px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#6366f1;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-sm{padding:6px 12px;font-size:12px}
+  .tenant-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+  .ttab{padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;background:#fff;border:1px solid #e2e8f0;color:#64748b}
+  .ttab.active{background:#eef2ff;border-color:#c7d2fe;color:#4f46e5;font-weight:700}
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .project-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;transition:.15s;cursor:pointer}
+  .project-card:hover{border-color:#6366f1;box-shadow:0 4px 20px rgba(99,102,241,.1);transform:translateY(-1px)}
+  .pc-top{padding:16px;display:flex;align-items:flex-start;gap:12px}
+  .pc-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .pc-title{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:3px}
+  .pc-code{font-size:11px;font-family:monospace;background:#f1f5f9;padding:1px 6px;border-radius:4px;color:#64748b}
+  .pc-tenant{font-size:11px;color:#94a3b8;margin-top:4px}
+  .pc-body{padding:0 16px 14px}
+  .pc-desc{font-size:12px;color:#64748b;line-height:1.5;margin-bottom:10px}
+  .pc-meta{display:flex;gap:16px;flex-wrap:wrap}
+  .pc-meta-item{display:flex;flex-direction:column;gap:2px}
+  .pc-meta-label{font-size:10px;color:#94a3b8;font-weight:600;text-transform:uppercase}
+  .pc-meta-val{font-size:12px;color:#374151;font-weight:500}
+  .pc-footer{padding:10px 16px;border-top:1px solid #f8fafc;display:flex;align-items:center;justify-content:space-between}
+  .pc-users{font-size:12px;color:#64748b;display:flex;align-items:center;gap:4px}
+  .action-btns{display:flex;gap:6px}
+  .action-btn{width:28px;height:28px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:#64748b}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-red{background:#fee2e2;color:#dc2626}
+  .badge-orange{background:#ffedd5;color:#c2410c}
+  .badge-gray{background:#f1f5f9;color:#64748b}
+  .add-card{background:#fff;border:2px dashed #e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:40px;cursor:pointer;color:#94a3b8;transition:.15s}
+  .add-card:hover{border-color:#6366f1;color:#6366f1}
+  .add-card-icon{font-size:28px}
+  .add-card-label{font-size:13px;font-weight:600}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100}
+  .modal{background:#fff;border-radius:14px;width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+  .modal-header{padding:18px 22px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between}
+  .modal-title{font-size:15px;font-weight:700}
+  .modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#64748b}
+  .modal-body{padding:20px 22px}
+  .form-group{margin-bottom:14px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
+  .form-control:focus{border-color:#6366f1}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .modal-footer{padding:14px 22px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px}
+  .info-note{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:12px;color:#1e40af;margin-bottom:14px}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0}
+  .toggle{width:38px;height:20px;background:#e2e8f0;border-radius:10px;position:relative;cursor:pointer;flex-shrink:0}
+  .toggle.on{background:#6366f1}
+  .toggle::after{content:'';width:14px;height:14px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:.2s}
+  .toggle.on::after{left:21px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">🛡 RBAC Admin</div>
+      <div class="sidebar-logo-sub">Platform Control Panel</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Core</div>
+      <a class="nav-item" href="01-tenant.html">🏛 Tenants</a>
+      <a class="nav-item" href="02-roles.html">👑 Roles</a>
+      <a class="nav-item" href="03-modules.html">📁 Modules</a>
+      <a class="nav-item" href="04-permissions.html">🔐 Permissions</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Users</div>
+      <a class="nav-item" href="05-assignment.html">👤 Assignments</a>
+      <a class="nav-item" href="06-transfer.html">🔄 Transfers</a>
+      <a class="nav-item" href="07-override.html">⚡ Overrides</a>
+      <a class="nav-item active" href="08-projects.html">📋 Projects</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Project Management</div>
+      <div class="avatar">A</div>
+    </div>
+    <div class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Tenant Projects</div>
+          <div class="page-sub">Tenant ke andar schemes / initiatives as projects — user assignment mein optional scope</div>
+        </div>
+        <button class="btn btn-primary">＋ New Project</button>
+      </div>
+
+      <!-- TENANT TABS -->
+      <div class="tenant-tabs">
+        <div class="ttab active">🏛 SWCS (4)</div>
+        <div class="ttab">🌲 Forest (2)</div>
+        <div class="ttab">🏥 Health (1)</div>
+        <div class="ttab">All Tenants</div>
+      </div>
+
+      <!-- PROJECTS GRID -->
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <div class="pc-top">
+            <div class="pc-icon" style="background:#eef2ff">🏭</div>
+            <div style="flex:1">
+              <div class="pc-title">MSME Clearance 2024</div>
+              <div><span class="pc-code">MSME_2024</span></div>
+              <div class="pc-tenant">🏛 SWCS</div>
+            </div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="pc-body">
+            <div class="pc-desc">MSME units ke liye single window clearance — 2024 batch</div>
+            <div class="pc-meta">
+              <div class="pc-meta-item"><div class="pc-meta-label">Start</div><div class="pc-meta-val">01 Jan 2024</div></div>
+              <div class="pc-meta-item"><div class="pc-meta-label">End</div><div class="pc-meta-val">31 Dec 2024</div></div>
+              <div class="pc-meta-item"><div class="pc-meta-label">Assigned Users</div><div class="pc-meta-val">12</div></div>
+            </div>
+          </div>
+          <div class="pc-footer">
+            <div class="pc-users">👤 12 officers assigned</div>
+            <div class="action-btns"><div class="action-btn">✏</div><div class="action-btn">👥</div><div class="action-btn">🗑</div></div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="pc-top">
+            <div class="pc-icon" style="background:#f0fdf4">🌱</div>
+            <div style="flex:1">
+              <div class="pc-title">Tourism NOC Phase-2</div>
+              <div><span class="pc-code">TOUR_NOC_P2</span></div>
+              <div class="pc-tenant">🏛 SWCS</div>
+            </div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="pc-body">
+            <div class="pc-desc">Pahadi tourism units ke liye NOC process — Phase 2</div>
+            <div class="pc-meta">
+              <div class="pc-meta-item"><div class="pc-meta-label">Start</div><div class="pc-meta-val">15 Mar 2024</div></div>
+              <div class="pc-meta-item"><div class="pc-meta-label">End</div><div class="pc-meta-val">Ongoing</div></div>
+              <div class="pc-meta-item"><div class="pc-meta-label">Assigned Users</div><div class="pc-meta-val">5</div></div>
+            </div>
+          </div>
+          <div class="pc-footer">
+            <div class="pc-users">👤 5 officers assigned</div>
+            <div class="action-btns"><div class="action-btn">✏</div><div class="action-btn">👥</div><div class="action-btn">🗑</div></div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="pc-top">
+            <div class="pc-icon" style="background:#fffbeb">⚡</div>
+            <div style="flex:1">
+              <div class="pc-title">Energy Sector Approvals</div>
+              <div><span class="pc-code">ENERGY_2023</span></div>
+              <div class="pc-tenant">🏛 SWCS</div>
+            </div>
+            <span class="badge badge-gray">Inactive</span>
+          </div>
+          <div class="pc-body">
+            <div class="pc-desc">Solar aur hydro energy projects — 2023 batch (closed)</div>
+            <div class="pc-meta">
+              <div class="pc-meta-item"><div class="pc-meta-label">Start</div><div class="pc-meta-val">01 Jan 2023</div></div>
+              <div class="pc-meta-item"><div class="pc-meta-label">End</div><div class="pc-meta-val">31 Dec 2023</div></div>
+              <div class="pc-meta-item"><div class="pc-meta-label">Assigned Users</div><div class="pc-meta-val">0</div></div>
+            </div>
+          </div>
+          <div class="pc-footer">
+            <div class="pc-users" style="color:#dc2626">Inactive — no assignments</div>
+            <div class="action-btns"><div class="action-btn">✏</div><div class="action-btn" style="opacity:.4">👥</div><div class="action-btn">🗑</div></div>
+          </div>
+        </div>
+
+        <div class="add-card" onclick="">
+          <div class="add-card-icon">➕</div>
+          <div class="add-card-label">New Project</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📋 New Project</div>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="info-note">💡 Project banana optional hai. User assignment mein project_id NULL rakho = poore tenant ka access. Project select karo = sirf us project ka access.</div>
+
+      <div class="form-group">
+        <label class="form-label">Tenant <span>*</span></label>
+        <select class="form-control"><option>🏛 SWCS — Single Window</option><option>🌲 Forest Dept</option></select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Project Name <span>*</span></label>
+          <input class="form-control" type="text" placeholder="MSME Clearance 2025">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Code <span>*</span></label>
+          <input class="form-control" type="text" placeholder="MSME_2025" style="font-family:monospace">
+          <div class="form-hint">Unique per tenant</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <input class="form-control" type="text" placeholder="Project ka brief description...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Start Date</label>
+          <input class="form-control" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">End Date</label>
+          <input class="form-control" type="date">
+          <div class="form-hint">Blank = ongoing project</div>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <div style="font-size:13px;font-weight:500">is_active</div>
+        <div class="toggle on"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-primary">Save Project</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

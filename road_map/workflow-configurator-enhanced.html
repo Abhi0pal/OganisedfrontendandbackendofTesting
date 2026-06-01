@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow Step Configurator — Enhanced</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;font-size:13px;background:#eef1f6;color:#1a1a2e}
+.shell{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:220px;background:#1a2744;color:#fff;flex-shrink:0;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar-logo{padding:18px 16px 12px;font-size:15px;font-weight:700;border-bottom:1px solid #2d3d60;letter-spacing:.5px;color:#7eb8f7}
+.sidebar-logo span{font-size:11px;color:#7a8aaa;display:block;font-weight:400;margin-top:2px}
+.sidebar-section{padding:12px 16px 4px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#5a7aaa;font-weight:600}
+.sidebar a{display:flex;align-items:center;gap:9px;padding:9px 16px;color:#c8d8f0;text-decoration:none;font-size:12px;border-left:3px solid transparent;transition:.15s}
+.sidebar a:hover,.sidebar a.active{background:#243358;border-left-color:#4a90d9;color:#fff}
+.sidebar a .dot{width:7px;height:7px;border-radius:50%;background:#3a5080;flex-shrink:0}
+.sidebar a.active .dot{background:#4a90d9}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:#fff;border-bottom:1px solid #dde3ee;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-title{font-size:15px;font-weight:700;color:#1a2744}
+.topbar-sub{font-size:12px;color:#7a8aaa;margin-left:16px}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.content{flex:1;overflow-y:auto;padding:20px 24px}
+.meta-bar{background:#fff;border:1px solid #dde3ee;border-radius:8px;padding:16px 20px;margin-bottom:16px}
+.meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:#fff;border:1px solid #dde3ee;border-radius:8px;margin-bottom:14px;overflow:hidden}
+.card-head{padding:11px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #edf0f5;cursor:pointer;user-select:none}
+.card-head-left{display:flex;align-items:center;gap:10px;font-weight:600;font-size:13px;color:#1a2744}
+.card-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.card-body{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.card-body.collapsed{display:none}
+.ci-basic{background:#e8f0fe;color:#2962d9}
+.ci-sla{background:#fff3e0;color:#e65100}
+.ci-role{background:#e8f5e9;color:#2e7d32}
+.ci-parallel{background:#f3e5f5;color:#7b1fa2}
+.ci-actions{background:#e3f2fd;color:#0277bd}
+.ci-routing{background:#fff8e1;color:#f57f17}
+.ci-skip{background:#f1f8e9;color:#558b2f}
+.ci-docs{background:#fce4ec;color:#c62828}
+.ci-perms{background:#f1f8e9;color:#558b2f}
+.ci-notif{background:#e0f7fa;color:#00695c}
+.ci-advanced{background:#efebe9;color:#4e342e}
+.frow{display:grid;gap:12px}
+.fc2{grid-template-columns:1fr 1fr}
+.fc3{grid-template-columns:1fr 1fr 1fr}
+.fc4{grid-template-columns:1fr 1fr 1fr 1fr}
+.fc5{grid-template-columns:1fr 1fr 1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:600;color:#4a5568;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.field label .req{color:#e53e3e}
+.tag-new{background:#f0fff4;color:#276749;border:1px solid #9ae6b4;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700}
+.tag-db{background:#ebf8ff;color:#2b6cb0;border:1px solid #90cdf4;font-size:9px;padding:1px 5px;border-radius:3px}
+.field input,.field select,.field textarea{border:1px solid #cbd5e0;border-radius:5px;padding:7px 10px;font-size:12px;color:#2d3748;background:#fafbfc;width:100%;transition:.15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#4a90d9;background:#fff;box-shadow:0 0 0 3px rgba(74,144,217,.1)}
+.field textarea{min-height:72px;resize:vertical;font-family:monospace;font-size:11px}
+.field .hint{font-size:10px;color:#9aa5b4;font-style:italic}
+.chk{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid #cbd5e0;border-radius:5px;background:#fafbfc;cursor:pointer;transition:.15s}
+.chk:hover{border-color:#4a90d9;background:#f0f7ff}
+.chk input[type=checkbox]{width:15px;height:15px;accent-color:#4a90d9;flex-shrink:0}
+.chk-label{font-size:12px;color:#2d3748;font-weight:500}
+.chk-sub{font-size:10px;color:#9aa5b4;margin-top:1px}
+.toggle-wrap{display:flex;align-items:center;gap:10px;padding:6px 0}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:#cbd5e0;border-radius:22px;transition:.2s}
+.toggle-slider:before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.toggle input:checked+.toggle-slider{background:#4a90d9}
+.toggle input:checked+.toggle-slider:before{transform:translateX(18px)}
+.ttable{width:100%;border-collapse:collapse;font-size:12px}
+.ttable th{background:#f0f4ff;color:#2d3a6e;padding:8px 10px;text-align:left;font-size:11px;font-weight:600;border:1px solid #dde3ee}
+.ttable td{border:1px solid #e8ecf4;padding:0}
+.ttable td input,.ttable td select{border:none;background:transparent;font-size:12px;width:100%;padding:7px 9px;color:#2d3748;outline:none}
+.ttable td input:focus,.ttable td select:focus{background:#f0f7ff}
+.ttable tr:nth-child(even) td{background:#f9fbff}
+.act-btn{padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600}
+.btn-del{background:#fee2e2;color:#c53030}
+.btn-edit{background:#ebf8ff;color:#2b6cb0}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.b-draft{background:#feebc8;color:#c05621}
+.b-pub{background:#c6f6d5;color:#22543d}
+.b-inactive{background:#e2e8f0;color:#4a5568}
+.b-new{background:#f0fff4;color:#276749;border:1px solid #9ae6b4}
+.b-db{background:#ebf8ff;color:#2b6cb0}
+.btn{padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.btn-primary{background:#2962d9;color:#fff}
+.btn-primary:hover{background:#1d4fbf}
+.btn-success{background:#2e7d32;color:#fff}
+.btn-success:hover{background:#1b5e20}
+.btn-outline{background:#fff;color:#2962d9;border:1px solid #2962d9}
+.btn-ghost{background:#f4f6fb;color:#4a5568;border:1px solid #dde3ee}
+.btn-ghost:hover{background:#e8ecf5}
+.btn-sm{padding:5px 12px;font-size:11px}
+.btn-add{background:#f0f4ff;color:#2962d9;border:1px dashed #4a90d9;font-size:11px;padding:5px 12px;border-radius:4px;cursor:pointer;margin-top:6px}
+.btn-add:hover{background:#e0eaff}
+.btn-row{display:flex;align-items:center;gap:10px}
+.note{padding:10px 14px;border-radius:6px;font-size:12px;line-height:1.5;display:flex;gap:10px}
+.note-blue{background:#ebf8ff;border-left:4px solid #4a90d9;color:#2b4a7a}
+.note-yellow{background:#fffbeb;border-left:4px solid #f6ad55;color:#7b4f00}
+.note-green{background:#f0fff4;border-left:4px solid #68d391;color:#276749}
+.note-icon{font-size:16px;flex-shrink:0}
+.steps-grid{width:100%;border-collapse:collapse;font-size:12px}
+.steps-grid th{background:#1a2744;color:#fff;padding:10px 12px;text-align:left;font-size:11px;font-weight:600}
+.steps-grid td{border-bottom:1px solid #edf0f5;padding:10px 12px;vertical-align:middle}
+.steps-grid tr:hover td{background:#f8f9ff}
+.step-num{width:28px;height:28px;border-radius:50%;background:#2962d9;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
+.ac{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600;margin:1px}
+.ac-F{background:#dbeafe;color:#1d4ed8}
+.ac-A{background:#dcfce7;color:#166534}
+.ac-R{background:#fee2e2;color:#991b1b}
+.ac-RBI{background:#fef9c3;color:#854d0e}
+.ac-RN{background:#f3e8ff;color:#6b21a8}
+.ac-C{background:#d1fae5;color:#065f46}
+.schema-ref{background:#1a1f2e;color:#a8b8d8;padding:12px 16px;border-radius:6px;font-size:11px;font-family:monospace;line-height:1.8;overflow-x:auto}
+.schema-ref .k{color:#7dd3fc}
+.schema-ref .t{color:#86efac}
+.schema-ref .c{color:#4a5568}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:#f1f1f1}
+::-webkit-scrollbar-thumb{background:#c0cad8;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">⚙️ Workflow Admin<span>SWCS 2.0 — Invest Uttarakhand</span></div>
+  <div class="sidebar-section">Configuration</div>
+  <a href="#" class="active"><span class="dot"></span>Workflow Configurator</a>
+  <a href="#"><span class="dot"></span>Workflow Actions Master</a>
+  <a href="#"><span class="dot"></span>Jurisdiction Levels</a>
+  <a href="#"><span class="dot"></span>Assignment Strategies</a>
+  <div class="sidebar-section">Runtime</div>
+  <a href="#"><span class="dot"></span>Active Instances</a>
+  <a href="#"><span class="dot"></span>Audit Log</a>
+  <a href="#"><span class="dot"></span>SLA Breach Report</a>
+  <div class="sidebar-section">Masters</div>
+  <a href="#"><span class="dot"></span>Roles Master</a>
+  <a href="#"><span class="dot"></span>Services Master</a>
+  <a href="#"><span class="dot"></span>Form Types</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center">
+      <div class="topbar-title">Workflow Configurator</div>
+      <div class="topbar-sub">Define step-by-step workflow for any service</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost btn-sm" onclick="toggleSchema()">🗄 DB Schema</button>
+      <button class="btn btn-outline btn-sm">👁 Preview JSON</button>
+      <button class="btn btn-success btn-sm">💾 Save All Steps</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DB SCHEMA PANEL -->
+    <div id="schema-panel" style="display:none;margin-bottom:16px">
+      <div class="card">
+        <div class="card-head" onclick="toggleSchema()">
+          <div class="card-head-left"><span class="card-icon ci-advanced">🗄</span>DB Schema — c_application_workflow_configuration</div>
+          <span style="color:#9aa5b4">▲ collapse</span>
+        </div>
+        <div class="card-body">
+          <div class="note note-blue"><span class="note-icon">ℹ️</span>
+            <div><span class="tag-db">tag</span> = existing DB column &nbsp;|&nbsp; <span class="tag-new">NEW</span> = naya column add karna padega (1 migration, backward compatible JSON columns)</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#4a5568;margin-bottom:6px">✅ EXISTING — c_application_workflow_configuration</div>
+              <div class="schema-ref">
+<span class="k">step</span>                      <span class="t">Int</span>          <span class="c">// 1,2,3...</span>
+<span class="k">serviceId</span>                 <span class="t">String</span>       <span class="c">// "591.0"</span>
+<span class="k">departmentId</span>              <span class="t">Int</span>          <span class="c">// FK m_departments</span>
+<span class="k">configVersion</span>             <span class="t">Int</span>          <span class="c">// 1,2,3...</span>
+<span class="k">status</span>                    <span class="t">Enum</span>         <span class="c">// DRAFT/PUBLISHED/INACTIVE/ARCHIVED</span>
+<span class="k">roleId</span>                    <span class="t">Int</span>          <span class="c">// Current role for this step</span>
+<span class="k">formTypeId</span>                <span class="t">Int</span>          <span class="c">// FK m_fb_form_types</span>
+<span class="k">jurisdictionLevel</span>         <span class="t">Enum</span>         <span class="c">// STATE/DISTRICT/BLOCK/TEHSIL...</span>
+<span class="k">jurisdictionLevelId</span>       <span class="t">Int?</span>         <span class="c">// FK m_workflow_jurisdiction_level</span>
+<span class="k">assignmentStrategy</span>        <span class="t">Enum</span>         <span class="c">// ROLE/USER/OFFICE/RULE</span>
+<span class="k">assignmentStrategyId</span>      <span class="t">Int?</span>         <span class="c">// FK m_workflow_assignment_strategy</span>
+<span class="k">assignmentRuleJson</span>        <span class="t">Json?</span>        <span class="c">// Rule-based assignment logic</span>
+<span class="k">actionMasterIdsJson</span>       <span class="t">Json</span>         <span class="c">// [1,2,3] action master IDs</span>
+<span class="k">actionAllowedJson</span>         <span class="t">Json</span>         <span class="c">// ["F","A","R"]</span>
+<span class="k">transitionMapJson</span>         <span class="t">Json</span>         <span class="c">// {"F":{"nextStep":2,"nextRoles":[7]}}</span>
+<span class="k">slaHours</span>                  <span class="t">Int</span>          <span class="c">// 0 = no limit</span>
+<span class="k">slaBreachRequiresReason</span>   <span class="t">Boolean</span>      <span class="c">// Delay reason mandatory</span>
+<span class="k">nextAllocationRoleId</span>      <span class="t">Int?</span>         <span class="c">// Default next role</span>
+<span class="k">canRevertToInvestor</span>       <span class="t">Y/N</span>          <span class="c">// Revert to applicant allowed</span>
+<span class="k">canVerifyDocument</span>         <span class="t">Y/N</span>          <span class="c">// Document verification at step</span>
+<span class="k">canForwardToMultipleRoleId</span> <span class="t">String?</span>    <span class="c">// "3,5,8" parallel forward roles</span>
+<span class="k">canForwardToMultipleUserId</span> <span class="t">String?</span>    <span class="c">// "101,102" specific users</span>
+<span class="k">isOwnDepartment</span>           <span class="t">Y/N</span>          <span class="c">// Only same dept officers</span>
+<span class="k">processAnytime</span>            <span class="t">Y/N</span>          <span class="c">// Outside SLA window allowed</span>
+<span class="k">permissableTabFormId</span>      <span class="t">String</span>       <span class="c">// Comma-sep allowed form IDs</span>
+<span class="k">documentShowLast</span>          <span class="t">Y/N</span>          <span class="c">// Show docs at end of form</span>
+<span class="k">showLiceneceList</span>          <span class="t">0/1</span>          <span class="c">// Show licence list</span>
+<span class="k">showFieldEditableOrNot</span>    <span class="t">0/1</span>          <span class="c">// Show field-editable indicator</span>
+<span class="k">formServiceJs</span>             <span class="t">String</span>       <span class="c">// Custom JS service</span>
+<span class="k">formActionController</span>      <span class="t">String</span>       <span class="c">// Custom action controller</span>
+<span class="k">subformActionName</span>         <span class="t">String</span>       <span class="c">// Sub-form action handler</span>
+<span class="k">licenceNumberFormat</span>       <span class="t">String?</span>      <span class="c">// Final step: licence format</span>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#276749;margin-bottom:6px">🆕 NEW COLUMNS NEEDED (1 migration, all JSON — backward compatible)</div>
+              <div class="schema-ref">
+<span class="k">parallelAggregation</span>       <span class="t">String?</span>      <span class="c">// ALL/ANY/MAJORITY/MANUAL</span>
+<span class="c">// canForwardToMultiple has roles but no</span>
+<span class="c">// "wait for ALL" aggregation logic</span>
+
+<span class="k">stepSkipConditionJson</span>     <span class="t">Json?</span>        <span class="c">// Skip step if condition met</span>
+<span class="c">// {"field":"app_type","op":"=","val":"RENEWAL"}</span>
+
+<span class="k">escalationJson</span>            <span class="t">Json?</span>        <span class="c">// SLA breach escalation rules</span>
+<span class="c">// {"afterHours":96,"toRoleId":15,"action":"REASSIGN"}</span>
+
+<span class="k">routingConditionJson</span>      <span class="t">Json?</span>        <span class="c">// Conditional routing by field value</span>
+<span class="c">// [{"field":"investment","op":"gt",</span>
+<span class="c">//   "val":50000000,"jurisdiction":"STATE"}]</span>
+
+<span class="k">notificationJson</span>          <span class="t">Json?</span>        <span class="c">// Per-action notification rules</span>
+<span class="c">// [{"on":"FORWARD","to":"NEXT_ROLE","ch":"EMAIL"}]</span>
+
+<span class="k">observerRoleIds</span>           <span class="t">Json?</span>        <span class="c">// View-only roles</span>
+<span class="c">// [22, 33, 45]</span>
+
+<span class="k">documentChecklistJson</span>     <span class="t">Json?</span>        <span class="c">// Docs to verify at this step</span>
+<span class="c">// [{"docTypeId":5,"mandatory":true}]</span>
+
+<span class="k">fieldPermissionsJson</span>      <span class="t">Json?</span>        <span class="c">// Field read/write/hide per step</span>
+<span class="c">// {"section_1":"readonly","remarks":"editable"}</span>
+
+<span class="k">subResponsibility</span>         <span class="t">String?</span>      <span class="c">// DOC_VERIFY/INSPECTION/CONSENT</span>
+<span class="c">// UI mein hai, DB mein column nahi</span>
+
+<span class="k">excludeHolidaysFromSla</span>    <span class="t">Boolean</span>      <span class="c">// Default false</span>
+<span class="c">// Sundays/holidays SLA se exclude</span>
+              </div>
+              <div class="note note-yellow" style="margin-top:10px"><span class="note-icon">⚠️</span>
+                <div>Sirf <strong>10 naye columns</strong> — sabhi JSON ya simple String/Boolean. Ek Prisma migration se ho jaayega.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- META BAR -->
+    <div class="meta-bar">
+      <div style="font-size:11px;font-weight:700;color:#4a5568;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">📋 Workflow — Service &amp; Version</div>
+      <div class="meta-grid">
+        <div class="field">
+          <label>Department <span class="req">*</span></label>
+          <select><option>Directorate of Industries</option><option>Revenue Department</option><option>Forest Department</option></select>
+        </div>
+        <div class="field">
+          <label>Service <span class="req">*</span></label>
+          <select><option>Application for In-principle Approval (591.0)</option><option>Trade Licence (592.0)</option></select>
+        </div>
+        <div class="field">
+          <label>Config Version <span class="tag-db">configVersion</span></label>
+          <input type="number" value="1" min="1"/>
+        </div>
+        <div class="field">
+          <label>Status <span class="tag-db">status</span></label>
+          <select>
+            <option value="DRAFT">🟡 DRAFT</option>
+            <option value="PUBLISHED">🟢 PUBLISHED</option>
+            <option value="INACTIVE">⚫ INACTIVE</option>
+            <option value="ARCHIVED">🔴 ARCHIVED</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP EDITOR HEADING -->
+    <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:12px;display:flex;align-items:center;gap:10px">
+      <span>Step Editor</span>
+      <span style="font-size:12px;font-weight:400;color:#7a8aaa">— Ek step define karo, phir grid mein add karo</span>
+    </div>
+
+    <!-- 1. BASIC -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-basic">🔵</span>1. Basic Configuration <span class="badge b-db" style="margin-left:6px">Required</span></div>
+        <span style="color:#9aa5b4;font-size:16px">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="frow fc5">
+          <div class="field">
+            <label>Step # <span class="req">*</span> <span class="tag-db">step</span></label>
+            <input type="number" value="2" min="1"/>
+            <span class="hint">1=Applicant, 2+=Officers</span>
+          </div>
+          <div class="field">
+            <label>Form Type <span class="req">*</span> <span class="tag-db">formTypeId</span></label>
+            <select>
+              <option value="1">Applicant Form (AF)</option>
+              <option value="2" selected>Processing — Verifier</option>
+              <option value="3">Processing — Approver</option>
+              <option value="4">Processing — Line Dept</option>
+              <option value="5">Document Upload</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Current Role <span class="req">*</span> <span class="tag-db">roleId</span></label>
+            <input placeholder="Search Role..." value="Verifier Level (7)"/>
+          </div>
+          <div class="field">
+            <label>Jurisdiction <span class="tag-db">jurisdictionLevel</span></label>
+            <select>
+              <option>STATE</option><option selected>DISTRICT</option>
+              <option>BLOCK</option><option>TEHSIL</option>
+              <option>GRAM_PANCHAYAT</option><option>VILLAGE</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Assignment <span class="tag-db">assignmentStrategy</span></label>
+            <select><option selected>ROLE</option><option>USER</option><option>OFFICE</option><option>RULE</option></select>
+          </div>
+        </div>
+        <div class="frow fc4">
+          <div class="field">
+            <label>Sub-Responsibility <span class="tag-new">NEW col</span></label>
+            <select>
+              <option value="">None</option>
+              <option value="DOC_VERIFY">📄 Document Verification</option>
+              <option value="INSPECTION">🔍 Inspection</option>
+              <option value="TRANSACTION">💳 Transaction</option>
+              <option value="CONSENT">✅ Consent / NOC</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Next Allocation Role <span class="tag-db">nextAllocationRoleId</span></label>
+            <input placeholder="e.g. Approver (33)"/>
+            <span class="hint">Default next role after forward</span>
+          </div>
+          <div class="field">
+            <label>Permissible Form IDs <span class="tag-db">permissableTabFormId</span></label>
+            <input placeholder="e.g. 1,2,5"/>
+            <span class="hint">Comma-sep form IDs accessible here</span>
+          </div>
+          <div class="field">
+            <label>Valid From / To <span class="tag-db">startDate / endDate</span></label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <input type="date" value="2025-01-01"/>
+              <input type="date" placeholder="End (optional)"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. SLA -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-sla">⏱</span>2. SLA &amp; Timing</div>
+        <span style="color:#9aa5b4;font-size:16px">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="frow fc4">
+          <div class="field">
+            <label>SLA Hours <span class="tag-db">slaHours</span></label>
+            <input type="number" value="72" min="0"/>
+            <span class="hint">0 = no SLA limit</span>
+          </div>
+          <label class="chk" style="align-self:flex-end;margin-bottom:0">
+            <input type="checkbox" checked/>
+            <div><div class="chk-label">SLA Breach Reason Required <span class="tag-db">slaBreachRequiresReason</span></div>
+            <div class="chk-sub">Officer ko reason dena hoga delay par</div></div>
+          </label>
+          <label class="chk" style="align-self:flex-end">
+            <input type="checkbox"/>
+            <div><div class="chk-label">Process Anytime <span class="tag-db">processAnytime</span></div>
+            <div class="chk-sub">Office hours ke bahar bhi process ho</div></div>
+          </label>
+          <label class="chk" style="align-self:flex-end">
+            <input type="checkbox"/>
+            <div><div class="chk-label">Exclude Holidays from SLA <span class="tag-new">NEW</span></div>
+            <div class="chk-sub">Sundays/holidays count na hon</div></div>
+          </label>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#4a5568;margin-bottom:8px">⚠️ SLA Escalation Rules <span class="tag-new">NEW — escalationJson</span></div>
+          <table class="ttable">
+            <thead><tr>
+              <th>After Hours (breach by)</th><th>Escalate To Role</th><th>Role ID</th>
+              <th>Action</th><th>Notify Who</th><th></th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td><input type="number" value="96" style="width:80px"/></td>
+                <td><input value="Senior Verifier"/></td>
+                <td><input type="number" value="15" style="width:60px"/></td>
+                <td><select><option>Notify Only</option><option>Auto-Reassign</option><option>Both</option></select></td>
+                <td><select><option>Admin</option><option>Dept Head</option><option>Both</option></select></td>
+                <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn-add" onclick="addRow(this)">+ Add Escalation Rule</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. ROLE ASSIGNMENT -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-role">👥</span>3. Role &amp; User Assignment</div>
+        <span style="color:#9aa5b4;font-size:16px">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="frow fc3">
+          <div class="field">
+            <label>Assignment Target Roles <span class="tag-db">assignmentRuleJson</span></label>
+            <input placeholder="Select roles to assign..."/>
+            <span class="hint">Forward actions in-addition to next step</span>
+          </div>
+          <div class="field">
+            <label>Manual User IDs (CSV) <span class="tag-db">canForwardToMultipleUserId</span></label>
+            <input placeholder="e.g. 1001,1005"/>
+            <span class="hint">Direct user assignment</span>
+          </div>
+          <div class="field">
+            <label>Observer Roles (View Only) <span class="tag-new">NEW — observerRoleIds</span></label>
+            <input placeholder="e.g. 22,33 (role IDs)"/>
+            <span class="hint">Sirf dekh sakte hain, action nahi</span>
+          </div>
+        </div>
+        <div class="frow fc4">
+          <label class="chk"><input type="checkbox"/>
+            <div><div class="chk-label">Own Department Only <span class="tag-db">isOwnDepartment</span></div>
+            <div class="chk-sub">Sirf same dept ke officers</div></div>
+          </label>
+          <label class="chk"><input type="checkbox" checked/>
+            <div><div class="chk-label">Can Verify Document <span class="tag-db">canVerifyDocument</span></div>
+            <div class="chk-sub">Document verification is step pe</div></div>
+          </label>
+          <label class="chk"><input type="checkbox"/>
+            <div><div class="chk-label">Document Show Last <span class="tag-db">documentShowLast</span></div>
+            <div class="chk-sub">Docs form ke end mein dikhao</div></div>
+          </label>
+          <label class="chk"><input type="checkbox"/>
+            <div><div class="chk-label">Show Licence List <span class="tag-db">showLiceneceList</span></div>
+            <div class="chk-sub">Is step pe licence list dikhao</div></div>
+          </label>
+        </div>
+        <div class="field">
+          <label>Assignment Rule JSON <span class="tag-db">assignmentRuleJson</span> <span style="font-weight:400;color:#9aa5b4">(auto-generated)</span></label>
+          <textarea>{"strategy":"ROLE","targets":[{"roleId":7,"jurisdiction":"DISTRICT"}]}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. PARALLEL FORWARD -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-parallel">🔀</span>4. Parallel Forward Configuration</div>
+        <span style="color:#9aa5b4;font-size:16px">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="note note-blue"><span class="note-icon">ℹ️</span>
+          <div>Is step se multiple departments/roles ko ek saath forward karna ho (e.g. Line Dept + NOC Authority + Fire Dept) to yahan configure karo.</div>
+        </div>
+        <div class="frow fc4">
+          <div class="toggle-wrap" style="padding:8px 0;grid-column:span 2">
+            <label class="toggle"><input type="checkbox" id="pf-toggle" onchange="togglePF()" checked/><div class="toggle-slider"></div></label>
+            <span style="font-size:12px;font-weight:600;color:#2d3748">Enable Parallel Forward <span class="tag-db">canForwardToMultipleRoleId</span></span>
+          </div>
+          <div class="field" id="pf-agg">
+            <label>Completion Condition <span class="tag-new">NEW — parallelAggregation</span></label>
+            <select>
+              <option value="ALL">ALL — Sabke respond ke baad aage jao</option>
+              <option value="ANY">ANY — Koi ek respond kare</option>
+              <option value="MAJORITY">MAJORITY — 50%+ respond kare</option>
+              <option value="MANUAL">MANUAL — Verifier khud decide kare</option>
+            </select>
+          </div>
+          <label class="chk" id="pf-retain" style="align-self:flex-end">
+            <input type="checkbox"/>
+            <div><div class="chk-label">Retain Role Ownership on Parallel Fwd</div>
+            <div class="chk-sub">Step 2 / Role 7 special case</div></div>
+          </label>
+        </div>
+        <div id="pf-roles">
+          <div style="font-size:12px;font-weight:700;color:#4a5568;margin-bottom:8px">📋 Parallel Target Roles / Departments <span class="tag-db">canForwardToMultipleRoleId</span></div>
+          <table class="ttable">
+            <thead><tr>
+              <th>Department / Authority</th><th>Role ID</th><th>Mandatory?</th>
+              <th>SLA Hours</th><th>Notes</th><th></th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td><input value="Line Department (Fire NOC)"/></td>
+                <td><input type="number" value="3" style="width:60px"/></td>
+                <td><select><option>Y</option><option>N</option></select></td>
+                <td><input type="number" value="48" style="width:60px"/></td>
+                <td><input value="Fire safety NOC"/></td>
+                <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+              </tr>
+              <tr>
+                <td><input value="Pollution Control Board"/></td>
+                <td><input type="number" value="12" style="width:60px"/></td>
+                <td><select><option>Y</option><option>N</option></select></td>
+                <td><input type="number" value="72" style="width:60px"/></td>
+                <td><input value="Pollution NOC"/></td>
+                <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn-add" onclick="addRow(this)">+ Add Department / Role</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. ACTIONS & TRANSITIONS -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-actions">➡️</span>5. Transition Actions <span class="badge b-db" style="margin-left:6px">Core Logic</span></div>
+        <span style="color:#9aa5b4;font-size:16px">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="note note-green"><span class="note-icon">✅</span>
+          <div>Har action: <strong>kaun sa action</strong> → <strong>next step</strong> → <strong>next roles</strong>. Optional condition: sirf tab fire ho jab condition true ho.</div>
+        </div>
+        <div style="background:#f8f9ff;border:1px solid #dde3ee;border-radius:6px;padding:14px">
+          <div style="font-size:11px;font-weight:700;color:#4a5568;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">➕ Add / Edit Transition Entry</div>
+          <div class="frow fc5">
+            <div class="field">
+              <label>Action <span class="req">*</span> <span class="tag-db">actionAllowedJson</span></label>
+              <select>
+                <option value="F">FORWARD (F)</option>
+                <option value="A">APPROVE (A)</option>
+                <option value="R">REJECT (R)</option>
+                <option value="RBI">REVERT TO INVESTOR (RBI)</option>
+                <option value="RN">REVERT TO NODAL (RN)</option>
+                <option value="C">CONSENT (C)</option>
+                <option value="SB">SEND BACK (SB)</option>
+                <option value="SUBMIT">SUBMIT</option>
+                <option value="CUSTOM">CUSTOM...</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Next Step # <span class="req">*</span></label>
+              <input type="number" placeholder="3" min="0"/>
+              <span class="hint">0 = Final / Closed</span>
+            </div>
+            <div class="field">
+              <label>Next Roles <span class="req">*</span></label>
+              <input placeholder="Role IDs (comma) e.g. 3,7"/>
+            </div>
+            <div class="field">
+              <label>Condition <span class="tag-new">NEW</span></label>
+              <select>
+                <option value="">(Always fire)</option>
+                <option>IF investment &gt; 5Cr → STATE level</option>
+                <option>IF investment ≤ 5Cr → DISTRICT</option>
+                <option>IF all_parallel_responded = true</option>
+                <option>CUSTOM expression...</option>
+              </select>
+            </div>
+            <div class="field" style="justify-content:flex-end">
+              <label>&nbsp;</label>
+              <button class="btn btn-primary btn-sm" style="height:34px">+ Add Action</button>
+            </div>
+          </div>
+        </div>
+
+        <table class="ttable">
+          <thead><tr>
+            <th style="width:36px">#</th>
+            <th>Action</th><th>Next Step</th><th>Next Roles</th>
+            <th>Condition</th><th>Notes</th><th style="width:76px"></th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td style="text-align:center;color:#9aa5b4;padding:8px">1</td>
+              <td style="padding:8px"><span class="ac ac-F">FORWARD</span></td>
+              <td style="text-align:center;font-weight:700;padding:8px">3</td>
+              <td style="padding:8px"><span class="badge b-db">Line Dept (3)</span></td>
+              <td style="padding:8px;color:#9aa5b4;font-size:11px">— always</td>
+              <td style="padding:8px;color:#9aa5b4;font-size:11px">Parallel to Line Depts</td>
+              <td style="padding:5px"><button class="act-btn btn-edit">✏</button> <button class="act-btn btn-del">✕</button></td>
+            </tr>
+            <tr>
+              <td style="text-align:center;color:#9aa5b4;padding:8px">2</td>
+              <td style="padding:8px"><span class="ac ac-RBI">REVERT→INVESTOR</span></td>
+              <td style="text-align:center;font-weight:700;padding:8px">1</td>
+              <td style="padding:8px"><span class="badge b-db">Applicant (0)</span></td>
+              <td style="padding:8px;color:#9aa5b4;font-size:11px">— always</td>
+              <td style="padding:8px;color:#9aa5b4;font-size:11px">Docs incomplete</td>
+              <td style="padding:5px"><button class="act-btn btn-edit">✏</button> <button class="act-btn btn-del">✕</button></td>
+            </tr>
+            <tr>
+              <td style="text-align:center;color:#9aa5b4;padding:8px">3</td>
+              <td style="padding:8px"><span class="ac ac-F">FORWARD</span></td>
+              <td style="text-align:center;font-weight:700;padding:8px">5</td>
+              <td style="padding:8px"><span class="badge b-db">Approver (33)</span></td>
+              <td style="padding:8px"><span style="background:#fef9c3;color:#854d0e;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600">all_parallel_done=true</span></td>
+              <td style="padding:8px;color:#9aa5b4;font-size:11px">After all Line Depts respond</td>
+              <td style="padding:5px"><button class="act-btn btn-edit">✏</button> <button class="act-btn btn-del">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="field">
+          <label>Transition Map JSON <span class="tag-db">transitionMapJson</span> <span style="font-weight:400;color:#9aa5b4">(auto-generated from table above)</span></label>
+          <textarea>{"F":{"nextStep":3,"nextRoles":[3],"parallel":true},"RBI":{"nextStep":1,"nextRoles":[]},"F_AFTER_PARALLEL":{"nextStep":5,"nextRoles":[33],"condition":"all_parallel_responded"}}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. ROUTING CONDITIONS -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-routing">🔀</span>6. Routing / Branching Conditions <span class="tag-new" style="margin-left:6px">NEW — routingConditionJson</span></div>
+        <span style="color:#9aa5b4;font-size:16px">▲</span>
+      </div>
+      <div class="card-body">
+        <div class="note note-yellow"><span class="note-icon">⚠️</span>
+          <div>Application ke form field ki value ke basis pe alag route lo (e.g. investment &gt; 50Cr → State level). Abhi DB mein nahi hai — ek naya JSON column chahiye.</div>
+        </div>
+        <table class="ttable" style="margin-top:8px">
+          <thead><tr>
+            <th>Form Field</th><th>Operator</th><th>Value</th>
+            <th>Result / Route</th><th>Jump to Step</th><th>Notes</th><th></th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><input value="plant_machinery_investment"/></td>
+              <td><select><option>&gt;</option><option>&gt;=</option><option>&lt;</option><option selected>&lt;=</option><option>=</option></select></td>
+              <td><input value="50000000"/></td>
+              <td><select><option selected>DISTRICT</option><option>STATE</option><option>SKIP STEP</option><option>CUSTOM STEP</option></select></td>
+              <td><input type="number" placeholder="—" style="width:60px"/></td>
+              <td><input value="50Cr se kum → District"/></td>
+              <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+            </tr>
+            <tr>
+              <td><input value="plant_machinery_investment"/></td>
+              <td><select><option>&gt;</option><option selected>&gt;=</option><option>&lt;</option><option>&lt;=</option><option>=</option></select></td>
+              <td><input value="50000000"/></td>
+              <td><select><option>DISTRICT</option><option selected>STATE</option><option>SKIP STEP</option></select></td>
+              <td><input type="number" placeholder="—" style="width:60px"/></td>
+              <td><input value="50Cr ya jyada → State"/></td>
+              <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn-add" onclick="addRow(this)">+ Add Condition</button>
+      </div>
+    </div>
+
+    <!-- 7. STEP SKIP -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-skip">⏭</span>7. Step Skip Condition <span class="tag-new" style="margin-left:6px">NEW — stepSkipConditionJson</span></div>
+        <span style="color:#9aa5b4;font-size:16px">▼</span>
+      </div>
+      <div class="card-body collapsed">
+        <div class="note note-yellow"><span class="note-icon">⚠️</span>
+          <div>Agar kisi condition mein ye poora step skip karna ho — e.g. "Renewal application → Line Dept step skip karo" — to yahan define karo.</div>
+        </div>
+        <div class="frow fc3" style="margin-top:8px">
+          <div class="field"><label>Skip If Field</label><input placeholder="e.g. application_type"/></div>
+          <div class="field"><label>Operator</label><select><option>=</option><option>!=</option><option>&gt;</option><option>&lt;</option><option>IN</option></select></div>
+          <div class="field"><label>Value</label><input placeholder="e.g. RENEWAL"/></div>
+        </div>
+        <div class="field">
+          <label>Skip Condition JSON <span style="font-weight:400;color:#9aa5b4">(auto-generated)</span></label>
+          <textarea>{"field": "application_type", "op": "=", "value": "RENEWAL"}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. DOCUMENT CHECKLIST -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-docs">📄</span>8. Document Checklist <span class="tag-new" style="margin-left:6px">NEW — documentChecklistJson</span></div>
+        <span style="color:#9aa5b4;font-size:16px">▼</span>
+      </div>
+      <div class="card-body collapsed">
+        <table class="ttable">
+          <thead><tr>
+            <th>Doc Type ID</th><th>Document Name</th>
+            <th>Mandatory?</th><th>Verified By</th><th>Notes</th><th></th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><input type="number" value="5" style="width:70px"/></td>
+              <td><input value="Incorporation Certificate"/></td>
+              <td><select><option>Y</option><option>N</option></select></td>
+              <td><input value="Verifier (7)"/></td>
+              <td><input/></td>
+              <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+            </tr>
+            <tr>
+              <td><input type="number" value="8" style="width:70px"/></td>
+              <td><input value="Land Documents / Lease Deed"/></td>
+              <td><select><option>Y</option><option>N</option></select></td>
+              <td><input value="Verifier (7)"/></td>
+              <td><input/></td>
+              <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn-add" onclick="addRow(this)">+ Add Document</button>
+      </div>
+    </div>
+
+    <!-- 9. FIELD PERMISSIONS -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-perms">🔒</span>9. Form Field Permissions <span class="tag-new" style="margin-left:6px">NEW — fieldPermissionsJson</span> <span class="tag-db">showFieldEditableOrNot</span></div>
+        <span style="color:#9aa5b4;font-size:16px">▼</span>
+      </div>
+      <div class="card-body collapsed">
+        <div class="frow fc2" style="margin-bottom:8px">
+          <label class="chk"><input type="checkbox"/>
+            <div><div class="chk-label">Show Field Editable Indicator <span class="tag-db">showFieldEditableOrNot</span></div>
+            <div class="chk-sub">UI mein dikhao kaunse fields editable hain</div></div>
+          </label>
+        </div>
+        <table class="ttable">
+          <thead><tr><th>Field / Section</th><th>Permission</th><th>Notes</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td><input value="applicant_details_section"/></td>
+              <td><select><option>Read-Only</option><option>Editable</option><option>Hidden</option></select></td>
+              <td><input value="Verifier sirf dekh sakta hai"/></td>
+              <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+            </tr>
+            <tr>
+              <td><input value="officer_remarks"/></td>
+              <td><select><option>Read-Only</option><option selected>Editable</option><option>Hidden</option></select></td>
+              <td><input value="Officer remark add kar sakta hai"/></td>
+              <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn-add" onclick="addRow(this)">+ Add Field Permission</button>
+      </div>
+    </div>
+
+    <!-- 10. NOTIFICATIONS -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-notif">🔔</span>10. Notification Rules <span class="tag-new" style="margin-left:6px">NEW — notificationJson</span></div>
+        <span style="color:#9aa5b4;font-size:16px">▼</span>
+      </div>
+      <div class="card-body collapsed">
+        <table class="ttable">
+          <thead><tr>
+            <th>Trigger Event</th><th>Recipient</th><th>Channel</th><th>Message Template</th><th></th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><select><option>On Step Assign</option><option>On Action Taken</option><option>On SLA Breach</option><option>On Approve</option><option>On Reject</option></select></td>
+              <td><select><option>Next Role</option><option>Applicant</option><option>Current Role</option><option>Admin</option><option>All</option></select></td>
+              <td><select><option>Email</option><option>SMS</option><option>Both</option></select></td>
+              <td><input value="Application forwarded. Review within {sla_hours}hrs. Ref: {app_id}"/></td>
+              <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+            </tr>
+            <tr>
+              <td><select><option>On Step Assign</option><option>On Action Taken</option><option selected>On SLA Breach</option></select></td>
+              <td><select><option>Next Role</option><option>Applicant</option><option>Current Role</option><option selected>Admin</option></select></td>
+              <td><select><option>Email</option><option>SMS</option><option selected>Both</option></select></td>
+              <td><input value="SLA Breach: App {app_id} pending at Step {step} for {hours}hrs"/></td>
+              <td><button class="act-btn btn-del" onclick="delRow(this)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn-add" onclick="addRow(this)">+ Add Notification Rule</button>
+      </div>
+    </div>
+
+    <!-- 11. ADVANCED -->
+    <div class="card">
+      <div class="card-head" onclick="tog(this)">
+        <div class="card-head-left"><span class="card-icon ci-advanced">⚙️</span>11. Advanced / Legacy Fields</div>
+        <span style="color:#9aa5b4;font-size:16px">▼</span>
+      </div>
+      <div class="card-body collapsed">
+        <div class="note note-yellow"><span class="note-icon">⚠️</span>
+          <div>Ye purane legacy fields hain. Upar ke sections fill karne par yeh auto-populate ho jaate hain. Zaroorat ho tabhi manually edit karo.</div>
+        </div>
+        <div class="frow fc3" style="margin-top:10px">
+          <div class="field"><label>Form Service JS <span class="tag-db">formServiceJs</span></label><input placeholder="e.g. industry-service.js"/></div>
+          <div class="field"><label>Form Action Controller <span class="tag-db">formActionController</span></label><input placeholder="e.g. IndustryController"/></div>
+          <div class="field"><label>Subform Action Name <span class="tag-db">subformActionName</span></label><input placeholder="e.g. verifyAction"/></div>
+          <div class="field"><label>Licence Number Format <span class="tag-db">licenceNumberFormat</span></label><input placeholder="UK-IND-{YEAR}-{SEQ}"/><span class="hint">Final approval step ke liye</span></div>
+          <div class="field"><label>Legacy: Approver Role ID <span class="tag-db">approverId</span></label><input type="number" placeholder="33"/></div>
+          <div class="field"><label>Legacy: Forward Role ID <span class="tag-db">forwardRoleId</span></label><input type="number" placeholder="7"/></div>
+        </div>
+        <div class="frow fc3" style="margin-top:4px">
+          <label class="chk"><input type="checkbox"/>
+            <div><div class="chk-label">Can Revert to Investor <span class="tag-db">canRevertToInvestor</span></div></div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="btn-row" style="margin-bottom:20px;justify-content:flex-end">
+      <button class="btn btn-ghost">🔄 Reset Step</button>
+      <button class="btn btn-outline" onclick="previewJson()">👁 Preview JSON</button>
+      <button class="btn btn-primary" onclick="alert('Step added to workflow grid!\n(POST /admin/workflow-config)')">＋ Add Step to Workflow</button>
+    </div>
+
+    <!-- STEPS GRID -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-left" style="gap:12px">
+          <span style="font-size:14px;font-weight:700">📋 Workflow Steps — Service 591.0 v1 (District)</span>
+          <span class="badge b-draft">DRAFT</span>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm">📤 Export CSV</button>
+          <button class="btn btn-success btn-sm" onclick="alert('Workflow published! Other PUBLISHED versions marked INACTIVE.')">🚀 Publish Workflow</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="steps-grid">
+          <thead><tr>
+            <th>Step</th><th>Form Type</th><th>Role</th><th>Jurisdiction</th>
+            <th>Actions</th><th>Parallel Fwd</th><th>SLA</th><th>Sub-Resp</th><th></th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="step-num">1</div></td>
+              <td>Applicant Form</td>
+              <td><span style="font-weight:600">Applicant (0)</span></td>
+              <td><span class="badge b-db">ANY</span></td>
+              <td><span class="ac ac-F">SUBMIT</span></td>
+              <td><span style="color:#9aa5b4">—</span></td>
+              <td><span style="color:#9aa5b4">—</span></td>
+              <td><span style="color:#9aa5b4">—</span></td>
+              <td><button class="act-btn btn-edit">✏</button> <button class="act-btn btn-del">✕</button></td>
+            </tr>
+            <tr style="background:#f0f7ff">
+              <td><div class="step-num">2</div></td>
+              <td>Processing — Verifier</td>
+              <td><span style="font-weight:600;color:#2962d9">Verifier (7)</span></td>
+              <td><span class="badge b-db">DISTRICT</span></td>
+              <td><span class="ac ac-F">F</span><span class="ac ac-RBI">RBI</span></td>
+              <td><span style="font-size:11px;color:#7b1fa2;font-weight:600">✓ ALL (2 depts)</span></td>
+              <td><span style="font-weight:600">72h ⚠</span></td>
+              <td><span style="font-size:11px">📄 Doc Verify</span></td>
+              <td><button class="act-btn btn-edit">✏</button> <button class="act-btn btn-del">✕</button></td>
+            </tr>
+            <tr>
+              <td><div class="step-num">3</div></td>
+              <td>Processing — Line Dept</td>
+              <td><span style="font-weight:600">Line Dept (3)</span></td>
+              <td><span class="badge b-db">DISTRICT</span></td>
+              <td><span class="ac ac-C">CONSENT</span></td>
+              <td><span style="color:#9aa5b4">—</span></td>
+              <td><span style="font-weight:600">48h ⚠</span></td>
+              <td><span style="font-size:11px">✅ Consent</span></td>
+              <td><button class="act-btn btn-edit">✏</button> <button class="act-btn btn-del">✕</button></td>
+            </tr>
+            <tr style="background:#f0f7ff">
+              <td><div class="step-num">4</div></td>
+              <td>Processing — Verifier</td>
+              <td><span style="font-weight:600;color:#2962d9">Verifier (7)</span></td>
+              <td><span class="badge b-db">DISTRICT</span></td>
+              <td><span class="ac ac-F">F</span><span class="ac ac-RBI">RBI</span></td>
+              <td><span style="color:#9aa5b4">—</span></td>
+              <td><span style="font-weight:600">24h ⚠</span></td>
+              <td><span style="color:#9aa5b4">—</span></td>
+              <td><button class="act-btn btn-edit">✏</button> <button class="act-btn btn-del">✕</button></td>
+            </tr>
+            <tr>
+              <td><div class="step-num">5</div></td>
+              <td>Processing — Approver</td>
+              <td><span style="font-weight:600;color:#2e7d32">Approver (33)</span></td>
+              <td><span class="badge b-db">DISTRICT</span></td>
+              <td><span class="ac ac-A">A</span><span class="ac ac-R">R</span><span class="ac ac-RN">RN</span></td>
+              <td><span style="color:#9aa5b4">—</span></td>
+              <td><span style="font-weight:600">48h ⚠</span></td>
+              <td><span style="color:#9aa5b4">—</span></td>
+              <td><button class="act-btn btn-edit">✏</button> <button class="act-btn btn-del">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+function tog(head){
+  const body=head.nextElementSibling;
+  const arr=head.querySelector('span:last-child');
+  body.classList.toggle('collapsed');
+  arr.textContent=body.classList.contains('collapsed')?'▼':'▲';
+}
+function toggleSchema(){
+  const p=document.getElementById('schema-panel');
+  p.style.display=p.style.display==='none'?'block':'none';
+}
+function togglePF(){
+  const on=document.getElementById('pf-toggle').checked;
+  ['pf-agg','pf-retain','pf-roles'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.style.opacity=on?'1':'.4';
+    el.style.pointerEvents=on?'auto':'none';
+  });
+}
+function addRow(btn){
+  const tbody=btn.previousElementSibling.querySelector('tbody');
+  const last=tbody.lastElementChild;
+  const nr=last.cloneNode(true);
+  nr.querySelectorAll('input').forEach(i=>i.value='');
+  nr.querySelectorAll('select').forEach(s=>s.selectedIndex=0);
+  // re-attach delete handlers
+  nr.querySelectorAll('.btn-del').forEach(b=>b.onclick=function(){delRow(this)});
+  tbody.appendChild(nr);
+}
+function delRow(btn){
+  const row=btn.closest('tr');
+  if(row.closest('tbody').rows.length>1) row.remove();
+}
+function previewJson(){
+  alert(`Sample JSON for this step:\n\n{\n  "step": 2,\n  "serviceId": "591.0",\n  "departmentId": 1,\n  "configVersion": 1,\n  "status": "DRAFT",\n  "roleId": 7,\n  "formTypeId": 2,\n  "jurisdictionLevel": "DISTRICT",\n  "assignmentStrategy": "ROLE",\n  "slaHours": 72,\n  "slaBreachRequiresReason": true,\n  "actionAllowedJson": ["F","RBI"],\n  "transitionMapJson": {\n    "F": {"nextStep": 3, "nextRoles": [3], "parallel": true},\n    "RBI": {"nextStep": 1, "nextRoles": []}\n  },\n  "canForwardToMultipleRoleId": "3,12",\n  "parallelAggregation": "ALL"\n}`);
+}
+</script>
+</body>
+</html>

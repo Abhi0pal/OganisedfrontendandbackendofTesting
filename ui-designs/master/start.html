@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Master Management — Setup Guide</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0;display:flex;flex-direction:column}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#8b5cf6;font-weight:600;border-left:2px solid #8b5cf6}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:10}
+  .topbar-title{font-size:17px;font-weight:700}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#8b5cf6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:28px}
+  .hero{background:linear-gradient(135deg,#7c3aed,#8b5cf6);border-radius:14px;padding:28px 32px;color:#fff;margin-bottom:28px}
+  .hero h1{font-size:22px;font-weight:800;margin-bottom:6px}
+  .hero p{font-size:14px;opacity:.85;max-width:560px;line-height:1.6}
+  .concept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+  .concept-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px}
+  .concept-icon{font-size:22px;margin-bottom:8px}
+  .concept-title{font-size:13px;font-weight:700;margin-bottom:4px}
+  .concept-desc{font-size:11px;color:#64748b;line-height:1.5}
+  .concept-table{font-size:10px;color:#8b5cf6;font-weight:600;margin-top:6px}
+  .steps-title{font-size:16px;font-weight:700;margin-bottom:16px}
+  .step-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:16px;overflow:hidden}
+  .step-header{padding:16px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid #f1f5f9}
+  .step-num{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0}
+  .step-num.pending{background:#ede9fe;color:#7c3aed}
+  .step-num.system{background:#dbeafe;color:#1d4ed8}
+  .step-info{flex:1}
+  .step-title{font-size:14px;font-weight:700}
+  .step-subtitle{font-size:12px;color:#64748b;margin-top:2px}
+  .step-badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-required{background:#fee2e2;color:#dc2626}
+  .badge-auto{background:#dcfce7;color:#15803d}
+  .badge-system{background:#dbeafe;color:#1d4ed8}
+  .step-link{padding:7px 14px;background:#7c3aed;color:#fff;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none}
+  .step-body{padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  .step-why{font-size:12px;color:#374151;line-height:1.6}
+  .step-why strong{display:block;font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+  .step-example{background:#fafafa;border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6}
+  .step-example strong{display:block;font-size:11px;font-weight:700;color:#374151;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+  .step-fields{background:#f8fafc;border-radius:8px;padding:10px 12px}
+  .step-fields strong{display:block;font-size:11px;font-weight:700;color:#374151;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+  .field-tag{display:inline-block;background:#ede9fe;color:#6d28d9;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:600;margin:2px}
+  .arrow-row{text-align:center;padding:4px 0;color:#94a3b8;font-size:20px}
+  .flow-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 18px;overflow-x:auto}
+  .flow-box{background:#ede9fe;border:2px solid #8b5cf6;border-radius:8px;padding:8px 16px;text-align:center;white-space:nowrap;flex-shrink:0}
+  .flow-box-title{font-size:12px;font-weight:700;color:#6d28d9}
+  .flow-box-sub{font-size:10px;color:#7c3aed;margin-top:2px}
+  .flow-arrow{font-size:18px;color:#8b5cf6;flex-shrink:0}
+  .example-note{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 16px;font-size:12px;color:#1e40af;margin-bottom:20px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">⚙ Master Mgmt</div>
+      <div class="sidebar-logo-sub">Dynamic Data Configuration</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Setup Guide</div>
+      <a class="nav-item active" href="start.html">📋 Step-by-Step Guide</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Modules</div>
+      <a class="nav-item" href="01-definition.html">📦 Master Definition</a>
+      <a class="nav-item" href="02-columns.html">📐 Column Definition</a>
+      <a class="nav-item" href="03-data.html">🗄 Master Data</a>
+      <a class="nav-item" href="04-reference.html">🔗 Data References</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Master Management — Setup Sequence</div>
+      <div class="avatar">A</div>
+    </div>
+    <div class="content">
+
+      <div class="hero">
+        <h1>⚙ Dynamic Master Management</h1>
+        <p>Har project ka data alag hota hai — SWCS ke liye District, Parivesh ke liye Category, MP Urban ke liye Ward. Yeh system allow karta hai ki bina code likhe naye masters define karo, unke columns configure karo, aur data fill karo.</p>
+      </div>
+
+      <!-- 4 Tables Overview -->
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-icon">📦</div>
+          <div class="concept-title">Master Definition</div>
+          <div class="concept-desc">Master ka blueprint — naam, code, icon, tenant, system flag. Jaise "District Master" ya "Category Master".</div>
+          <div class="concept-table">Table 1: master_definition</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">📐</div>
+          <div class="concept-title">Column Definition</div>
+          <div class="concept-desc">Master ke andar kaun se fields honge — name (TEXT), state_id (SELECT from STATE), is_active (BOOLEAN).</div>
+          <div class="concept-table">Table 2: master_column_definition</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🗄</div>
+          <div class="concept-title">Master Data</div>
+          <div class="concept-desc">Actual rows — Dehradun, Haridwar, Nainital. Data JSONB mein store hota hai per column definitions.</div>
+          <div class="concept-table">Table 3: master_data</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-icon">🔗</div>
+          <div class="concept-title">Data Reference</div>
+          <div class="concept-desc">Relationships — Dehradun belongs to Uttarakhand. Auto-created jab SELECT (MASTER source) column fill hota hai.</div>
+          <div class="concept-table">Table 4: master_data_reference</div>
+        </div>
+      </div>
+
+      <!-- Flow Diagram -->
+      <div class="flow-row">
+        <div class="flow-box">
+          <div class="flow-box-title">📦 Master Definition</div>
+          <div class="flow-box-sub">DISTRICT</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-box-title">📐 Columns Define</div>
+          <div class="flow-box-sub">name, code, state_id</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-box-title">🗄 Data Add</div>
+          <div class="flow-box-sub">Dehradun, DDN, state:UP</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+          <div class="flow-box-title">🔗 Auto Reference</div>
+          <div class="flow-box-sub">Dehradun → Uttarakhand</div>
+        </div>
+      </div>
+
+      <div class="example-note">
+        💡 <strong>Real Example:</strong> SWCS Uttarakhand mein District Master chahiye. Pahele master define karo (Step 1), phir columns batao — name, code, state_id (Step 2), phir 13 districts ki data fill karo (Step 3). Jab state_id fill hoga, reference automatic ban jayega (Step 4). Ab yeh DISTRICT master SWCS ke forms mein dropdown ke roop mein use ho sakta hai.
+      </div>
+
+      <div class="steps-title">📋 Step-by-Step Setup Sequence</div>
+
+      <!-- STEP 1 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num system">1</div>
+          <div class="step-info">
+            <div class="step-title">📦 Master Definition — Kaun sa Master chahiye?</div>
+            <div class="step-subtitle">Sirf naam, code, icon, aur tenant batao. Structure baad mein banegi.</div>
+          </div>
+          <span class="step-badge badge-system">System Masters pre-loaded</span>
+          <a href="01-definition.html" class="step-link">Open Page →</a>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <strong>Why first?</strong>
+            Master ka container banana padega pehle — jaise folder banate hain files daalne se pahele. Bina definition ke columns aur data ka koi ghar nahi.
+          </div>
+          <div class="step-example">
+            <strong>Real Examples</strong>
+            🌍 Country — global, system=true, pre-loaded<br>
+            🗺 State — global, system=true, 36 states<br>
+            🏘 District — global, system=true, 750 districts<br>
+            📂 Category — SWCS-specific, tenant=SWCS<br>
+            🏙 Ward Master — MP Urban-specific
+          </div>
+          <div class="step-fields">
+            <strong>Key Fields</strong>
+            <span class="field-tag">name</span>
+            <span class="field-tag">code (UNIQUE)</span>
+            <span class="field-tag">tenant_id</span>
+            <span class="field-tag">is_system</span>
+            <span class="field-tag">allow_import</span>
+            <span class="field-tag">display_order</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num pending">2</div>
+          <div class="step-info">
+            <div class="step-title">📐 Column Definition — Kaun se fields honge?</div>
+            <div class="step-subtitle">Har master ke liye columns define karo — type, required, searchable, reference, validation.</div>
+          </div>
+          <span class="step-badge badge-required">Required before data entry</span>
+          <a href="02-columns.html" class="step-link">Open Page →</a>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <strong>Why second?</strong>
+            Columns se pata chalta hai ki JSONB data mein kaun se keys honge. Bina columns ke form nahi banta, validation nahi hogi, aur reference links set nahi honge.
+          </div>
+          <div class="step-example">
+            <strong>District Master Columns</strong>
+            🔑 <b>id</b> — NUMBER, system<br>
+            📝 <b>name</b> — TEXT, required, searchable<br>
+            🔤 <b>code</b> — TEXT, required, unique<br>
+            🗺 <b>state_id</b> — SELECT, source: STATE master<br>
+            📍 <b>division_id</b> — SELECT, source: DIVISION master
+          </div>
+          <div class="step-fields">
+            <strong>Key Fields</strong>
+            <span class="field-tag">column_key</span>
+            <span class="field-tag">data_type</span>
+            <span class="field-tag">is_required</span>
+            <span class="field-tag">is_searchable</span>
+            <span class="field-tag">options (JSONB)</span>
+            <span class="field-tag">validation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num pending">3</div>
+          <div class="step-info">
+            <div class="step-title">🗄 Master Data — Actual rows fill karo</div>
+            <div class="step-subtitle">Column definitions ke basis par dynamically generated form ya CSV import se data add karo.</div>
+          </div>
+          <span class="step-badge badge-required">Data without columns not possible</span>
+          <a href="03-data.html" class="step-link">Open Page →</a>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <strong>Why third?</strong>
+            Pahele container (definition) aur blueprint (columns) taiyar ho. Ab actual geography ya category data fill karo. JSONB mein dynamic store hota hai isliye schema change nahi hota.
+          </div>
+          <div class="step-example">
+            <strong>District Data Row</strong>
+            <code style="font-size:10px;background:#f1f5f9;padding:4px 6px;border-radius:4px;display:block;margin-top:4px">
+            {<br>
+            &nbsp;"name": "Dehradun",<br>
+            &nbsp;"code": "DDN",<br>
+            &nbsp;"state_id": 5<br>
+            }
+            </code>
+          </div>
+          <div class="step-fields">
+            <strong>Key Fields</strong>
+            <span class="field-tag">master_id</span>
+            <span class="field-tag">tenant_id</span>
+            <span class="field-tag">data (JSONB)</span>
+            <span class="field-tag">is_active</span>
+            <span class="field-tag">CSV import</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num pending">4</div>
+          <div class="step-info">
+            <div class="step-title">🔗 Data References — Auto-generated relationships</div>
+            <div class="step-subtitle">Jab state_id fill hota hai, Dehradun → Uttarakhand reference automatic ban jata hai. Yahan verify karo.</div>
+          </div>
+          <span class="step-badge badge-auto">Auto-created on data save</span>
+          <a href="04-reference.html" class="step-link">Open Page →</a>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <strong>Why track references?</strong>
+            Cascading dropdowns ke liye — District dropdown mein sirf Uttarakhand ke districts dikhane ke liye state_id ka reference chahiye. master_data_reference table yeh fast lookup enable karta hai.
+          </div>
+          <div class="step-example">
+            <strong>Auto-created Records</strong>
+            Dehradun → Uttarakhand (state_id)<br>
+            Haridwar → Uttarakhand (state_id)<br>
+            Nainital → Uttarakhand (state_id)<br>
+            <span style="color:#94a3b8">...750 districts × states</span>
+          </div>
+          <div class="step-fields">
+            <strong>Key Fields</strong>
+            <span class="field-tag">from_data_id</span>
+            <span class="field-tag">to_data_id</span>
+            <span class="field-tag">column_key</span>
+            <span class="field-tag">UNIQUE constraint</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

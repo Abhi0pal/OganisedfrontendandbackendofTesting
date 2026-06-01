@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Column Definition</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#8b5cf6;font-weight:600;border-left:2px solid #8b5cf6}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar-title{font-size:17px;font-weight:700}
+  .topbar-right{display:flex;align-items:center;gap:12px}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#8b5cf6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:0;display:flex;flex:1;overflow:hidden}
+  .left-col{width:260px;flex-shrink:0;background:#fff;border-right:1px solid #e2e8f0;overflow-y:auto}
+  .right-col{flex:1;overflow-y:auto;padding:22px 24px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#7c3aed;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-sm{padding:5px 10px;font-size:11px}
+  .master-item{padding:12px 16px;border-bottom:1px solid #f8fafc;cursor:pointer;display:flex;align-items:center;gap:10px}
+  .master-item:hover{background:#fafafa}
+  .master-item.selected{background:#ede9fe;border-left:2px solid #8b5cf6}
+  .master-icon{font-size:16px;width:30px;height:30px;background:#f1f5f9;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .master-item.selected .master-icon{background:#ddd6fe}
+  .master-nm{font-size:13px;font-weight:600}
+  .master-cd{font-size:10px;color:#94a3b8;margin-top:1px;font-family:monospace}
+  .master-col-count{font-size:10px;color:#7c3aed;font-weight:600;margin-top:1px}
+  .left-header{padding:12px 16px;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#374151;background:#f8fafc}
+  .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-blue{background:#dbeafe;color:#1d4ed8}
+  .badge-purple{background:#ede9fe;color:#6d28d9}
+  .badge-gray{background:#f1f5f9;color:#64748b}
+  .badge-orange{background:#ffedd5;color:#c2410c}
+  .badge-red{background:#fee2e2;color:#dc2626}
+  .step-indicator{background:#ede9fe;border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px;margin-bottom:18px;font-size:13px;color:#6d28d9;font-weight:600}
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:18px}
+  .card-header{padding:13px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:14px;font-weight:700}
+  table{width:100%;border-collapse:collapse}
+  th{background:#f8fafc;padding:9px 14px;font-size:11px;font-weight:700;color:#64748b;text-align:left;border-bottom:1px solid #e2e8f0;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+  td{padding:11px 14px;font-size:13px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+  tr:hover td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .col-key{font-family:monospace;font-size:12px;background:#f1f5f9;padding:2px 8px;border-radius:4px;color:#374151}
+  .col-label{font-size:13px;font-weight:600}
+  .type-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600}
+  .type-text{background:#f0fdf4;color:#15803d}
+  .type-number{background:#eff6ff;color:#1d4ed8}
+  .type-select{background:#fef3c7;color:#92400e}
+  .type-boolean{background:#fce7f3;color:#9d174d}
+  .type-date{background:#f3e8ff;color:#7c3aed}
+  .type-file{background:#f1f5f9;color:#475569}
+  .flag-pill{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;margin:1px}
+  .flag-on{background:#dcfce7;color:#15803d}
+  .flag-off{background:#f1f5f9;color:#94a3b8}
+  .action-btns{display:flex;gap:5px}
+  .icon-btn{width:26px;height:26px;border-radius:5px;border:1px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px}
+  .drag-handle{color:#94a3b8;cursor:grab;font-size:14px}
+  .reference-box{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;font-size:12px;margin-top:4px}
+  .reference-box strong{color:#92400e}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-start;justify-content:center;padding-top:40px;z-index:100}
+  .modal{background:#fff;border-radius:14px;width:580px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+  .modal-header{padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff}
+  .modal-title{font-size:15px;font-weight:700}
+  .modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
+  .modal-body{padding:18px 20px}
+  .form-group{margin-bottom:14px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
+  .form-control:focus{border-color:#8b5cf6}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .toggle-item{display:flex;align-items:center;justify-content:space-between;background:#f8fafc;border-radius:8px;padding:10px 12px}
+  .toggle-label{font-size:12px;font-weight:600;color:#374151}
+  .toggle-sub-label{font-size:10px;color:#94a3b8;margin-top:2px}
+  .toggle{width:36px;height:20px;background:#e2e8f0;border-radius:10px;position:relative;cursor:pointer;flex-shrink:0}
+  .toggle.on{background:#8b5cf6}
+  .toggle::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff}
+  .toggle.on::after{left:18px}
+  .tab-row{display:flex;gap:0;border-bottom:2px solid #e2e8f0;margin-bottom:16px}
+  .tab{padding:8px 16px;font-size:13px;font-weight:600;color:#94a3b8;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+  .tab.active{color:#7c3aed;border-bottom-color:#7c3aed}
+  .options-panel{background:#fafafa;border-radius:8px;padding:14px;border:1px solid #e2e8f0;margin-top:6px}
+  .options-panel-title{font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+  .static-item{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+  .add-option-btn{font-size:12px;color:#7c3aed;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px}
+  .modal-footer{padding:13px 20px;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:#fff}
+  .section-divider{font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 10px;display:flex;align-items:center;gap:8px}
+  .section-divider::after{content:'';flex:1;height:1px;background:#e2e8f0}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">⚙ Master Mgmt</div>
+      <div class="sidebar-logo-sub">Dynamic Data Configuration</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Setup Guide</div>
+      <a class="nav-item" href="start.html">📋 Step-by-Step Guide</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Modules</div>
+      <a class="nav-item" href="01-definition.html">📦 Master Definition</a>
+      <a class="nav-item active" href="02-columns.html">📐 Column Definition</a>
+      <a class="nav-item" href="03-data.html">🗄 Master Data</a>
+      <a class="nav-item" href="04-reference.html">🔗 Data References</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Column Definition</div>
+      <div class="topbar-right">
+        <button class="btn btn-primary">＋ Add Column</button>
+        <div class="avatar">A</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- LEFT: Master List -->
+      <div class="left-col">
+        <div class="left-header">📦 Select Master</div>
+        <div class="master-item">
+          <div class="master-icon">🌍</div>
+          <div>
+            <div class="master-nm">Country</div>
+            <div class="master-cd">COUNTRY</div>
+            <div class="master-col-count">5 columns</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">🗺</div>
+          <div>
+            <div class="master-nm">State</div>
+            <div class="master-cd">STATE</div>
+            <div class="master-col-count">6 columns</div>
+          </div>
+        </div>
+        <div class="master-item selected">
+          <div class="master-icon">🏘</div>
+          <div>
+            <div class="master-nm">District</div>
+            <div class="master-cd">DISTRICT</div>
+            <div class="master-col-count">7 columns defined</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">🏙</div>
+          <div>
+            <div class="master-nm">Block</div>
+            <div class="master-cd">BLOCK</div>
+            <div class="master-col-count">5 columns</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">🏡</div>
+          <div>
+            <div class="master-nm">Village</div>
+            <div class="master-cd">VILLAGE</div>
+            <div class="master-col-count">4 columns</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">📂</div>
+          <div>
+            <div class="master-nm">Category</div>
+            <div class="master-cd">CATEGORY · SWCS</div>
+            <div class="master-col-count">4 columns</div>
+          </div>
+        </div>
+        <div class="master-item">
+          <div class="master-icon">🏙</div>
+          <div>
+            <div class="master-nm">Ward</div>
+            <div class="master-cd">WARD · MP Urban</div>
+            <div class="master-col-count">5 columns</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Column Table -->
+      <div class="right-col">
+        <div class="step-indicator">
+          📍 Step 2 of 4 — Columns define karo · Selected: 🏘 District Master
+          &nbsp;|&nbsp; <a href="01-definition.html" style="color:#7c3aed">← Definition</a>
+          &nbsp;|&nbsp; <a href="03-data.html" style="color:#7c3aed">Next: Data Entry →</a>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">📐 Columns — District Master (DISTRICT)</div>
+              <div style="font-size:11px;color:#64748b;margin-top:2px">Global master · 750 data rows · 7 columns defined</div>
+            </div>
+            <button class="btn btn-primary btn-sm">＋ Add Column</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:30px"></th>
+                <th>Column Key</th>
+                <th>Label</th>
+                <th>Data Type</th>
+                <th>Flags</th>
+                <th>Reference / Options</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="drag-handle">⠿</span></td>
+                <td><span class="col-key">id</span></td>
+                <td><div class="col-label">ID</div></td>
+                <td><span class="type-badge type-number">🔢 NUMBER</span></td>
+                <td>
+                  <span class="flag-pill flag-on">✓ unique</span>
+                  <span class="flag-pill flag-off">— required</span>
+                  <span class="flag-pill flag-off">— search</span>
+                </td>
+                <td><span style="font-size:11px;color:#94a3b8">—</span></td>
+                <td><div class="action-btns">
+                  <button class="icon-btn" style="opacity:.4">✏️</button>
+                  <button class="icon-btn" style="opacity:.4">🗑</button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="drag-handle">⠿</span></td>
+                <td><span class="col-key">name</span></td>
+                <td><div class="col-label">District Name</div></td>
+                <td><span class="type-badge type-text">📝 TEXT</span></td>
+                <td>
+                  <span class="flag-pill flag-on">✓ required</span>
+                  <span class="flag-pill flag-on">✓ search</span>
+                  <span class="flag-pill flag-on">✓ listable</span>
+                </td>
+                <td><span style="font-size:11px;color:#94a3b8">—</span></td>
+                <td><div class="action-btns">
+                  <button class="icon-btn">✏️</button>
+                  <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="drag-handle">⠿</span></td>
+                <td><span class="col-key">code</span></td>
+                <td><div class="col-label">District Code</div></td>
+                <td><span class="type-badge type-text">📝 TEXT</span></td>
+                <td>
+                  <span class="flag-pill flag-on">✓ required</span>
+                  <span class="flag-pill flag-on">✓ unique</span>
+                  <span class="flag-pill flag-on">✓ search</span>
+                </td>
+                <td><span style="font-size:11px;color:#94a3b8">—</span></td>
+                <td><div class="action-btns">
+                  <button class="icon-btn">✏️</button>
+                  <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="drag-handle">⠿</span></td>
+                <td><span class="col-key">state_id</span></td>
+                <td><div class="col-label">State</div></td>
+                <td><span class="type-badge type-select">🔽 SELECT</span></td>
+                <td>
+                  <span class="flag-pill flag-on">✓ required</span>
+                  <span class="flag-pill flag-on">✓ filterable</span>
+                  <span class="flag-pill flag-on">✓ listable</span>
+                </td>
+                <td>
+                  <div class="reference-box">
+                    <strong>🔗 MASTER source</strong><br>
+                    <span style="font-size:11px">master: STATE · value: id · label: name</span>
+                  </div>
+                </td>
+                <td><div class="action-btns">
+                  <button class="icon-btn">✏️</button>
+                  <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="drag-handle">⠿</span></td>
+                <td><span class="col-key">division_id</span></td>
+                <td><div class="col-label">Division</div></td>
+                <td><span class="type-badge type-select">🔽 SELECT</span></td>
+                <td>
+                  <span class="flag-pill flag-off">— required</span>
+                  <span class="flag-pill flag-on">✓ filterable</span>
+                </td>
+                <td>
+                  <div class="reference-box">
+                    <strong>🔗 MASTER source</strong><br>
+                    <span style="font-size:11px">master: DIVISION · filter_by: state_id</span>
+                  </div>
+                </td>
+                <td><div class="action-btns">
+                  <button class="icon-btn">✏️</button>
+                  <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="drag-handle">⠿</span></td>
+                <td><span class="col-key">district_type</span></td>
+                <td><div class="col-label">District Type</div></td>
+                <td><span class="type-badge type-select">🔽 SELECT</span></td>
+                <td>
+                  <span class="flag-pill flag-on">✓ filterable</span>
+                  <span class="flag-pill flag-on">✓ listable</span>
+                </td>
+                <td>
+                  <div class="reference-box" style="background:#f0fdf4;border-color:#bbf7d0">
+                    <strong style="color:#15803d">📋 STATIC options</strong><br>
+                    <span style="font-size:11px">URBAN · RURAL · SEMI_URBAN</span>
+                  </div>
+                </td>
+                <td><div class="action-btns">
+                  <button class="icon-btn">✏️</button>
+                  <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="drag-handle">⠿</span></td>
+                <td><span class="col-key">is_active</span></td>
+                <td><div class="col-label">Active</div></td>
+                <td><span class="type-badge type-boolean">✅ BOOLEAN</span></td>
+                <td>
+                  <span class="flag-pill flag-on">✓ filterable</span>
+                  <span class="flag-pill flag-on">✓ listable</span>
+                </td>
+                <td><span style="font-size:11px;color:#94a3b8">default: true</span></td>
+                <td><div class="action-btns">
+                  <button class="icon-btn">✏️</button>
+                  <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                </div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD COLUMN MODAL -->
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📐 Add Column — District Master</div>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Column Key <span>*</span></label>
+          <input class="form-control" placeholder="e.g. state_id, name, code">
+          <div class="form-hint">JSONB mein yahi key use hogi. snake_case.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Column Label <span>*</span></label>
+          <input class="form-control" placeholder="e.g. State, Name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Data Type <span>*</span></label>
+          <select class="form-control">
+            <option>📝 TEXT</option>
+            <option>🔢 NUMBER</option>
+            <option>✅ BOOLEAN</option>
+            <option>📅 DATE</option>
+            <option selected>🔽 SELECT</option>
+            <option>🔢 MULTI_SELECT</option>
+            <option>📎 FILE</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Default Value</label>
+          <input class="form-control" placeholder="Optional default...">
+        </div>
+      </div>
+
+      <!-- SELECT options config — shows when SELECT type chosen -->
+      <div class="form-group">
+        <label class="form-label">Options Source <span>*</span></label>
+        <div class="tab-row">
+          <div class="tab">📋 Static List</div>
+          <div class="tab active">🔗 Master Reference</div>
+        </div>
+
+        <!-- Master Reference Panel -->
+        <div class="options-panel">
+          <div class="options-panel-title">🔗 Reference from another Master</div>
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:10px">
+              <label class="form-label">Source Master <span>*</span></label>
+              <select class="form-control">
+                <option>— Select Master —</option>
+                <option selected>STATE</option>
+                <option>DISTRICT</option>
+                <option>DIVISION</option>
+                <option>COUNTRY</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:10px">
+              <label class="form-label">Value Column</label>
+              <input class="form-control" value="id">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Label Column</label>
+              <input class="form-control" value="name">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Cascade Filter (optional)</label>
+              <input class="form-control" placeholder="e.g. state_id">
+              <div class="form-hint">State select hone par sirf us state ke districts dikhenge</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider">Flags &amp; Behavior</div>
+      <div class="toggle-grid">
+        <div class="toggle-item">
+          <div>
+            <div class="toggle-label">Required</div>
+            <div class="toggle-sub-label">Form submit pe mandatory</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="toggle-item">
+          <div>
+            <div class="toggle-label">Unique</div>
+            <div class="toggle-sub-label">Duplicate values not allowed</div>
+          </div>
+          <div class="toggle"></div>
+        </div>
+        <div class="toggle-item">
+          <div>
+            <div class="toggle-label">Searchable</div>
+            <div class="toggle-sub-label">Search bar mein use ho</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="toggle-item">
+          <div>
+            <div class="toggle-label">Listable</div>
+            <div class="toggle-sub-label">Table column mein dikhao</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="toggle-item">
+          <div>
+            <div class="toggle-label">Filterable</div>
+            <div class="toggle-sub-label">Filter dropdown banao</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top:14px">
+        <label class="form-label">Display Order</label>
+        <input class="form-control" type="number" value="0" style="width:120px">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-primary">📐 Save Column</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

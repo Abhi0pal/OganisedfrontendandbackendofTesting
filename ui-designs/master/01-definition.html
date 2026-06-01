@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Master Definition</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+  .shell{display:flex;height:100vh;overflow:hidden}
+  .sidebar{width:220px;background:#0f172a;flex-shrink:0}
+  .sidebar-logo{padding:18px 16px;border-bottom:1px solid #1e293b}
+  .sidebar-logo-title{font-size:14px;font-weight:700;color:#fff}
+  .sidebar-logo-sub{font-size:11px;color:#475569;margin-top:2px}
+  .nav-section{padding:8px 0}
+  .nav-label{font-size:10px;font-weight:600;color:#475569;padding:8px 16px 4px;text-transform:uppercase;letter-spacing:.08em}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none}
+  .nav-item.active{background:#1e293b;color:#8b5cf6;font-weight:600;border-left:2px solid #8b5cf6}
+  .nav-item:hover{background:#1e293b;color:#e2e8f0}
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:10}
+  .topbar-title{font-size:17px;font-weight:700}
+  .topbar-right{display:flex;align-items:center;gap:12px}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#8b5cf6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600}
+  .content{padding:24px 28px}
+  .page-meta{margin-bottom:20px}
+  .page-meta h2{font-size:20px;font-weight:800}
+  .page-meta p{font-size:13px;color:#64748b;margin-top:4px}
+  .breadcrumb{font-size:12px;color:#94a3b8;margin-bottom:8px}
+  .breadcrumb span{color:#8b5cf6}
+  .toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px}
+  .toolbar-left{display:flex;gap:10px;flex:1}
+  .search-box{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:7px 12px;flex:1;max-width:300px}
+  .search-box input{border:none;outline:none;font-size:13px;width:100%;color:#374151}
+  .filter-select{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:7px 12px;font-size:13px;color:#374151;outline:none;cursor:pointer}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none}
+  .btn-primary{background:#7c3aed;color:#fff}
+  .btn-ghost{background:#fff;color:#64748b;border:1px solid #e2e8f0}
+  .btn-sm{padding:5px 10px;font-size:11px}
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:20px}
+  .table-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse}
+  th{background:#f8fafc;padding:10px 14px;font-size:11px;font-weight:700;color:#64748b;text-align:left;border-bottom:1px solid #e2e8f0;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+  td{padding:12px 14px;font-size:13px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+  tr:hover td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:#dcfce7;color:#15803d}
+  .badge-red{background:#fee2e2;color:#dc2626}
+  .badge-blue{background:#dbeafe;color:#1d4ed8}
+  .badge-purple{background:#ede9fe;color:#6d28d9}
+  .badge-gray{background:#f1f5f9;color:#64748b}
+  .badge-yellow{background:#fef3c7;color:#92400e}
+  .master-icon{font-size:18px;width:34px;height:34px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center}
+  .master-name{font-weight:600;color:#0f172a}
+  .master-code{font-size:11px;color:#64748b;margin-top:2px;font-family:monospace}
+  .stats-mini{font-size:12px;color:#374151}
+  .stats-mini span{color:#7c3aed;font-weight:600}
+  .action-btns{display:flex;gap:6px}
+  .icon-btn{width:28px;height:28px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px}
+  .system-lock{font-size:14px;color:#94a3b8;margin-left:4px}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-start;justify-content:center;padding-top:60px;z-index:100}
+  .modal{background:#fff;border-radius:14px;width:560px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+  .modal-header{padding:18px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:5}
+  .modal-title{font-size:15px;font-weight:700}
+  .modal-close{width:30px;height:30px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+  .modal-body{padding:20px 22px}
+  .form-group{margin-bottom:16px}
+  .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;display:block}
+  .form-label span{color:#dc2626}
+  .form-control{width:100%;padding:9px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none;color:#374151}
+  .form-control:focus{border-color:#8b5cf6}
+  .form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f8fafc}
+  .toggle-info{font-size:13px;font-weight:500}
+  .toggle-sub{font-size:11px;color:#94a3b8;margin-top:2px}
+  .toggle{width:40px;height:22px;background:#e2e8f0;border-radius:11px;position:relative;cursor:pointer;flex-shrink:0}
+  .toggle.on{background:#8b5cf6}
+  .toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+  .toggle.on::after{left:21px}
+  .modal-footer{padding:14px 22px;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;gap:8px;background:#fff;position:sticky;bottom:0}
+  .info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:12px;color:#1e40af;margin-bottom:16px}
+  .icon-preview{width:40px;height:40px;background:#ede9fe;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .tenant-tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;background:#f3e8ff;color:#7c3aed}
+  .global-tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;background:#f0fdf4;color:#15803d}
+  .step-indicator{background:#ede9fe;border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:13px;color:#6d28d9;font-weight:600}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-title">⚙ Master Mgmt</div>
+      <div class="sidebar-logo-sub">Dynamic Data Configuration</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Setup Guide</div>
+      <a class="nav-item" href="start.html">📋 Step-by-Step Guide</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Modules</div>
+      <a class="nav-item active" href="01-definition.html">📦 Master Definition</a>
+      <a class="nav-item" href="02-columns.html">📐 Column Definition</a>
+      <a class="nav-item" href="03-data.html">🗄 Master Data</a>
+      <a class="nav-item" href="04-reference.html">🔗 Data References</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">Master Definition</div>
+      <div class="topbar-right">
+        <button class="btn btn-ghost btn-sm">📥 Import CSV</button>
+        <button class="btn btn-primary">＋ New Master</button>
+        <div class="avatar">A</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="step-indicator">
+        📍 Step 1 of 4 — Pehle master ka container define karo, phir columns aur data
+        &nbsp;|&nbsp; <a href="02-columns.html" style="color:#7c3aed">Next: Column Definition →</a>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <div class="search-box">
+            <span style="color:#94a3b8">🔍</span>
+            <input placeholder="Search by name or code...">
+          </div>
+          <select class="filter-select">
+            <option>All Tenants</option>
+            <option>Global (System)</option>
+            <option>SWCS Uttarakhand</option>
+            <option>Parivesh Delhi</option>
+            <option>MP Urban</option>
+          </select>
+          <select class="filter-select">
+            <option>All Types</option>
+            <option>System Masters</option>
+            <option>Custom Masters</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Master</th>
+                <th>Code</th>
+                <th>Scope</th>
+                <th>Columns</th>
+                <th>Data Rows</th>
+                <th>Import</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- System / Global Masters -->
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div class="master-icon">🌍</div>
+                    <div>
+                      <div class="master-name">Country Master <span class="system-lock">🔒</span></div>
+                      <div class="master-code">COUNTRY</div>
+                    </div>
+                  </div>
+                </td>
+                <td><code style="font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:4px">COUNTRY</code></td>
+                <td><span class="global-tag">🌐 Global</span></td>
+                <td><div class="stats-mini"><span>5</span> columns</div></td>
+                <td><div class="stats-mini"><span>195</span> rows</div></td>
+                <td><span class="badge badge-green">✓ Allowed</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="icon-btn" title="View Columns">📐</button>
+                    <button class="icon-btn" title="View Data">🗄</button>
+                    <button class="icon-btn" style="opacity:.4;cursor:not-allowed" title="System — cannot delete">🗑</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div class="master-icon">🗺</div>
+                    <div>
+                      <div class="master-name">State Master <span class="system-lock">🔒</span></div>
+                      <div class="master-code">STATE</div>
+                    </div>
+                  </div>
+                </td>
+                <td><code style="font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:4px">STATE</code></td>
+                <td><span class="global-tag">🌐 Global</span></td>
+                <td><div class="stats-mini"><span>6</span> columns</div></td>
+                <td><div class="stats-mini"><span>36</span> rows</div></td>
+                <td><span class="badge badge-green">✓ Allowed</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="icon-btn">📐</button>
+                    <button class="icon-btn">🗄</button>
+                    <button class="icon-btn" style="opacity:.4;cursor:not-allowed">🗑</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div class="master-icon">🏘</div>
+                    <div>
+                      <div class="master-name">District Master <span class="system-lock">🔒</span></div>
+                      <div class="master-code">DISTRICT</div>
+                    </div>
+                  </div>
+                </td>
+                <td><code style="font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:4px">DISTRICT</code></td>
+                <td><span class="global-tag">🌐 Global</span></td>
+                <td><div class="stats-mini"><span>7</span> columns</div></td>
+                <td><div class="stats-mini"><span>750</span> rows</div></td>
+                <td><span class="badge badge-green">✓ Allowed</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="icon-btn">📐</button>
+                    <button class="icon-btn">🗄</button>
+                    <button class="icon-btn" style="opacity:.4;cursor:not-allowed">🗑</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div class="master-icon">🏙</div>
+                    <div>
+                      <div class="master-name">Block Master <span class="system-lock">🔒</span></div>
+                      <div class="master-code">BLOCK</div>
+                    </div>
+                  </div>
+                </td>
+                <td><code style="font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:4px">BLOCK</code></td>
+                <td><span class="global-tag">🌐 Global</span></td>
+                <td><div class="stats-mini"><span>5</span> columns</div></td>
+                <td><div class="stats-mini"><span>6,800</span> rows</div></td>
+                <td><span class="badge badge-green">✓ Allowed</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="icon-btn">📐</button>
+                    <button class="icon-btn">🗄</button>
+                    <button class="icon-btn" style="opacity:.4;cursor:not-allowed">🗑</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div class="master-icon">🏡</div>
+                    <div>
+                      <div class="master-name">Village Master <span class="system-lock">🔒</span></div>
+                      <div class="master-code">VILLAGE</div>
+                    </div>
+                  </div>
+                </td>
+                <td><code style="font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:4px">VILLAGE</code></td>
+                <td><span class="global-tag">🌐 Global</span></td>
+                <td><div class="stats-mini"><span>4</span> columns</div></td>
+                <td><div class="stats-mini"><span>6,40,000</span> rows</div></td>
+                <td><span class="badge badge-green">✓ Allowed</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="icon-btn">📐</button>
+                    <button class="icon-btn">🗄</button>
+                    <button class="icon-btn" style="opacity:.4;cursor:not-allowed">🗑</button>
+                  </div>
+                </td>
+              </tr>
+              <!-- Tenant-specific -->
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div class="master-icon">📂</div>
+                    <div>
+                      <div class="master-name">Category Master</div>
+                      <div class="master-code">CATEGORY</div>
+                    </div>
+                  </div>
+                </td>
+                <td><code style="font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:4px">CATEGORY</code></td>
+                <td><span class="tenant-tag">🏢 SWCS</span></td>
+                <td><div class="stats-mini"><span>4</span> columns</div></td>
+                <td><div class="stats-mini"><span>12</span> rows</div></td>
+                <td><span class="badge badge-green">✓ Allowed</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="icon-btn">📐</button>
+                    <button class="icon-btn">🗄</button>
+                    <button class="icon-btn">✏️</button>
+                    <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div class="master-icon">🏙</div>
+                    <div>
+                      <div class="master-name">Ward Master</div>
+                      <div class="master-code">WARD</div>
+                    </div>
+                  </div>
+                </td>
+                <td><code style="font-size:11px;background:#f1f5f9;padding:2px 6px;border-radius:4px">WARD</code></td>
+                <td><span class="tenant-tag">🏢 MP Urban</span></td>
+                <td><div class="stats-mini"><span>5</span> columns</div></td>
+                <td><div class="stats-mini"><span>0</span> rows</div></td>
+                <td><span class="badge badge-green">✓ Allowed</span></td>
+                <td><span class="badge badge-yellow">⚠ No Data</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="icon-btn">📐</button>
+                    <button class="icon-btn">🗄</button>
+                    <button class="icon-btn">✏️</button>
+                    <button class="icon-btn" style="color:#dc2626;border-color:#fecaca">🗑</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD MASTER MODAL -->
+<div class="modal-overlay" style="display:none">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📦 Add New Master Definition</div>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="info-box">💡 Master definition sirf blueprint hai — isme actual data nahi hota. Columns aur data alag steps mein add honge.</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Master Name <span>*</span></label>
+          <input class="form-control" placeholder="e.g. District Master">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Code <span>*</span></label>
+          <input class="form-control" placeholder="e.g. DISTRICT" style="text-transform:uppercase">
+          <div class="form-hint">Unique per tenant. Auto-UPPERCASE.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <input class="form-control" placeholder="Brief description...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Icon (Bootstrap Icons)</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input class="form-control" placeholder="bi-map" style="flex:1">
+            <div class="icon-preview">🗺</div>
+          </div>
+          <div class="form-hint">e.g. bi-map, bi-people, bi-folder</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Display Order</label>
+          <input class="form-control" type="number" value="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Scope <span>*</span></label>
+        <select class="form-control">
+          <option>🌐 Global — sabhi tenants ke liye</option>
+          <option>🏢 Tenant-specific</option>
+        </select>
+      </div>
+      <div class="form-group" id="tenant-select" style="display:none">
+        <label class="form-label">Tenant <span>*</span></label>
+        <select class="form-control">
+          <option>— Select Tenant —</option>
+          <option>SWCS Uttarakhand</option>
+          <option>Parivesh Delhi</option>
+          <option>MP Urban</option>
+        </select>
+      </div>
+      <div style="border:1px solid #f1f5f9;border-radius:8px;overflow:hidden;margin-top:4px">
+        <div class="toggle-row" style="padding:10px 14px">
+          <div>
+            <div class="toggle-info">Is System Master 🔒</div>
+            <div class="toggle-sub">System masters delete nahi ho sakte</div>
+          </div>
+          <div class="toggle"></div>
+        </div>
+        <div class="toggle-row" style="padding:10px 14px">
+          <div>
+            <div class="toggle-info">Allow CSV Import</div>
+            <div class="toggle-sub">Bulk data CSV se import allow karna hai?</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="toggle-row" style="padding:10px 14px;border-bottom:none">
+          <div>
+            <div class="toggle-info">Is Active</div>
+            <div class="toggle-sub">Inactive masters forms mein nahi dikhte</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-primary">📦 Save & Define Columns →</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

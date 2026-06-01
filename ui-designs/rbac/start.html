@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBAC Setup — Step by Step</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;padding:40px 20px}
+  .container{max-width:860px;margin:0 auto}
+
+  /* HEADER */
+  .header{text-align:center;margin-bottom:50px}
+  .header-tag{display:inline-flex;align-items:center;gap:6px;background:#1e293b;border:1px solid #334155;border-radius:20px;padding:5px 14px;font-size:11px;color:#6366f1;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:.08em}
+  .header h1{font-size:30px;font-weight:800;color:#fff;margin-bottom:10px}
+  .header p{color:#64748b;font-size:14px;max-width:500px;margin:0 auto;line-height:1.6}
+
+  /* PROJECT BADGES */
+  .projects{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:50px}
+  .proj-badge{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:8px 16px;font-size:12px;color:#94a3b8;display:flex;align-items:center;gap:8px}
+  .proj-badge strong{color:#e2e8f0}
+  .proj-dot{width:8px;height:8px;border-radius:50%}
+
+  /* STEPS */
+  .steps{position:relative}
+  .connector{position:absolute;left:31px;top:60px;bottom:60px;width:2px;background:linear-gradient(to bottom,#6366f1,#334155);z-index:0}
+
+  .step{display:flex;gap:18px;margin-bottom:12px;position:relative;z-index:1}
+  .step-left{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:0}
+  .step-num{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0;border:2px solid}
+  .step-num.done{background:#6366f1;border-color:#6366f1;color:#fff;box-shadow:0 0 20px rgba(99,102,241,.4)}
+  .step-num.pending{background:#1e293b;border-color:#334155;color:#475569}
+
+  .step-card{flex:1;background:#1e293b;border:1px solid #334155;border-radius:14px;overflow:hidden;transition:.2s;margin-bottom:0}
+  .step-card:hover{border-color:#6366f1}
+
+  .step-header{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+  .step-title-row{display:flex;align-items:center;gap:12px}
+  .step-icon{font-size:22px}
+  .step-title{font-size:15px;font-weight:700;color:#f1f5f9}
+  .step-subtitle{font-size:12px;color:#475569;margin-top:2px}
+  .step-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:#312e81;color:#a5b4fc}
+  .step-badge.first{background:#14532d;color:#86efac}
+
+  .step-body{border-top:1px solid #334155;padding:16px 20px}
+  .step-why{background:#0f172a;border-radius:8px;padding:12px 14px;margin-bottom:12px}
+  .step-why-label{font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+  .step-why-text{font-size:12px;color:#94a3b8;line-height:1.6}
+  .step-why-text strong{color:#cbd5e1}
+
+  .example-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .ex-chip{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:6px 12px;font-size:11px;color:#94a3b8;display:flex;align-items:center;gap:6px}
+  .ex-chip strong{color:#e2e8f0}
+  .ex-chip .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+  .link-row{display:flex;gap:10px;flex-wrap:wrap}
+  .page-link{display:inline-flex;align-items:center;gap:8px;background:#6366f1;color:#fff;text-decoration:none;border-radius:9px;padding:9px 18px;font-size:13px;font-weight:600;transition:.15s}
+  .page-link:hover{background:#4f46e5;transform:translateY(-1px)}
+  .page-link.secondary{background:#1e3a5f;color:#93c5fd;border:1px solid #1d4ed8}
+  .page-link.secondary:hover{background:#1d4ed8;color:#fff}
+  .page-link .arrow{font-size:14px}
+
+  .divider-note{text-align:center;padding:10px 0 22px;font-size:12px;color:#334155;display:flex;align-items:center;gap:10px}
+  .divider-note::before,.divider-note::after{content:'';flex:1;height:1px;background:#1e293b}
+
+  /* BOTTOM CTA */
+  .cta{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:28px;text-align:center;margin-top:40px}
+  .cta h3{font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
+  .cta p{font-size:13px;color:#64748b;margin-bottom:20px}
+  .cta-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+  .cta-link{display:inline-flex;align-items:center;gap:8px;background:#0f172a;border:1px solid #334155;color:#94a3b8;text-decoration:none;border-radius:9px;padding:9px 18px;font-size:13px;font-weight:600;transition:.15s}
+  .cta-link:hover{border-color:#6366f1;color:#a5b4fc}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-tag">🛡 RBAC Setup Guide</div>
+    <h1>Step-by-Step Setup</h1>
+    <p>Ye sequence follow karo — ek bhi step skip mat karo. Har step ka ek real example neeche diya hai.</p>
+  </div>
+
+  <!-- YOUR 3 PROJECTS -->
+  <div class="projects">
+    <div class="proj-badge"><div class="proj-dot" style="background:#6366f1"></div><strong>SWCS</strong> — Uttarakhand Industry</div>
+    <div class="proj-badge"><div class="proj-dot" style="background:#16a34a"></div><strong>Parivesh</strong> — Delhi Forest</div>
+    <div class="proj-badge"><div class="proj-dot" style="background:#f59e0b"></div><strong>MP Urban</strong> — MP Urban Dev</div>
+  </div>
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="connector"></div>
+
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num done">1</div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-title-row">
+            <div class="step-icon">🏛</div>
+            <div>
+              <div class="step-title">Tenant banao</div>
+              <div class="step-subtitle">Sabse pehle — har department ek alag tenant hai</div>
+            </div>
+          </div>
+          <span class="step-badge first">Start Here</span>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <div class="step-why-label">Kyun zaroori hai?</div>
+            <div class="step-why-text">Bina tenant ke system nahi jaanta ki SWCS alag hai aur Parivesh alag. <strong>Tenant = ek alag building.</strong> Baaki sab iske andar aata hai.</div>
+          </div>
+          <div class="example-row">
+            <div class="ex-chip"><div class="dot" style="background:#6366f1"></div><strong>SWCS</strong> slug: swcs</div>
+            <div class="ex-chip"><div class="dot" style="background:#16a34a"></div><strong>Parivesh</strong> slug: parivesh</div>
+            <div class="ex-chip"><div class="dot" style="background:#f59e0b"></div><strong>MP Urban</strong> slug: mp-urban</div>
+          </div>
+          <div class="link-row">
+            <a href="01-tenant.html" class="page-link">🏛 Tenant Management Page <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-note">Step 1 complete hone ke baad aage jao</div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num done">2</div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-title-row">
+            <div class="step-icon">📁</div>
+            <div>
+              <div class="step-title">Modules / Menu banao</div>
+              <div class="step-subtitle">Portal mein kaun se pages honge — define karo</div>
+            </div>
+          </div>
+          <span class="step-badge">Step 2</span>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <div class="step-why-label">Kyun zaroori hai?</div>
+            <div class="step-why-text">Permission dene ke liye pehle <strong>kisi page ka existence define karna hoga.</strong> Module = ek page ya group. Jab tak module nahi hoga — role ko permission pe link kaise karoge?</div>
+          </div>
+          <div class="example-row">
+            <div class="ex-chip">📋 Application List</div>
+            <div class="ex-chip">✅ NOC Approval</div>
+            <div class="ex-chip">📊 Reports</div>
+            <div class="ex-chip">👥 User Management</div>
+          </div>
+          <div class="link-row">
+            <a href="03-modules.html" class="page-link">📁 Module Management Page <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-note">Step 2 complete hone ke baad aage jao</div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num done">3</div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-title-row">
+            <div class="step-icon">👑</div>
+            <div>
+              <div class="step-title">Roles banao</div>
+              <div class="step-subtitle">Designations define karo — hierarchy ke saath</div>
+            </div>
+          </div>
+          <span class="step-badge">Step 3</span>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <div class="step-why-label">Kyun zaroori hai?</div>
+            <div class="step-why-text">User ko seedha permission nahi dete — pehle <strong>role banao, role ko permission do, phir user ko role do.</strong> Isse ek role ke 100 users ek saath manage ho jaate hain.</div>
+          </div>
+          <div class="example-row">
+            <div class="ex-chip"><div class="dot" style="background:#6366f1"></div>Commissioner → Director → DO → BO</div>
+            <div class="ex-chip"><div class="dot" style="background:#16a34a"></div>Chief Conservator → DFO → Range Officer</div>
+            <div class="ex-chip"><div class="dot" style="background:#f59e0b"></div>Commissioner → Town Planner → JE</div>
+          </div>
+          <div class="link-row">
+            <a href="02-roles.html" class="page-link">👑 Role Management Page <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-note">Step 3 complete hone ke baad aage jao</div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num done">4</div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-title-row">
+            <div class="step-icon">🔐</div>
+            <div>
+              <div class="step-title">Permissions set karo</div>
+              <div class="step-subtitle">Role ko Module pe ALLOW / DENY do</div>
+            </div>
+          </div>
+          <span class="step-badge">Step 4</span>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <div class="step-why-label">Kyun zaroori hai?</div>
+            <div class="step-why-text">Ab role + module dono hain. Permission matrix mein batao — <strong>District Officer Application List READ kar sakta hai? APPROVE kar sakta hai? DELETE nahi kar sakta?</strong> Yahi asli access control hai.</div>
+          </div>
+          <div class="example-row">
+            <div class="ex-chip">DO → App List → READ ✅ APPROVE ✅ DELETE ❌</div>
+            <div class="ex-chip">DFO → NOC → READ ✅ APPROVE ✅</div>
+          </div>
+          <div class="link-row">
+            <a href="04-permissions.html" class="page-link">🔐 Permission Matrix Page <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-note">Step 4 complete hone ke baad aage jao</div>
+
+    <!-- STEP 5 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num done">5</div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-title-row">
+            <div class="step-icon">👤</div>
+            <div>
+              <div class="step-title">User ko Role Assign karo</div>
+              <div class="step-subtitle">Officer + Role + Tenant + Geographic Scope + Validity</div>
+            </div>
+          </div>
+          <span class="step-badge">Step 5</span>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <div class="step-why-label">Kyun zaroori hai?</div>
+            <div class="step-why-text">Ab actual officer ko posting do. <strong>Rajesh ko SWCS mein District Officer banao — sirf Dehradun ke liye.</strong> Ye ek record (posting) create hoti hai jisme role + tenant + scope + dates hain.</div>
+          </div>
+          <div class="example-row">
+            <div class="ex-chip"><div class="dot" style="background:#6366f1"></div>Rajesh → DO → SWCS → Dehradun</div>
+            <div class="ex-chip"><div class="dot" style="background:#16a34a"></div>Priya → Range Officer → Parivesh → South Delhi</div>
+            <div class="ex-chip"><div class="dot" style="background:#f59e0b"></div>Amit → JE → MP Urban → Bhopal</div>
+          </div>
+          <div class="link-row">
+            <a href="05-assignment.html" class="page-link">👤 User Assignment Page <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-note">Yahan tak core setup complete — baaki optional/future use</div>
+
+    <!-- STEP 6 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num pending">6</div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-title-row">
+            <div class="step-icon">🔄</div>
+            <div>
+              <div class="step-title">Transfer karo (jab zaroorat ho)</div>
+              <div class="step-subtitle">Posting badlo — purani close, nayi open, history save</div>
+            </div>
+          </div>
+          <span class="step-badge">Jab zaroorat ho</span>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <div class="step-why-label">Kyun zaroori hai?</div>
+            <div class="step-why-text">Officer transfer hua — Dehradun se Almora. <strong>Purani posting automatically close hogi, nayi create hogi.</strong> Poori history save rahegi — kabhi delete nahi hogi.</div>
+          </div>
+          <div class="example-row">
+            <div class="ex-chip">Rajesh: Dehradun → Almora (Transfer Order: TO/2024/456)</div>
+          </div>
+          <div class="link-row">
+            <a href="06-transfer.html" class="page-link">🔄 Transfer & History Page <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-note"></div>
+
+    <!-- STEP 7 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num pending">7</div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-title-row">
+            <div class="step-icon">⚡</div>
+            <div>
+              <div class="step-title">Permission Override (special case)</div>
+              <div class="step-subtitle">Ek specific user ko extra allow ya deny karo</div>
+            </div>
+          </div>
+          <span class="step-badge">Special Cases</span>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <div class="step-why-label">Kyun zaroori hai?</div>
+            <div class="step-why-text">Kabhi kabhi ek officer ko temporarily extra permission deni hoti hai ya block karni hoti hai — <strong>bina poore role ko change kiye.</strong> Sirf us ek user ke liye.</div>
+          </div>
+          <div class="example-row">
+            <div class="ex-chip">Rajesh ko temporarily State Reports EXPORT dena hai</div>
+          </div>
+          <div class="link-row">
+            <a href="07-override.html" class="page-link">⚡ Permission Override Page <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-note"></div>
+
+    <!-- STEP 8 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num pending">8</div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-title-row">
+            <div class="step-icon">📋</div>
+            <div>
+              <div class="step-title">Projects banao (optional)</div>
+              <div class="step-subtitle">Tenant ke andar alag schemes — fine-grained access</div>
+            </div>
+          </div>
+          <span class="step-badge">Optional</span>
+        </div>
+        <div class="step-body">
+          <div class="step-why">
+            <div class="step-why-label">Kyun zaroori hai?</div>
+            <div class="step-why-text">Agar SWCS mein <strong>"MSME 2024"</strong> aur <strong>"Tourism NOC"</strong> alag-alag handle karne hain — aur ek officer sirf MSME dekhe, Tourism nahi — to project banao aur assignment mein link karo.</div>
+          </div>
+          <div class="example-row">
+            <div class="ex-chip">SWCS → MSME_2024 project → Rajesh only</div>
+            <div class="ex-chip">SWCS → TOUR_NOC project → Priya only</div>
+          </div>
+          <div class="link-row">
+            <a href="08-projects.html" class="page-link">📋 Project Management Page <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="cta">
+    <h3>📖 Poori Documentation chahiye?</h3>
+    <p>Har table, column, relationship — Hindi + English mein explain kiya gaya hai</p>
+    <div class="cta-links">
+      <a href="documentation.html" class="cta-link">📖 Full Documentation</a>
+      <a href="index.html" class="cta-link">🏠 All Pages Index</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

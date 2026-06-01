@@ -1,0 +1,1411 @@
+================================================================================
+FORMBUILDER SRS — STANDARD FORMAT
+================================================================================
+HOW TO USE THIS FILE:
+- Upload this .txt file to the AI FormBuilder system
+- AI will read this and generate a complete DB-ready JSON
+- Every PAGE, SECTION, FIELD, and CONDITIONAL RULE is clearly defined below
+- For Master dropdowns: data comes from DB master tables (no static options needed)
+- For Static dropdowns: options are listed inline
+================================================================================
+
+FORM METADATA
+================================================================================
+Form Name       : Combined Application Form (CAF)
+Department ID   : 1
+Service ID      : 591.0
+Form Type ID    : 1
+Description     : Combined Application Form for establishing new industrial units
+                  or Expansion, Diversification, and Modernization of existing
+                  industrial units across various districts and zones of Karnataka.
+================================================================================
+
+
+================================================================================
+PAGE 1 — Company Details
+================================================================================
+
+  SECTION 1.1 — Company Details
+  ──────────────────────────────────────────────────────────────────────────────
+
+  FIELD 1  | Name: New Or Existing Offline
+             Type: radio
+             Mandatory: Yes
+             Grid: 6
+             Default: new
+             Options (STATIC):
+               - label: "New" | value: "new"
+               - label: "Existing Offline" | value: "existing_offline"
+             Help Text: Existing Offline means industrial unit already in operation
+                        but not registered on Single Window Portal
+
+  FIELD 2  | Name: Type Of Proposal
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (Type of Proposal master table)
+             Options (STATIC fallback):
+               - label: "New Project"       | value: "new_project"
+               - label: "Expansion"         | value: "expansion"
+               - label: "Diversification"   | value: "diversification"
+               - label: "Modernization"     | value: "modernization"
+               - label: "Closure"           | value: "closure"
+
+  FIELD 3  | Name: CAF Id
+             Type: select
+             Mandatory: Conditional
+             Grid: 6
+             Source: MASTER (Approved CAF IDs for logged-in investor)
+             Condition: Show only when Type Of Proposal = expansion OR diversification OR modernization
+             Help Text: When a CAF ID is selected, data from that CAF will auto-populate this form
+
+  FIELD 4  | Name: Name Of Company Unit Trust
+             Type: text
+             Mandatory: Auto Populated
+             Grid: 6
+             Is Readonly: Yes
+             Help Text: Auto populated from investor registration details. Non-editable.
+
+  FIELD 5  | Name: Primary Activity Of Project
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Options (STATIC):
+               - label: "Manufacturing" | value: "manufacturing"
+               - label: "Service"       | value: "service"
+
+  FIELD 6  | Name: Constitution Of Establishment
+             Type: select
+             Mandatory: Auto Populated
+             Grid: 6
+             Is Readonly: Yes
+             Source: MASTER (Constitution of Establishment master)
+             Help Text: Auto populated from investor registration. Non-editable.
+
+  FIELD 7  | Name: Company PAN Number
+             Type: text
+             Mandatory: Auto Populated
+             Grid: 6
+             Is Readonly: Yes
+             Pattern: ^[A-Z]{5}[0-9]{4}[A-Z]{1}$
+             Max Length: 10
+             Help Text: Auto populated. Masked display (last 4 characters visible).
+
+  FIELD 8  | Name: Corporate Identification Number
+             Type: text
+             Mandatory: Conditional
+             Grid: 6
+             Max Length: 21
+             Pattern: ^[LUu]{1}[0-9]{5}[A-Za-z]{2}[0-9]{4}[A-Za-z]{3}[0-9]{6}$
+             Condition: Show only when Constitution Of Establishment = Public Limited Company
+                        OR Private Limited Company OR One Person Company
+                        OR Section 8 Company OR LLP
+             Help Text: Authenticated via CIN API
+
+  FIELD 9  | Name: LLPIN Number
+             Type: text
+             Mandatory: Conditional
+             Grid: 6
+             Max Length: 7
+             Condition: Show only when Constitution Of Establishment = LLP
+             Help Text: Limited Liability Partnership Identification Number. Authenticated via CIN API.
+
+  FIELD 10 | Name: Do You Have GST Number
+             Type: radio
+             Mandatory: Yes
+             Grid: 6
+             Options (STATIC):
+               - label: "Yes" | value: "yes"
+               - label: "No"  | value: "no"
+
+  FIELD 11 | Name: GST Number
+             Type: text
+             Mandatory: Conditional
+             Grid: 6
+             Max Length: 15
+             Pattern: ^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$
+             Condition: Show only when Do You Have GST Number = yes
+             Help Text: 15-character alphanumeric GSTIN. Validated via GST API.
+
+  FIELD 12 | Name: Date Of Incorporation
+             Type: date
+             Mandatory: Yes
+             Grid: 6
+             Is Readonly: Conditional (readonly except when Constitution = Sole Proprietorship)
+             Help Text: Auto populated from investor registration. Editable only for Sole Proprietorship.
+
+  FIELD 13 | Name: Date Of Business Commencement
+             Type: date
+             Mandatory: Conditional
+             Grid: 6
+             Condition: Show only when Type Of Proposal = expansion OR diversification OR modernization
+             Validation Rule: {"maxDate": "today", "minAfterField": "Date Of Incorporation"}
+             Help Text: Should not be a future date and not prior to Date of Incorporation.
+
+  FIELD 14 | Name: Is A Startup Company
+             Type: radio
+             Mandatory: No
+             Grid: 6
+             Options (STATIC):
+               - label: "Yes" | value: "yes"
+               - label: "No"  | value: "no"
+
+  CONDITIONAL RULES FOR SECTION 1.1:
+  ─────────────────────────────────────
+  RULE 1: Show "CAF Id" when "Type Of Proposal" = "expansion" OR "diversification" OR "modernization"
+  RULE 2: Show "Corporate Identification Number" when "Constitution Of Establishment" =
+          "public_limited" OR "private_limited" OR "one_person_company" OR "section_8" OR "llp"
+  RULE 3: Show "LLPIN Number" when "Constitution Of Establishment" = "llp"
+  RULE 4: Show "GST Number" when "Do You Have GST Number" = "yes"
+  RULE 5: Show "Date Of Business Commencement" when "Type Of Proposal" =
+          "expansion" OR "diversification" OR "modernization"
+
+
+  SECTION 1.2 — Corporate Address
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: Fields in this section auto-fetch from CIN API for:
+        Public Limited Company, Private Limited Company, One Person Company,
+        Section 8 Company, LLP. For other constitution types, user enters manually.
+
+  FIELD 15 | Name: Corporate Address Line 1
+             Type: text
+             Mandatory: Yes
+             Grid: 12
+             Max Length: 255
+             Help Text: Auto fetched from CIN API for company types. Others enter manually.
+
+  FIELD 16 | Name: Corporate Address Line 2
+             Type: text
+             Mandatory: No
+             Grid: 12
+             Max Length: 255
+
+  FIELD 17 | Name: Corporate Country
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (Country master — ISO ALPHA codes)
+
+  FIELD 18 | Name: Corporate State
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (State master — LGD directory)
+             Cascading: depends on Corporate Country
+
+  FIELD 19 | Name: Corporate District
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (District master — LGD directory)
+             Cascading: depends on Corporate State
+
+  FIELD 20 | Name: Corporate Taluk
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (Taluk master — LGD directory)
+             Cascading: depends on Corporate District
+
+  FIELD 21 | Name: Corporate City
+             Type: text
+             Mandatory: Yes
+             Grid: 6
+             Max Length: 50
+             Validation Rule: {"noSpecialChars": true}
+
+  FIELD 22 | Name: Corporate Pin Code
+             Type: text
+             Mandatory: Yes
+             Grid: 6
+             Max Length: 10
+             Validation Rule: {"noSpecialChars": true}
+
+  FIELD 23 | Name: Corporate Std Code
+             Type: text
+             Mandatory: No
+             Grid: 6
+             Max Length: 10
+
+  FIELD 24 | Name: Corporate Phone Number
+             Type: text
+             Mandatory: No
+             Grid: 6
+             Max Length: 15
+
+  FIELD 25 | Name: Corporate Country Code
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (ISD Country Code master)
+             Help Text: On selection of Country code, Country Name will be shown.
+
+  FIELD 26 | Name: Corporate Mobile Number
+             Type: tel
+             Mandatory: Yes
+             Grid: 6
+             Max Length: 15
+             Help Text: No special characters allowed. Encrypted storage.
+
+  FIELD 27 | Name: Corporate Email
+             Type: email
+             Mandatory: Yes
+             Grid: 6
+             Max Length: 100
+             Help Text: Encrypted storage. Not exposed without investor consent.
+
+  FIELD 28 | Name: Correspondence Address Same As Corporate
+             Type: checkbox
+             Mandatory: No
+             Grid: 12
+             Help Text: If checked, Corporate Address is copied to Correspondence Address.
+
+
+  SECTION 1.3 — Correspondence Address
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: This section is shown when "Correspondence Address Same As Corporate" is unchecked.
+        All fields are mandatory when section is visible.
+
+  FIELD 29 | Name: Correspondence Address Line 1
+             Type: text
+             Mandatory: Yes
+             Grid: 12
+             Max Length: 300
+
+  FIELD 30 | Name: Correspondence Address Line 2
+             Type: text
+             Mandatory: Yes
+             Grid: 12
+             Max Length: 300
+
+  FIELD 31 | Name: Correspondence Country
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (Country master — ISO ALPHA codes)
+
+  FIELD 32 | Name: Correspondence State
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (State master — LGD directory)
+             Cascading: depends on Correspondence Country
+
+  FIELD 33 | Name: Correspondence District
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (District master — LGD directory)
+             Cascading: depends on Correspondence State
+
+  FIELD 34 | Name: Correspondence Taluk
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (Taluk master — LGD directory)
+             Cascading: depends on Correspondence District
+
+  FIELD 35 | Name: Correspondence City
+             Type: text
+             Mandatory: Yes
+             Grid: 6
+             Max Length: 50
+
+  FIELD 36 | Name: Correspondence Pin Code
+             Type: text
+             Mandatory: Yes
+             Grid: 6
+             Max Length: 10
+
+  FIELD 37 | Name: Correspondence Std Code
+             Type: text
+             Mandatory: No
+             Grid: 6
+             Max Length: 10
+
+  FIELD 38 | Name: Correspondence Phone Number
+             Type: text
+             Mandatory: No
+             Grid: 6
+             Max Length: 15
+
+  FIELD 39 | Name: Correspondence Country Code
+             Type: select
+             Mandatory: Yes
+             Grid: 6
+             Source: MASTER (ISD Country Code master)
+
+  FIELD 40 | Name: Correspondence Mobile Number
+             Type: tel
+             Mandatory: Yes
+             Grid: 6
+             Max Length: 15
+             Help Text: Encrypted storage.
+
+  FIELD 41 | Name: Correspondence Email
+             Type: email
+             Mandatory: Yes
+             Grid: 6
+             Max Length: 100
+             Help Text: Encrypted storage.
+
+  CONDITIONAL RULES FOR SECTION 1.3:
+  ─────────────────────────────────────
+  RULE 6: Show entire Correspondence Address section when
+          "Correspondence Address Same As Corporate" is unchecked (value = false/unchecked)
+
+
+================================================================================
+PAGE 2 — Authorized Signatory And Promoter Details
+================================================================================
+
+  SECTION 2.1 — Authorized Signatory Details
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: Authorized Signatory is the person authorized to sign the application
+        on behalf of the company/entity. Details auto-populated from investor
+        registration for registered investors; editable for offline applicants.
+
+  FIELD 42 | Name: Authorized Signatory Name
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 100
+              Help Text: Full name of the authorized signatory as per PAN/Aadhaar.
+
+  FIELD 43 | Name: Authorized Signatory Designation
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 100
+              Help Text: Designation of the authorized signatory (e.g. Director, MD, Partner).
+
+  FIELD 44 | Name: Authorized Signatory PAN
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Pattern: ^[A-Z]{5}[0-9]{4}[A-Z]{1}$
+              Max Length: 10
+              Help Text: PAN of the Authorized Signatory (not company PAN).
+
+  FIELD 45 | Name: Authorized Signatory Aadhaar
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Pattern: ^\d{12}$
+              Max Length: 12
+              Help Text: Aadhaar of Authorized Signatory. Masked display. Encrypted storage.
+
+  FIELD 46 | Name: Authorized Signatory Mobile Number
+              Type: tel
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 10
+              Pattern: ^[6-9]\d{9}$
+              Help Text: Mobile number for OTP and communication. Encrypted storage.
+
+  FIELD 47 | Name: Authorized Signatory Email
+              Type: email
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 100
+              Help Text: Email of the authorized signatory. Encrypted storage.
+
+  FIELD 48 | Name: Authorized Signatory DIN
+              Type: text
+              Mandatory: Conditional
+              Grid: 6
+              Max Length: 8
+              Pattern: ^[0-9]{8}$
+              Condition: Show only when Constitution Of Establishment = Public Limited Company
+                         OR Private Limited Company OR One Person Company OR Section 8 Company
+              Help Text: Director Identification Number. Authenticated via MCA API.
+
+  FIELD 49 | Name: Authorized Signatory Address Line 1
+              Type: text
+              Mandatory: Yes
+              Grid: 12
+              Max Length: 255
+
+  FIELD 50 | Name: Authorized Signatory Address Line 2
+              Type: text
+              Mandatory: No
+              Grid: 12
+              Max Length: 255
+
+  FIELD 51 | Name: Authorized Signatory Country
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Source: MASTER (Country master — ISO ALPHA codes)
+
+  FIELD 52 | Name: Authorized Signatory State
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Source: MASTER (State master — LGD directory)
+              Cascading: depends on Authorized Signatory Country
+
+  FIELD 53 | Name: Authorized Signatory District
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Source: MASTER (District master — LGD directory)
+              Cascading: depends on Authorized Signatory State
+
+  FIELD 54 | Name: Authorized Signatory Taluk
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Source: MASTER (Taluk master — LGD directory)
+              Cascading: depends on Authorized Signatory District
+
+  FIELD 55 | Name: Authorized Signatory City
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 50
+
+  FIELD 56 | Name: Authorized Signatory Pin Code
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 6
+              Pattern: ^\d{6}$
+
+  CONDITIONAL RULES FOR SECTION 2.1:
+  ─────────────────────────────────────
+  RULE 7: Show "Authorized Signatory DIN" when "Constitution Of Establishment" =
+          "public_limited" OR "private_limited" OR "one_person_company" OR "section_8"
+
+
+  SECTION 2.2 — Promoter Details
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: This section is REPEATABLE (Add More rows). Minimum 1 promoter required.
+        Maximum 10 promoters allowed.
+        For Sole Proprietorship: only 1 promoter (the proprietor) allowed.
+        All promoters must belong to same social category for social category benefits.
+
+  ADD MORE GROUP: Promoter Details
+    Minimum rows: 1
+    Maximum rows: 10
+    Trigger field: Promoter Name
+
+  FIELD 57 | Name: Promoter Name
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 100
+              Help Text: Full name as per PAN card.
+
+  FIELD 58 | Name: Promoter Designation
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 100
+              Help Text: Designation/role in the company (Director, Partner, Proprietor, etc.)
+
+  FIELD 59 | Name: Promoter Gender
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Options (STATIC):
+                - label: "Male"   | value: "male"
+                - label: "Female" | value: "female"
+                - label: "Other"  | value: "other"
+
+  FIELD 60 | Name: Promoter Social Category
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Options (STATIC):
+                - label: "General"                  | value: "general"
+                - label: "Scheduled Caste (SC)"     | value: "sc"
+                - label: "Scheduled Tribe (ST)"     | value: "st"
+                - label: "Other Backward Class (OBC)" | value: "obc"
+                - label: "Minorities"               | value: "minorities"
+                - label: "Physically Handicapped"   | value: "physically_handicapped"
+                - label: "Ex-Servicemen"            | value: "ex_servicemen"
+                - label: "Women"                    | value: "women"
+
+  FIELD 61 | Name: Promoter PAN
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Pattern: ^[A-Z]{5}[0-9]{4}[A-Z]{1}$
+              Max Length: 10
+              Help Text: Promoter PAN. Masked display.
+
+  FIELD 62 | Name: Promoter Aadhaar
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Pattern: ^\d{12}$
+              Max Length: 12
+              Help Text: Promoter Aadhaar. Masked display. Encrypted storage.
+
+  FIELD 63 | Name: Promoter Date Of Birth
+              Type: date
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"maxDate": "today"}
+              Help Text: Must not be a future date.
+
+  FIELD 64 | Name: Promoter Mobile Number
+              Type: tel
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 10
+              Pattern: ^[6-9]\d{9}$
+
+  FIELD 65 | Name: Promoter Email
+              Type: email
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 100
+
+  FIELD 66 | Name: Promoter Share Percentage
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0, "max": 100}
+              Help Text: Shareholding percentage. Total across all promoters must equal 100%.
+
+  FIELD 67 | Name: Promoter DIN
+              Type: text
+              Mandatory: Conditional
+              Grid: 6
+              Max Length: 8
+              Pattern: ^[0-9]{8}$
+              Condition: Show only when Constitution Of Establishment = Public Limited Company
+                         OR Private Limited Company OR One Person Company OR Section 8 Company
+              Help Text: Director Identification Number.
+
+  CONDITIONAL RULES FOR SECTION 2.2:
+  ─────────────────────────────────────
+  RULE 8: Show "Promoter DIN" for each promoter row when "Constitution Of Establishment" =
+          "public_limited" OR "private_limited" OR "one_person_company" OR "section_8"
+
+
+================================================================================
+PAGE 3 — Proposed Project Details
+================================================================================
+
+  SECTION 3.1 — Project Basic Information
+  ──────────────────────────────────────────────────────────────────────────────
+
+  FIELD 68 | Name: Name Of Industrial Unit
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 255
+              Help Text: Name of the proposed industrial unit/project.
+
+  FIELD 69 | Name: NIC Code
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Source: MASTER (NIC Code master — National Industry Classification)
+              Help Text: Select the NIC 2008 code for the primary business activity.
+
+  FIELD 70 | Name: Industry Type
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Options (STATIC):
+                - label: "Micro"   | value: "micro"
+                - label: "Small"   | value: "small"
+                - label: "Medium"  | value: "medium"
+                - label: "Large"   | value: "large"
+              Help Text: As per MSMED Act 2006 / Udyam Registration classification.
+
+  FIELD 71 | Name: Products Or Services To Be Manufactured
+              Type: textarea
+              Mandatory: Yes
+              Grid: 12
+              Max Length: 1000
+              Help Text: Briefly describe the products/services to be manufactured or provided.
+
+  FIELD 72 | Name: Is Existing MSME Unit
+              Type: radio
+              Mandatory: No
+              Grid: 6
+              Options (STATIC):
+                - label: "Yes" | value: "yes"
+                - label: "No"  | value: "no"
+
+  FIELD 73 | Name: Udyam Registration Number
+              Type: text
+              Mandatory: Conditional
+              Grid: 6
+              Max Length: 19
+              Pattern: ^UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7}$
+              Condition: Show only when Is Existing MSME Unit = yes
+              Help Text: Udyam Registration Number (format: UDYAM-XX-00-0000000).
+
+  FIELD 74 | Name: Whether Pollution Causing Industry
+              Type: radio
+              Mandatory: Yes
+              Grid: 6
+              Options (STATIC):
+                - label: "Yes" | value: "yes"
+                - label: "No"  | value: "no"
+
+  FIELD 75 | Name: Pollution Category
+              Type: select
+              Mandatory: Conditional
+              Grid: 6
+              Options (STATIC):
+                - label: "Red"    | value: "red"
+                - label: "Orange" | value: "orange"
+                - label: "Green"  | value: "green"
+                - label: "White"  | value: "white"
+              Condition: Show only when Whether Pollution Causing Industry = yes
+              Help Text: As per KSPCB / CPCB pollution category classification.
+
+
+  SECTION 3.2 — Location Details
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: Location refers to the proposed site for the industrial unit.
+
+  FIELD 76 | Name: Project Location District
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Source: MASTER (District master — Karnataka districts only)
+              Help Text: District where the proposed unit will be located.
+
+  FIELD 77 | Name: Project Location Taluk
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Source: MASTER (Taluk master — LGD directory)
+              Cascading: depends on Project Location District
+
+  FIELD 78 | Name: Project Location Hobli
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Source: MASTER (Hobli master — LGD directory)
+              Cascading: depends on Project Location Taluk
+
+  FIELD 79 | Name: Project Location Village
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Source: MASTER (Village master — LGD directory)
+              Cascading: depends on Project Location Hobli
+
+  FIELD 80 | Name: Project Location Zone
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Options (STATIC):
+                - label: "Zone 1 — Hyderabad Karnataka Region"  | value: "zone_1"
+                - label: "Zone 2 — North Karnataka"             | value: "zone_2"
+                - label: "Zone 3 — South Karnataka"             | value: "zone_3"
+                - label: "Zone 4 — Bangalore Rural"             | value: "zone_4"
+                - label: "Zone 5 — Bangalore Urban / BBMP"      | value: "zone_5"
+              Help Text: Zone classification as per Karnataka Industrial Policy for incentive purposes.
+
+  FIELD 81 | Name: Project Address Line 1
+              Type: text
+              Mandatory: Yes
+              Grid: 12
+              Max Length: 255
+
+  FIELD 82 | Name: Project Address Line 2
+              Type: text
+              Mandatory: No
+              Grid: 12
+              Max Length: 255
+
+  FIELD 83 | Name: Project Pin Code
+              Type: text
+              Mandatory: Yes
+              Grid: 6
+              Max Length: 6
+              Pattern: ^\d{6}$
+
+  FIELD 84 | Name: Industrial Area Or Estate Name
+              Type: text
+              Mandatory: No
+              Grid: 6
+              Max Length: 255
+              Help Text: Name of Industrial Area / KIADB Estate / SEZ, if applicable.
+
+
+  SECTION 3.3 — Land Details
+  ──────────────────────────────────────────────────────────────────────────────
+
+  FIELD 85 | Name: Land Availability Status
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Options (STATIC):
+                - label: "Land Already Available"        | value: "available"
+                - label: "Land To Be Acquired"           | value: "to_be_acquired"
+                - label: "Applied For KIADB Allotment"   | value: "kiadb_applied"
+              Help Text: Current status of land for the proposed project.
+
+  FIELD 86 | Name: Land Source
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Options (STATIC):
+                - label: "Own Land"              | value: "own"
+                - label: "KIADB Allotment"       | value: "kiadb"
+                - label: "Private Purchase/Lease" | value: "private"
+                - label: "Government Lease"      | value: "govt_lease"
+                - label: "Industrial Estate"     | value: "industrial_estate"
+
+  FIELD 87 | Name: Total Land Required In Acres
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0.01, "max": 9999}
+              Help Text: Total land area required in acres. Land > 10 acres requires LAC meeting.
+
+  FIELD 88 | Name: Built Up Area Required In Sq Ft
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Total built-up area required in square feet.
+
+  FIELD 89 | Name: Survey Or Katha Number
+              Type: text
+              Mandatory: Conditional
+              Grid: 6
+              Max Length: 100
+              Condition: Show only when Land Availability Status = available
+              Help Text: Survey number / Katha number of the available land parcel.
+
+  FIELD 90 | Name: Existing Plant Area In Acres
+              Type: number
+              Mandatory: Conditional
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Condition: Show only when Type Of Proposal = expansion OR diversification OR modernization
+              Help Text: Area of existing plant/facility in acres.
+
+  CONDITIONAL RULES FOR SECTION 3.2 AND 3.3:
+  ─────────────────────────────────────────────
+  RULE 9:  Show "Udyam Registration Number" when "Is Existing MSME Unit" = "yes"
+  RULE 10: Show "Pollution Category" when "Whether Pollution Causing Industry" = "yes"
+  RULE 11: Show "Survey Or Katha Number" when "Land Availability Status" = "available"
+  RULE 12: Show "Existing Plant Area In Acres" when "Type Of Proposal" =
+           "expansion" OR "diversification" OR "modernization"
+
+
+================================================================================
+PAGE 4 — Project Finance
+================================================================================
+
+  SECTION 4.1 — Investment Details
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: All investment values are in Indian Rupees (INR), in Lakhs.
+        For expansion/diversification/modernization: separate columns for
+        "Existing Investment" and "Proposed Additional Investment" apply.
+        Total Fixed Capital Investment (VFA) is auto-calculated.
+
+  FIELD 91 | Name: Investment In Land
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Investment in land in INR Lakhs. Enter 0 if land is leased.
+
+  FIELD 92 | Name: Investment In Building
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Investment in building / civil construction in INR Lakhs.
+
+  FIELD 93 | Name: Investment In Plant And Machinery
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Investment in plant, machinery and equipment in INR Lakhs.
+                         This is the primary component for MSME classification.
+
+  FIELD 94 | Name: Investment In Other Fixed Assets
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Investment in other fixed assets (furniture, vehicles, tools, etc.)
+                         in INR Lakhs.
+
+  FIELD 95 | Name: Total Fixed Capital Investment
+              Type: number
+              Mandatory: Auto Calculated
+              Grid: 6
+              Is Readonly: Yes
+              Help Text: Auto-calculated: Land + Building + Plant & Machinery + Other Fixed Assets.
+                         This is the VFA (Value of Fixed Assets).
+
+  FIELD 96 | Name: Working Capital
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Estimated working capital requirement in INR Lakhs.
+
+  FIELD 97 | Name: Total Project Cost
+              Type: number
+              Mandatory: Auto Calculated
+              Grid: 6
+              Is Readonly: Yes
+              Help Text: Auto-calculated: Total Fixed Capital Investment + Working Capital.
+
+  FIELD 98 | Name: Existing Investment In VFA
+              Type: number
+              Mandatory: Conditional
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Condition: Show only when Type Of Proposal = expansion OR diversification OR modernization
+              Help Text: Existing VFA investment before proposed expansion/diversification in INR Lakhs.
+                         New proposed VFA must be at least 25% more than this value (BR-5).
+
+  FIELD 99 | Name: FDI Investment
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Foreign Direct Investment component in INR Lakhs, if any.
+
+  FIELD 100| Name: Source Of FDI
+              Type: text
+              Mandatory: Conditional
+              Grid: 6
+              Max Length: 255
+              Condition: Show only when FDI Investment > 0
+              Help Text: Country/entity source of FDI investment.
+
+
+  SECTION 4.2 — Financing Pattern
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: Total Financing must equal Total Project Cost.
+
+  FIELD 101| Name: Own Funds Or Equity
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Promoter's own funds / equity contribution in INR Lakhs.
+
+  FIELD 102| Name: Bank Loan
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Term loan from bank/financial institution in INR Lakhs.
+
+  FIELD 103| Name: Name Of Bank Or Financial Institution
+              Type: text
+              Mandatory: Conditional
+              Grid: 6
+              Max Length: 255
+              Condition: Show only when Bank Loan > 0
+              Help Text: Name of bank/NBFC providing the loan.
+
+  FIELD 104| Name: Subsidy Or Grant
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Government subsidy/grant component in INR Lakhs, if any.
+
+  FIELD 105| Name: Other Source Amount
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Any other financing source in INR Lakhs.
+
+  FIELD 106| Name: Other Source Description
+              Type: text
+              Mandatory: Conditional
+              Grid: 6
+              Max Length: 255
+              Condition: Show only when Other Source Amount > 0
+              Help Text: Describe the other financing source.
+
+  FIELD 107| Name: Total Financing
+              Type: number
+              Mandatory: Auto Calculated
+              Grid: 6
+              Is Readonly: Yes
+              Help Text: Auto-calculated: Own Funds + Bank Loan + Subsidy + Other Source.
+                         Must equal Total Project Cost.
+
+  CONDITIONAL RULES FOR SECTION 4.1 AND 4.2:
+  ─────────────────────────────────────────────
+  RULE 13: Show "Existing Investment In VFA" when "Type Of Proposal" =
+           "expansion" OR "diversification" OR "modernization"
+  RULE 14: Show "Name Of Bank Or Financial Institution" when "Bank Loan" > 0
+  RULE 15: Show "Other Source Description" when "Other Source Amount" > 0
+  RULE 16: Show "Source Of FDI" when "FDI Investment" > 0
+
+
+================================================================================
+PAGE 5 — Project Requirement
+================================================================================
+
+  SECTION 5.1 — Water Requirement
+  ──────────────────────────────────────────────────────────────────────────────
+
+  FIELD 108| Name: Total Water Requirement In KLD
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Total water requirement in Kilo Litres per Day (KLD).
+
+  FIELD 109| Name: Source Of Water
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Options (STATIC):
+                - label: "BWSSB / ULB Supply"     | value: "ulb"
+                - label: "KIADB Supply"            | value: "kiadb"
+                - label: "Ground Water (Borewell)" | value: "groundwater"
+                - label: "Surface Water (River)"   | value: "surface"
+                - label: "Recycled / Treated Water"| value: "recycled"
+                - label: "Rain Water Harvesting"   | value: "rainwater"
+                - label: "Other"                   | value: "other"
+
+  FIELD 110| Name: Water Source Other Description
+              Type: text
+              Mandatory: Conditional
+              Grid: 6
+              Max Length: 255
+              Condition: Show only when Source Of Water = other
+
+  FIELD 111| Name: Industrial Use Water In KLD
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Water required for industrial process use (KLD).
+
+  FIELD 112| Name: Domestic Use Water In KLD
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Water required for domestic/sanitary use (KLD).
+
+
+  SECTION 5.2 — Power Requirement
+  ──────────────────────────────────────────────────────────────────────────────
+
+  FIELD 113| Name: Total Power Requirement In KVA
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Total power requirement in KVA (Kilo Volt Ampere).
+
+  FIELD 114| Name: Connected Load In KW
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Connected load in Kilowatts (KW).
+
+  FIELD 115| Name: Source Of Power
+              Type: select
+              Mandatory: Yes
+              Grid: 6
+              Options (STATIC):
+                - label: "BESCOM / State DISCOM"   | value: "discom"
+                - label: "Captive Power Plant"      | value: "captive"
+                - label: "Solar / Renewable Energy" | value: "solar"
+                - label: "DG Set"                   | value: "dg_set"
+                - label: "Other"                    | value: "other"
+
+  FIELD 116| Name: Power Source Other Description
+              Type: text
+              Mandatory: Conditional
+              Grid: 6
+              Max Length: 255
+              Condition: Show only when Source Of Power = other
+
+  FIELD 117| Name: Renewable Energy Percentage
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0, "max": 100}
+              Help Text: Percentage of total power from renewable sources, if applicable.
+
+
+  SECTION 5.3 — Manpower Requirement
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: Employment figures should be projected numbers after full commissioning.
+
+  FIELD 118| Name: Male Employment Direct
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Number of direct male employees.
+
+  FIELD 119| Name: Female Employment Direct
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Number of direct female employees.
+
+  FIELD 120| Name: Total Direct Employment
+              Type: number
+              Mandatory: Auto Calculated
+              Grid: 6
+              Is Readonly: Yes
+              Help Text: Auto-calculated: Male + Female direct employment.
+
+  FIELD 121| Name: Skilled Employment
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Number of skilled employees among total direct employment.
+
+  FIELD 122| Name: Semi Skilled Employment
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+
+  FIELD 123| Name: Unskilled Employment
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+
+  FIELD 124| Name: Karnataka State Employment
+              Type: number
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Number of employees who are Karnataka state domicile.
+
+  FIELD 125| Name: Local District Employment
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Number of employees from the local district.
+
+  FIELD 126| Name: Indirect Employment
+              Type: number
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"min": 0}
+              Help Text: Estimated indirect/ancillary employment generated.
+
+  CONDITIONAL RULES FOR SECTION 5.1, 5.2, 5.3:
+  ─────────────────────────────────────────────
+  RULE 17: Show "Water Source Other Description" when "Source Of Water" = "other"
+  RULE 18: Show "Power Source Other Description" when "Source Of Power" = "other"
+
+
+================================================================================
+PAGE 6 — Assistance
+================================================================================
+
+  SECTION 6.1 — Government Assistance Details
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: Investor selects what government assistance/incentives they are applying for.
+        Available schemes depend on zone, investment size, constitution, social category.
+        Assistance list comes from master table configured by department.
+
+  FIELD 127| Name: Type Of Assistance Required
+              Type: multiselect
+              Mandatory: No
+              Grid: 12
+              Source: MASTER (Government Assistance / Incentive Scheme master)
+              Help Text: Select all applicable assistance/incentive schemes.
+                         Examples: Capital Subsidy, Interest Subsidy, Power Tariff Concession,
+                         Land Cost Rebate, Stamp Duty Exemption, Employment Generation Incentive.
+
+  FIELD 128| Name: Whether Applying For Social Category Benefit
+              Type: radio
+              Mandatory: No
+              Grid: 6
+              Options (STATIC):
+                - label: "Yes" | value: "yes"
+                - label: "No"  | value: "no"
+              Help Text: Social category benefits for SC/ST/Women/OBC/Minorities/Physically Handicapped
+                         applicants. All promoters must belong to the same social category (BR-6).
+
+  FIELD 129| Name: Social Category For Benefit
+              Type: select
+              Mandatory: Conditional
+              Grid: 6
+              Options (STATIC):
+                - label: "Scheduled Caste (SC)"             | value: "sc"
+                - label: "Scheduled Tribe (ST)"             | value: "st"
+                - label: "Women Entrepreneur"               | value: "women"
+                - label: "Other Backward Class (OBC)"       | value: "obc"
+                - label: "Minorities"                       | value: "minorities"
+                - label: "Physically Handicapped"           | value: "physically_handicapped"
+                - label: "Ex-Servicemen"                    | value: "ex_servicemen"
+              Condition: Show only when Whether Applying For Social Category Benefit = yes
+
+  FIELD 130| Name: Whether Tumakuru Machine Tool Park
+              Type: radio
+              Mandatory: No
+              Grid: 6
+              Options (STATIC):
+                - label: "Yes" | value: "yes"
+                - label: "No"  | value: "no"
+              Help Text: If project is within Tumakuru Machine Tool Park, it requires
+                         State Level approval regardless of investment size (BR-1).
+
+  FIELD 131| Name: Assistance Remarks
+              Type: textarea
+              Mandatory: No
+              Grid: 12
+              Max Length: 1000
+              Help Text: Any additional remarks or details regarding the assistance being sought.
+
+  CONDITIONAL RULES FOR SECTION 6.1:
+  ─────────────────────────────────────
+  RULE 19: Show "Social Category For Benefit" when
+           "Whether Applying For Social Category Benefit" = "yes"
+
+
+================================================================================
+PAGE 7 — Supporting Documents
+================================================================================
+
+  SECTION 7.1 — Document Upload
+  ──────────────────────────────────────────────────────────────────────────────
+  NOTE: Each document is a file upload field. Documents managed via DMS API.
+        Upload returns a document_id stored as field value.
+        Accepted formats: PDF, JPG, JPEG, PNG.
+        Grid span: 6 (one document per half row) unless noted.
+        All mandatory documents must be uploaded before form submission.
+
+  FIELD 132| Name: Company PAN Card
+              Type: file
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 2}
+              Help Text: Upload Company PAN Card (PDF/JPG, max 2MB).
+
+  FIELD 133| Name: Authorized Signatory Aadhaar Card
+              Type: file
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 2}
+              Help Text: Upload Aadhaar Card of Authorized Signatory (PDF/JPG, max 2MB).
+
+  FIELD 134| Name: Certificate Of Incorporation Or Registration
+              Type: file
+              Mandatory: Conditional
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 5}
+              Condition: Show only when Constitution Of Establishment = Public Limited Company
+                         OR Private Limited Company OR One Person Company OR Section 8 Company
+                         OR LLP OR Partnership
+              Help Text: Certificate of Incorporation (MCA) / Registration Certificate (PDF, max 5MB).
+
+  FIELD 135| Name: GST Certificate
+              Type: file
+              Mandatory: Conditional
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 2}
+              Condition: Show only when Do You Have GST Number = yes
+              Help Text: GST Registration Certificate (PDF/JPG, max 2MB).
+
+  FIELD 136| Name: Land Document Or Title Deed
+              Type: file
+              Mandatory: Conditional
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 10}
+              Condition: Show only when Land Availability Status = available
+              Help Text: Land Title Deed / Patta / RTC / Sale Deed (PDF, max 10MB).
+
+  FIELD 137| Name: Detailed Project Report
+              Type: file
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"accept": ".pdf", "maxSizeMB": 10}
+              Help Text: Detailed Project Report (DPR) in PDF format (max 10MB).
+                         Must cover technical, financial, manpower, and market details.
+
+  FIELD 138| Name: Bank Statement Or Net Worth Certificate
+              Type: file
+              Mandatory: Yes
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 5}
+              Help Text: Latest 6-month bank statement OR Chartered Accountant's net worth certificate.
+
+  FIELD 139| Name: Partnership Deed
+              Type: file
+              Mandatory: Conditional
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 5}
+              Condition: Show only when Constitution Of Establishment = Partnership
+              Help Text: Registered Partnership Deed (PDF, max 5MB).
+
+  FIELD 140| Name: Promoter Photograph
+              Type: file
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"accept": ".jpg,.jpeg,.png", "maxSizeMB": 1}
+              Help Text: Recent passport-size photograph of primary promoter (JPG/PNG, max 1MB).
+
+  FIELD 141| Name: Udyam Registration Certificate
+              Type: file
+              Mandatory: Conditional
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 2}
+              Condition: Show only when Is Existing MSME Unit = yes
+              Help Text: Udyam Registration Certificate if existing MSME (PDF/JPG, max 2MB).
+
+  FIELD 142| Name: Previous CAF Approval Letter
+              Type: file
+              Mandatory: Conditional
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 5}
+              Condition: Show only when Type Of Proposal = expansion OR diversification OR modernization
+              Help Text: Approval letter of previous CAF for expansion/diversification/modernization.
+
+  FIELD 143| Name: Any Other Document
+              Type: file
+              Mandatory: No
+              Grid: 6
+              Validation Rule: {"accept": ".pdf,.jpg,.jpeg,.png", "maxSizeMB": 5}
+              Help Text: Any other supporting document (optional).
+
+  CONDITIONAL RULES FOR SECTION 7.1:
+  ─────────────────────────────────────
+  RULE 20: Show "Certificate Of Incorporation Or Registration" when
+           "Constitution Of Establishment" = "public_limited" OR "private_limited"
+           OR "one_person_company" OR "section_8" OR "llp" OR "partnership"
+  RULE 21: Show "GST Certificate" when "Do You Have GST Number" = "yes"
+  RULE 22: Show "Land Document Or Title Deed" when "Land Availability Status" = "available"
+  RULE 23: Show "Partnership Deed" when "Constitution Of Establishment" = "partnership"
+  RULE 24: Show "Udyam Registration Certificate" when "Is Existing MSME Unit" = "yes"
+  RULE 25: Show "Previous CAF Approval Letter" when "Type Of Proposal" =
+           "expansion" OR "diversification" OR "modernization"
+
+
+================================================================================
+PAGE 8 — Payment
+================================================================================
+[PLACEHOLDER — Payment gateway integration, not a FormBuilder field]
+
+  NOTE: Payment is handled by payment gateway.
+        No FormBuilder fields required for this page.
+        Page shows payment summary and redirect to payment gateway.
+
+
+================================================================================
+PAGE 9 — Application Signing
+================================================================================
+[PLACEHOLDER — DSC integration required]
+
+  NOTE: Digital Signature Certificate (DSC) signing.
+        Authorized Signatory signs the complete application.
+        Only the authorized signatory can sign.
+
+
+================================================================================
+PAGE 10 — Summary
+================================================================================
+[PLACEHOLDER — Read-only review of all filled sections]
+
+  NOTE: Summary page shows all entered data in read-only mode.
+        Investor reviews all sections before final submission.
+        Submit button triggers CAF ID generation.
+        CAF ID Format: PAN + 4-digit Sub District LGD code + 2-digit Sequence + Activity (M/S)
+
+
+================================================================================
+GLOBAL BUSINESS RULES
+================================================================================
+
+BR-1: Investment > 15 Crore OR project is Tumakuru Machine Tool Park
+      → State Level Approval Process (MD → JD → Nodal Officer → Committee)
+
+BR-2: Investment <= 15 Crore
+      → District Level Approval Process (JD DIC → DD DIC → AD DIC)
+
+BR-3: Land Requirement > 10 Acres OR (KIADB land source AND land > 2 Acres)
+      → Application must go to LAC (Land Audit Committee) meeting
+
+BR-4: Investment 15Cr to 500Cr → SLSWCC meeting
+      Investment > 500Cr → HLSWCC meeting
+
+BR-5: For Expansion/Diversification/Modernization applications:
+      VFA investment must be at least 25% more than previous investment in VFA
+
+BR-6: Social Category classification:
+      All promoters must belong to same social category/gender for social category benefits.
+      (SC, ST, Women, Minorities, Backward Classes, Physically Handicapped, Ex-servicemen)
+
+BR-7: Before CAF submission, system verifies DSC registration.
+      If not registered, investor redirected to DSC registration page.
+
+BR-8: No payment required for transitioning offline application to online format.
+
+BR-9: Edit Request: Investor can request edit only if application not yet processed by MD.
+      Valid justification must be provided.
+
+BR-10: Withdrawal: Investor can withdraw approved CAF by providing proper justification.
+       MD approves/rejects withdrawal request.
+
+
+================================================================================
+APPLICATION STATUS FLOW
+================================================================================
+
+Submitted → Allocated → Pending With DD (Nodal Officer) → Pending With JD
+         → Pending With MD → Approved For Meeting → Meeting Scheduled
+         → Approved / Rejected / Deferred
+
+Special Statuses:
+- Pending With Investor  (Query raised by DD, approved by MD)
+- Processing Offline     (MD marked for offline processing)
+- Edit Requested         (Investor requested edit before MD processing)
+- Withdrawal Requested   (Investor requested withdrawal)
+- Cancelled              (MD cancelled approved CAF)
+
+
+================================================================================
+DOCUMENT FIELD FORMAT REFERENCE (for DMS Integration)
+================================================================================
+Each document upload field:
+  - Field Type    : file
+  - Accepted      : .pdf,.jpg,.jpeg,.png
+  - Max Size      : 5MB (default) or as specified
+  - Mandatory     : Yes or Conditional (as per Document Master)
+  - DMS Storage   : uploaded via DMS API, returns document_id
+  - Grid Span     : 6 (one document per half row)
+
+
+================================================================================
+SRS CHANGE LOG
+================================================================================
+Version 1.0 | 2026-03-09 | Initial draft — Company Details + Address sections complete
+                          | Pages 2-10 placeholders pending field details from full SRS
+Version 2.0 | 2026-03-12 | COMPLETE — All 7 form pages with full field definitions
+                          | Page 1: 41 fields (Company Details, Corporate Address,
+                          |         Correspondence Address)
+                          | Page 2: 26 fields (Authorized Signatory, Promoter Details)
+                          |         Promoter section is ADD MORE (repeatable, max 10 rows)
+                          | Page 3: 23 fields (Project Basic Info, Location, Land Details)
+                          | Page 4: 17 fields (Investment Details, Financing Pattern)
+                          | Page 5: 19 fields (Water, Power, Manpower Requirements)
+                          | Page 6: 5 fields (Government Assistance)
+                          | Page 7: 12 fields (Supporting Document Uploads)
+                          | Total: 143 fields, 25 conditional rules, 1 addmore group
+                          | Pages 8-10 are system-handled (Payment, DSC, Summary)
+================================================================================

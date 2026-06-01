@@ -1,0 +1,16 @@
+{
+  "prisma.pinToPrisma6": true,
+  "python.terminal.activateEnvironment": false,
+  "terminal.integrated.env.windows": {
+    "PATH": "C:\\Program Files\\Git\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\nodejs;${env:PATH}"
+  },
+  "terminal.integrated.profiles.windows": {
+    "Git Bash": {
+      "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+      "args": [
+        "--login",
+        "-i"
+      ]
+    }
+  }
+}

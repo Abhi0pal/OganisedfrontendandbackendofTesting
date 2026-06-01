@@ -1,0 +1,189 @@
+@media screen and (max-width:1024px){
+    .main-header {
+        .navbar-nav {
+            .nav-item { margin:0 5px;}
+        }
+    }
+
+    .main-banner {
+        .carousel-inner { height:600px;}
+        .banner-content-wrap {
+            .bcw-inner {
+                .rs-content { max-width:100%;}
+            }
+        }
+    }
+    
+    .investor-journey {
+        .highway-wrap {
+            .truck { 
+            left:50px;
+            &.level-1 { left:50px;}
+            &.level-2 { left:265px;}
+            &.level-3 { left:482px;}
+            }
+        }
+    }
+
+    .focus-sector {
+        .sector-control {
+            max-width:306px;margin:0 auto;
+        }
+
+        .sector-description {
+            .sd-box { 
+                width:fit-content;margin: 0 auto;
+                h3, p { text-align:center;}
+                .btn { margin:0 auto;}
+            }
+        }
+    }
+}
+
+@media screen and (max-width:912px){
+    
+}
+
+@media screen and (max-width:820px){
+    
+}
+
+@media screen and (max-width:640px){
+    .speech-btn { display:none !important;}
+    .chat-bot {
+        bottom:10px;
+        img { width:90px;}
+    }
+    .section { padding:50px 0;}
+    .main-header .navbar-toggler span { left:11px;}
+    .navbar-brand.nb-iu { width:45px;display:inline-block;overflow:hidden;vertical-align:middle;}
+    .main-header {
+        .top-bar {
+            .tb-controls {
+                margin:auto;
+                .tp-btn-bg {
+                    img + span { display:none;}
+                }
+            }
+        }
+        .navbar-toggler { top:7px;}
+        .bg-nav { padding:0;}
+        .navbar-nav { 
+            --bs-scroll-height:300px !important;
+            .nav-item {
+                .dropdown-menu {
+                    .show { width:100%;}
+                }
+            }
+
+        }
+        .header-cta-wrap {
+            display:none;
+        }
+    }
+
+    .main-banner {
+        .banner-content-wrap {
+            .bcw-inner {
+                .bci-lft {
+                    padding:0 20px;
+                    h1 { font-size:1.5rem;text-align:center;}
+                    p { text-align:center;font-size:1rem;}
+                    .key-portal-wrap {
+                        margin-top:30px;
+                        h3 { text-align:center;font-size:1.2rem;}
+                        padding:15px;
+                        .kp-box {
+                            span {
+                                width:30px;height:30px;padding:10px;
+                                img { width:100%;}
+                            }
+                            h4 { font-size:0.75rem;}
+                        }
+                    }
+                    .key-metrics-wrap {
+                        h3 { font-size:1.2rem;}
+                        .row {
+                            h4 { font-size:1rem;}
+                            span { font-size:0.875rem;}
+                        }
+                    }
+                }
+                .btn { margin:0 auto;}
+            }
+        }
+    }
+
+    .section-heading { font-size:1.5rem;text-align:center;}
+    .card {
+        & .card-body {
+            .card-title {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    .investor-journey {
+        .section-sub-heading,
+        .section-sub-heading + .section-heading { text-align:center;position:relative;top:100px;}
+        .highway-wrap {
+            &::after { content:'';background:url('../public/img/road-v.png') left bottom no-repeat;width:45px;bottom:-100px;left:-12px;right:auto;top:-100px;height:auto;}
+            .truck { 
+                top:72px;left:-48px;transform:rotate(90deg);bottom:auto;
+                &.level-1 { left:-48px;top:72px;}
+                &.level-2 { left:-48px;top:280px;}
+                &.level-3 { left:-48px;top:480px;}
+            }
+            .journey-point {
+                margin:0 30px 50px 75px;
+                &.active { top:0;margin-right:75px;}
+                &::before { content:'';transform:rotate(90deg);left:-30px;bottom:auto;top:50%;margin-top:-18px;}
+            }
+            .stop { position:absolute;left:15px;top:67px;}
+        }
+    }
+
+    .focus-sector {
+        padding:100px 0;
+        .si-frame { 
+            .sector-img-wrap { flex-basis:200px;width:200px;}
+        }
+    }
+
+    .district-wise-map {
+        .section-heading { margin-top:30px;}
+        .district-data {
+            .pd-box { text-align:center;}
+        }
+    }
+
+    .section-testmonials {
+        .column-testmonials {
+            background-color:transparent;position:relative;width:auto;left:auto;
+            .navigation-testmonials {
+                justify-content:center;margin-top:-28px;margin-bottom:30px;
+            }
+        }
+        .swiper-testmonials {
+            width:calc(100vw - 24px);padding-left:0;
+            .swiper-wrapper { left:-206px;}
+            .swiper-slide {
+                width:350px !important;
+            }
+        }
+    }
+
+    .main-footer {
+        text-align:center;
+        h3 { margin-top:30px;}
+        .contact-details { text-align:center;margin-top:20px;}
+        .f-bottom {
+            text-align:center;
+            p { margin-bottom:20px;}
+        }
+    }
+}
+
+@media screen and (max-width:430px){
+    
+}

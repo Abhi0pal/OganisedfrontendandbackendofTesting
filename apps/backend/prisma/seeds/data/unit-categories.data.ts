@@ -1,0 +1,50 @@
+export const unitCategoriesData = [
+  {
+    name: "Micro (Investment Upto Rs.1 crore)",
+    isActive: true,
+    effectiveFrom: new Date("2025-11-11"),
+    effectiveTo: new Date("2040-11-11"),
+    msmeYearId: 2,
+  },{
+    name: "Small (1) (Investment more than Rs.1 crore and Upto Rs.5 crore)",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-04"),
+    effectiveTo: new Date("2040-12-04"),
+    msmeYearId: 2,
+  },
+  {
+    name: "Small (2) (Investment more than Rs.5 crore and Upto Rs.10 crore)",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-04"),
+    effectiveTo: new Date("2040-12-04"),
+    msmeYearId: 2,
+  },
+  {
+    name: "Medium (Investment more than Rs.10 crore and Upto Rs.50 crore)",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-04"),
+    effectiveTo: new Date("2040-12-04"),
+    msmeYearId: 2,
+  },
+  {
+    name: "Large (Investment ₹10-300 crore)",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-04"),
+    effectiveTo: new Date("2040-12-04"),
+    msmeYearId: 5,
+  },
+  {
+    name: "Mega (Investment ₹300-900 crore)",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-04"),
+    effectiveTo: new Date("2040-12-04"),
+    msmeYearId: 5,
+  },
+  {
+    name: "Ultra Mega (≥ ₹900 crore)",
+    isActive: true,
+    effectiveFrom: new Date("2025-12-04"),
+    effectiveTo: new Date("2040-12-04"),
+    msmeYearId: 5,
+  },
+];

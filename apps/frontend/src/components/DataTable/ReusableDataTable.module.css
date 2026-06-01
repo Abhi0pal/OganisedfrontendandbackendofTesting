@@ -1,0 +1,23 @@
+.eyRowHover {
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.eyRowHover:hover {
+  background-color: rgba(255, 230, 0, 0.08) !important;
+  box-shadow: inset 2px 0 0 #FFE600;
+}
+
+.tableHeader th {
+  font-size: 0.5rem;
+  letter-spacing: 0.03rem;
+}
+
+.fontMonospace {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace !important;
+  font-size: 0.8rem;
+}
+
+.cardBody {
+  padding: 0;
+}

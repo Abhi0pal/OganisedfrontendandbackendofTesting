@@ -1,0 +1,208 @@
+.footer {
+  background: #F2E9E8;
+  color: #cbd5e1;
+  position: relative;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* WORLD MAP (SUBTLE) */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: url("https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution_gray.png")
+    center / 60% no-repeat;
+
+  opacity: 0.05;
+}
+
+/* MAIN ROW */
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+  position: relative;
+  padding:50px;
+}
+.social-links h2,
+.contact-us h2 {
+  color:#A03B54;font-size:20px;margin-bottom: 12px;font-weight:700;
+}
+.contact-us p { max-width:350px;color:#3E353B;font-size:14px;line-height:1.5;}
+.contact-us p svg { width:14px;}
+
+.footer-bottom { background-color:#7A1E1C;padding:12px 50px;}
+.footer-bottom p { font-size:14px;color:#FFFFFF;}
+.footer-bottom p a { color:#FFFFFF;}
+
+/* CONTACT LEFT */
+.contact p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+/* CENTER BADGE */
+.ey-badge {
+  display: flex;
+  justify-content: center;
+}
+
+.circle {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  background: radial-gradient(circle at top, #3a3a3a, #0d0d0d);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffd700;
+  border: 2px solid #c9a200;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.circle span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.circle small {
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+/* RIGHT LINKS */
+.links {
+  text-align: right;
+}
+
+.links span {
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.links span:hover {
+  color: #ffd700;
+}
+
+/* COPYRIGHT */
+.copyright {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .links {
+    text-align: center;
+  }
+}
+/* TENANT FOOTER THEMES */
+.footer.tenant-trera {
+  background: linear-gradient(180deg, #001b35, #001225);
+  color: #c7d3df;
+  border-top: 4px solid #c92824;
+}
+
+.footer:not(.tenant-default) .contact {
+  
+}
+
+.footer:not(.tenant-default) .ey-badge {
+  
+}
+
+.footer:not(.tenant-default) .footer-top {
+  grid-template-columns: 1fr;
+}
+
+.footer.tenant-trera::before {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(201, 40, 36, 0.12), transparent 26%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
+  opacity: 1;
+}
+
+.footer.tenant-trera .contact p,
+.footer.tenant-trera .links span,
+.footer.tenant-trera .copyright {
+  color: #c7d3df;
+}
+
+.footer.tenant-trera .links span:hover {
+  color: #ffffff;
+}
+
+.footer.tenant-trera .tenant-footer-badge {
+  background: #ffffff;
+  border-color: rgba(201, 40, 36, 0.45);
+  color: #c92824;
+  box-shadow: 0 12px 32px rgba(0, 18, 37, 0.22);
+}
+
+.footer.tenant-trera .tenant-footer-badge small {
+  color: #001b35;
+}
+
+.footer.tenant-trera .tenant-footer-copy {
+  font-size: 0;
+}
+
+.footer.tenant-trera .tenant-footer-copy::before {
+  content: "\\00a9 2026 Copyright | TELANGANA REAL ESTATE REGULATORY AUTHORITY | All Rights Reserved";
+  font-size: 13px;
+}
+
+.footer.tenant-cpcb {
+  background: linear-gradient(180deg, #064d17, #042f0e);
+  color: #dff2dc;
+  border-top: 4px solid #7ee681;
+}
+
+.footer.tenant-cpcb::before {
+  background:
+    radial-gradient(circle at 14% 20%, rgba(126, 230, 129, 0.12), transparent 28%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent);
+  opacity: 1;
+}
+
+.footer.tenant-cpcb .contact p,
+.footer.tenant-cpcb .links span,
+.footer.tenant-cpcb .copyright {
+  color: #dff2dc;
+}
+
+.footer.tenant-cpcb .links span:hover {
+  color: #ffffff;
+}
+
+.footer.tenant-cpcb .tenant-footer-badge {
+  background: #ffffff;
+  border-color: rgba(126, 230, 129, 0.50);
+  color: #064d17;
+  box-shadow: 0 12px 32px rgba(4, 47, 14, 0.22);
+}
+
+.footer.tenant-cpcb .tenant-footer-badge small {
+  color: #0ea5d8;
+}
+
+.footer.tenant-cpcb .tenant-footer-copy {
+  font-size: 0;
+}
+
+.footer.tenant-cpcb .tenant-footer-copy::before {
+  content: "\\00a9 2026 Copyright | CENTRAL POLLUTION CONTROL BOARD | All Rights Reserved";
+  font-size: 13px;
+}

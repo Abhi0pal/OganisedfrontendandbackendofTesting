@@ -1,0 +1,299 @@
+.accessibilityBar {
+  background-color: #F2E9E8;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  gap: 20px;
+  min-height: 40px;
+}
+
+.accessibilityBar.highContrast {
+  background-color: #000000;
+  color: #ffffff;
+  border-bottom: 2px solid #ffff00;
+}
+
+.leftSection {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.govLogo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666666;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.accessibilityBar.highContrast .govLogo {
+  color: #ffffff;
+}
+
+.flagIcon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.govText {
+  white-space: nowrap;
+}
+
+.centerSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.skipLink {
+  color: #7A1E1C;
+  text-decoration: none;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.skipLink:hover {
+  text-decoration: underline;
+  color: #7A1E1C;
+}
+
+.skipLink:focus {
+  outline: 2px solid #7A1E1C;
+  outline-offset: 2px;
+}
+
+.accessibilityBar.highContrast .skipLink {
+  color: #ffff00;
+  background-color: transparent;
+}
+
+.accessibilityBar.highContrast .skipLink:hover {
+  background-color: #333333;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 0 0 auto;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 3px;
+  color: #7A1E1C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.iconButton:hover {
+  background-color: rgba(196, 30, 58, 0.1);
+}
+
+.iconButton:focus {
+  outline: 2px solid #7A1E1C;
+  outline-offset: 2px;
+}
+
+.accessibilityBar.highContrast .iconButton {
+  color: #ffff00;
+}
+
+.accessibilityBar.highContrast .iconButton:hover {
+  background-color: #333333;
+}
+
+.fontControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.separator {
+  color: #d9d9d9;
+  margin: 0 4px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.accessibilityBar.highContrast .separator {
+  color: #666666;
+}
+
+.fontButton {
+  padding: 5px 10px;
+  border-radius:2px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7A1E1C;
+  position: relative;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  background-color: transparent;
+border: none;
+}
+
+.fontButton:hover {
+  background-color: #7A1E1C;
+  color: #FFFFFF;
+}
+
+.fontButton:focus {
+  outline: 2px solid #7A1E1C;
+  outline-offset: 2px;
+}
+
+.accessibilityBar.highContrast .fontButton {
+  background-color: #000000;
+  color: #ffff00;
+  border-color: #ffff00;
+}
+
+.minus,
+.plus {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.languageSelector {
+  position: relative;
+}
+
+.languageButton {
+  background-color: transparent;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  font-size: 12px;
+  color: #7A1E1C;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.separator { color: #7A1E1C; }
+
+.languageButton:focus {
+  outline: 2px solid #7A1E1C;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.accessibilityBar.highContrast .languageButton {
+  color: #ffff00;
+}
+
+.languageMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 120px;
+  margin-top: 4px;
+}
+
+.accessibilityBar.highContrast .languageMenu {
+  background-color: #000000;
+  border-color: #ffff00;
+}
+
+.languageItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666666;
+  transition: all 0.2s ease;
+}
+
+.languageItem:hover {
+  background-color: #fde8ec;
+  color: #7A1E1C;
+}
+
+.languageItem.active {
+  background-color: #7A1E1C;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.accessibilityBar.highContrast .languageItem {
+  color: #ffffff;
+}
+
+.accessibilityBar.highContrast .languageItem:hover {
+  background-color: #333333;
+}
+
+.accessibilityBar.highContrast .languageItem.active {
+  background-color: #ffff00;
+  color: #000000;
+}
+
+@media (max-width: 768px) {
+  .accessibilityBar {
+    gap: 10px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .govText {
+    display: none;
+  }
+
+  .centerSection {
+    flex: 0 0 auto;
+    padding: 0;
+  }
+
+  .skipLink {
+    font-size: 11px;
+  }
+
+  .iconButton {
+    padding: 3px 5px;
+    font-size: 14px;
+  }
+
+  .fontButton {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+
+  .languageButton {
+    font-size: 11px;
+  }
+}

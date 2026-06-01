@@ -1,0 +1,237 @@
+.registerShell {
+  --register-primary: #1d4ed8;
+  --register-accent: #dbeafe;
+  --register-surface: #ffffff;
+  --register-border: #bfdbfe;
+  --register-text: #0f172a;
+  --register-muted: #64748b;
+  --register-shadow: 0 24px 48px rgba(15, 23, 42, 0.08);
+  background: var(--register-surface);
+  border: none;
+  border-radius: 24px;
+  box-shadow: var(--register-shadow);
+  overflow: hidden;
+}
+
+
+
+.heroBand {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--register-accent) 88%, #ffffff 12%), #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--register-border) 70%, #ffffff 30%);
+  padding: 1.5rem;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--register-primary) 12%, #ffffff 88%);
+  color: var(--register-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.summary {
+  margin: 0;
+  color: var(--register-muted);
+  max-width: 60rem;
+}
+
+.optionGrid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.optionCard {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--register-border) 78%, #ffffff 22%);
+  border-radius: 16px;
+  background: #ffffff;
+  color: var(--register-text);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.optionCard:hover {
+  border-color: var(--register-primary);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--register-primary) 12%, transparent 88%);
+  transform: translateY(-1px);
+}
+
+.optionCardActive {
+  border-color: var(--register-primary);
+  background: color-mix(in srgb, var(--register-primary) 8%, #ffffff 92%);
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--register-primary) 16%, transparent 84%);
+}
+
+.optionInput {
+  margin: 0;
+  accent-color: var(--register-primary);
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.optionLabel {
+  font-weight: 600;
+}
+
+.helperNote {
+  margin-top: 0.9rem;
+  color: var(--register-muted);
+  font-size: 0.92rem;
+}
+
+.consultantCard {
+  background: color-mix(in srgb, var(--register-accent) 30%, #ffffff 70%);
+  border-color: color-mix(in srgb, var(--register-border) 70%, #ffffff 30%);
+}
+
+.sectionTitle {
+  color: var(--register-primary);
+}
+
+.secondaryAction {
+  border: 1px solid var(--register-primary);
+  color: var(--register-primary);
+  background: transparent;
+}
+
+.secondaryAction:hover,
+.secondaryAction:focus {
+  border-color: var(--register-primary);
+  color: #ffffff;
+  background: var(--register-primary);
+}
+
+
+
+.loginLink {
+  color: var(--register-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.loginLink:hover,
+.loginLink:focus {
+  text-decoration: underline;
+}
+
+.actionsRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.otpOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.48);
+}
+
+.otpDialog {
+  width: min(100%, 420px);
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+}
+
+.otpHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem 1rem;
+  background: color-mix(in srgb, var(--register-accent) 48%, #ffffff 52%);
+  border-bottom: 1px solid color-mix(in srgb, var(--register-border) 60%, #ffffff 40%);
+}
+
+.otpBody {
+  padding: 1.25rem;
+}
+
+.otpActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.registerShell :global(.form-control:focus),
+.registerShell :global(.form-select:focus),
+.registerShell :global(.btn-outline-secondary:focus) {
+  border-color: var(--register-primary);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--register-primary) 18%, transparent 82%);
+}
+
+.themeDefault {
+  --register-primary: #1d4ed8;
+  --register-accent: #dbeafe;
+  --register-surface: #ffffff;
+  --register-border: #bfdbfe;
+  --register-text: #0f172a;
+  --register-muted: #64748b;
+}
+
+.themeNmc {
+  --register-primary: #0f6db5;
+  --register-accent: #e7f1ff;
+  --register-surface: #ffffff;
+  --register-border: #bfdcff;
+  --register-text: #0e2f4f;
+  --register-muted: #5d7288;
+}
+
+.themeTrera {
+  --register-primary: #001b35;
+  --register-accent: #fce7e4;
+  --register-surface: #ffffff;
+  --register-border: #c92824;
+  --register-text: #0f172a;
+  --register-muted: #556274;
+}
+
+.themeCpcb {
+  --register-primary: #065f23;
+  --register-accent: #ebf9e6;
+  --register-surface: #ffffff;
+  --register-border: #b6e1b6;
+  --register-text: #09210f;
+  --register-muted: #58685b;
+}
+
+@media (max-width: 767.98px) {
+  .heroBand {
+    padding: 1.25rem;
+  }
+
+  .formBody {
+    padding: 0 1rem 1rem;
+  }
+
+  .optionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .otpActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

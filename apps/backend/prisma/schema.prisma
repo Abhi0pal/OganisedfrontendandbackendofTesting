@@ -1,0 +1,3072 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id                       BigInt               @id @default(autoincrement())
+  uid                      String               @unique @default(uuid()) @db.VarChar(100)
+  email                    String               @db.VarChar(255)
+  password_hash            String?              @map("password_hash")
+  salt                     String?              @db.VarChar(255)
+  password_algo            String               @default("argon2") @db.VarChar(50)
+  user_type                user_type            @default(INVESTOR)
+  role_id                  Int?
+  tenant_id                Int?
+  project_id               Int?
+  department_id            BigInt?
+  sub_department_id        BigInt?
+  is_email_verified        Int                  @default(0) @db.SmallInt
+  is_active                Boolean              @default(true)
+  last_login_at            DateTime?            @db.Timestamptz(6)
+  deleted_at               DateTime?            @db.Timestamptz(6)
+  created_at               DateTime             @default(now())
+  updated_at               DateTime             @updatedAt
+  investorDocuments        InvestorDocument[]
+  department_user          department_users?
+  investor_profile         investor_profiles?
+  masterDataCreated        MasterData[]         @relation("MasterDataCreatedBy")
+  masterDataUpdated        MasterData[]         @relation("MasterDataUpdatedBy")
+  masterDefinitionsCreated MasterDefinition[]   @relation("MasterDefinitionCreatedBy")
+  thirdPartyInspector      ThirdPartyInspector?
+  user_logs                user_logs[]
+  assignments              UserRoleAssignment[]
+  external_auth_sessions   external_auth_sessions[]
+  user_tokens              user_tokens[]
+  department               MasterData?          @relation("UserDepartment", fields: [department_id], references: [id])
+  project                  TenantProject?       @relation(fields: [project_id], references: [id])
+  role                     roles?               @relation(fields: [role_id], references: [id])
+  subDepartment            MasterData?          @relation("UserSubDepartment", fields: [sub_department_id], references: [id])
+  tenant                   Tenant?              @relation(fields: [tenant_id], references: [id])
+  workflowProcesses        WorkflowProcess[]    @relation("WfProcessUser")
+
+  @@map("users")
+}
+
+model Country {
+  id            Int      @id @default(autoincrement())
+  name          String
+  abbreviation  String?
+  boCountryId   Int?
+  lrId          Int?
+  hadbastNumber Int?
+  vtcCode       Int?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  states        State[]
+
+  @@map("m_countries")
+}
+
+model user_logs {
+  id          BigInt        @id @default(autoincrement())
+  user_id     BigInt?
+  user_type   user_type
+  email       String?       @db.VarChar(255)
+  log_type    user_log_type
+  description String?
+  ip_address  String?       @db.VarChar(45)
+  user_agent  String?       @db.VarChar(512)
+  session_id  String?       @db.VarChar(128)
+  token_id    BigInt?
+  metadata    Json?
+  created_at  DateTime      @default(now()) @db.Timestamptz(6)
+  token       user_tokens?  @relation(fields: [token_id], references: [id])
+  user        users?        @relation(fields: [user_id], references: [id])
+
+  @@index([user_id], map: "idx_user_logs_user_id")
+  @@index([log_type], map: "idx_user_logs_log_type")
+  @@index([created_at], map: "idx_user_logs_created_at")
+  @@map("user_logs")
+}
+
+model State {
+  id           Int              @id @default(autoincrement())
+  name         String
+  abbreviation String?
+  countryId    Int
+  boStateId    Int?
+  boLgdId      Int?
+  stateCode    Int?
+  isActive     Boolean          @default(true)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  blocks       Block[]
+  districts    District[]
+  documents    DocumentMaster[]
+  country      Country          @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  tehsils      Tehsil[]
+
+  @@map("m_states")
+}
+
+model District {
+  id           Int      @id @default(autoincrement())
+  name         String
+  stateCode    String?  @db.VarChar(255)
+  districtCode String?  @db.VarChar(255)
+  stateId      Int
+  abbreviation String?  @db.VarChar(255)
+  latlong      String?  @db.VarChar(255)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  blocks       Block[]
+  state        State    @relation(fields: [stateId], references: [id], onDelete: Cascade)
+  tehsils      Tehsil[]
+
+  @@map("m_districts")
+}
+
+model Block {
+  id               Int                       @id @default(autoincrement())
+  name             String
+  districtId       Int
+  stateId          Int
+  unitCategory     String?                   @db.VarChar(10)
+  districtCode     String?                   @db.VarChar(255)
+  lgCodeDistrictId Int?
+  isActive         Boolean                   @default(true)
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+  district         District                  @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  state            State                     @relation(fields: [stateId], references: [id], onDelete: Cascade)
+  kyiIcCalculators KyiIcCalculator[]
+  regionMappings   MappingRegionCategories[]
+
+  @@map("m_blocks")
+}
+
+model Tehsil {
+  id              Int       @id @default(autoincrement())
+  name            String
+  districtId      Int
+  stateId         Int
+  subDistrictCode String?
+  deptDivisionId  Int?
+  lgDistrictId    Int?
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  district        District  @relation(fields: [districtId], references: [id])
+  state           State     @relation(fields: [stateId], references: [id])
+  villages        Village[]
+
+  @@map("m_tehsils")
+}
+
+model Village {
+  id              Int      @id @default(autoincrement())
+  name            String
+  tehsilId        Int
+  villageCode     String
+  subDistrictCode String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  tehsil          Tehsil   @relation(fields: [tehsilId], references: [id])
+
+  @@map("m_villages")
+}
+
+model Department {
+  id                Int                                @id @default(autoincrement())
+  name              String
+  uniqueTag         String                             @unique
+  ip                String
+  secretKey         String
+  baseUrl           String
+  publicKey         String
+  abbreviation      String
+  boDeptId          Int?
+  order             Int?
+  icon              String?
+  deptType          Int                                @default(2)
+  tenant_id         Int?
+  isActive          Boolean                            @default(true)
+  createdAt         DateTime                           @default(now())
+  updatedAt         DateTime                           @updatedAt
+  issuerId          Int?
+  workflowConfigs   ApplicationWorkflowConfiguration[]
+  actMappings       ActPolicyNotificationDepartment[]
+  issuer            Issuer?                            @relation(fields: [issuerId], references: [id])
+  tenant            Tenant?                            @relation(fields: [tenant_id], references: [id])
+  documentMasters   DocumentMaster[]
+  investorDocuments InvestorDocument[]
+  kyiIcCalculators  KyiIcCalculator[]
+  policies          policy_master[]
+  subDepartments    SubDepartment[]
+
+  @@map("m_departments")
+}
+
+model Issuer {
+  id                Int                @id @default(autoincrement())
+  name              String
+  isIssuerActive    Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  investorDocuments InvestorDocument[]
+  departments       Department[]
+  documentMasters   DocumentMaster[]
+  services          Service[]
+
+  @@map("m_issuers")
+}
+
+model DocumentType {
+  id                Int                @id @default(autoincrement())
+  uid               String?            @unique @default(uuid()) @db.VarChar(100)
+  name              String
+  abbreviation      String
+  isDocActive       Boolean            @default(true)
+  isFormatRequired  Boolean?
+  tenant_id         Int?
+  tenant_project_id Int?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  investorDocuments InvestorDocument[]
+  documentMasters   DocumentMaster[]
+  tenant            Tenant?            @relation(fields: [tenant_id], references: [id])
+  tenantProject     TenantProject?     @relation(fields: [tenant_project_id], references: [id])
+
+  @@index([tenant_id])
+  @@index([tenant_project_id])
+  @@map("m_documenttypes")
+}
+
+model FormType {
+  id                Int                                @id @default(autoincrement())
+  name              String
+  abbr              String                             @unique
+  isActive          Boolean                            @default(true)
+  createdAt         DateTime                           @default(now())
+  updatedAt         DateTime                           @updatedAt
+  workflowConfigs   ApplicationWorkflowConfiguration[]
+  workflowProcesses WorkflowProcess[]                  @relation("WfProcessFormType")
+
+  @@map("m_fb_form_types")
+}
+
+model FormCategory {
+  id           Int            @id @default(autoincrement())
+  uid          String?        @unique @default(uuid()) @db.VarChar(100)
+  categoryName String         @map("category_name")
+  nameInHindi  String?        @map("name_in_hindi")
+  nameAlt      String?        @map("name")
+  parentId     Int            @default(0) @map("parent_id")
+  categoryCode String         @unique @map("category_code")
+  isActive     Boolean        @default(true) @map("is_active")
+  created      DateTime?      @map("created")
+  modified     DateTime?      @map("modified")
+  tenantId     Int?           @map("tenant_id")
+  projectId    Int?           @map("project_id")
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  project      TenantProject? @relation(fields: [projectId], references: [id])
+  tenant       Tenant?        @relation(fields: [tenantId], references: [id])
+  fields       FormField[]
+
+  @@index([parentId])
+  @@index([tenantId])
+  @@index([projectId])
+  @@map("m_fb_form_categories")
+}
+
+model FormField {
+  id                Int                @id @default(autoincrement())
+  uid               String?            @unique @default(uuid()) @db.VarChar(100)
+  formCheckId       String             @unique @map("formchk_id")
+  parentId          Int                @default(0) @map("parent_id")
+  categoryId        Int?               @map("category_id")
+  name              String
+  nameInHindi       String?            @map("name_in_hindi")
+  isEditable        String             @default("Y") @map("is_editable")
+  createdDate       DateTime?          @map("created_date")
+  isActive          Boolean            @default(true) @map("is_formvar_active")
+  tenantId          Int?               @map("tenant_id")
+  projectId         Int?               @map("project_id")
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  formBuilderFields FormBuilderField[]
+  category          FormCategory?      @relation(fields: [categoryId], references: [id])
+  project           TenantProject?     @relation(fields: [projectId], references: [id])
+  tenant            Tenant?            @relation(fields: [tenantId], references: [id])
+
+  @@index([parentId])
+  @@index([tenantId])
+  @@index([projectId])
+  @@map("m_fb_form_field")
+}
+
+model FormMapping {
+  id            Int            @id @default(autoincrement())
+  department_id Int
+  service_id    String         @db.VarChar(10)
+  form_type_id  Int
+  form_name     String         @db.VarChar(255)
+  form_code     String         @db.VarChar(255)
+  form_version  String?        @db.VarChar(10)
+  is_active     YnFlag         @default(Y)
+  created       DateTime?
+  modified      DateTime?
+  project_id    Int?
+  role_id       Int?
+  tenant_id     Int?
+  user_id       Int?
+  project       TenantProject? @relation(fields: [project_id], references: [id])
+  role          roles?         @relation(fields: [role_id], references: [id])
+  service       Service        @relation("ServiceToFormMapping", fields: [service_id], references: [service_id])
+  tenant        Tenant?        @relation(fields: [tenant_id], references: [id])
+
+  @@unique([department_id, service_id, form_type_id, tenant_id, project_id, role_id, user_id], name: "uniq_formmapping_context")
+  @@index([department_id])
+  @@map("m_fb_form_mapping")
+}
+
+model FormPageMaster {
+  id            Int       @id @default(autoincrement())
+  service_id    String    @db.VarChar(255)
+  page_name     String    @db.VarChar(255)
+  is_active     YnFlag    @default(Y)
+  name_in_hindi String?   @db.VarChar(255)
+  preference    Int
+  form_id       Int
+  form_code     String?   @db.VarChar(250)
+  created       DateTime?
+  modified      DateTime?
+  uid           String?   @unique @default(uuid()) @db.VarChar(100)
+  tenantId      Int?      @map("tenant_id")
+  projectId     Int?      @map("project_id")
+  role_id       Int?
+
+  @@index([form_id])
+  @@map("m_fb_page_master")
+}
+
+model FormPageCategoryMapping {
+  id          Int     @id @default(autoincrement())
+  page_id     Int
+  category_id Int
+  preference  Int
+  help_text   String? @db.VarChar(500)
+  is_active   YnFlag  @default(Y)
+
+  @@index([page_id])
+  @@map("m_fb_page_category_mapping")
+}
+
+model FormBuilderField {
+  id                    Int                       @id @default(autoincrement())
+  uid                   String?                   @unique @default(uuid()) @db.VarChar(100)
+  service_id            String
+  form_id               Int
+  page_id               Int
+  category_id           Int
+  form_field_id         Int
+  preference            Int
+  input_type            String
+  custom_label          String?
+  help_text             String?
+  placeholder           String?
+  gridSpan              Int                       @default(12) @map("grid_span")
+  layoutType            String?                   @map("layout_type")
+  component_props       Json?                     @map("component_props")
+  is_required           YnFlag                    @default(N)
+  is_editable           YnFlag                    @default(Y)
+  is_readonly           YnFlag                    @default(N)
+  is_active             YnFlag                    @default(Y)
+  min_length            Int?
+  max_length            Int?
+  pattern               String?
+  step                  String?
+  row_type              String?
+  validation_rule       Json?
+  created               DateTime                  @default(now())
+  modified              DateTime?
+  project_id            Int?
+  role_id               Int?
+  tenant_id             Int?
+  user_id               Int?
+  formAddMoreColumns    FormAddMoreColumn[]
+  addMoreGroups         FormAddMoreGroup[]        @relation("TriggerBuilderField")
+  formField             FormField                 @relation(fields: [form_field_id], references: [id], onDelete: Cascade)
+  project               TenantProject?            @relation(fields: [project_id], references: [id])
+  role                  roles?                    @relation(fields: [role_id], references: [id])
+  tenant                Tenant?                   @relation(fields: [tenant_id], references: [id])
+  optionConfig          FormFieldOptionConfig?    @relation("BuilderFieldOptionConfig")
+  optionConfigsAsParent FormFieldOptionConfig[]   @relation("OptionParent")
+  fieldPermissions      WorkflowFieldPermission[]
+
+  @@index([service_id, form_id, page_id, category_id])
+  @@map("m_fb_form_builder_fields")
+}
+
+model FormFieldOptionConfig {
+  id                      Int               @id @default(autoincrement())
+  uid                     String?           @unique @default(uuid()) @db.VarChar(100)
+  builder_field_id        Int               @unique
+  source_type             OptionSourceType
+  master_table_id         Int?
+  static_options          Json?
+  parent_builder_field_id Int?
+  is_active               YnFlag            @default(Y)
+  created                 DateTime          @default(now())
+  modified                DateTime?
+  builderField            FormBuilderField  @relation("BuilderFieldOptionConfig", fields: [builder_field_id], references: [id], onDelete: Cascade)
+  parentBuilderField      FormBuilderField? @relation("OptionParent", fields: [parent_builder_field_id], references: [id])
+
+  @@map("m_fb_formfield_options")
+}
+
+model FormBuilderConfigValue {
+  id        Int     @id @default(autoincrement())
+  useFor    String? @map("use_for") @db.VarChar(255)
+  fieldCode String? @map("field_code") @db.VarChar(255)
+  tableName String? @map("table_name") @db.VarChar(255)
+  serviceId String  @default("0") @map("service_id") @db.Char(20)
+  rawQuery  String? @map("raw_query")
+  isActive  String  @default("t") @map("isActive") @db.Char(1)
+
+  @@index([serviceId, isActive])
+  @@index([useFor])
+  @@map("m_fb_config_values")
+}
+
+model FormAddMoreGroup {
+  id                       Int                 @id @default(autoincrement())
+  service_id               String
+  form_id                  Int
+  page_id                  Int
+  category_id              Int
+  trigger_builder_field_id Int
+  label                    String?
+  min_rows                 Int?                @default(1)
+  max_rows                 Int?
+  is_active                YnFlag              @default(Y)
+  created                  DateTime            @default(now())
+  modified                 DateTime?
+  columns                  FormAddMoreColumn[]
+  triggerBuilderField      FormBuilderField    @relation("TriggerBuilderField", fields: [trigger_builder_field_id], references: [id], onDelete: Cascade)
+
+  @@unique([service_id, form_id, page_id, category_id, trigger_builder_field_id], map: "uniq_addmore_group_scope")
+  @@index([service_id, form_id, page_id, category_id])
+  @@map("m_fb_addmore_groups")
+}
+
+model FormAddMoreColumn {
+  id               Int              @id @default(autoincrement())
+  group_id         Int
+  builder_field_id Int
+  col_order        Int
+  builderField     FormBuilderField @relation(fields: [builder_field_id], references: [id])
+  group            FormAddMoreGroup @relation(fields: [group_id], references: [id], onDelete: Cascade)
+
+  @@unique([group_id, builder_field_id], map: "uniq_addmore_column")
+  @@index([group_id])
+  @@map("m_fb_addmore_columns")
+}
+
+model FormRule {
+  id         Int       @id @default(autoincrement())
+  service_id String
+  form_id    Int
+  scope      String
+  when_json  Json
+  then_json  Json
+  is_active  YnFlag    @default(Y)
+  created    DateTime  @default(now())
+  modified   DateTime?
+
+  @@index([service_id, form_id])
+  @@map("m_fb_form_rules")
+}
+
+model DocumentCheckpoint {
+  id                Int            @id @default(autoincrement())
+  uid               String?        @unique @default(uuid()) @db.VarChar(100)
+  name              String
+  code              String         @unique
+  isActive          Boolean        @default(true)
+  created           DateTime?
+  modified          DateTime?
+  filePath          String?
+  tenant_id         Int?
+  tenant_project_id Int?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  tenant            Tenant?        @relation(fields: [tenant_id], references: [id])
+  tenantProject     TenantProject? @relation(fields: [tenant_project_id], references: [id])
+
+  @@index([tenant_id])
+  @@index([tenant_project_id])
+  @@map("m_document_checkpoints")
+}
+
+model DocumentMaster {
+  id                           Int                @id @default(autoincrement())
+  uid                          String?            @unique @default(uuid()) @db.VarChar(100)
+  checklistId                  String             @unique
+  stateId                      Int
+  issuerId                     Int
+  departmentId                 Int
+  documentTypeId               Int?
+  issuerById                   Int?
+  tenant_id                    Int?
+  tenant_project_id            Int?
+  checklistDocumentName        String
+  checklistDocumentExtension   String
+  checklistDocumentMaxSize     Int
+  prescribedDocumentPath       String?
+  services                     Int[]              @default([])
+  documentCheckpoints          Int[]              @default([])
+  isMultiVersionAllowed        Boolean            @default(false)
+  isDocValidityRequired        Boolean            @default(false)
+  isDocReferenceNumberRequired Boolean            @default(false)
+  isAutoInsertAllowed          Boolean            @default(false)
+  isDocActive                  Boolean            @default(true)
+  createdAt                    DateTime           @default(now())
+  updatedAt                    DateTime           @updatedAt
+  investorDocuments            InvestorDocument[]
+  department                   Department         @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  documentType                 DocumentType?      @relation(fields: [documentTypeId], references: [id])
+  issuer                       Issuer             @relation(fields: [issuerId], references: [id], onDelete: Cascade)
+  state                        State              @relation(fields: [stateId], references: [id], onDelete: Cascade)
+  tenant                       Tenant?            @relation(fields: [tenant_id], references: [id])
+  tenantProject                TenantProject?     @relation(fields: [tenant_project_id], references: [id])
+
+  @@index([stateId])
+  @@index([issuerId])
+  @@index([departmentId])
+  @@index([documentTypeId])
+  @@index([createdAt])
+  @@index([isDocActive])
+  @@index([tenant_id])
+  @@index([tenant_project_id])
+  @@map("m_document_master")
+}
+
+model investor_profiles {
+  id                 BigInt             @id @default(autoincrement())
+  uid                String             @unique @db.VarChar(255)
+  user_id            BigInt             @unique
+  username           String?            @db.VarChar(255)
+  first_name         String             @db.VarChar(255)
+  last_name          String?            @db.VarChar(64)
+  gender             String?            @db.VarChar(32)
+  pan_card           String?            @db.VarChar(16)
+  adhaar_number      String?            @db.VarChar(12)
+  country_name       String             @db.VarChar(64)
+  state_name         String             @db.VarChar(64)
+  city_name          String             @db.VarChar(64)
+  district_name      String             @db.VarChar(100)
+  pin_code           String             @db.VarChar(10)
+  address            String
+  mobile_number      BigInt
+  legal_entity_name  String?            @db.VarChar(255)
+  cons_pan_card      String?            @db.VarChar(255)
+  cons_first_name    String?            @db.VarChar(255)
+  cons_last_name     String?            @db.VarChar(255)
+  cons_mobile_number String?            @db.VarChar(255)
+  cons_email         String?            @db.VarChar(255)
+  cons_country_name  String?            @db.VarChar(255)
+  cons_state_name    String?            @db.VarChar(255)
+  date_of_birth      DateTime?          @db.Date
+  project_id         String?
+  created_at         DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime           @default(now()) @db.Timestamptz(6)
+  investorDocuments  InvestorDocument[]
+  user               users              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("investor_profiles")
+}
+
+model department_users {
+  id                      BigInt   @id @default(autoincrement())
+  user_id                 BigInt   @unique
+  full_name               String   @db.VarChar(60)
+  hindi_full_name         String?  @db.VarChar(255)
+  email                   String   @db.VarChar(128)
+  office_no               String?  @db.VarChar(15)
+  mobile                  String?  @db.VarChar(16)
+  dept_id                 Int
+  district_id             Int?
+  tahsil_id               Int      @default(0)
+  circle_id               String?  @db.VarChar(255)
+  block_id                Int      @default(0)
+  office_id               Int      @default(0)
+  division_id             Int      @default(0)
+  delegate_officer_number String?  @db.VarChar(16)
+  delegate_officer_name   String?  @db.VarChar(255)
+  delegate_officer_email  String?  @db.VarChar(255)
+  np_user_id              String?  @db.VarChar(255)
+  is_for_testing          Int      @default(0) @db.SmallInt
+  status                  Int      @default(1) @db.SmallInt
+  created_at              DateTime @default(now()) @db.Timestamptz(6)
+  updated_at              DateTime @default(now()) @db.Timestamptz(6)
+  user                    users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("department_users")
+}
+
+model user_tokens {
+  id         BigInt          @id @default(autoincrement())
+  user_id    BigInt
+  token_hash String          @unique @db.VarChar(128)
+  token_type user_token_type
+  expires_at DateTime        @db.Timestamptz(6)
+  used_at    DateTime?       @db.Timestamptz(6)
+  created_at DateTime        @default(now()) @db.Timestamptz(6)
+  logs       user_logs[]
+  user       users           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("user_tokens")
+}
+
+model external_auth_sessions {
+  id                       BigInt    @id @default(autoincrement())
+  user_id                  BigInt
+  provider                 String    @db.VarChar(50)
+  external_username        String?   @db.VarChar(255)
+  access_token             String?   @db.Text
+  refresh_token            String?   @db.Text
+  token_type               String?   @db.VarChar(50)
+  scope                    String?   @db.VarChar(255)
+  access_token_expires_at  DateTime? @db.Timestamptz(6)
+  refresh_token_expires_at DateTime? @db.Timestamptz(6)
+  last_validated_at        DateTime? @db.Timestamptz(6)
+  revoked_at               DateTime? @db.Timestamptz(6)
+  raw_token_payload        Json?
+  created_at               DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at               DateTime  @updatedAt @db.Timestamptz(6)
+  user                     users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, provider], map: "uq_external_auth_sessions_user_provider")
+  @@index([provider], map: "idx_external_auth_sessions_provider")
+  @@index([external_username], map: "idx_external_auth_sessions_external_username")
+  @@map("external_auth_sessions")
+}
+
+model roles {
+  id                Int                       @id @default(autoincrement())
+  uid               String                    @unique @default(uuid()) @db.VarChar(100)
+  name              String                    @db.VarChar(255)
+  tenant_id         Int?
+  project_id        Int?
+  parent_id         Int?
+  level             Int                       @default(0)
+  description       String?
+  is_system         Boolean                   @default(false)
+  is_active         Boolean                   @default(true)
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  formBuilderFields FormBuilderField[]
+  formMappings      FormMapping[]
+  rolePermissions   RolePermission[]
+  roleResources     RoleResource[]            @relation("RoleToRoleResource")
+  parent            roles?                    @relation("RoleHierarchy", fields: [parent_id], references: [id])
+  children          roles[]                   @relation("RoleHierarchy")
+  project           TenantProject?            @relation(fields: [project_id], references: [id])
+  tenant            Tenant?                   @relation(fields: [tenant_id], references: [id])
+  forwardLevels     TWorkflowForwardLevel[]   @relation("WfForwardLevelRole")
+  assignments       UserRoleAssignment[]
+  users             users[]
+  fieldPermissions  WorkflowFieldPermission[]
+  workflowProcesses WorkflowProcess[]         @relation("WfProcessRole")
+
+  @@unique([project_id, name])
+  @@map("roles")
+}
+
+model resources {
+  id            BigInt         @id @default(autoincrement())
+  code          String         @unique @db.VarChar(150)
+  name          String         @db.VarChar(150)
+  path          String         @db.VarChar(255)
+  created_at    DateTime       @default(now()) @db.Timestamptz(6)
+  roleResources RoleResource[] @relation("ResourceToRoleResource")
+
+  @@map("resources")
+}
+
+model RoleResource {
+  id          BigInt    @id @default(autoincrement())
+  role_id     Int
+  resource_id BigInt
+  resource    resources @relation("ResourceToRoleResource", fields: [resource_id], references: [id], onDelete: Cascade)
+  role        roles     @relation("RoleToRoleResource", fields: [role_id], references: [id], onDelete: Cascade)
+
+  @@unique([role_id, resource_id], map: "uniq_role_resource")
+  @@map("role_resources")
+}
+
+model Tenant {
+  id                     Int                     @id @default(autoincrement())
+  uid                    String?                 @unique @default(uuid()) @db.VarChar(100)
+  name                   String
+  slug                   String                  @unique
+  tenant_ID              String?                 @map("tenant_id_code")
+  domain                 String?
+  logo_url               String?
+  primary_color          String?
+  plan                   TenantPlan              @default(STANDARD)
+  settings               Json?
+  is_active              Boolean                 @default(true)
+  created_at             DateTime                @default(now())
+  updated_at             DateTime                @updatedAt
+  availableThemes        Json?                   @default("[{\"id\": \"light\", \"name\": \"Light\", \"label\": \"☀️ Light\"}, {\"id\": \"dark\", \"name\": \"Dark\", \"label\": \"🌙 Dark\"}, {\"id\": \"brand\", \"name\": \"Brand\", \"label\": \"🎨 Brand\"}]")
+  departments            Department[]
+  documentCheckpoints    DocumentCheckpoint[]
+  documentMasters        DocumentMaster[]
+  documentTypes          DocumentType[]
+  formBuilderFields      FormBuilderField[]
+  formCategories         FormCategory[]
+  formFields             FormField[]
+  formMappings           FormMapping[]
+  services               Service[]
+  modules                Module[]
+  roles                  roles[]
+  projects               TenantProject[]
+  userAssignments        UserRoleAssignment[]
+  users                  users[]
+  workflowConfigurations WorkflowConfiguration[]
+  workflowDefinitions    WorkflowDefinition[]
+
+  @@map("tenants")
+}
+
+model TenantProject {
+  id                  Int                  @id @default(autoincrement())
+  uid                 String?              @unique @default(uuid()) @db.VarChar(100)
+  tenant_id           Int
+  project_ID          String?              @map("project_id_code")
+  name                String
+  code                String
+  description         String?
+  start_date          DateTime?
+  end_date            DateTime?
+  department_id       BigInt?              @map("department_id")
+  sub_department_id   BigInt?              @map("sub_department_id")
+  is_active           Boolean              @default(true)
+  created_at          DateTime             @default(now())
+  updated_at          DateTime             @updatedAt
+  documentCheckpoints DocumentCheckpoint[]
+  documentMasters     DocumentMaster[]
+  documentTypes       DocumentType[]
+  formBuilderFields   FormBuilderField[]
+  formCategories      FormCategory[]
+  formFields          FormField[]
+  formMappings        FormMapping[]
+  services            Service[]
+  modules             Module[]
+  roles               roles[]
+  tenant              Tenant               @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  assignments         UserRoleAssignment[]
+  users               users[]
+  workflowDefinitions WorkflowDefinition[] @relation("WfDefProject")
+
+  @@unique([tenant_id, code])
+  @@map("tenant_projects")
+}
+
+model Module {
+  id                  Int                  @id @default(autoincrement())
+  uid                 String?              @unique @default(uuid()) @db.VarChar(100)
+  tenant_id           Int?
+  tenant_project_id   Int?                 @map("tenant_project_id")
+  parent_id           Int?
+  module_ID           String?              @map("module_id_code")
+  code                String               @unique
+  name                String
+  name_hindi          String?
+  route               String?
+  icon                String?
+  portal              ModulePortal
+  order               Int                  @default(0)
+  department_id       BigInt?              @map("department_id")
+  sub_department_id   BigInt?              @map("sub_department_id")
+  is_leaf             Boolean              @default(true)
+  is_active           Boolean              @default(true)
+  created_at          DateTime             @default(now())
+  updated_at          DateTime             @updatedAt
+  parent              Module?              @relation("ModuleHierarchy", fields: [parent_id], references: [id], onDelete: Cascade)
+  children            Module[]             @relation("ModuleHierarchy")
+  tenant              Tenant?              @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  tenantProject       TenantProject?       @relation(fields: [tenant_project_id], references: [id], onDelete: Cascade)
+  permissions         Permission[]
+  workflowDefinitions WorkflowDefinition[] @relation("WfDefModule")
+
+  @@map("modules")
+}
+
+model Permission {
+  id              Int                                @id @default(autoincrement())
+  uid             String                             @unique @default(uuid()) @db.VarChar(100)
+  module_id       Int
+  action          PermissionAction
+  description     String?
+  is_active       Boolean                            @default(true)
+  created_at      DateTime                           @default(now())
+  module          Module                             @relation(fields: [module_id], references: [id], onDelete: Cascade)
+  rolePermissions RolePermission[]
+  overrides       UserAssignmentPermissionOverride[]
+
+  @@unique([module_id, action])
+  @@map("permissions")
+}
+
+model RolePermission {
+  id            Int              @id @default(autoincrement())
+  uid           String           @unique @default(uuid()) @db.VarChar(100)
+  role_id       Int
+  permission_id Int
+  effect        PermissionEffect @default(ALLOW)
+  is_active     Boolean          @default(true)
+  created_at    DateTime         @default(now())
+  updated_at    DateTime         @updatedAt
+  created_by    BigInt?
+  permission    Permission       @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+  role          roles            @relation(fields: [role_id], references: [id], onDelete: Cascade)
+
+  @@unique([role_id, permission_id])
+  @@map("role_permissions")
+}
+
+model UserRoleAssignment {
+  id                    Int                                @id @default(autoincrement())
+  uid                   String                             @unique @default(uuid()) @db.VarChar(100)
+  user_id               BigInt
+  role_id               Int
+  tenant_id             Int
+  project_id            Int?
+  assignment_identifier String?                            @unique @db.VarChar(255)
+  valid_from            DateTime                           @default(now())
+  valid_until           DateTime?
+  transfer_order_no     String?
+  transfer_reason       TransferReason?
+  transferred_from_id   Int?
+  assigned_by           BigInt?
+  remarks               String?
+  is_active             Boolean                            @default(true)
+  created_at            DateTime                           @default(now())
+  updated_at            DateTime                           @updatedAt
+  overrides             UserAssignmentPermissionOverride[]
+  scopes                UserAssignmentScope[]
+  project               TenantProject?                     @relation(fields: [project_id], references: [id])
+  role                  roles                              @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  tenant                Tenant                             @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  transferred_from      UserRoleAssignment?                @relation("TransferChain", fields: [transferred_from_id], references: [id])
+  transfer_history      UserRoleAssignment[]               @relation("TransferChain")
+  user                  users                              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id, tenant_id, is_active])
+  @@index([valid_from, valid_until])
+  @@map("user_role_assignments")
+}
+
+model UserAssignmentScope {
+  id                    Int                @id @default(autoincrement())
+  uid                   String             @unique @default(uuid()) @db.VarChar(100)
+  assignment_id         String             @db.VarChar(255)
+  assignment_identifier String             @db.VarChar(255)
+  scope_type            ScopeType
+  scope                 String             @db.VarChar(255)
+  scope_label           String?
+  tenant                String?            @db.VarChar(255)
+  project               String?            @db.VarChar(255)
+  is_active             Boolean            @default(true)
+  created_on            DateTime           @default(now())
+  updated_on            DateTime?
+  assignment            UserRoleAssignment @relation(fields: [assignment_id], references: [assignment_identifier], onDelete: Cascade)
+
+  @@unique([assignment_id, scope_type, scope])
+  @@index([tenant])
+  @@index([project])
+  @@index([is_active])
+  @@map("user_assignment_scopes")
+}
+
+model UserAssignmentPermissionOverride {
+  id                    Int                @id @default(autoincrement())
+  uid                   String             @unique @default(uuid()) @db.VarChar(100)
+  assignment_id         String             @db.VarChar(255)
+  assignment_identifier String             @db.VarChar(255)
+  permission_id         Int
+  effect                PermissionEffect
+  reason                String?
+  created_at            DateTime           @default(now())
+  updated_at            DateTime           @updatedAt
+  is_active             Boolean            @default(true)
+  created_by            BigInt?
+  assignment            UserRoleAssignment @relation(fields: [assignment_id], references: [assignment_identifier], onDelete: Cascade)
+  permission            Permission         @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+
+  @@unique([assignment_id, permission_id])
+  @@index([assignment_identifier])
+  @@map("user_assignment_permission_overrides")
+}
+
+model field_master {
+  id          Int      @id @default(autoincrement())
+  field_code  String   @unique @db.VarChar(50)
+  field_label String   @db.VarChar(255)
+  data_type   String   @db.VarChar(50)
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+
+  @@map("m_field")
+}
+
+model policy_master {
+  id                 Int                  @id @default(autoincrement())
+  department_id      Int
+  policy_name        String               @db.VarChar(255)
+  policy_code        String               @unique @db.VarChar(100)
+  description        String?
+  valid_from         DateTime             @db.Date
+  valid_to           DateTime             @db.Date
+  is_active          Boolean              @default(true)
+  created_at         DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime             @default(now()) @db.Timestamptz(6)
+  kyiIcCalculators   KyiIcCalculator[]
+  department         Department           @relation(fields: [department_id], references: [id])
+  scheme_definitions scheme_definitions[]
+
+  @@unique([department_id, policy_name])
+  @@map("m_policy")
+}
+
+model scheme_definitions {
+  id                  Int           @id @default(autoincrement())
+  policy_id           Int
+  service_id          String        @unique
+  scheme_name         String        @db.VarChar(255)
+  scheme_code         String        @db.VarChar(100)
+  cascading_config    Json          @default("{}")
+  pop_message_config  Json          @default("{}")
+  form_structure_json Json
+  required_documents  Json          @default("[]")
+  calculation_logic   Json
+  workflow_config     Json          @default("{}")
+  admin_view_config   Json          @default("{}")
+  version             Int           @default(1)
+  is_current_version  Boolean       @default(true)
+  valid_from          DateTime      @db.Date
+  valid_to            DateTime      @db.Date
+  created_at          DateTime      @default(now()) @db.Timestamptz(6)
+  policy              policy_master @relation(fields: [policy_id], references: [id], onDelete: Cascade)
+  service             Service       @relation(fields: [service_id], references: [service_id])
+
+  @@unique([scheme_code, version])
+  @@unique([policy_id, scheme_name, version])
+  @@map("m_scheme_definitions")
+}
+
+model master_tables {
+  id               Int             @id @default(autoincrement())
+  master_name      String          @db.VarChar(100)
+  master_code      String          @unique @db.VarChar(50)
+  description      String?
+  table_name       String          @db.VarChar(100)
+  schema_name      String          @default("public") @db.VarChar(50)
+  value_column     String          @db.VarChar(100)
+  label_column     String          @db.VarChar(100)
+  secondary_label  String?         @db.VarChar(100)
+  label_template   String?         @db.VarChar(255)
+  is_active_column String?         @db.VarChar(100)
+  is_active_value  String?         @db.VarChar(50)
+  default_filter   Json?
+  default_order_by String?         @db.VarChar(100)
+  parent_master_id Int?
+  parent_column    String?         @db.VarChar(100)
+  api_endpoint     String?         @db.VarChar(255)
+  is_active        Boolean         @default(true)
+  created_at       DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime        @updatedAt @db.Timestamptz(6)
+  created_by       String?         @db.VarChar(100)
+  parent_master    master_tables?  @relation("MasterHierarchy", fields: [parent_master_id], references: [id])
+  child_masters    master_tables[] @relation("MasterHierarchy")
+
+  @@map("master_tables")
+}
+
+model Servicetype {
+  id        Int      @id @default(autoincrement())
+  name      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("m_servicetype")
+}
+
+model Servicesector {
+  id        Int      @id @default(autoincrement())
+  name      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("m_servicesector")
+}
+
+model WorkflowJurisdictionLevelMaster {
+  id              Int                                @id @default(autoincrement())
+  code            String                             @unique @db.VarChar(50)
+  name            String                             @db.VarChar(100)
+  description     String?                            @db.VarChar(255)
+  isActive        Boolean                            @default(true)
+  createdAt       DateTime                           @default(now())
+  updatedAt       DateTime                           @updatedAt
+  workflowConfigs ApplicationWorkflowConfiguration[]
+
+  @@map("m_workflow_jurisdiction_level")
+}
+
+model WorkflowAssignmentStrategyMaster {
+  id              Int                                @id @default(autoincrement())
+  code            String                             @unique @db.VarChar(50)
+  name            String                             @db.VarChar(100)
+  description     String?                            @db.VarChar(255)
+  isActive        Boolean                            @default(true)
+  createdAt       DateTime                           @default(now())
+  updatedAt       DateTime                           @updatedAt
+  workflowConfigs ApplicationWorkflowConfiguration[]
+
+  @@map("m_workflow_assignment_strategy")
+}
+
+model WorkflowActionMaster {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique @db.VarChar(50)
+  name        String   @db.VarChar(100)
+  description String?  @db.VarChar(255)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("m_workflow_action_master")
+}
+
+model Serviceincidence {
+  id        Int      @id @default(autoincrement())
+  name      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("m_serviceincidence")
+}
+
+model Issuerby {
+  id        Int      @id @default(autoincrement())
+  name      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("m_issuerby")
+}
+
+model Service {
+  id                          Int                                @id @default(autoincrement())
+  uid                         String?                            @unique @default(uuid()) @db.VarChar(100)
+  service_id                  String?                            @unique
+  tenantId                    Int?                               @map("tenant_id")
+  projectId                   Int?                               @map("project_id")
+  department_id               Int?
+  sub_department_id           Int?
+  issuer_id                   Int?
+  swcs_service_id             Int?
+  service_level               String?
+  document_checklist          String?                            @db.Char(1)
+  document_checklist_mapping  Json?
+  document_type_mapping       Json?
+  document_checkpoint_mapping Json?
+  dms                         Json?
+  comments                    String?
+  service_name                String?
+  nameInHindi                 String?                            @map("name_in_hindi")
+  is_in_SWCS_act              Boolean                            @default(false)
+  is_integrated_with_dms      Boolean                            @default(false)
+  service_status              ServiceStatus                      @default(NOT_APPLICABLE)
+  isActive                    Boolean                            @default(true)
+  user_agent                  String?
+  ipaddress                   String?
+  is_caf_required             Boolean                            @default(false)
+  createdAt                   DateTime                           @default(now())
+  updatedAt                   DateTime                           @updatedAt
+  service_go_live_date        DateTime?
+  service_end_date            DateTime?
+  act_id                      Int?
+  popup_data                  String?                            @map("popup_data") @db.Text
+  enable_preview              Boolean                            @default(false) @map("enable_preview")
+  workflowConfigs             ApplicationWorkflowConfiguration[]
+  inspectionChecklists        InspectionChecklist[]
+  inspectionTransactions      InspectionTransaction[]
+  kyaServiceMappings          KyaServiceMapping[]
+  form_mappings               FormMapping[]                      @relation("ServiceToFormMapping")
+  informationWizard           InformationWizard?
+  scheme_definitions          scheme_definitions?
+  act                         ActPolicyNotification?             @relation("ActPolicyNotificationServices", fields: [act_id], references: [id])
+  issuer                      Issuer?                            @relation(fields: [issuer_id], references: [id])
+  project                     TenantProject?                     @relation(fields: [projectId], references: [id])
+  tenant                      Tenant?                            @relation(fields: [tenantId], references: [id])
+  serviceDetail               ServiceDetail?
+  workflowDefinitions         WorkflowDefinition[]               @relation("WfDefService")
+
+  @@map("m_service")
+}
+
+model SubDepartment {
+  id                  Int                  @id @default(autoincrement())
+  department_id       Int
+  name_en             String
+  name_hi             String?
+  name_bn             String?
+  isActive            Boolean              @default(true)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  department          Department           @relation(fields: [department_id], references: [id])
+  workflowDefinitions WorkflowDefinition[] @relation("WfDefSubDept")
+
+  @@map("m_sub_departments")
+}
+
+model InvestorDocument {
+  id                      BigInt            @id @default(autoincrement())
+  documentMasterId        Int
+  documentTypeId          Int
+  issuerId                Int
+  departmentId            Int?
+  investorProfileUid      String
+  userId                  BigInt
+  documentReferenceNumber String            @unique
+  documentName            String
+  documentVersion         String            @default("V1.0")
+  documentStatus          DocumentStatus    @default(U)
+  isDocumentActive        ActiveStatus      @default(Y)
+  documentPath            String
+  validFrom               DateTime?         @db.Date
+  validTo                 DateTime?         @db.Date
+  documentDateOfIssuance  DateTime?         @db.Date
+  comments                String?
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+  documentMaster          DocumentMaster    @relation(fields: [documentMasterId], references: [id], onDelete: Cascade)
+  documentType            DocumentType      @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  investorProfile         investor_profiles @relation(fields: [investorProfileUid], references: [uid], onDelete: Cascade)
+  issuer                  Issuer            @relation(fields: [issuerId], references: [id], onDelete: Cascade)
+  user                    users             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  department              Department?       @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+
+  @@index([documentMasterId, investorProfileUid])
+  @@index([investorProfileUid])
+  @@index([userId])
+  @@index([documentStatus])
+  @@index([createdAt])
+  @@index([departmentId])
+}
+
+model UnitTypes {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+
+  @@unique([name, isActive])
+  @@map("m_unit_types")
+}
+
+model LandCategories {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+
+  @@unique([name, isActive])
+  @@map("m_land_categories")
+}
+
+model Sectors {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+  subSectors       SubSectors[]
+
+  @@unique([name, isActive])
+  @@map("m_sectors")
+}
+
+model SubSectors {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  sectorId         Int
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+  sector           Sectors           @relation(fields: [sectorId], references: [id])
+
+  @@unique([name, isActive])
+  @@map("m_sub_sectors")
+}
+
+model MsmeYear {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+  unitCategories   UnitCategories[]
+
+  @@unique([name, isActive])
+  @@map("m_msme_year")
+}
+
+model UnitCategories {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  msmeYearId       Int
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+  msmeYear         MsmeYear          @relation(fields: [msmeYearId], references: [id])
+
+  @@unique([name, isActive])
+  @@map("m_unit_categories")
+}
+
+model AnchorTypes {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+
+  @@unique([name, isActive])
+  @@map("m_anchor_types")
+}
+
+model RegionCategories {
+  id               Int                       @id @default(autoincrement())
+  name             String                    @db.VarChar(255)
+  effectiveFrom    DateTime                  @db.Date
+  effectiveTo      DateTime                  @db.Date
+  isActive         Boolean                   @default(true)
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+  regionMappings   MappingRegionCategories[]
+
+  @@unique([name, isActive])
+  @@map("m_region_categories")
+}
+
+model MappingRegionCategories {
+  id               Int               @id @default(autoincrement())
+  blockId          Int
+  regionCategoryId Int
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+  block            Block             @relation(fields: [blockId], references: [id], onDelete: Cascade)
+  regionCategory   RegionCategories  @relation(fields: [regionCategoryId], references: [id], onDelete: Cascade)
+
+  @@unique([blockId, regionCategoryId, isActive])
+  @@map("m_mapping_region_categories")
+}
+
+model NicCode {
+  id          Int     @id @map("ID")
+  nicIiDigit  String? @map("NIC_II_Digit") @db.VarChar(10)
+  nicIvDigit  String? @map("NIC_IV_Digit") @db.VarChar(10)
+  nicVDigit   String? @map("NIC_V_Digit") @db.VarChar(10)
+  description String  @map("Description")
+  isActive    String  @map("is_active") @db.VarChar(1)
+
+  @@map("m_nic_code")
+}
+
+model HsnCode {
+  id            Int     @id
+  hsnCode       String  @map("hsn_code") @db.VarChar(20)
+  commodityName String  @map("comodity_name")
+  gstRate       String? @map("gst_rate") @db.VarChar(50)
+  isActive      String  @map("is_active") @db.VarChar(1)
+
+  @@map("m_hsn_code")
+}
+
+model BeneficiaryTypes {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+
+  @@unique([name, isActive])
+  @@map("m_beneficiary_types")
+}
+
+model Occurrences {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+
+  @@unique([name, isActive])
+  @@map("m_occurrences")
+}
+
+model IncentiveTypes {
+  id               Int               @id @default(autoincrement())
+  name             String            @db.VarChar(255)
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+
+  @@unique([name, isActive])
+  @@map("m_incentive_types")
+}
+
+model FinancialParameter {
+  id               Int               @id @default(autoincrement())
+  code             String            @db.VarChar(50)
+  name             String            @db.VarChar(255)
+  description      String?
+  unit             String?           @db.VarChar(50)
+  dataType         String?           @db.VarChar(50)
+  isCalculable     Boolean           @default(true)
+  effectiveFrom    DateTime          @db.Date
+  effectiveTo      DateTime          @db.Date
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  kyiIcCalculators KyiIcCalculator[]
+
+  @@unique([code, name, isActive])
+  @@map("m_financial_parameter")
+}
+
+model KyiIcCalculator {
+  id                        Int                      @id @default(autoincrement())
+  benefit_percent_amount    Float?
+  cap_limit                 Float?
+  extra_fixed_amount        Float?
+  above_calculating_amount  Float?
+  years_of_recurring        Int?
+  eligibility_notes         String?                  @db.VarChar(255)
+  description               String?                  @db.VarChar(255)
+  limitation                String?                  @db.VarChar(255)
+  policy_id                 Int?
+  msme_year_value           Int?
+  unit_category_value       Int?
+  unit_type_value           Int?
+  sector_value              Int?
+  sub_sector_value          Int?
+  ocurrance_value           Int?
+  block_value               Int?
+  region_category_value     Int?
+  land_type_value           Int?
+  beneficiary_type_value    Int?
+  anchor_unit_value         Int?
+  incentive_mapping_id      Int?
+  incentive_value           Int?
+  effectiveFrom             DateTime                 @db.Date
+  effectiveTo               DateTime                 @db.Date
+  isActive                  Boolean                  @default(true)
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  departmentId              Int?
+  mappingRegionCategoriesId Int?
+  anchorType                AnchorTypes?             @relation(fields: [anchor_unit_value], references: [id])
+  beneficiaryType           BeneficiaryTypes?        @relation(fields: [beneficiary_type_value], references: [id])
+  block                     Block?                   @relation(fields: [block_value], references: [id])
+  department                Department?              @relation(fields: [departmentId], references: [id])
+  financialParameter        FinancialParameter?      @relation(fields: [incentive_mapping_id], references: [id])
+  incentiveType             IncentiveTypes?          @relation(fields: [incentive_value], references: [id])
+  landCategory              LandCategories?          @relation(fields: [land_type_value], references: [id])
+  mappingRegionCategories   MappingRegionCategories? @relation(fields: [mappingRegionCategoriesId], references: [id])
+  msmeYear                  MsmeYear?                @relation(fields: [msme_year_value], references: [id])
+  occurrence                Occurrences?             @relation(fields: [ocurrance_value], references: [id])
+  policy                    policy_master?           @relation(fields: [policy_id], references: [id])
+  regionCategory            RegionCategories?        @relation(fields: [region_category_value], references: [id])
+  sector                    Sectors?                 @relation(fields: [sector_value], references: [id])
+  subSector                 SubSectors?              @relation(fields: [sub_sector_value], references: [id])
+  unitCategory              UnitCategories?          @relation(fields: [unit_category_value], references: [id])
+  unitType                  UnitTypes?               @relation(fields: [unit_type_value], references: [id])
+
+  @@map("m_kyi_ic_calculator")
+}
+
+model OrganisationNature {
+  id                Int       @id @default(autoincrement())
+  name              String
+  isActive          Boolean   @default(true) @map("is_active")
+  educationIsActive Boolean   @default(true) @map("education_is_active")
+  created           DateTime  @default(now())
+  modified          DateTime? @updatedAt
+
+  @@map("m_organisation_nature")
+}
+
+model BoApiAccessLog {
+  id              BigInt   @id @default(autoincrement())
+  sp_tag          String?  @db.VarChar(64)
+  request_method  String   @db.VarChar(10)
+  request_uri     String
+  request_time    BigInt
+  post_info       String
+  user_agent      String?  @db.VarChar(512)
+  remote_ip       String?  @db.VarChar(64)
+  response_return String?
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([request_time])
+  @@map("bo_api_access_log")
+}
+
+model ActPolicyNotification {
+  id              Int                               @id @default(autoincrement())
+  type            ActPolicyNotificationType         @default(Act)
+  level           String?
+  name            String
+  brief           String?
+  englishfilePath String?
+  hindifilePath   String?
+  isActive        Boolean                           @default(true)
+  user_agent      String?
+  ipaddress       String?
+  createdAt       DateTime                          @default(now())
+  updatedAt       DateTime                          @updatedAt
+  start_date      DateTime?
+  end_date        DateTime?
+  amendments      ActPolicyNotificationAmendment[]
+  departments     ActPolicyNotificationDepartment[]
+  services        Service[]                         @relation("ActPolicyNotificationServices")
+
+  @@map("m_act_policy_notification")
+}
+
+model ActPolicyNotificationDepartment {
+  id                       Int                   @id @default(autoincrement())
+  actpolicynotification_id Int
+  department_id            Int
+  actPolicyNotification    ActPolicyNotification @relation(fields: [actpolicynotification_id], references: [id], onDelete: Cascade)
+  department               Department            @relation(fields: [department_id], references: [id], onDelete: Cascade)
+
+  @@unique([actpolicynotification_id, department_id])
+  @@map("m_act_policy_notification_departments")
+}
+
+model ActPolicyNotificationAmendment {
+  id                       Int                   @id @default(autoincrement())
+  actpolicynotification_id Int
+  level                    String?
+  name                     String
+  brief                    String?
+  englishfilePath          String?
+  hindifilePath            String?
+  isActive                 Boolean               @default(true)
+  user_agent               String?
+  ipaddress                String?
+  start_date               DateTime?
+  end_date                 DateTime?
+  createdAt                DateTime              @default(now())
+  updatedAt                DateTime              @updatedAt
+  actPolicyNotification    ActPolicyNotification @relation(fields: [actpolicynotification_id], references: [id], onDelete: Cascade)
+
+  @@map("m_act_policy_notification_amendments")
+}
+
+model KyaCategory {
+  id           Int           @id @default(autoincrement())
+  categoryName String        @map("category_name") @db.VarChar(100)
+  isActive     Boolean       @default(true) @map("is_active")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  questions    KyaQuestion[]
+
+  @@map("m_kya_categories")
+}
+
+model KyaQuestion {
+  id                    Int           @id @default(autoincrement())
+  categoryId            Int           @map("m_kya_category_id")
+  questionLabel         String        @map("question_label") @db.VarChar(200)
+  fieldType             String        @map("field_type") @db.VarChar(50)
+  isDependent           Boolean       @default(false) @map("is_dependent")
+  parentQuestionId      Int?          @map("parent_question_id")
+  kyaOptionId           Int?          @map("kya_option_id")
+  isMandatory           Boolean       @default(true) @map("is_mandatory")
+  isTooltipAvailable    Boolean       @default(false) @map("is_tooltip_available")
+  tooltipText           String?       @map("tooltip_text") @db.VarChar(500)
+  showReferenceDocument Boolean       @default(false) @map("show_reference_document")
+  urlDocument           String?       @map("url_document") @db.VarChar(500)
+  userId                Int?          @map("user_id")
+  isActive              Boolean       @default(true) @map("is_active")
+  createdAt             DateTime      @default(now()) @map("created_at")
+  updatedAt             DateTime      @updatedAt @map("updated_at")
+  updatedBy             Int?          @map("updated_by")
+  options               KyaOption[]   @relation("QuestionOptions")
+  parentOption          KyaOption?    @relation("OptionDependency", fields: [kyaOptionId], references: [id])
+  category              KyaCategory   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  parentQuestion        KyaQuestion?  @relation("QuestionDependency", fields: [parentQuestionId], references: [id])
+  childQuestions        KyaQuestion[] @relation("QuestionDependency")
+
+  @@index([categoryId])
+  @@index([parentQuestionId])
+  @@map("kya_questions")
+}
+
+model KyaOption {
+  id                 Int                 @id @default(autoincrement())
+  questionId         Int                 @map("kya_question_id")
+  optionLabel        String              @map("option_label") @db.VarChar(200)
+  isActive           Boolean             @default(true) @map("is_active")
+  createdAt          DateTime            @default(now()) @map("created_at")
+  updatedAt          DateTime            @updatedAt @map("updated_at")
+  question           KyaQuestion         @relation("QuestionOptions", fields: [questionId], references: [id], onDelete: Cascade)
+  dependentQuestions KyaQuestion[]       @relation("OptionDependency")
+  serviceMappings    KyaServiceMapping[]
+
+  @@index([questionId])
+  @@map("kya_options")
+}
+
+model KyaServiceMapping {
+  id        Int       @id @default(autoincrement())
+  optionId  Int       @map("kya_option_id")
+  serviceId Int       @map("m_service_id")
+  isActive  Boolean   @default(true) @map("is_active")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  option    KyaOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  service   Service   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([optionId, serviceId])
+  @@index([optionId])
+  @@index([serviceId])
+  @@map("kya_service_mappings")
+}
+
+model ServiceDetail {
+  id                      Int      @id @default(autoincrement())
+  serviceId               String   @unique @map("m_service_id")
+  serviceCategory         String   @map("service_category") @db.VarChar(50)
+  authorityName           String?  @map("authority_name") @db.VarChar(300)
+  timeline                Int?
+  sopDocument             String?  @map("sop_document") @db.VarChar(200)
+  feeStructureDocument    String?  @map("fee_structure_document") @db.VarChar(200)
+  listOfRequiredDocuments String?  @map("list_of_required_documents") @db.VarChar(200)
+  serviceType             String   @default("Mandatory") @map("service_type") @db.VarChar(20)
+  isActive                Boolean  @default(true) @map("is_active")
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+  service                 Service  @relation(fields: [serviceId], references: [service_id], onDelete: Cascade)
+
+  @@index([serviceId])
+  @@index([serviceCategory])
+  @@map("m_service_details")
+}
+
+model InspectionChecklist {
+  id          Int                       @id @default(autoincrement())
+  serviceId   Int
+  version     String                    @default("1.0")
+  isActive    Boolean                   @default(true)
+  validFrom   DateTime                  @default(now())
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime                  @updatedAt
+  items       InspectionChecklistItem[]
+  service     Service                   @relation(fields: [serviceId], references: [id])
+  inspections InspectionTransaction[]
+
+  @@unique([serviceId, version])
+  @@map("inspection_checklists")
+}
+
+model InspectionChecklistItem {
+  id              Int                 @id @default(autoincrement())
+  checklistId     Int
+  title           String
+  description     String?
+  type            String
+  isMandatory     Boolean             @default(true)
+  riskIndicator   String?
+  validationRules Json?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  checklist       InspectionChecklist @relation(fields: [checklistId], references: [id], onDelete: Cascade)
+
+  @@map("inspection_checklist_items")
+}
+
+model ThirdPartyInspector {
+  id                  Int                     @id @default(autoincrement())
+  userId              BigInt                  @unique
+  recognitionId       String                  @unique
+  organization        String?
+  validUntil          DateTime?
+  status              String                  @default("ACTIVE")
+  authorizedDistricts String[]
+  authorizedServices  Int[]
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+  inspections         InspectionTransaction[]
+  user                users                   @relation(fields: [userId], references: [id])
+
+  @@map("third_party_inspectors")
+}
+
+model InspectionTransaction {
+  id                      String                        @id @default(uuid())
+  applicationId           String
+  serviceId               Int
+  applicationSubmissionId Int?                          @map("application_submission_id")
+  districtId              Int?                          @map("district_id")
+  checklistId             Int
+  status                  InspectionStatus              @default(SCHEDULED)
+  scheduledDate           DateTime
+  inspectorType           InspectorType
+  departmentInspectorId   BigInt?
+  thirdPartyInspectorId   Int?
+  inspectionType          String                        @default("SINGLE") @map("inspection_type")
+  isThirdParty            Boolean                       @default(false) @map("is_third_party")
+  riskCategory            String?
+  complianceScore         Int?                          @map("compliance_score")
+  inspectionDate          DateTime?
+  completedAt             DateTime?                     @map("completed_at")
+  reportFinalizedAt       DateTime?
+  reportPublishedAt       DateTime?
+  reportUploadedAt        DateTime?
+  applicantViewedAt       DateTime?
+  slaDueDate              DateTime?                     @map("sla_due_date")
+  slaBreachWarningSent    Boolean                       @default(false)
+  slaBreached             Boolean                       @default(false)
+  feeDetails              String?                       @map("fee_details")
+  totalFeeCharge          Decimal?                      @map("total_fee_charge") @db.Decimal(12, 2)
+  feeStatus               String?                       @default("PENDING") @map("fee_status")
+  financialYear           String?                       @map("financial_year")
+  aiSummary               String?                       @map("ai_summary")
+  allocatedBy             BigInt?
+  allocatedAt             DateTime?
+  priority                String?                       @default("NORMAL")
+  rescheduleRequested     Boolean                       @default(false) @map("reschedule_requested")
+  rescheduleReason        String?                       @map("reschedule_reason")
+  createdAt               DateTime                      @default(now())
+  updatedAt               DateTime                      @updatedAt
+  auditLogs               InspectionAuditLog[]
+  checklistResponses      InspectionChecklistResponse[]
+  evidence                InspectionEvidence[]
+  feedback                InspectionFeedback?
+  observations            InspectionObservation[]
+  applicationSubmission   ApplicationSubmission?        @relation(fields: [applicationSubmissionId], references: [submissionId])
+  checklist               InspectionChecklist           @relation(fields: [checklistId], references: [id])
+  service                 Service                       @relation(fields: [serviceId], references: [id])
+  thirdPartyInspector     ThirdPartyInspector?          @relation(fields: [thirdPartyInspectorId], references: [id])
+
+  @@index([status])
+  @@index([scheduledDate])
+  @@index([riskCategory])
+  @@index([applicationSubmissionId])
+  @@index([districtId])
+  @@index([financialYear])
+  @@index([completedAt])
+  @@map("inspection_transactions")
+}
+
+model InspectionObservation {
+  id              String                          @id @default(uuid())
+  inspectionId    String
+  checklistItemId Int?
+  observationText String
+  severity        String
+  status          ObservationStatus               @default(OPEN)
+  evidenceUrl     String[]
+  createdAt       DateTime                        @default(now())
+  updatedAt       DateTime                        @updatedAt
+  responses       InspectionObservationResponse[]
+  inspection      InspectionTransaction           @relation(fields: [inspectionId], references: [id])
+
+  @@map("inspection_observations")
+}
+
+model InspectionObservationResponse {
+  id            String                @id @default(uuid())
+  observationId String
+  responderId   BigInt
+  message       String
+  attachments   String[]
+  isInternal    Boolean               @default(false)
+  createdAt     DateTime              @default(now())
+  observation   InspectionObservation @relation(fields: [observationId], references: [id])
+
+  @@map("inspection_observation_responses")
+}
+
+model InspectionEvidence {
+  id              String                @id @default(uuid())
+  inspectionId    String
+  checklistItemId Int?
+  fileType        String
+  fileUrl         String
+  fileName        String?
+  fileSize        Int?
+  geoTag          Json?
+  capturedAt      DateTime?
+  uploadedBy      BigInt
+  uploaderRole    String
+  createdAt       DateTime              @default(now())
+  inspection      InspectionTransaction @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
+
+  @@index([inspectionId])
+  @@map("inspection_evidence")
+}
+
+model InspectionChecklistResponse {
+  id              String                @id @default(uuid())
+  inspectionId    String
+  checklistItemId Int
+  response        String
+  remarks         String?
+  evidenceUrls    String[]
+  isApproved      Boolean               @default(true)
+  rejectionReason String?
+  respondedBy     BigInt
+  respondedAt     DateTime              @default(now())
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  inspection      InspectionTransaction @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
+
+  @@unique([inspectionId, checklistItemId])
+  @@index([inspectionId])
+  @@map("inspection_checklist_responses")
+}
+
+model InspectionFeedback {
+  id           String                @id @default(uuid())
+  inspectionId String                @unique
+  rating       Int
+  comment      String?
+  submittedBy  BigInt
+  submittedAt  DateTime              @default(now())
+  inspection   InspectionTransaction @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
+
+  @@map("inspection_feedback")
+}
+
+model InspectionAuditLog {
+  id           String                @id @default(uuid())
+  inspectionId String
+  action       String
+  fromValue    String?
+  toValue      String?
+  details      Json?
+  performedBy  BigInt
+  performedAt  DateTime              @default(now())
+  ipAddress    String?
+  userAgent    String?
+  inspection   InspectionTransaction @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
+
+  @@index([inspectionId])
+  @@index([performedAt])
+  @@map("inspection_audit_logs")
+}
+
+model InformationWizard {
+  id                      Int      @id @default(autoincrement())
+  serviceId               Int      @unique @map("service_id")
+  statuaryFormPath        String?  @map("statuary_form_path") @db.VarChar(255)
+  feeStructurePath        String?  @map("fee_structure_path") @db.VarChar(255)
+  sopDocumentPath         String?  @map("sop_document_path") @db.VarChar(255)
+  stageWiseTimelinePath   String?  @map("stage_wise_timeline_path") @db.VarChar(255)
+  statuaryTimelinePath    String?  @map("statuary_timeline_path") @db.VarChar(255)
+  statuaryTimelineText    String?  @map("statuary_timeline_text") @db.VarChar(255)
+  inspectionChecklistPath String?  @map("inspection_checklist_path") @db.VarChar(255)
+  riskCategory            String?  @map("risk_category")
+  sizeOfFirm              String?  @map("size_of_firm")
+  businessLocation        String?  @map("business_location")
+  investorType            String?  @map("investor_type")
+  isActive                Boolean  @default(true) @map("is_active")
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+  service                 Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId])
+  @@map("m_information_wizard")
+}
+
+model ApplicationWorkflowConfiguration {
+  id                         Int                               @id @default(autoincrement())
+  step                       Int                               @default(0)
+  departmentId               Int                               @map("department_id")
+  serviceId                  String                            @map("service_id") @db.VarChar(20)
+  configVersion              Int                               @default(1) @map("config_version")
+  status                     WorkflowConfigStatus              @default(DRAFT) @map("status")
+  startDate                  DateTime                          @default(now()) @map("start_date")
+  endDate                    DateTime?                         @map("end_date")
+  roleId                     Int                               @default(0) @map("role_id")
+  jurisdictionLevelId        Int?                              @map("jurisdiction_level_id")
+  assignmentStrategyId       Int?                              @map("assignment_strategy_id")
+  actionMasterIdsJson        Json                              @default("[]") @map("action_master_ids_json")
+  jurisdictionLevel          JurisdictionLevel                 @default(DISTRICT) @map("jurisdiction_level")
+  assignmentStrategy         AssignmentStrategy                @default(ROLE) @map("assignment_strategy")
+  assignmentRuleJson         Json?                             @map("assignment_rule_json")
+  actionAllowedJson          Json                              @default("[]") @map("action_allowed_json")
+  transitionMapJson          Json                              @default("{}") @map("transition_map_json")
+  slaHours                   Int                               @default(0) @map("sla_hours")
+  slaBreachRequiresReason    Boolean                           @default(true) @map("sla_breach_requires_reason")
+  nextAllocationRoleId       Int?                              @map("next_allocation_role_id")
+  createdBy                  String?                           @map("created_by") @db.VarChar(100)
+  createdAt                  DateTime                          @default(now()) @map("created_at")
+  updatedBy                  String?                           @map("updated_by") @db.VarChar(100)
+  updatedAt                  DateTime                          @default(now()) @updatedAt @map("updated_at")
+  processingLevel            ProcessingLevel                   @default(District) @map("processing_level")
+  currentRoleId              Int                               @map("current_role_id")
+  formTypeId                 Int                               @map("form_type_id")
+  nextRoleId                 Int                               @map("next_role_id")
+  approverId                 Int                               @map("approver_id")
+  forwardRoleId              Int                               @map("forward_role_id")
+  revertRoleId               Int                               @map("revert_role_id")
+  isDelayReasonRequired      ActiveStatus                      @default(N) @map("is_delay_reason_required")
+  timeInHours                String                            @default("0") @map("time_in_hours") @db.VarChar(10)
+  canRevertToInvestor        ActiveStatus                      @default(N) @map("can_revert_to_investor")
+  canVerifyDocument          ActiveStatus                      @default(N) @map("can_verify_document")
+  canForwardToMultipleRoleId String?                           @map("can_forward_to_multiple_role_id") @db.VarChar(255)
+  canForwardToMultipleUserId String?                           @map("can_forward_to_multiple_user_id") @db.VarChar(255)
+  isOwnDepartment            ActiveStatus                      @default(N) @map("is_own_department")
+  permissableTabFormId       String                            @map("permissable_tab_form_id") @db.VarChar(255)
+  documentShowLast           ActiveStatus                      @default(N) @map("document_show_last")
+  processAnytime             ActiveStatus                      @default(N) @map("process_anytime")
+  showLiceneceList           String                            @default("0") @map("show_licenece_list") @db.Char(1)
+  showFieldEditableOrNot     String                            @default("0") @map("show_field_editable_or_not") @db.Char(1)
+  formServiceJs              String                            @default("") @map("form_service_js") @db.VarChar(255)
+  formActionController       String                            @default("") @map("form_action_controller") @db.VarChar(255)
+  subformActionName          String                            @map("subform_action_name") @db.VarChar(255)
+  licenceNumberFormat        String?                           @map("licence_number_format") @db.VarChar(255)
+  assignmentStrategyMaster   WorkflowAssignmentStrategyMaster? @relation(fields: [assignmentStrategyId], references: [id])
+  department                 Department                        @relation(fields: [departmentId], references: [id])
+  formType                   FormType                          @relation(fields: [formTypeId], references: [id])
+  jurisdictionLevelMaster    WorkflowJurisdictionLevelMaster?  @relation(fields: [jurisdictionLevelId], references: [id])
+  service                    Service                           @relation(fields: [serviceId], references: [service_id])
+
+  @@index([departmentId])
+  @@index([serviceId])
+  @@index([formTypeId])
+  @@index([jurisdictionLevelId])
+  @@index([assignmentStrategyId])
+  @@index([serviceId, configVersion, status])
+  @@index([serviceId, step, status])
+  @@index([roleId, jurisdictionLevel, status])
+  @@map("c_application_workflow_configuration")
+}
+
+model ApplicationSubmission {
+  submissionId               Int                     @id @default(autoincrement()) @map("submission_id")
+  applicationId              Int                     @default(12) @map("application_id")
+  parentSubId                Int                     @map("parent_sub_id")
+  serviceId                  String                  @map("service_id") @db.VarChar(20)
+  userId                     BigInt                  @map("user_id")
+  deptId                     Int                     @map("dept_id")
+  formId                     Int?                    @map("form_id")
+  approvalId                 Int?                    @map("approval_id")
+  fieldValue                 Json                    @map("field_value")
+  unitName                   String?                 @map("unit_name") @db.VarChar(255)
+  certificatePath            String?                 @map("certificate_path") @db.VarChar(255)
+  kmlPath                    String?                 @map("kml_path") @db.VarChar(255)
+  applicationStatus          String                  @default("P") @map("application_status") @db.VarChar(10)
+  workflowConfigVersion      Int?                    @map("workflow_config_version")
+  disbursementStatus         String?                 @map("disbursement_status") @db.VarChar(10)
+  applicationCreatedDate     DateTime                @default(now()) @map("application_created_date")
+  applicationUpdatedDateTime DateTime                @default(now()) @map("application_updated_date_time")
+  ipAddress                  String                  @map("ip_address") @db.VarChar(255)
+  userAgent                  String                  @map("user_agent") @db.VarChar(255)
+  processingLevel            ProcessingLevel         @default(District) @map("processing_level")
+  landrigionId               Int                     @map("landrigion_id")
+  allLandrigionId            String?                 @map("all_landrigion_id") @db.VarChar(255)
+  isInvestmentVerified       ActiveStatus?           @map("is_investment_verified")
+  isEmploymentVerified       ActiveStatus?           @map("is_employment_verified")
+  isLocationVerified         ActiveStatus?           @map("is_location_verified")
+  refrenceSubId              Int?                    @map("refrence_sub_id")
+  refLiceneceNumber          String?                 @map("ref_licenece_number") @db.VarChar(255)
+  feeOfApplication           String?                 @map("fee_of_application") @db.VarChar(255)
+  image                      String?                 @map("image")
+  publishedByOfficerId       Int?                    @map("published_by_officer_id")
+  publishedOn                DateTime?               @map("published_on")
+  ssoType                    String?                 @map("sso_type") @db.VarChar(255)
+  ssoApprovalId              String?                 @map("sso_approval_id") @db.VarChar(255)
+  submittedOn                DateTime?               @map("submitted_on")
+  legacyDataStatus           ActiveStatus            @default(N) @map("legacy_data_status")
+  autoRenewalValidityYear    Int?                    @map("auto_renewal_validity_year")
+  tourismRefNumber           Int                     @default(0) @map("tourism_ref_number")
+  appealId                   BigInt?                 @map("appeal_id")
+  businessEntityCode         String?                 @map("business_entity_code") @db.VarChar(255)
+  withdrawnDate              DateTime?               @map("withdrawn_date")
+  deemedApproved             String?                 @map("deemed_approved") @db.Char(1)
+  unitPanno                  String?                 @map("unit_panno") @db.VarChar(255)
+  unitPannoUpdatedDate       DateTime?               @map("unit_panno_updated_date")
+  isMsmeapp2015Active        String?                 @default("1") @map("is_msmeapp_2015_active") @db.Char(1)
+  ubuId                      String?                 @map("ubu_id") @db.VarChar(255)
+  inspections                InspectionTransaction[]
+
+  @@index([userId])
+  @@index([serviceId])
+  @@index([landrigionId])
+  @@index([processingLevel])
+  @@map("t_application_submission")
+}
+
+model WorkflowInstance {
+  id                        BigInt    @id @default(autoincrement()) @map("id")
+  applicationId             BigInt    @map("application_id")
+  workflowDefinitionVersion Int       @map("workflow_definition_version")
+  currentStep               Int       @map("current_step")
+  currentRoleId             Int       @map("current_role_id")
+  jurisdictionLevel         String    @map("jurisdiction_level")
+  status                    String    @map("status")
+  dueAt                     DateTime? @map("due_at")
+  createdAt                 DateTime  @default(now()) @map("created_at")
+  updatedAt                 DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@index([applicationId])
+  @@map("t_workflow_instance")
+}
+
+model WorkflowAudit {
+  id            BigInt   @id @default(autoincrement()) @map("id")
+  applicationId BigInt   @map("application_id")
+  fromStep      Int?     @map("from_step")
+  toStep        Int?     @map("to_step")
+  action        String   @map("action") @db.VarChar(64)
+  actorUserId   BigInt   @map("actor_user_id")
+  remarks       String?  @map("remarks")
+  payload       Json?    @map("payload")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([applicationId])
+  @@map("t_workflow_audit")
+}
+
+model ForwardApplication {
+  apprLvlId                    Int       @id @default(autoincrement()) @map("appr_lvl_id")
+  nextRoleId                   Int?      @map("next_role_id")
+  nextUserId                   Int?      @map("next_user_id")
+  verifierUserId               Int?      @default(0) @map("verifier_user_id")
+  appSubId                     Int?      @map("app_Sub_id")
+  forwardedDeptId              Int?      @map("forwarded_dept_id")
+  forwardedDistId              Int?      @map("forwarded_dist_id")
+  formId                       Int?      @map("form_id")
+  postInfo                     String?   @map("post_info")
+  actionTaken                  String?   @map("action_taken") @db.VarChar(255)
+  actionStatus                 String?   @map("action_status") @db.VarChar(10)
+  verifierUserComment          String?   @map("verifier_user_comment")
+  supportiveDocument           String?   @map("supportive_document") @db.VarChar(255)
+  createdOn                    DateTime  @map("created_on")
+  updatedDateTime              DateTime? @map("updated_date_time")
+  userAgent                    String    @map("user_agent") @db.VarChar(255)
+  commentDate                  DateTime? @map("comment_date")
+  inspectionDate               DateTime? @map("inspection_date")
+  inspectionStartDate          DateTime? @map("inspection_start_date")
+  inspectionEndDate            DateTime? @map("inspection_end_date")
+  reasonForDelay               String?   @map("reason_for_delay")
+  supportDocument              String?   @map("support_document") @db.VarChar(255)
+  inspectionReport             String?   @map("inspection_report") @db.VarChar(255)
+  educationAakhyaDocument      String?   @map("education_aakhya_document") @db.VarChar(255)
+  ipAddress                    String?   @map("ip_address") @db.VarChar(255)
+  approvStatus                 String?   @default("P") @map("approv_status") @db.Char(2)
+  scrutinyCommitteeMeetingDate DateTime? @map("scrutiny_commitee_meeting_date")
+  claimReceipt                 String?   @map("claim_receipt") @db.VarChar(255)
+  lineDeptCafApprovalStatus    Int?      @map("line_dept_caf_approval_status")
+  geoReport                    String?   @map("geo_report") @db.VarChar(255)
+  megaIncentiveClaimedAmount   String?   @map("mega_incentive_claimed_amount") @db.VarChar(255)
+  rowRejectionCode             Int?      @map("row_rejection_code")
+  evaluationMatrixDocument     String?   @map("evaluation_matrix_document") @db.VarChar(255)
+
+  @@index([appSubId])
+  @@index([nextRoleId])
+  @@index([verifierUserId])
+  @@index([forwardedDeptId])
+  @@map("t_forward_application")
+}
+
+model ApplicationHistory {
+  historyId             Int       @id @default(autoincrement()) @map("history_id")
+  sno                   Int?      @map("sno")
+  serviceId             String?   @map("service_id") @db.VarChar(20)
+  spTag                 String    @map("sp_tag") @db.VarChar(250)
+  appId                 String    @map("app_id") @db.VarChar(250)
+  applicationStatus     String    @map("application_status") @db.VarChar(200)
+  comments              String?   @map("comments")
+  approverId            String?   @map("approver_id") @db.VarChar(200)
+  approverDetails       String?   @map("approver_details") @db.VarChar(200)
+  nextApprover          String?   @map("next_approver") @db.VarChar(200)
+  addedDateTime         DateTime  @map("added_date_time")
+  sentDatedTime         DateTime? @map("sent_dated_time")
+  roleId                String?   @map("role_id") @db.VarChar(50)
+  roleName              String?   @map("role_name") @db.VarChar(255)
+  roleUserInfo          String?   @map("role_user_info") @db.VarChar(255)
+  nextRoleId            String?   @map("next_role_id") @db.VarChar(255)
+  param1                String?   @map("param_1") @db.VarChar(255)
+  param2                String?   @map("param_2") @db.VarChar(255)
+  param3                String?   @map("param_3") @db.VarChar(255)
+  param4                String?   @map("param_4") @db.VarChar(255)
+  param5                String?   @map("param_5") @db.VarChar(255)
+  remoteServer          String?   @map("remote_server") @db.VarChar(255)
+  userAgent             String?   @map("user_agent") @db.VarChar(255)
+  certificateNo         String?   @map("certificate_no") @db.VarChar(255)
+  certificateIssueDate  DateTime? @map("certificate_issue_date")
+  certificateExpireDate DateTime? @map("certificate_expire_date")
+
+  @@index([sno])
+  @@index([addedDateTime])
+  @@index([applicationStatus])
+  @@index([appId])
+  @@map("t_application_history")
+}
+
+model SpApplication {
+  sno                            Int           @id @default(autoincrement())
+  spTag                          String        @map("sp_tag") @db.VarChar(255)
+  spAppId                        String        @map("sp_app_id") @db.VarChar(20)
+  appId                          BigInt        @map("app_id")
+  appName                        String        @map("app_name") @db.VarChar(255)
+  appFields                      Json          @map("app_fields")
+  appStatus                      String        @map("app_status") @db.VarChar(10)
+  boNewDisbursementStatus        String?       @map("bo_new_disbursement_status") @db.VarChar(10)
+  appComments                    String        @map("app_comments")
+  appDistt                       String        @map("app_distt") @db.VarChar(200)
+  appDisttName                   String        @map("app_distt_name") @db.VarChar(150)
+  appLocation                    String        @map("app_location")
+  isAppliedByCaf                 ActiveStatus? @map("is_applied_by_caf")
+  cafId                          Int           @map("caf_id")
+  cafType                        String?       @map("caf_type") @db.VarChar(10)
+  unitName                       String        @map("unit_name") @db.VarChar(255)
+  revertedCallBackUrl            String        @map("reverted_call_back_url")
+  printAppCallBackUrl            String        @map("print_app_call_back_url")
+  downloadCertificateCallBackUrl String        @map("download_certificate_call_back_url")
+  userId                         BigInt        @map("user_id")
+  createdOn                      DateTime      @map("created_on")
+  updatedOn                      DateTime      @map("updated_on")
+  isActive                       ActiveStatus  @map("is_active")
+  remoteServer                   String        @map("remote_server") @db.VarChar(255)
+  userAgent                      String        @map("user_agent") @db.VarChar(255)
+  param1                         BigInt        @map("param_1")
+  param2                         String        @map("param_2") @db.VarChar(200)
+  param3                         String        @map("param_3") @db.VarChar(200)
+  param4                         String        @map("param_4") @db.VarChar(200)
+  param5                         String        @map("param_5") @db.VarChar(200)
+  pHeadCode                      String?       @map("p_head_code") @db.VarChar(200)
+  pTreasCode                     String?       @map("p_treas_code") @db.VarChar(200)
+  pDdoCode                       String?       @map("p_ddo_code") @db.VarChar(200)
+  isOfflineApplication           ActiveStatus  @default(N) @map("is_offline_application")
+  offlineApplicationId           BigInt?       @map("offline_application_id")
+  timelineRef                    String?       @map("timeline_ref") @db.VarChar(100)
+  createdDateTime                DateTime?     @map("created_date_time")
+  lastUpdatedDateTime            DateTime?     @map("last_updated_date_time")
+  assignedTo                     String?       @map("assigned_to") @db.VarChar(255)
+  circleId                       Int?          @map("circle_id")
+  tehsilId                       Int?          @map("tehsil_id")
+  blockId                        Int?          @map("block_id")
+  noe                            Int?          @map("noe")
+  deptPortalAppId                String?       @map("dept_portal_app_id") @db.VarChar(255)
+  isUploadedSignedCertificate    ActiveStatus? @map("is_uploaded_signed_certificate")
+  infowizServiceId               String?       @map("infowiz_service_id") @db.Char(10)
+  legacyCapturedDate             DateTime?     @map("legacy_captured_date")
+  deemedApproved                 String?       @map("deemed_approved") @db.Char(1)
+  certificateNo                  String?       @map("certificate_no") @db.VarChar(255)
+  certificateIssueDate           DateTime?     @map("certificate_issue_date")
+  certificateExpireDate          DateTime?     @map("certificate_expire_date")
+
+  @@index([cafId])
+  @@index([spAppId])
+  @@index([userId])
+  @@index([appStatus])
+  @@index([isActive])
+  @@map("t_sp_applications")
+}
+
+model ApplicationDmsDocumentsMapping {
+  mappingId        Int       @id @default(autoincrement()) @map("mapping_id")
+  iuid             BigInt    @map("iuid")
+  userId           BigInt    @map("user_id")
+  sno              BigInt    @map("sno")
+  serviceId        String?   @map("service_id")
+  deptId           Int       @map("dept_id")
+  documentsId      Int       @map("documents_id")
+  documentFileName String    @map("document_file_name") @db.VarChar(255)
+  status           String    @db.VarChar(10)
+  ipAddress        String?   @map("ip_address") @db.VarChar(100)
+  userAgent        String?   @map("user_agent") @db.Text
+  createdOn        DateTime  @map("created_on")
+  lastUpdated      DateTime? @map("last_updated")
+  comments         String?
+  isUploadedFlag   Int?      @map("is_uploaded_flag")
+
+  @@index([iuid])
+  @@index([userId])
+  @@index([sno])
+  @@index([serviceId])
+  @@index([sno, serviceId])
+  @@index([documentsId])
+  @@map("t_application_dms_documents_mapping")
+}
+
+model ApplicationDmsDocumentsMappingLog {
+  id                  BigInt   @id @default(autoincrement()) @map("d")
+  mappingId           BigInt   @map("mapping_id")
+  documentsId         BigInt   @map("documents_id")
+  status              String   @default("U") @db.VarChar(1)
+  deptUserId          Int      @map("dept_user_id")
+  verifierName        String?  @map("verifier_name") @db.VarChar(100)
+  verifierDesignation String?  @map("verifier_designation") @db.VarChar(100)
+  verifierComments    String?  @map("verifier_comments") @db.Text
+  createdTime         DateTime @map("created_time")
+  isDraft             String   @default("0") @map("is_draft") @db.VarChar(1)
+  remoteIp            String?  @map("remote_ip") @db.VarChar(100)
+  userAgent           String?  @map("user_agent") @db.Text
+
+  @@index([mappingId])
+  @@index([documentsId])
+  @@map("bo_application_dms_documents_mapping_logs")
+}
+
+model PaymentDetail {
+  paymentId                        BigInt              @id @default(autoincrement()) @map("payment_id")
+  pgMeTrnRefNo                     BigInt?             @map("pgMeTrnRefNo")
+  orderId                          BigInt?             @map("orderId")
+  authNStatus                      String?             @map("authNStatus") @db.VarChar(250)
+  authZStatus                      String?             @map("authZStatus") @db.VarChar(250)
+  responseCode                     String?             @map("responseCode") @db.VarChar(250)
+  bankReferenceBank                String?             @map("bank_reference_bank") @db.VarChar(255)
+  userId                           Int                 @map("user_id")
+  applicationId                    Int                 @map("application_id")
+  appSubId                         Int                 @map("app_sub_id")
+  amount                           Float               @map("amount")
+  surcharge                        Float?              @map("surcharge")
+  totalAmount                      Float?              @map("totalAmount")
+  trnReqDate                       String              @map("trnReqDate") @db.VarChar(100)
+  statusCode                       payment_status_code @map("statusCode")
+  statusDescription                String              @map("status_description") @db.VarChar(500)
+  txnMsg                           String              @map("Txn_Msg") @db.VarChar(255)
+  txnStatus                        String              @map("Txn_Status") @db.VarChar(255)
+  txnErrMsg                        String              @map("Txn_Err_Msg") @db.VarChar(255)
+  clntTxnRef                       String              @map("Clnt_Txn_Ref") @db.VarChar(255)
+  clntRqstMeta                     String              @map("Clnt_Rqst_Meta")
+  worldlineMerchantTransactionId   String              @map("worldline_Merchant_Transaction_ID") @db.VarChar(255)
+  hashToken                        String              @map("Hash_token")
+  token                            String              @map("Token")
+  worldlineMerchantTransactionTime DateTime            @map("worldline_Merchant_Transaction_Time")
+  paymentMode                      String?             @map("paymentMode") @db.VarChar(255)
+  bifurcationDetails               Json?               @map("bifurcation_details")
+  created                          DateTime            @map("created")
+  updated                          DateTime?           @map("updated")
+
+  @@index([applicationId], map: "idx_payment_detail_application_id")
+  @@index([appSubId], map: "idx_payment_detail_app_sub_id")
+  @@map("t_payment_detail")
+}
+
+model UpclSupplyCategories {
+  id        String   @id
+  name      String
+  type      String
+  parent    String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("m_upcl_supply_categories")
+}
+
+model UpclSupplySubcategories {
+  id               String   @id
+  name             String
+  type             String
+  supplyCategoryId String
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("m_upcl_supply_subcategories")
+}
+
+model UpclVoltage {
+  id           String   @id
+  voltageGroup String
+  voltageDesc  String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("m_upcl_voltage")
+}
+
+model UjsDivision {
+  id         Int      @id @default(autoincrement())
+  divisionId Int
+  officeName String
+  address    String
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("m_ujs_divisions")
+}
+
+model LabourFactoryTypeMaster {
+  id          Int      @id
+  factoryType String   @map("factory_type")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created")
+  updatedAt   DateTime @updatedAt
+
+  @@map("m_labour_factory_type_master")
+}
+
+model LabourFactorySec85 {
+  id                   Int      @id
+  specialProvisionName String   @map("special_provision_name")
+  isActive             Boolean  @default(true) @map("is_active")
+  createdAt            DateTime @default(now()) @map("created")
+  updatedAt            DateTime @updatedAt
+
+  @@map("m_labour_factory_sec85")
+}
+
+model PollutionControlEquipment {
+  id            Int      @id
+  equipmentName String   @map("equipment_name")
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("m_pollution_control_equipments")
+}
+
+model PollutionCategory {
+  id           Int      @id @default(autoincrement())
+  activityName String   @map("activity_name")
+  category     String   @map("category")
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("m_pollution_categories")
+}
+
+model CurrentLanduse {
+  id        Int      @id
+  name      String
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created")
+  updatedAt DateTime @updatedAt
+
+  @@map("m_current_landuse")
+}
+
+model ProjectStatus {
+  id        Int      @id @default(autoincrement())
+  name      String
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created")
+  updatedAt DateTime @updatedAt
+
+  @@map("m_project_status")
+}
+
+model LandAllotmentStage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created")
+  updatedAt DateTime @updatedAt
+
+  @@map("m_land_allotment_stage")
+}
+
+model ProjectStatusUpdate {
+  id                         Int       @id @default(autoincrement())
+  cafId                      Int       @map("caf_id")
+  userId                     BigInt    @map("user_id")
+  lastApprovalStatus         String?   @map("last_approval_status") @db.VarChar(255)
+  trialProduction            String?   @map("trial_production")
+  categoryA                  String?   @map("category_a") @db.VarChar(255)
+  categoryB                  String?   @map("category_b") @db.VarChar(255)
+  categoryC                  String?   @map("category_c") @db.VarChar(255)
+  categoryD                  String?   @map("category_d") @db.VarChar(255)
+  male                       String?   @db.VarChar(255)
+  female                     String?   @db.VarChar(255)
+  others                     String?   @db.VarChar(255)
+  totalEmployment            String?   @map("total_employment") @db.VarChar(255)
+  commercialCommencementDate DateTime? @map("commercial_commencement_date")
+  landType                   String?   @map("land_type") @db.VarChar(255)
+  landAllotmentStage         String?   @map("land_allotment_stage") @db.VarChar(255)
+  projectStatus              String?   @map("project_status") @db.VarChar(255)
+  currentStatus              String?   @map("current_status") @db.VarChar(255)
+  notImplementationReason    String?   @map("not_implementation_reason") @db.VarChar(255)
+  droppedWithdrawnRemarks    String?   @map("dropped_withdrawn_remarks")
+  remarks                    String?
+  createdAt                  DateTime  @default(now()) @map("created_at")
+  updatedAt                  DateTime  @updatedAt @map("updated_at")
+
+  @@index([cafId])
+  @@index([userId])
+  @@map("t_project_status_update")
+}
+
+model UpclDivisionSubdivision {
+  id              Int      @id @default(autoincrement())
+  divisionId      String
+  divisionCode    String
+  divisionName    String
+  subdivisionId   String
+  subdivisionCode String
+  subdivisionName String
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("m_upcl_division_subdivisions")
+}
+
+model IncentiveApplicationSubmission {
+  id                Int               @id @default(autoincrement())
+  userId            Int?              @map("user_id")
+  incentiveId       Int               @map("incentive_id")
+  cafId             Int?              @map("caf_id")
+  parentAppId       Int?              @map("parent_app_id")
+  departmentId      Int               @map("department_id")
+  districtId        String?           @map("district_id") @db.VarChar(255)
+  sectorId          String?           @map("sector_id") @db.VarChar(255)
+  unitName          String?           @map("unit_name") @db.VarChar(255)
+  registrationNo    String?           @map("registration_no") @db.VarChar(255)
+  postData          Json?             @map("post_data")
+  applicationStatus ApplicationStatus @default(DRAFT) @map("application_status")
+  status            RecordStatus      @default(Y)
+  createdOn         DateTime          @default(now()) @map("created_on")
+  modifiedOn        DateTime          @updatedAt @map("modified_on")
+  installmentNo     Int?              @map("installment_no")
+  fy                String?           @db.VarChar(255)
+  certificateNumber String?           @map("certificate_number") @db.VarChar(255)
+
+  @@map("t_incentive_application_submission")
+}
+
+model IncentiveApplicationFlowlog {
+  id                          BigInt                @id @default(autoincrement())
+  applicationId               Int                   @map("application_id")
+  currentRoleId               Int                   @map("current_role_id")
+  nextRoleId                  Int?                  @map("next_role_id")
+  userId                      Int?                  @map("user_id")
+  approvedAmountByDepartment  String?               @map("approved_amount_by_department") @db.VarChar(64)
+  disbursedAmountByDepartment String?               @map("disbursed_amount_by_department") @db.VarChar(64)
+  remarks                     String?
+  delayRemarks                String?               @map("delay_remarks")
+  additionalPostData          String?               @map("additional_post_data")
+  approvalStatus              ApprovalStatus
+  actionStatus                ApplicationStatus     @map("action_status")
+  userAgent                   String?               @map("user_agent") @db.VarChar(250)
+  remoteIpAddress             String?               @map("remote_ip_address") @db.VarChar(250)
+  status                      RecordStatus          @default(Y)
+  createdDate                 DateTime?             @map("created_date")
+  modifiedOn                  DateTime              @default(now()) @updatedAt @map("modified_on")
+  file                        String?               @db.VarChar(255)
+  uploadedFileName            String?               @map("uploaded_file_name") @db.VarChar(255)
+  approvedIncentive           Json?                 @map("approved_incentive")
+  recommendation              RecommendationStatus?
+
+  @@map("t_incentive_application_flowlog")
+}
+
+model IncentiveApplicationDocument {
+  id               Int                           @id @default(autoincrement())
+  userId           Int                           @map("user_id")
+  applicationId    Int                           @map("application_id")
+  documentId       Int                           @map("document_id")
+  name             String                        @db.VarChar(255)
+  type             String                        @db.VarChar(100)
+  content          String?
+  size             Int
+  remarks          String?
+  deptRemarks      String?                       @map("dept_remarks")
+  status           DocumentStatusCommonIncentive @default(Y) @map("status")
+  departmentUserId Int?                          @map("department_user_id")
+  approveStatus    DocumentApproveStatus         @default(PENDING) @map("approve_status")
+  createdBy        Int                           @map("created_by")
+  createdOn        DateTime                      @default(now()) @map("created_on")
+  modifiedBy       Int?                          @map("modified_by")
+  modifiedOn       DateTime                      @default(now()) @updatedAt @map("modified_on")
+
+  @@map("t_incentive_application_document")
+}
+
+model MasterDefinition {
+  id                 Int                      @id @default(autoincrement())
+  uid                String                   @unique @default(uuid()) @db.VarChar(100)
+  tenant_id          Int?                     @map("tenant_id")
+  project_id         Int?                     @map("project_id")
+  department_id      Int?                     @map("department_id")
+  sub_department_id  Int?                     @map("sub_department_id")
+  name               String                   @db.VarChar(100)
+  code               String                   @db.VarChar(50)
+  description        String?
+  icon               String?                  @db.VarChar(50)
+  is_active          Boolean                  @default(true) @map("is_active")
+  is_system          Boolean                  @default(false) @map("is_system")
+  allow_import       Boolean                  @default(true) @map("allow_import")
+  display_order      Int                      @default(0) @map("display_order")
+  parent_master_code String?                  @map("parent_master_code") @db.VarChar(50)
+  created_by         BigInt                   @map("created_by")
+  created_at         DateTime                 @default(now()) @map("created_at")
+  updated_at         DateTime                 @updatedAt @map("updated_at")
+  columns            MasterColumnDefinition[]
+  data               MasterData[]
+  createdBy          users                    @relation("MasterDefinitionCreatedBy", fields: [created_by], references: [id])
+
+  @@unique([tenant_id, code])
+  @@map("master_definition")
+}
+
+model MasterColumnDefinition {
+  id            Int                  @id @default(autoincrement())
+  master_id     Int                  @map("master_id")
+  column_key    String               @db.VarChar(50)
+  column_label  String               @db.VarChar(100)
+  data_type     MasterColumnDataType @map("data_type")
+  is_required   Boolean              @default(false) @map("is_required")
+  is_unique     Boolean              @default(false) @map("is_unique")
+  is_searchable Boolean              @default(false) @map("is_searchable")
+  is_listable   Boolean              @default(true) @map("is_listable")
+  is_filterable Boolean              @default(false) @map("is_filterable")
+  display_order Int                  @default(0) @map("display_order")
+  options       Json?
+  validation    Json?
+  default_value String?              @map("default_value") @db.VarChar(255)
+  placeholder   String?              @db.VarChar(255)
+  master        MasterDefinition     @relation(fields: [master_id], references: [id], onDelete: Cascade)
+
+  @@unique([master_id, column_key])
+  @@map("master_column_definition")
+}
+
+model MasterData {
+  id                 BigInt                @id @default(autoincrement())
+  uid                String                @unique @default(uuid()) @db.VarChar(100)
+  code               String                @db.VarChar(100)
+  master_id          Int                   @map("master_id")
+  tenant_id          Int?                  @map("tenant_id")
+  data               Json
+  is_active          Boolean               @default(true) @map("is_active")
+  created_by         BigInt?               @map("created_by")
+  updated_by         BigInt?               @map("updated_by")
+  created_at         DateTime              @default(now()) @map("created_at")
+  updated_at         DateTime              @updatedAt @map("updated_at")
+  createdBy          users?                @relation("MasterDataCreatedBy", fields: [created_by], references: [id])
+  master             MasterDefinition      @relation(fields: [master_id], references: [id], onDelete: Cascade)
+  updatedBy          users?                @relation("MasterDataUpdatedBy", fields: [updated_by], references: [id])
+  referencesFrom     MasterDataReference[] @relation("FromData")
+  referencesTo       MasterDataReference[] @relation("ToData")
+  usersDepartment    users[]               @relation("UserDepartment")
+  usersSubDepartment users[]               @relation("UserSubDepartment")
+
+  @@index([master_id, is_active])
+  @@index([master_id, tenant_id])
+  @@map("master_data")
+}
+
+model MasterDataReference {
+  id           BigInt     @id @default(autoincrement())
+  from_data_id BigInt     @map("from_data_id")
+  to_data_id   BigInt     @map("to_data_id")
+  column_key   String     @map("column_key") @db.VarChar(50)
+  fromData     MasterData @relation("FromData", fields: [from_data_id], references: [id], onDelete: Cascade)
+  toData       MasterData @relation("ToData", fields: [to_data_id], references: [id], onDelete: Cascade)
+
+  @@unique([from_data_id, to_data_id, column_key])
+  @@index([from_data_id])
+  @@index([to_data_id])
+  @@map("master_data_reference")
+}
+
+model WorkflowDefinition {
+  id              Int                      @id @default(autoincrement())
+  uid             String                   @unique @default(uuid()) @db.VarChar(36)
+  tenantId        Int                      @map("tenant_id")
+  departmentId    Int                      @map("department_id")
+  subDepartmentId Int?                     @map("sub_department_id")
+  serviceId       String?                  @map("service_id") @db.VarChar(20)
+  projectId       Int?                     @map("project_id")
+  moduleId        Int?                     @map("module_id")
+  code            String                   @db.VarChar(50)
+  name            String                   @db.VarChar(200)
+  description     String?
+  version         Int                      @default(1)
+  status          WorkflowDefinitionStatus @default(DRAFT)
+  createdBy       BigInt?                  @map("created_by")
+  updatedBy       BigInt?                  @map("updated_by")
+  createdAt       DateTime                 @default(now()) @map("created_at")
+  updatedAt       DateTime                 @updatedAt @map("updated_at")
+  forwardLevels   TWorkflowForwardLevel[]
+  module          Module?                  @relation("WfDefModule", fields: [moduleId], references: [id])
+  project         TenantProject?           @relation("WfDefProject", fields: [projectId], references: [id])
+  service         Service?                 @relation("WfDefService", fields: [serviceId], references: [service_id])
+  subDepartment   SubDepartment?           @relation("WfDefSubDept", fields: [subDepartmentId], references: [id])
+  tenant          Tenant                   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  forkJoins       WorkflowForkJoin[]
+  processes       WorkflowProcess[]
+
+  @@unique([tenantId, departmentId, code, version])
+  @@index([tenantId, status])
+  @@index([tenantId, departmentId])
+  @@index([tenantId, departmentId, subDepartmentId])
+  @@index([serviceId])
+  @@map("wf_definitions")
+}
+
+model WorkflowProcess {
+  id                   Int                       @id @default(autoincrement())
+  uid                  String                    @unique @default(uuid()) @db.VarChar(36)
+  workflowDefId        Int                       @map("workflow_def_id")
+  processCode          String                    @db.VarChar(20)
+  stepOrder            Int                       @map("step_order")
+  name                 String                    @db.VarChar(200)
+  description          String?
+  nodeType             ProcessNodeType           @default(STANDARD)
+  assigneeType         AssigneeType              @default(ROLE)
+  roleId               Int?                      @map("role_id")
+  userId               BigInt?                   @map("user_id")
+  slaHours             Int                       @default(0) @map("sla_hours")
+  slaBreachAction      SlaBreach                 @default(NONE) @map("sla_breach_action")
+  positionX            Float                     @default(0) @map("position_x")
+  positionY            Float                     @default(0) @map("position_y")
+  canVerifyDocument    Boolean                   @default(false) @map("can_verify_document")
+  canRevertToApplicant Boolean                   @default(false) @map("can_revert_to_applicant")
+  formTypeId           Int?                      @map("form_type_id")
+  createdAt            DateTime                  @default(now()) @map("created_at")
+  updatedAt            DateTime                  @updatedAt @map("updated_at")
+  forwardLevels        TWorkflowForwardLevel[]
+  fieldPermissions     WorkflowFieldPermission[]
+  forkBranches         WorkflowForkJoinBranch[]
+  forkJoinsAsFork      WorkflowForkJoin[]        @relation("ForkProcess")
+  forkJoinsAsJoin      WorkflowForkJoin[]        @relation("JoinProcess")
+  actions              WorkflowProcessAction[]
+  formType             FormType?                 @relation("WfProcessFormType", fields: [formTypeId], references: [id])
+  role                 roles?                    @relation("WfProcessRole", fields: [roleId], references: [id])
+  user                 users?                    @relation("WfProcessUser", fields: [userId], references: [id])
+  workflowDef          WorkflowDefinition        @relation(fields: [workflowDefId], references: [id], onDelete: Cascade)
+  outgoingTransitions  WorkflowTransition[]      @relation("TransitionSource")
+  incomingTransitions  WorkflowTransition[]      @relation("TransitionTarget")
+
+  @@unique([workflowDefId, processCode])
+  @@index([workflowDefId, stepOrder])
+  @@map("wf_processes")
+}
+
+model WorkflowProcessAction {
+  id               Int                  @id @default(autoincrement())
+  uid              String               @unique @default(uuid()) @db.VarChar(36)
+  processId        Int                  @map("process_id")
+  actionCode       String               @db.VarChar(30)
+  actionLabel      String               @db.VarChar(100)
+  requiresComment  Boolean              @default(false) @map("requires_comment")
+  requiresDocument Boolean              @default(false) @map("requires_document")
+  requiresReason   Boolean              @default(false) @map("requires_reason")
+  displayOrder     Int                  @default(0) @map("display_order")
+  createdAt        DateTime             @default(now()) @map("created_at")
+  process          WorkflowProcess      @relation(fields: [processId], references: [id], onDelete: Cascade)
+  transitions      WorkflowTransition[]
+
+  @@unique([processId, actionCode])
+  @@map("wf_process_actions")
+}
+
+model WorkflowTransition {
+  id              Int                   @id @default(autoincrement())
+  uid             String                @unique @default(uuid()) @db.VarChar(36)
+  sourceProcessId Int                   @map("source_process_id")
+  targetProcessId Int                   @map("target_process_id")
+  actionId        Int                   @map("action_id")
+  conditionJson   Json?                 @map("condition_json")
+  conditionLabel  String?               @map("condition_label") @db.VarChar(100)
+  priority        Int                   @default(0)
+  label           String?               @db.VarChar(100)
+  createdAt       DateTime              @default(now()) @map("created_at")
+  action          WorkflowProcessAction @relation(fields: [actionId], references: [id], onDelete: Cascade)
+  sourceProcess   WorkflowProcess       @relation("TransitionSource", fields: [sourceProcessId], references: [id], onDelete: Cascade)
+  targetProcess   WorkflowProcess       @relation("TransitionTarget", fields: [targetProcessId], references: [id], onDelete: Cascade)
+
+  @@unique([sourceProcessId, actionId, priority])
+  @@index([sourceProcessId])
+  @@index([targetProcessId])
+  @@map("wf_transitions")
+}
+
+model WorkflowForkJoin {
+  id            Int                      @id @default(autoincrement())
+  uid           String                   @unique @default(uuid()) @db.VarChar(36)
+  workflowDefId Int                      @map("workflow_def_id")
+  forkProcessId Int                      @map("fork_process_id")
+  joinProcessId Int                      @map("join_process_id")
+  joinStrategy  String                   @default("ALL") @db.VarChar(20)
+  createdAt     DateTime                 @default(now()) @map("created_at")
+  branches      WorkflowForkJoinBranch[]
+  forkProcess   WorkflowProcess          @relation("ForkProcess", fields: [forkProcessId], references: [id])
+  joinProcess   WorkflowProcess          @relation("JoinProcess", fields: [joinProcessId], references: [id])
+  workflowDef   WorkflowDefinition       @relation(fields: [workflowDefId], references: [id], onDelete: Cascade)
+
+  @@unique([workflowDefId, forkProcessId])
+  @@map("wf_fork_joins")
+}
+
+model WorkflowForkJoinBranch {
+  id              Int              @id @default(autoincrement())
+  uid             String           @unique @default(uuid()) @db.VarChar(36)
+  forkJoinId      Int              @map("fork_join_id")
+  branchProcessId Int              @map("branch_process_id")
+  branchLabel     String?          @db.VarChar(100)
+  branchOrder     Int              @default(0) @map("branch_order")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  branchProcess   WorkflowProcess  @relation(fields: [branchProcessId], references: [id])
+  forkJoin        WorkflowForkJoin @relation(fields: [forkJoinId], references: [id], onDelete: Cascade)
+
+  @@unique([forkJoinId, branchProcessId])
+  @@map("wf_fork_join_branches")
+}
+
+model TWorkflowForwardLevel {
+  id                 BigInt                 @id @default(autoincrement())
+  uid                String                 @unique @default(uuid()) @db.VarChar(36)
+  workflowDefId      Int?                   @map("workflow_def_id")
+  tenantId           Int                    @map("tenant_id")
+  departmentId       Int                    @map("department_id")
+  applicationId      BigInt                 @map("application_id")
+  currentProcessId   Int?                   @map("current_process_id")
+  forwardLevel       Int                    @default(1) @map("forward_level")
+  currentRoleId      Int?                   @map("current_role_id")
+  activeProcessIds   Json                   @default("[]") @map("active_process_ids")
+  status             String                 @default("ACTIVE") @db.VarChar(20)
+  orphanReason       String?                @map("orphan_reason") @db.VarChar(50)
+  startedAt          DateTime               @default(now()) @map("started_at")
+  completedAt        DateTime?              @map("completed_at")
+  dueAt              DateTime?              @map("due_at")
+  createdAt          DateTime               @default(now()) @map("created_at")
+  updatedAt          DateTime               @updatedAt @map("updated_at")
+  configId           Int?                   @map("config_id")
+  currentProcessCode String?                @map("current_process_code") @db.VarChar(20)
+  currentProcessName String?                @map("current_process_name") @db.VarChar(200)
+  auditLogs          TWorkflowAudit[]
+  configuration      WorkflowConfiguration? @relation(fields: [configId], references: [id])
+  process            WorkflowProcess?       @relation(fields: [currentProcessId], references: [id], onDelete: Cascade)
+  role               roles?                 @relation("WfForwardLevelRole", fields: [currentRoleId], references: [id])
+  workflowDef        WorkflowDefinition?    @relation(fields: [workflowDefId], references: [id])
+
+  @@index([applicationId])
+  @@index([tenantId, status])
+  @@index([tenantId, departmentId])
+  @@index([configId])
+  @@map("t_workflow_forward_level")
+}
+
+model TWorkflowAudit {
+  id               BigInt                @id @default(autoincrement())
+  uid              String                @unique @default(uuid()) @db.VarChar(36)
+  forwardLevelId   BigInt                @map("forward_level_id")
+  fromProcessId    Int?                  @map("from_process_id")
+  toProcessId      Int?                  @map("to_process_id")
+  actionCode       String                @map("action_code") @db.VarChar(30)
+  actorUserId      BigInt                @map("actor_user_id")
+  actorRoleId      Int?                  @map("actor_role_id")
+  remarks          String?
+  payload          Json?
+  ipAddress        String?               @map("ip_address") @db.VarChar(45)
+  userAgent        String?               @map("user_agent") @db.VarChar(512)
+  conditionMatched String?               @map("condition_matched") @db.VarChar(200)
+  createdAt        DateTime              @default(now()) @map("created_at")
+  fromProcessCode  String?               @map("from_process_code") @db.VarChar(20)
+  fromProcessName  String?               @map("from_process_name") @db.VarChar(200)
+  toProcessCode    String?               @map("to_process_code") @db.VarChar(20)
+  toProcessName    String?               @map("to_process_name") @db.VarChar(200)
+  forwardLevel     TWorkflowForwardLevel @relation(fields: [forwardLevelId], references: [id], onDelete: Cascade)
+
+  @@index([forwardLevelId])
+  @@index([actorUserId])
+  @@map("t_workflow_forward_audit")
+}
+
+model WorkflowFieldPermission {
+  id                Int              @id @default(autoincrement())
+  workflowProcessId Int              @map("workflow_process_id")
+  fieldId           Int              @map("field_id")
+  roleId            Int?             @map("role_id")
+  permission        String           @default("EDITABLE") @db.VarChar(20)
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+  field             FormBuilderField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  role              roles?           @relation(fields: [roleId], references: [id])
+  process           WorkflowProcess  @relation(fields: [workflowProcessId], references: [id], onDelete: Cascade)
+
+  @@unique([workflowProcessId, fieldId, roleId])
+  @@map("wf_field_permissions")
+}
+
+model WorkflowConfiguration {
+  id              Int                      @id @default(autoincrement())
+  uid             String                   @unique @default(uuid()) @db.VarChar(36)
+  tenantId        Int                      @map("tenant_id")
+  departmentId    Int                      @map("department_id")
+  subDepartmentId Int?                     @map("sub_department_id")
+  serviceId       String?                  @map("service_id") @db.VarChar(20)
+  projectId       Int?                     @map("project_id")
+  moduleId        Int?                     @map("module_id")
+  code            String                   @db.VarChar(50)
+  name            String                   @db.VarChar(200)
+  description     String?
+  version         Int                      @default(1)
+  status          WorkflowDefinitionStatus @default(DRAFT)
+  configuration   Json
+  createdBy       BigInt?                  @map("created_by")
+  updatedBy       BigInt?                  @map("updated_by")
+  createdAt       DateTime                 @default(now()) @map("created_at")
+  updatedAt       DateTime                 @updatedAt @map("updated_at")
+  forwardLevels   TWorkflowForwardLevel[]
+  tenant          Tenant                   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, departmentId, code, version])
+  @@index([tenantId, status])
+  @@index([tenantId, departmentId])
+  @@index([serviceId])
+  @@map("wf_configurations")
+}
+
+enum user_type {
+  INVESTOR
+  DEPARTMENT
+  CIS_USER
+  INSPECTOR
+  THIRD_PARTY
+
+  @@map("user_type")
+}
+
+enum user_token_type {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+  SSO_EXTERNAL
+
+  @@map("user_token_type")
+}
+
+enum user_log_type {
+  LOGIN_SUCCESS
+  LOGIN_FAILED
+  LOGOUT
+  REGISTER
+  ACCOUNT_DEACTIVATED
+  ACCOUNT_REACTIVATED
+  EMAIL_VERIFICATION_SENT
+  EMAIL_VERIFIED
+  PASSWORD_RESET_REQUESTED
+  PASSWORD_RESET_COMPLETED
+
+  @@map("user_log_type")
+}
+
+enum payment_status_code {
+  F
+  S
+  P
+
+  @@map("payment_status_code")
+}
+
+enum YnFlag {
+  Y
+  N
+
+  @@map("yn_flag")
+}
+
+enum OptionSourceType {
+  STATIC
+  MASTER
+}
+
+enum TenantPlan {
+  FREE
+  STANDARD
+  ENTERPRISE
+
+  @@map("tenant_plan")
+}
+
+enum ModulePortal {
+  ADMIN
+  DEPARTMENT
+  APPLICANT
+
+  @@map("module_portal")
+}
+
+enum PermissionAction {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  EXPORT
+  APPROVE
+  REJECT
+  MANAGE
+
+  @@map("permission_action")
+}
+
+enum PermissionEffect {
+  ALLOW
+  DENY
+
+  @@map("permission_effect")
+}
+
+enum ScopeType {
+  STATE
+  DISTRICT
+  BLOCK
+  TEHSIL
+  CIRCLE
+  DIVISION
+  VILLAGE
+  PROJECT
+
+  @@map("scope_type")
+}
+
+enum TransferReason {
+  PROMOTION
+  TRANSFER
+  DEPUTATION
+  RETIREMENT
+  RESIGNATION
+  ADMIN_CHANGE
+
+  @@map("transfer_reason")
+}
+
+enum ServiceStatus {
+  ONLINE_ON_DEPT_PORTAL
+  INTEGRATED
+  ONBOARDED
+  OFFLINE
+  NOT_APPLICABLE
+  INCENTIVE
+}
+
+enum DocumentStatus {
+  U
+  V
+  R
+  M
+
+  @@map("document_status")
+}
+
+enum ActiveStatus {
+  Y
+  N
+
+  @@map("active_status")
+}
+
+enum ActPolicyNotificationType {
+  Act
+  Policy
+  Notification
+}
+
+enum InspectionStatus {
+  PENDING_ALLOCATION
+  ALLOCATED
+  SCHEDULED
+  IN_PROGRESS
+  OBSERVATIONS_LOGGED
+  APPLICANT_RESPONSE_PENDING
+  PENDING_APPROVAL
+  FINALIZATION
+  REPORT_PUBLISHED
+  CLOSED
+}
+
+enum ObservationStatus {
+  OPEN
+  NEEDS_INFO
+  RESOLVED
+  CLOSED
+  OVERRIDDEN
+}
+
+enum InspectorType {
+  DEPARTMENT_OFFICIAL
+  THIRD_PARTY
+}
+
+enum RiskCategory {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum ProcessingLevel {
+  District
+  State
+}
+
+enum WorkflowConfigStatus {
+  DRAFT
+  PUBLISHED
+  INACTIVE
+  ARCHIVED
+}
+
+enum JurisdictionLevel {
+  STATE
+  DISTRICT
+  BLOCK
+  TEHSIL
+  GRAM_PANCHAYAT
+  VILLAGE
+}
+
+enum AssignmentStrategy {
+  ROLE
+  USER
+  OFFICE
+  RULE
+}
+
+enum ApplicationStatus {
+  DRAFT
+  SUBMITTED
+  PAYMENT
+  PAYMENT_DONE
+  FORWARDED
+  FORWARDED_DISTRICT
+  FORWARDED_DEPARTMENT
+  RAISE_QUERY
+  REVERTED
+  REVERT_BACK
+  APPROVED
+  CONDITIONALLY_APPROVE
+  REJECTED
+  FORWARDED_TO_SLEC
+  FORWARD_FOR_DISBURSEMENT
+  DISBURSED
+  ARCHIVED
+}
+
+enum ApprovalStatus {
+  V
+  P
+}
+
+enum RecordStatus {
+  Y
+  N
+}
+
+enum DocumentStatusCommonIncentive {
+  Y
+  N
+}
+
+enum DocumentApproveStatus {
+  REJECT
+  PENDING
+  APPROVED
+}
+
+enum RecommendationStatus {
+  recommended
+  not_recommended
+}
+
+enum MasterColumnDataType {
+  TEXT
+  NUMBER
+  BOOLEAN
+  DATE
+  SELECT
+  MULTI_SELECT
+  FILE
+}
+
+enum WorkflowDefinitionStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AssigneeType {
+  ROLE
+  USER
+  ROLE_AND_USER
+  APPLICANT
+}
+
+enum SlaBreach {
+  ESCALATE
+  NOTIFY
+  AUTO_FORWARD
+  NONE
+}
+
+enum ProcessNodeType {
+  START
+  STANDARD
+  FORK
+  JOIN
+  CONDITIONAL
+  END
+}

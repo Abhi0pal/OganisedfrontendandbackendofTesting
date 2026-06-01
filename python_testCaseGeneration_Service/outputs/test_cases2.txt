@@ -1,0 +1,2330 @@
+[
+  {
+    "Test case No.": "TC-001",
+    "Function List/Test case description": "FR-001: Display In Principle Form",
+    "Condition/Feature to be tested": "Initial form load",
+    "steps": "1. Log in as Investor. 2. Navigate to 'In Principle Form'.",
+    "data set / values": "Valid investor credentials",
+    "expected_result": "Form loads successfully, displaying Page 1: Company Details."
+  },
+  {
+    "Test case No.": "TC-002",
+    "Function List/Test case description": "FR-002: Multi-page navigation",
+    "Condition/Feature to be tested": "Investor can navigate through all form pages",
+    "steps": "1. Fill mandatory fields on Page 1. 2. Click 'Next'. 3. Repeat for all pages (1-7).",
+    "data set / values": "Valid data for all mandatory fields",
+    "expected_result": "User can navigate to all pages sequentially."
+  },
+  {
+    "Test case No.": "TC-003",
+    "Function List/Test case description": "FR-005: Default 'New Or Existing Offline' radio",
+    "Condition/Feature to be tested": "Radio button defaults to 'new'",
+    "steps": "1. Load Page 1: Company Details.",
+    "data set / values": "N/A",
+    "expected_result": "'New' radio button is pre-selected."
+  },
+  {
+    "Test case No.": "TC-004",
+    "Function List/Test case description": "FR-006, BR-003, FV-004: Auto-populate 'Name Of Company Unit Trust'",
+    "Condition/Feature to be tested": "Field auto-populates and is read-only",
+    "steps": "1. Load Page 1: Company Details. 2. Attempt to edit field.",
+    "data set / values": "Investor registration data",
+    "expected_result": "'Name Of Company Unit Trust' is auto-populated and uneditable."
+  },
+  {
+    "Test case No.": "TC-005",
+    "Function List/Test case description": "FR-007, BR-004, FV-006: Auto-populate 'Constitution Of Establishment'",
+    "Condition/Feature to be tested": "Field auto-populates and is read-only",
+    "steps": "1. Load Page 1: Company Details. 2. Attempt to edit field.",
+    "data set / values": "Investor registration data",
+    "expected_result": "'Constitution Of Establishment' is auto-populated and uneditable."
+  },
+  {
+    "Test case No.": "TC-006",
+    "Function List/Test case description": "FR-008, BR-005, FV-009: Auto-populate 'Company PAN Number'",
+    "Condition/Feature to be tested": "Field auto-populates and is read-only",
+    "steps": "1. Load Page 1: Company Details. 2. Attempt to edit field.",
+    "data set / values": "Investor registration data",
+    "expected_result": "'Company PAN Number' is auto-populated and uneditable."
+  },
+  {
+    "Test case No.": "TC-007",
+    "Function List/Test case description": "FR-009, BR-008, FV-016: Auto-populate 'Date Of Incorporation'",
+    "Condition/Feature to be tested": "Field auto-populates and is read-only (default)",
+    "steps": "1. Load Page 1: Company Details. 2. Attempt to edit field.",
+    "data set / values": "Investor registration data",
+    "expected_result": "'Date Of Incorporation' is auto-populated and uneditable."
+  },
+  {
+    "Test case No.": "TC-008",
+    "Function List/Test case description": "FR-010, FV-016: Edit 'Date Of Incorporation' for Sole Proprietorship",
+    "Condition/Feature to be tested": "Editable for 'Sole Proprietorship' constitution",
+    "steps": "1. Set 'Constitution Of Establishment' to 'Sole Proprietorship'. 2. Attempt to edit 'Date Of Incorporation'.",
+    "data set / values": "Constitution: Sole Proprietorship",
+    "expected_result": "'Date Of Incorporation' field becomes editable."
+  },
+  {
+    "Test case No.": "TC-009",
+    "Function List/Test case description": "FR-011, BR-010, API-003: Auto-fetch 'Corporate Address Line 1' via CIN API",
+    "Condition/Feature to be tested": "Address auto-fetched for specific company types",
+    "steps": "1. Select 'Public Limited'. 2. Enter valid CIN. 3. Trigger CIN API call.",
+    "data set / values": "Constitution: Public Limited, Valid CIN",
+    "expected_result": "'Corporate Address Line 1' is auto-populated from CIN API."
+  },
+  {
+    "Test case No.": "TC-010",
+    "Function List/Test case description": "FR-011, BR-010: Manual entry 'Corporate Address Line 1' for other types",
+    "Condition/Feature to be tested": "Address manually entered if not auto-fetched",
+    "steps": "1. Select 'Sole Proprietorship'. 2. Attempt to enter 'Corporate Address Line 1'.",
+    "data set / values": "Constitution: Sole Proprietorship",
+    "expected_result": "'Corporate Address Line 1' field is editable for manual entry."
+  },
+  {
+    "Test case No.": "TC-011",
+    "Function List/Test case description": "FR-012, BR-012: Copy 'Corporate Address' to 'Correspondence Address'",
+    "Condition/Feature to be tested": "'Correspondence Address Same As Corporate' checkbox",
+    "steps": "1. Fill 'Corporate Address' fields. 2. Check 'Correspondence Address Same As Corporate'.",
+    "data set / values": "Valid corporate address details",
+    "expected_result": "All 'Corporate Address' details are copied to 'Correspondence Address' fields."
+  },
+  {
+    "Test case No.": "TC-012",
+    "Function List/Test case description": "FR-013, BR-011: Display Country Name on 'Corporate Country Code' selection",
+    "Condition/Feature to be tested": "Country Name displayed next to Country Code",
+    "steps": "1. Select a 'Corporate Country Code' from dropdown (e.g., +91).",
+    "data set / values": "Country Code: +91",
+    "expected_result": "Corresponding 'India' (or selected country name) is displayed."
+  },
+  {
+    "Test case No.": "TC-013",
+    "Function List/Test case description": "FR-014: Add multiple promoter rows",
+    "Condition/Feature to be tested": "Ability to add more than one promoter",
+    "steps": "1. Navigate to Page 2. 2. Click 'Add Promoter' button 5 times.",
+    "data set / values": "N/A",
+    "expected_result": "5 new promoter rows are added."
+  },
+  {
+    "Test case No.": "TC-014",
+    "Function List/Test case description": "FR-015: Minimum 1 promoter row enforcement",
+    "Condition/Feature to be tested": "Cannot remove the last promoter row",
+    "steps": "1. Navigate to Page 2. 2. Attempt to remove the only existing promoter row.",
+    "data set / values": "Only one promoter row exists",
+    "expected_result": "System prevents removal of the last promoter row, displays error."
+  },
+  {
+    "Test case No.": "TC-015",
+    "Function List/Test case description": "FR-015: Maximum 10 promoter rows enforcement",
+    "Condition/Feature to be tested": "Cannot add more than 10 promoter rows",
+    "steps": "1. Navigate to Page 2. 2. Add 10 promoter rows. 3. Attempt to add an 11th row.",
+    "data set / values": "10 existing promoter rows",
+    "expected_result": "System prevents adding more than 10 promoter rows, 'Add' button disabled/error shown."
+  },
+  {
+    "Test case No.": "TC-016",
+    "Function List/Test case description": "FR-016, BR-039: Auto-calculate 'Total Fixed Capital Investment'",
+    "Condition/Feature to be tested": "Sum of investment fields",
+    "steps": "1. Enter values for 'Investment In Land', 'Building', 'Plant And Machinery', 'Other Fixed Assets'.",
+    "data set / values": "Land: 100, Building: 50, Plant: 200, Other: 25",
+    "expected_result": "'Total Fixed Capital Investment' auto-calculates to 375."
+  },
+  {
+    "Test case No.": "TC-017",
+    "Function List/Test case description": "FR-017, BR-040: Auto-calculate 'Total Project Cost'",
+    "Condition/Feature to be tested": "Sum of 'Total Fixed Capital Investment' and 'Working Capital'",
+    "steps": "1. Set 'Total Fixed Capital Investment' to 375. 2. Enter 'Working Capital' as 125.",
+    "data set / values": "Total Fixed Capital: 375, Working Capital: 125",
+    "expected_result": "'Total Project Cost' auto-calculates to 500."
+  },
+  {
+    "Test case No.": "TC-018",
+    "Function List/Test case description": "FR-018: Auto-calculate 'Total Financing'",
+    "Condition/Feature to be tested": "Sum of financing sources",
+    "steps": "1. Enter values for 'Own Funds', 'Bank Loan', 'Subsidy', 'Other Source Amount'.",
+    "data set / values": "Own Funds: 200, Bank Loan: 150, Subsidy: 50, Other: 100",
+    "expected_result": "'Total Financing' auto-calculates to 500."
+  },
+  {
+    "Test case No.": "TC-019",
+    "Function List/Test case description": "FR-019: Auto-calculate 'Total Direct Employment'",
+    "Condition/Feature to be tested": "Sum of 'Male Employment Direct' and 'Female Employment Direct'",
+    "steps": "1. Enter values for 'Male Employment Direct' (50) and 'Female Employment Direct' (30).",
+    "data set / values": "Male: 50, Female: 30",
+    "expected_result": "'Total Direct Employment' auto-calculates to 80."
+  },
+  {
+    "Test case No.": "TC-020",
+    "Function List/Test case description": "FR-020, BR-044, FV-146: Multi-selection for 'Type Of Assistance Required'",
+    "Condition/Feature to be tested": "Allows selecting multiple options",
+    "steps": "1. Navigate to Page 6. 2. Select 'Scheme A', 'Scheme B', 'Scheme C'.",
+    "data set / values": "Assistance types: 'Scheme A', 'Scheme B', 'Scheme C'",
+    "expected_result": "All selected assistance types are retained."
+  },
+  {
+    "Test case No.": "TC-021",
+    "Function List/Test case description": "NFR-001: Mask 'Company PAN Number' display",
+    "Condition/Feature to be tested": "PAN number displayed masked",
+    "steps": "1. Load Page 1: Company Details. 2. Observe 'Company PAN Number' field.",
+    "data set / values": "PAN: ABCDE1234F",
+    "expected_result": "'Company PAN Number' is displayed as '******1234F'."
+  },
+  {
+    "Test case No.": "TC-022",
+    "Function List/Test case description": "NFR-007: Mask 'Authorized Signatory Aadhaar' display",
+    "Condition/Feature to be tested": "Aadhaar number displayed masked",
+    "steps": "1. Navigate to Page 2. 2. Observe 'Authorized Signatory Aadhaar' field.",
+    "data set / values": "Aadhaar: 123456789012",
+    "expected_result": "'Authorized Signatory Aadhaar' is displayed as '********9012'."
+  },
+  {
+    "Test case No.": "TC-023",
+    "Function List/Test case description": "NFR-011: Mask 'Promoter PAN' display",
+    "Condition/Feature to be tested": "Promoter PAN number displayed masked",
+    "steps": "1. Navigate to Page 2. 2. Observe 'Promoter PAN' field.",
+    "data set / values": "Promoter PAN: GHIJK5678L",
+    "expected_result": "'Promoter PAN' is displayed as '******5678L'."
+  },
+  {
+    "Test case No.": "TC-024",
+    "Function List/Test case description": "NFR-012: Mask 'Promoter Aadhaar' display",
+    "Condition/Feature to be tested": "Promoter Aadhaar number displayed masked",
+    "steps": "1. Navigate to Page 2. 2. Observe 'Promoter Aadhaar' field.",
+    "data set / values": "Promoter Aadhaar: 987654321098",
+    "expected_result": "'Promoter Aadhaar' is displayed as '********1098'."
+  },
+  {
+    "Test case No.": "TC-025",
+    "Function List/Test case description": "NFR-002: Store 'Corporate Mobile Number' encrypted",
+    "Condition/Feature to be tested": "Data encryption at rest/in transit",
+    "steps": "1. Enter 'Corporate Mobile Number'. 2. Submit form. 3. Verify database storage (backend check).",
+    "data set / values": "Mobile: 9876543210",
+    "expected_result": "'Corporate Mobile Number' is stored in an encrypted format."
+  },
+  {
+    "Test case No.": "TC-026",
+    "Function List/Test case description": "NFR-003: Store 'Corporate Email' encrypted",
+    "Condition/Feature to be tested": "Data encryption at rest/in transit",
+    "steps": "1. Enter 'Corporate Email'. 2. Submit form. 3. Verify database storage (backend check).",
+    "data set / values": "Email: test@example.com",
+    "expected_result": "'Corporate Email' is stored in an encrypted format."
+  },
+  {
+    "Test case No.": "TC-027",
+    "Function List/Test case description": "NFR-004: Prevent 'Corporate Email' exposure without consent",
+    "Condition/Feature to be tested": "Email not visible in logs/APIs without explicit consent",
+    "steps": "1. Submit form. 2. Check system logs, API responses for unconsented email exposure (backend check).",
+    "data set / values": "N/A",
+    "expected_result": "'Corporate Email' is not exposed in system logs or API responses without investor consent."
+  },
+  {
+    "Test case No.": "TC-028",
+    "Function List/Test case description": "NFR-005: Store 'Correspondence Mobile Number' encrypted",
+    "Condition/Feature to be tested": "Correspondence mobile number stored encrypted",
+    "steps": "1. Enter 'Correspondence Mobile Number'. 2. Submit form. 3. Verify database storage (backend check).",
+    "data set / values": "Mobile: 9988776655",
+    "expected_result": "'Correspondence Mobile Number' is stored encrypted."
+  },
+  {
+    "Test case No.": "TC-029",
+    "Function List/Test case description": "NFR-006: Store 'Correspondence Email' encrypted",
+    "Condition/Feature to be tested": "Correspondence email stored encrypted",
+    "steps": "1. Enter 'Correspondence Email'. 2. Submit form. 3. Verify database storage (backend check).",
+    "data set / values": "Email: corr@example.com",
+    "expected_result": "'Correspondence Email' is stored encrypted."
+  },
+  {
+    "Test case No.": "TC-030",
+    "Function List/Test case description": "NFR-008: Store 'Authorized Signatory Aadhaar' encrypted",
+    "Condition/Feature to be tested": "Authorized Signatory Aadhaar stored encrypted",
+    "steps": "1. Enter 'Authorized Signatory Aadhaar'. 2. Submit form. 3. Verify database storage (backend check).",
+    "data set / values": "Aadhaar: 112233445566",
+    "expected_result": "'Authorized Signatory Aadhaar' is stored encrypted."
+  },
+  {
+    "Test case No.": "TC-031",
+    "Function List/Test case description": "NFR-009: Store 'Authorized Signatory Mobile Number' encrypted",
+    "Condition/Feature to be tested": "Authorized Signatory mobile number stored encrypted",
+    "steps": "1. Enter 'Authorized Signatory Mobile Number'. 2. Submit form. 3. Verify database storage (backend check).",
+    "data set / values": "Mobile: 7788990011",
+    "expected_result": "'Authorized Signatory Mobile Number' is stored encrypted."
+  },
+  {
+    "Test case No.": "TC-032",
+    "Function List/Test case description": "NFR-010: Store 'Authorized Signatory Email' encrypted",
+    "Condition/Feature to be tested": "Authorized Signatory email stored encrypted",
+    "steps": "1. Enter 'Authorized Signatory Email'. 2. Submit form. 3. Verify database storage (backend check).",
+    "data set / values": "Email: auth@example.com",
+    "expected_result": "'Authorized Signatory Email' is stored encrypted."
+  },
+  {
+    "Test case No.": "TC-033",
+    "Function List/Test case description": "NFR-013: Store 'Promoter Aadhaar' encrypted",
+    "Condition/Feature to be tested": "Promoter Aadhaar stored encrypted",
+    "steps": "1. Enter 'Promoter Aadhaar'. 2. Submit form. 3. Verify database storage (backend check).",
+    "data set / values": "Aadhaar: 112233445566",
+    "expected_result": "'Promoter Aadhaar' is stored encrypted."
+  },
+  {
+    "Test case No.": "TC-034",
+    "Function List/Test case description": "NFR-014: Display tooltips on hover/focus",
+    "Condition/Feature to be tested": "All fields with tooltips display text",
+    "steps": "1. Hover/focus on various fields with tooltips (e.g., 'Company PAN Number').",
+    "data set / values": "N/A",
+    "expected_result": "Correct tooltip text is displayed for each field."
+  },
+  {
+    "Test case No.": "TC-035",
+    "Function List/Test case description": "NFR-015: Read-only fields clearly distinguishable",
+    "Condition/Feature to be tested": "Read-only fields are visually distinct and non-editable",
+    "steps": "1. Observe auto-populated/read-only fields (e.g., 'Name Of Company Unit Trust').",
+    "data set / values": "N/A",
+    "expected_result": "Read-only fields are greyed out or visually marked as non-editable."
+  },
+  {
+    "Test case No.": "TC-036",
+    "Function List/Test case description": "NFR-016: Auto-populated fields clearly distinguishable",
+    "Condition/Feature to be tested": "Auto-populated fields are visually distinct",
+    "steps": "1. Observe auto-populated fields (e.g., 'Name Of Company Unit Trust').",
+    "data set / values": "N/A",
+    "expected_result": "Auto-populated fields are visually marked (e.g., different background, icon)."
+  },
+  {
+    "Test case No.": "TC-037",
+    "Function List/Test case description": "NFR-017, API-001: Performance of CIN API authentication",
+    "Condition/Feature to be tested": "Efficient CIN API call for authentication",
+    "steps": "1. Enter CIN. 2. Measure response time for CIN API call.",
+    "data set / values": "Valid CIN",
+    "expected_result": "CIN API authentication completes within acceptable performance limits (e.g., < 2 seconds)."
+  },
+  {
+    "Test case No.": "TC-038",
+    "Function List/Test case description": "NFR-017, API-004: Performance of GST API validation",
+    "Condition/Feature to be tested": "Efficient GST API call for validation",
+    "steps": "1. Enter GST Number. 2. Measure response time for GST API call.",
+    "data set / values": "Valid GST Number",
+    "expected_result": "GST API validation completes within acceptable performance limits (e.g., < 2 seconds)."
+  },
+  {
+    "Test case No.": "TC-039",
+    "Function List/Test case description": "NFR-017, API-005: Performance of MCA API authentication",
+    "Condition/Feature to be tested": "Efficient MCA API call for DIN authentication",
+    "steps": "1. Enter Authorized Signatory DIN. 2. Measure response time for MCA API call.",
+    "data set / values": "Valid DIN",
+    "expected_result": "MCA API authentication completes within acceptable performance limits (e.g., < 2 seconds)."
+  },
+  {
+    "Test case No.": "TC-040",
+    "Function List/Test case description": "FV-001: Mandatory 'New Or Existing Offline'",
+    "Condition/Feature to be tested": "Radio button selection required",
+    "steps": "1. Do not select 'New Or Existing Offline'. 2. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-041",
+    "Function List/Test case description": "FV-002: Mandatory 'Type Of Proposal'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Do not select 'Type Of Proposal'. 2. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-042",
+    "Function List/Test case description": "FV-003, COND-001: Conditional mandatory 'CAF Id'",
+    "Condition/Feature to be tested": "Required if 'Type Of Proposal' is expansion/diversification/modernization",
+    "steps": "1. Select 'Type Of Proposal' as 'expansion'. 2. Do not select 'CAF Id'. 3. Attempt to proceed.",
+    "data set / values": "Type Of Proposal: expansion",
+    "expected_result": "Error message 'This field is mandatory' is displayed for 'CAF Id'."
+  },
+  {
+    "Test case No.": "TC-043",
+    "Function List/Test case description": "FV-005: Mandatory 'Primary Activity Of Project'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Do not select 'Primary Activity Of Project'. 2. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-044",
+    "Function List/Test case description": "FV-007: Validate 'Company PAN Number' length (10 chars)",
+    "Condition/Feature to be tested": "PAN must be exactly 10 characters",
+    "steps": "1. Enter 9 chars. 2. Enter 11 chars. 3. Enter 10 chars.",
+    "data set / values": "ABCDE1234, ABCDE1234FG, ABCDE1234F",
+    "expected_result": "Error for <10 or >10 chars; no error for 10 chars."
+  },
+  {
+    "Test case No.": "TC-045",
+    "Function List/Test case description": "FV-008: Validate 'Company PAN Number' pattern",
+    "Condition/Feature to be tested": "PAN must match `^[A-Z]{5}[0-9]{4}[A-Z]{1}$`",
+    "steps": "1. Enter 'abcde1234f'. 2. Enter 'ABCDE12345'. 3. Enter 'ABCDE1234F'.",
+    "data set / values": "abcde1234f, ABCDE12345, ABCDE1234F",
+    "expected_result": "Error for invalid patterns; no error for valid pattern."
+  },
+  {
+    "Test case No.": "TC-046",
+    "Function List/Test case description": "FV-010: Validate 'Corporate Identification Number' max length (21 chars)",
+    "Condition/Feature to be tested": "CIN must be max 21 characters",
+    "steps": "1. Enter 22 chars. 2. Enter 21 chars.",
+    "data set / values": "L12345KA2023ABC0000001, L12345KA2023ABC000000",
+    "expected_result": "Error for >21 chars; no error for 21 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-047",
+    "Function List/Test case description": "FV-011: Validate 'Corporate Identification Number' pattern",
+    "Condition/Feature to be tested": "CIN must match `^[LUu]{1}[0-9]{5}[A-Za-z]{2}[0-9]{4}[A-Za-z]{3}[0-9]{6}$`",
+    "steps": "1. Enter 'L12345KA2023ABC000000'. 2. Enter 'X12345KA2023ABC000000'.",
+    "data set / values": "L12345KA2023ABC000000, X12345KA2023ABC000000",
+    "expected_result": "No error for valid pattern; error for invalid starting character."
+  },
+  {
+    "Test case No.": "TC-048",
+    "Function List/Test case description": "FV-012: Validate 'LLPIN Number' max length (7 chars)",
+    "Condition/Feature to be tested": "LLPIN must be max 7 characters",
+    "steps": "1. Enter 8 chars. 2. Enter 7 chars.",
+    "data set / values": "ABCDEFG1, ABCDEFG",
+    "expected_result": "Error for >7 chars; no error for 7 chars."
+  },
+  {
+    "Test case No.": "TC-049",
+    "Function List/Test case description": "FV-013: Mandatory 'Do You Have GST Number'",
+    "Condition/Feature to be tested": "Radio button selection required",
+    "steps": "1. Do not select 'Do You Have GST Number'. 2. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-050",
+    "Function List/Test case description": "FV-014: Validate 'GST Number' max length (15 chars)",
+    "Condition/Feature to be tested": "GST must be max 15 characters",
+    "steps": "1. Select 'Yes' for GST. 2. Enter 16 chars. 3. Enter 15 chars.",
+    "data set / values": "29ABCDE1234F1Z56, 29ABCDE1234F1Z5",
+    "expected_result": "Error for >15 chars; no error for 15 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-051",
+    "Function List/Test case description": "FV-015: Validate 'GST Number' pattern",
+    "Condition/Feature to be tested": "GST must match `^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$`",
+    "steps": "1. Select 'Yes' for GST. 2. Enter '29ABCDE1234F1Z5'. 3. Enter '29abcde1234f1z5'.",
+    "data set / values": "29ABCDE1234F1Z5, 29abcde1234f1z5",
+    "expected_result": "No error for valid pattern; error for invalid pattern (e.g., lowercase)."
+  },
+  {
+    "Test case No.": "TC-052",
+    "Function List/Test case description": "FV-017, BR-009: Validate 'Date Of Business Commencement' not future date",
+    "Condition/Feature to be tested": "Date cannot be after today",
+    "steps": "1. Select a future date for 'Date Of Business Commencement'.",
+    "data set / values": "Date: Tomorrow's date",
+    "expected_result": "Error message 'Date cannot be in the future' is displayed."
+  },
+  {
+    "Test case No.": "TC-053",
+    "Function List/Test case description": "FV-018, BR-009: Validate 'Date Of Business Commencement' not prior to 'Date Of Incorporation'",
+    "Condition/Feature to be tested": "Commencement date must be after incorporation date",
+    "steps": "1. Set 'Date Of Incorporation' to 2023-01-01. 2. Set 'Date Of Business Commencement' to 2022-12-31.",
+    "data set / values": "Incorporation: 2023-01-01, Commencement: 2022-12-31",
+    "expected_result": "Error message 'Date cannot be prior to Date Of Incorporation' is displayed."
+  },
+  {
+    "Test case No.": "TC-054",
+    "Function List/Test case description": "FV-019: Validate 'Corporate Address Line 1' max length (255 chars)",
+    "Condition/Feature to be tested": "Address line 1 max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-055",
+    "Function List/Test case description": "FV-020: Validate 'Corporate Address Line 2' max length (255 chars)",
+    "Condition/Feature to be tested": "Address line 2 max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-056",
+    "Function List/Test case description": "FV-021: Mandatory 'Corporate Country'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Do not select 'Corporate Country'. 2. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-057",
+    "Function List/Test case description": "FV-022: Mandatory 'Corporate State'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Select 'Corporate Country'. 2. Do not select 'Corporate State'. 3. Attempt to proceed.",
+    "data set / values": "Corporate Country: India",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-058",
+    "Function List/Test case description": "FV-023: Mandatory 'Corporate District'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Select 'Corporate State'. 2. Do not select 'Corporate District'. 3. Attempt to proceed.",
+    "data set / values": "Corporate State: Karnataka",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-059",
+    "Function List/Test case description": "FV-024: Mandatory 'Corporate Taluk'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Select 'Corporate District'. 2. Do not select 'Corporate Taluk'. 3. Attempt to proceed.",
+    "data set / values": "Corporate District: Bengaluru Urban",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-060",
+    "Function List/Test case description": "FV-025: Validate 'Corporate City' max length (50 chars)",
+    "Condition/Feature to be tested": "City name max length",
+    "steps": "1. Enter 51 chars. 2. Enter 50 chars.",
+    "data set / values": "51 char string, 50 char string",
+    "expected_result": "Error for >50 chars; no error for 50 chars."
+  },
+  {
+    "Test case No.": "TC-061",
+    "Function List/Test case description": "FV-026: Validate 'Corporate City' no special characters",
+    "Condition/Feature to be tested": "City name must not contain special characters",
+    "steps": "1. Enter 'Bangalore@'. 2. Enter 'Bengaluru'.",
+    "data set / values": "Bangalore@, Bengaluru",
+    "expected_result": "Error for 'Bangalore@'; no error for 'Bengaluru'."
+  },
+  {
+    "Test case No.": "TC-062",
+    "Function List/Test case description": "FV-027: Validate 'Corporate Pin Code' max length (10 chars)",
+    "Condition/Feature to be tested": "Pin code max length",
+    "steps": "1. Enter 11 chars. 2. Enter 10 chars.",
+    "data set / values": "12345678901, 1234567890",
+    "expected_result": "Error for >10 chars; no error for 10 chars."
+  },
+  {
+    "Test case No.": "TC-063",
+    "Function List/Test case description": "FV-028: Validate 'Corporate Pin Code' no special characters",
+    "Condition/Feature to be tested": "Pin code must not contain special characters",
+    "steps": "1. Enter '560001!'. 2. Enter '560001'.",
+    "data set / values": "560001!, 560001",
+    "expected_result": "Error for '560001!'; no error for '560001'."
+  },
+  {
+    "Test case No.": "TC-064",
+    "Function List/Test case description": "FV-029: Validate 'Corporate Std Code' max length (10 chars)",
+    "Condition/Feature to be tested": "STD code max length",
+    "steps": "1. Enter 11 chars. 2. Enter 10 chars.",
+    "data set / values": "12345678901, 1234567890",
+    "expected_result": "Error for >10 chars; no error for 10 chars."
+  },
+  {
+    "Test case No.": "TC-065",
+    "Function List/Test case description": "FV-030: Validate 'Corporate Phone Number' max length (15 chars)",
+    "Condition/Feature to be tested": "Phone number max length",
+    "steps": "1. Enter 16 chars. 2. Enter 15 chars.",
+    "data set / values": "1234567890123456, 123456789012345",
+    "expected_result": "Error for >15 chars; no error for 15 chars."
+  },
+  {
+    "Test case No.": "TC-066",
+    "Function List/Test case description": "FV-031: Mandatory 'Corporate Country Code'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Do not select 'Corporate Country Code'. 2. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-067",
+    "Function List/Test case description": "FV-032: Validate 'Corporate Mobile Number' max length (15 chars)",
+    "Condition/Feature to be tested": "Mobile number max length",
+    "steps": "1. Enter 16 chars. 2. Enter 15 chars.",
+    "data set / values": "1234567890123456, 123456789012345",
+    "expected_result": "Error for >15 chars; no error for 15 chars."
+  },
+  {
+    "Test case No.": "TC-068",
+    "Function List/Test case description": "FV-033: Validate 'Corporate Mobile Number' no special characters",
+    "Condition/Feature to be tested": "Mobile number must not contain special characters",
+    "steps": "1. Enter '987-654-3210'. 2. Enter '9876543210'.",
+    "data set / values": "987-654-3210, 9876543210",
+    "expected_result": "Error for '987-654-3210'; no error for '9876543210'."
+  },
+  {
+    "Test case No.": "TC-069",
+    "Function List/Test case description": "FV-034: Validate 'Corporate Email' max length (100 chars)",
+    "Condition/Feature to be tested": "Email max length",
+    "steps": "1. Enter 101 chars. 2. Enter 100 chars.",
+    "data set / values": "longemail@example.com... (101 chars), longemail@example.com... (100 chars)",
+    "expected_result": "Error for >100 chars; no error for 100 chars (if valid format)."
+  },
+  {
+    "Test case No.": "TC-070",
+    "Function List/Test case description": "FV-035: Validate 'Corporate Email' valid format",
+    "Condition/Feature to be tested": "Email must be in valid format",
+    "steps": "1. Enter 'invalid-email'. 2. Enter 'test@example.com'.",
+    "data set / values": "invalid-email, test@example.com",
+    "expected_result": "Error for 'invalid-email'; no error for 'test@example.com'."
+  },
+  {
+    "Test case No.": "TC-071",
+    "Function List/Test case description": "FV-036: Validate 'Correspondence Address Line 1' max length (300 chars)",
+    "Condition/Feature to be tested": "Address line 1 max length",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 301 chars. 3. Enter 300 chars.",
+    "data set / values": "301 char string, 300 char string",
+    "expected_result": "Error for >300 chars; no error for 300 chars."
+  },
+  {
+    "Test case No.": "TC-072",
+    "Function List/Test case description": "FV-037: Validate 'Correspondence Address Line 2' max length (300 chars)",
+    "Condition/Feature to be tested": "Address line 2 max length",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 301 chars. 3. Enter 300 chars.",
+    "data set / values": "301 char string, 300 char string",
+    "expected_result": "Error for >300 chars; no error for 300 chars."
+  },
+  {
+    "Test case No.": "TC-073",
+    "Function List/Test case description": "FV-038: Mandatory 'Correspondence Country'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Do not select 'Correspondence Country'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-074",
+    "Function List/Test case description": "FV-039: Mandatory 'Correspondence State'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Select 'Correspondence Country'. 3. Do not select 'Correspondence State'. 4. Attempt to proceed.",
+    "data set / values": "Correspondence Country: India",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-075",
+    "Function List/Test case description": "FV-040: Mandatory 'Correspondence District'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Select 'Correspondence State'. 3. Do not select 'Correspondence District'. 4. Attempt to proceed.",
+    "data set / values": "Correspondence State: Karnataka",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-076",
+    "Function List/Test case description": "FV-041: Mandatory 'Correspondence Taluk'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Select 'Correspondence District'. 3. Do not select 'Correspondence Taluk'. 4. Attempt to proceed.",
+    "data set / values": "Correspondence District: Bengaluru Urban",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-077",
+    "Function List/Test case description": "FV-042: Validate 'Correspondence City' max length (50 chars)",
+    "Condition/Feature to be tested": "City name max length",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 51 chars. 3. Enter 50 chars.",
+    "data set / values": "51 char string, 50 char string",
+    "expected_result": "Error for >50 chars; no error for 50 chars."
+  },
+  {
+    "Test case No.": "TC-078",
+    "Function List/Test case description": "FV-043: Validate 'Correspondence Pin Code' max length (10 chars)",
+    "Condition/Feature to be tested": "Pin code max length",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 11 chars. 3. Enter 10 chars.",
+    "data set / values": "12345678901, 1234567890",
+    "expected_result": "Error for >10 chars; no error for 10 chars."
+  },
+  {
+    "Test case No.": "TC-079",
+    "Function List/Test case description": "FV-044: Validate 'Correspondence Std Code' max length (10 chars)",
+    "Condition/Feature to be tested": "STD code max length",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 11 chars. 3. Enter 10 chars.",
+    "data set / values": "12345678901, 1234567890",
+    "expected_result": "Error for >10 chars; no error for 10 chars."
+  },
+  {
+    "Test case No.": "TC-080",
+    "Function List/Test case description": "FV-045: Validate 'Correspondence Phone Number' max length (15 chars)",
+    "Condition/Feature to be tested": "Phone number max length",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 16 chars. 3. Enter 15 chars.",
+    "data set / values": "1234567890123456, 123456789012345",
+    "expected_result": "Error for >15 chars; no error for 15 chars."
+  },
+  {
+    "Test case No.": "TC-081",
+    "Function List/Test case description": "FV-046: Mandatory 'Correspondence Country Code'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Do not select 'Correspondence Country Code'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-082",
+    "Function List/Test case description": "FV-047: Validate 'Correspondence Mobile Number' max length (15 chars)",
+    "Condition/Feature to be tested": "Mobile number max length",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 16 chars. 3. Enter 15 chars.",
+    "data set / values": "1234567890123456, 123456789012345",
+    "expected_result": "Error for >15 chars; no error for 15 chars."
+  },
+  {
+    "Test case No.": "TC-083",
+    "Function List/Test case description": "FV-048: Validate 'Correspondence Email' max length (100 chars)",
+    "Condition/Feature to be tested": "Email max length",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 101 chars. 3. Enter 100 chars.",
+    "data set / values": "longemail@example.com... (101 chars), longemail@example.com... (100 chars)",
+    "expected_result": "Error for >100 chars; no error for 100 chars (if valid format)."
+  },
+  {
+    "Test case No.": "TC-084",
+    "Function List/Test case description": "FV-049: Validate 'Correspondence Email' valid format",
+    "Condition/Feature to be tested": "Email must be in valid format",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Enter 'invalid-email'. 3. Enter 'test@example.com'.",
+    "data set / values": "invalid-email, test@example.com",
+    "expected_result": "Error for 'invalid-email'; no error for 'test@example.com'."
+  },
+  {
+    "Test case No.": "TC-085",
+    "Function List/Test case description": "FV-050: Validate 'Authorized Signatory Name' max length (100 chars)",
+    "Condition/Feature to be tested": "Name max length",
+    "steps": "1. Enter 101 chars. 2. Enter 100 chars.",
+    "data set / values": "101 char string, 100 char string",
+    "expected_result": "Error for >100 chars; no error for 100 chars."
+  },
+  {
+    "Test case No.": "TC-086",
+    "Function List/Test case description": "FV-051: Validate 'Authorized Signatory Designation' max length (100 chars)",
+    "Condition/Feature to be tested": "Designation max length",
+    "steps": "1. Enter 101 chars. 2. Enter 100 chars.",
+    "data set / values": "101 char string, 100 char string",
+    "expected_result": "Error for >100 chars; no error for 100 chars."
+  },
+  {
+    "Test case No.": "TC-087",
+    "Function List/Test case description": "FV-052: Validate 'Authorized Signatory PAN' max length (10 chars)",
+    "Condition/Feature to be tested": "PAN must be max 10 characters",
+    "steps": "1. Enter 11 chars. 2. Enter 10 chars.",
+    "data set / values": "ABCDE1234F1, ABCDE1234F",
+    "expected_result": "Error for >10 chars; no error for 10 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-088",
+    "Function List/Test case description": "FV-053: Validate 'Authorized Signatory PAN' pattern",
+    "Condition/Feature to be tested": "PAN must match `^[A-Z]{5}[0-9]{4}[A-Z]{1}$`",
+    "steps": "1. Enter 'ABCDE1234F'. 2. Enter 'abcde1234f'.",
+    "data set / values": "ABCDE1234F, abcde1234f",
+    "expected_result": "No error for valid pattern; error for invalid pattern (lowercase)."
+  },
+  {
+    "Test case No.": "TC-089",
+    "Function List/Test case description": "FV-054: Validate 'Authorized Signatory Aadhaar' max length (12 chars)",
+    "Condition/Feature to be tested": "Aadhaar must be max 12 characters",
+    "steps": "1. Enter 13 chars. 2. Enter 12 chars.",
+    "data set / values": "1234567890123, 123456789012",
+    "expected_result": "Error for >12 chars; no error for 12 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-090",
+    "Function List/Test case description": "FV-055: Validate 'Authorized Signatory Aadhaar' pattern",
+    "Condition/Feature to be tested": "Aadhaar must match `^\\d{12}$`",
+    "steps": "1. Enter '123456789012'. 2. Enter '12345678901'. 3. Enter '12345678901A'.",
+    "data set / values": "123456789012, 12345678901, 12345678901A",
+    "expected_result": "No error for valid 12-digit number; error for invalid length/characters."
+  },
+  {
+    "Test case No.": "TC-091",
+    "Function List/Test case description": "FV-056: Validate 'Authorized Signatory Mobile Number' max length (10 chars)",
+    "Condition/Feature to be tested": "Mobile must be max 10 characters",
+    "steps": "1. Enter 11 chars. 2. Enter 10 chars.",
+    "data set / values": "98765432101, 9876543210",
+    "expected_result": "Error for >10 chars; no error for 10 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-092",
+    "Function List/Test case description": "FV-057: Validate 'Authorized Signatory Mobile Number' pattern",
+    "Condition/Feature to be tested": "Mobile must match `^[6-9]\\d{9}$`",
+    "steps": "1. Enter '9876543210'. 2. Enter '5876543210'. 3. Enter '987654321'.",
+    "data set / values": "9876543210, 5876543210, 987654321",
+    "expected_result": "No error for valid pattern; error for invalid starting digit/length."
+  },
+  {
+    "Test case No.": "TC-093",
+    "Function List/Test case description": "FV-058: Validate 'Authorized Signatory Email' max length (100 chars)",
+    "Condition/Feature to be tested": "Email max length",
+    "steps": "1. Enter 101 chars. 2. Enter 100 chars.",
+    "data set / values": "longemail@example.com... (101 chars), longemail@example.com... (100 chars)",
+    "expected_result": "Error for >100 chars; no error for 100 chars (if valid format)."
+  },
+  {
+    "Test case No.": "TC-094",
+    "Function List/Test case description": "FV-059: Validate 'Authorized Signatory Email' valid format",
+    "Condition/Feature to be tested": "Email must be in valid format",
+    "steps": "1. Enter 'invalid-email'. 2. Enter 'auth@example.com'.",
+    "data set / values": "invalid-email, auth@example.com",
+    "expected_result": "Error for 'invalid-email'; no error for 'auth@example.com'."
+  },
+  {
+    "Test case No.": "TC-095",
+    "Function List/Test case description": "FV-060: Validate 'Authorized Signatory DIN' max length (8 chars)",
+    "Condition/Feature to be tested": "DIN must be max 8 characters",
+    "steps": "1. Enter 9 chars. 2. Enter 8 chars.",
+    "data set / values": "123456789, 12345678",
+    "expected_result": "Error for >8 chars; no error for 8 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-096",
+    "Function List/Test case description": "FV-061: Validate 'Authorized Signatory DIN' pattern",
+    "Condition/Feature to be tested": "DIN must match `^[0-9]{8}$`",
+    "steps": "1. Enter '12345678'. 2. Enter '1234567'. 3. Enter '1234567A'.",
+    "data set / values": "12345678, 1234567, 1234567A",
+    "expected_result": "No error for valid 8-digit number; error for invalid length/characters."
+  },
+  {
+    "Test case No.": "TC-097",
+    "Function List/Test case description": "FV-062: Validate 'Authorized Signatory Address Line 1' max length (255 chars)",
+    "Condition/Feature to be tested": "Address line 1 max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-098",
+    "Function List/Test case description": "FV-063: Validate 'Authorized Signatory Address Line 2' max length (255 chars)",
+    "Condition/Feature to be tested": "Address line 2 max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-099",
+    "Function List/Test case description": "FV-064: Mandatory 'Authorized Signatory Country'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Do not select 'Authorized Signatory Country'. 2. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-100",
+    "Function List/Test case description": "FV-065: Mandatory 'Authorized Signatory State'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Select 'Authorized Signatory Country'. 2. Do not select 'Authorized Signatory State'. 3. Attempt to proceed.",
+    "data set / values": "Authorized Signatory Country: India",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-101",
+    "Function List/Test case description": "FV-066: Mandatory 'Authorized Signatory District'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Select 'Authorized Signatory State'. 2. Do not select 'Authorized Signatory District'. 3. Attempt to proceed.",
+    "data set / values": "Authorized Signatory State: Karnataka",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-102",
+    "Function List/Test case description": "FV-067: Mandatory 'Authorized Signatory Taluk'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Select 'Authorized Signatory District'. 2. Do not select 'Authorized Signatory Taluk'. 3. Attempt to proceed.",
+    "data set / values": "Authorized Signatory District: Bengaluru Urban",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-103",
+    "Function List/Test case description": "FV-068: Validate 'Authorized Signatory City' max length (50 chars)",
+    "Condition/Feature to be tested": "City name max length",
+    "steps": "1. Enter 51 chars. 2. Enter 50 chars.",
+    "data set / values": "51 char string, 50 char string",
+    "expected_result": "Error for >50 chars; no error for 50 chars."
+  },
+  {
+    "Test case No.": "TC-104",
+    "Function List/Test case description": "FV-069: Validate 'Authorized Signatory Pin Code' max length (6 chars)",
+    "Condition/Feature to be tested": "Pin code max length",
+    "steps": "1. Enter 7 chars. 2. Enter 6 chars.",
+    "data set / values": "1234567, 123456",
+    "expected_result": "Error for >6 chars; no error for 6 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-105",
+    "Function List/Test case description": "FV-070: Validate 'Authorized Signatory Pin Code' pattern",
+    "Condition/Feature to be tested": "Pin code must match `^\\d{6}$`",
+    "steps": "1. Enter '560001'. 2. Enter '56000'. 3. Enter '56000A'.",
+    "data set / values": "560001, 56000, 56000A",
+    "expected_result": "No error for valid 6-digit number; error for invalid length/characters."
+  },
+  {
+    "Test case No.": "TC-106",
+    "Function List/Test case description": "FV-071: Validate 'Promoter Name' max length (100 chars)",
+    "Condition/Feature to be tested": "Name max length",
+    "steps": "1. Add promoter. 2. Enter 101 chars. 3. Enter 100 chars.",
+    "data set / values": "101 char string, 100 char string",
+    "expected_result": "Error for >100 chars; no error for 100 chars."
+  },
+  {
+    "Test case No.": "TC-107",
+    "Function List/Test case description": "FV-072: Validate 'Promoter Designation' max length (100 chars)",
+    "Condition/Feature to be tested": "Designation max length",
+    "steps": "1. Add promoter. 2. Enter 101 chars. 3. Enter 100 chars.",
+    "data set / values": "101 char string, 100 char string",
+    "expected_result": "Error for >100 chars; no error for 100 chars."
+  },
+  {
+    "Test case No.": "TC-108",
+    "Function List/Test case description": "FV-073: Mandatory 'Promoter Gender'",
+    "Condition/Feature to be tested": "Dropdown selection required for each promoter",
+    "steps": "1. Add a promoter. 2. Do not select 'Promoter Gender'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed for 'Promoter Gender'."
+  },
+  {
+    "Test case No.": "TC-109",
+    "Function List/Test case description": "FV-074: Mandatory 'Promoter Social Category'",
+    "Condition/Feature to be tested": "Dropdown selection required for each promoter",
+    "steps": "1. Add a promoter. 2. Do not select 'Promoter Social Category'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed for 'Promoter Social Category'."
+  },
+  {
+    "Test case No.": "TC-110",
+    "Function List/Test case description": "FV-075: Validate 'Promoter PAN' max length (10 chars)",
+    "Condition/Feature to be tested": "PAN must be max 10 characters",
+    "steps": "1. Add promoter. 2. Enter 11 chars. 3. Enter 10 chars.",
+    "data set / values": "ABCDE1234F1, ABCDE1234F",
+    "expected_result": "Error for >10 chars; no error for 10 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-111",
+    "Function List/Test case description": "FV-076: Validate 'Promoter PAN' pattern",
+    "Condition/Feature to be tested": "PAN must match `^[A-Z]{5}[0-9]{4}[A-Z]{1}$`",
+    "steps": "1. Add promoter. 2. Enter 'ABCDE1234F'. 3. Enter 'abcde1234f'.",
+    "data set / values": "ABCDE1234F, abcde1234f",
+    "expected_result": "No error for valid pattern; error for invalid pattern (lowercase)."
+  },
+  {
+    "Test case No.": "TC-112",
+    "Function List/Test case description": "FV-077: Validate 'Promoter Aadhaar' max length (12 chars)",
+    "Condition/Feature to be tested": "Aadhaar must be max 12 characters",
+    "steps": "1. Add promoter. 2. Enter 13 chars. 3. Enter 12 chars.",
+    "data set / values": "1234567890123, 123456789012",
+    "expected_result": "Error for >12 chars; no error for 12 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-113",
+    "Function List/Test case description": "FV-078: Validate 'Promoter Aadhaar' pattern",
+    "Condition/Feature to be tested": "Aadhaar must match `^\\d{12}$`",
+    "steps": "1. Add promoter. 2. Enter '123456789012'. 3. Enter '12345678901A'.",
+    "data set / values": "123456789012, 12345678901A",
+    "expected_result": "No error for valid 12-digit number; error for invalid characters."
+  },
+  {
+    "Test case No.": "TC-114",
+    "Function List/Test case description": "FV-079, BR-021: Validate 'Promoter Date Of Birth' not future date",
+    "Condition/Feature to be tested": "DOB cannot be after today",
+    "steps": "1. Add promoter. 2. Select a future date for 'Promoter Date Of Birth'.",
+    "data set / values": "Date: Tomorrow's date",
+    "expected_result": "Error message 'Date cannot be in the future' is displayed."
+  },
+  {
+    "Test case No.": "TC-115",
+    "Function List/Test case description": "FV-080: Validate 'Promoter Mobile Number' max length (10 chars)",
+    "Condition/Feature to be tested": "Mobile must be max 10 characters",
+    "steps": "1. Add promoter. 2. Enter 11 chars. 3. Enter 10 chars.",
+    "data set / values": "98765432101, 9876543210",
+    "expected_result": "Error for >10 chars; no error for 10 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-116",
+    "Function List/Test case description": "FV-081: Validate 'Promoter Mobile Number' pattern",
+    "Condition/Feature to be tested": "Mobile must match `^[6-9]\\d{9}$`",
+    "steps": "1. Add promoter. 2. Enter '9876543210'. 3. Enter '5876543210'.",
+    "data set / values": "9876543210, 5876543210",
+    "expected_result": "No error for valid pattern; error for invalid starting digit."
+  },
+  {
+    "Test case No.": "TC-117",
+    "Function List/Test case description": "FV-082: Validate 'Promoter Email' max length (100 chars)",
+    "Condition/Feature to be tested": "Email max length",
+    "steps": "1. Add promoter. 2. Enter 101 chars. 3. Enter 100 chars.",
+    "data set / values": "longemail@example.com... (101 chars), longemail@example.com... (100 chars)",
+    "expected_result": "Error for >100 chars; no error for 100 chars (if valid format)."
+  },
+  {
+    "Test case No.": "TC-118",
+    "Function List/Test case description": "FV-083: Validate 'Promoter Email' valid format",
+    "Condition/Feature to be tested": "Email must be in valid format",
+    "steps": "1. Add promoter. 2. Enter 'invalid-email'. 3. Enter 'promoter@example.com'.",
+    "data set / values": "invalid-email, promoter@example.com",
+    "expected_result": "Error for 'invalid-email'; no error for 'promoter@example.com'."
+  },
+  {
+    "Test case No.": "TC-119",
+    "Function List/Test case description": "FV-084: Validate 'Promoter Share Percentage' range (0-100)",
+    "Condition/Feature to be tested": "Percentage must be between 0 and 100",
+    "steps": "1. Add promoter. 2. Enter -1. 3. Enter 101. 4. Enter 0. 5. Enter 100.",
+    "data set / values": "-1, 101, 0, 100",
+    "expected_result": "Error for -1 and 101; no error for 0 and 100."
+  },
+  {
+    "Test case No.": "TC-120",
+    "Function List/Test case description": "BR-022: Validate sum of 'Promoter Share Percentage' equals 100%",
+    "Condition/Feature to be tested": "Total share percentage must be 100%",
+    "steps": "1. Add two promoters with 40% and 50%. 2. Attempt to proceed.",
+    "data set / values": "Promoter 1: 40%, Promoter 2: 50%",
+    "expected_result": "Error message 'Total Promoter Share Percentage must equal 100%' is displayed."
+  },
+  {
+    "Test case No.": "TC-121",
+    "Function List/Test case description": "FV-085: Validate 'Promoter DIN' max length (8 chars)",
+    "Condition/Feature to be tested": "DIN must be max 8 characters",
+    "steps": "1. Add promoter. 2. Enter 9 chars. 3. Enter 8 chars.",
+    "data set / values": "123456789, 12345678",
+    "expected_result": "Error for >8 chars; no error for 8 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-122",
+    "Function List/Test case description": "FV-086: Validate 'Promoter DIN' pattern",
+    "Condition/Feature to be tested": "DIN must match `^[0-9]{8}$`",
+    "steps": "1. Add promoter. 2. Enter '12345678'. 3. Enter '1234567A'.",
+    "data set / values": "12345678, 1234567A",
+    "expected_result": "No error for valid 8-digit number; error for invalid characters."
+  },
+  {
+    "Test case No.": "TC-123",
+    "Function List/Test case description": "FV-087: Validate 'Name Of Industrial Unit' max length (255 chars)",
+    "Condition/Feature to be tested": "Name max length",
+    "steps": "1. Navigate to Page 3. 2. Enter 256 chars. 3. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-124",
+    "Function List/Test case description": "FV-088: Mandatory 'NIC Code'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Navigate to Page 3. 2. Do not select 'NIC Code'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-125",
+    "Function List/Test case description": "FV-089: Mandatory 'Industry Type'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Navigate to Page 3. 2. Do not select 'Industry Type'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-126",
+    "Function List/Test case description": "FV-090: Validate 'Products Or Services To Be Manufactured' max length (1000 chars)",
+    "Condition/Feature to be tested": "Textarea max length",
+    "steps": "1. Enter 1001 chars. 2. Enter 1000 chars.",
+    "data set / values": "1001 char string, 1000 char string",
+    "expected_result": "Error for >1000 chars; no error for 1000 chars."
+  },
+  {
+    "Test case No.": "TC-127",
+    "Function List/Test case description": "FV-091: Validate 'Udyam Registration Number' max length (19 chars)",
+    "Condition/Feature to be tested": "Udyam must be max 19 characters",
+    "steps": "1. Select 'Is Existing MSME Unit' as 'yes'. 2. Enter 20 chars. 3. Enter 19 chars.",
+    "data set / values": "UDYAM-KA-01-12345678, UDYAM-KA-01-1234567",
+    "expected_result": "Error for >19 chars; no error for 19 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-128",
+    "Function List/Test case description": "FV-092, BR-028: Validate 'Udyam Registration Number' pattern",
+    "Condition/Feature to be tested": "Udyam must match `^UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7}$`",
+    "steps": "1. Select 'Is Existing MSME Unit' as 'yes'. 2. Enter 'UDYAM-KA-01-1234567'. 3. Enter 'UDYAM-KA-01-123456'.",
+    "data set / values": "UDYAM-KA-01-1234567, UDYAM-KA-01-123456",
+    "expected_result": "No error for valid pattern; error for invalid pattern (length)."
+  },
+  {
+    "Test case No.": "TC-129",
+    "Function List/Test case description": "FV-093: Mandatory 'Whether Pollution Causing Industry'",
+    "Condition/Feature to be tested": "Radio button selection required",
+    "steps": "1. Navigate to Page 3. 2. Do not select 'Whether Pollution Causing Industry'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-130",
+    "Function List/Test case description": "FV-094, COND-010: Conditional mandatory 'Pollution Category'",
+    "Condition/Feature to be tested": "Required if 'Whether Pollution Causing Industry' is 'yes'",
+    "steps": "1. Select 'Whether Pollution Causing Industry' as 'yes'. 2. Do not select 'Pollution Category'. 3. Attempt to proceed.",
+    "data set / values": "Whether Pollution Causing Industry: yes",
+    "expected_result": "Error message 'This field is mandatory' is displayed for 'Pollution Category'."
+  },
+  {
+    "Test case No.": "TC-131",
+    "Function List/Test case description": "FV-095: Mandatory 'Project Location District'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Navigate to Page 3. 2. Do not select 'Project Location District'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-132",
+    "Function List/Test case description": "BR-030: 'Project Location District' limited to Karnataka districts",
+    "Condition/Feature to be tested": "Dropdown only shows Karnataka districts",
+    "steps": "1. Open 'Project Location District' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays only districts belonging to Karnataka. No non-Karnataka districts are listed."
+  },
+  {
+    "Test case No.": "TC-133",
+    "Function List/Test case description": "FV-096: Mandatory 'Project Location Taluk'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Select 'Project Location District'. 2. Do not select 'Project Location Taluk'. 3. Attempt to proceed.",
+    "data set / values": "Project Location District: Bengaluru Urban",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-134",
+    "Function List/Test case description": "FV-097: Mandatory 'Project Location Hobli'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Select 'Project Location Taluk'. 2. Do not select 'Project Location Hobli'. 3. Attempt to proceed.",
+    "data set / values": "Project Location Taluk: Bengaluru North",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-135",
+    "Function List/Test case description": "FV-098: Mandatory 'Project Location Village'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Select 'Project Location Hobli'. 2. Do not select 'Project Location Village'. 3. Attempt to proceed.",
+    "data set / values": "Project Location Hobli: Yelahanka",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-136",
+    "Function List/Test case description": "FV-099: Mandatory 'Project Location Zone'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Navigate to Page 3. 2. Do not select 'Project Location Zone'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-137",
+    "Function List/Test case description": "FV-100: Validate 'Project Address Line 1' max length (255 chars)",
+    "Condition/Feature to be tested": "Address line 1 max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-138",
+    "Function List/Test case description": "FV-101: Validate 'Project Address Line 2' max length (255 chars)",
+    "Condition/Feature to be tested": "Address line 2 max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-139",
+    "Function List/Test case description": "FV-102: Validate 'Project Pin Code' max length (6 chars)",
+    "Condition/Feature to be tested": "Pin code max length",
+    "steps": "1. Enter 7 chars. 2. Enter 6 chars.",
+    "data set / values": "1234567, 123456",
+    "expected_result": "Error for >6 chars; no error for 6 chars (if pattern matches)."
+  },
+  {
+    "Test case No.": "TC-140",
+    "Function List/Test case description": "FV-103: Validate 'Project Pin Code' pattern",
+    "Condition/Feature to be tested": "Pin code must match `^\\d{6}$`",
+    "steps": "1. Enter '560001'. 2. Enter '56000'. 3. Enter '56000A'.",
+    "data set / values": "560001, 56000, 56000A",
+    "expected_result": "No error for valid 6-digit number; error for invalid length/characters."
+  },
+  {
+    "Test case No.": "TC-141",
+    "Function List/Test case description": "FV-104: Validate 'Industrial Area Or Estate Name' max length (255 chars)",
+    "Condition/Feature to be tested": "Name max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-142",
+    "Function List/Test case description": "FV-105: Mandatory 'Land Availability Status'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Navigate to Page 3. 2. Do not select 'Land Availability Status'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-143",
+    "Function List/Test case description": "FV-106: Mandatory 'Land Source'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Navigate to Page 3. 2. Do not select 'Land Source'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-144",
+    "Function List/Test case description": "FV-107: Validate 'Total Land Required In Acres' range (0.01-9999)",
+    "Condition/Feature to be tested": "Land required must be between 0.01 and 9999",
+    "steps": "1. Enter 0. 2. Enter 0.005. 3. Enter 10000. 4. Enter 0.01. 5. Enter 9999.",
+    "data set / values": "0, 0.005, 10000, 0.01, 9999",
+    "expected_result": "Error for 0, 0.005, 10000; no error for 0.01, 9999."
+  },
+  {
+    "Test case No.": "TC-145",
+    "Function List/Test case description": "BR-034: Accept 'Total Land Required In Acres' > 10 acres",
+    "Condition/Feature to be tested": "System accepts values above 10 acres (informational rule)",
+    "steps": "1. Enter 15 for 'Total Land Required In Acres'.",
+    "data set / values": "15",
+    "expected_result": "Value is accepted without validation error."
+  },
+  {
+    "Test case No.": "TC-146",
+    "Function List/Test case description": "FV-108: Validate 'Built Up Area Required In Sq Ft' min (0)",
+    "Condition/Feature to be tested": "Built up area must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-147",
+    "Function List/Test case description": "FV-109: Validate 'Survey Or Katha Number' max length (100 chars)",
+    "Condition/Feature to be tested": "Number max length",
+    "steps": "1. Select 'Land Availability Status' as 'available'. 2. Enter 101 chars. 3. Enter 100 chars.",
+    "data set / values": "101 char string, 100 char string",
+    "expected_result": "Error for >100 chars; no error for 100 chars."
+  },
+  {
+    "Test case No.": "TC-148",
+    "Function List/Test case description": "FV-110: Validate 'Existing Plant Area In Acres' min (0)",
+    "Condition/Feature to be tested": "Existing plant area must be 0 or greater",
+    "steps": "1. Select 'Type Of Proposal' as 'expansion'. 2. Enter -1. 3. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-149",
+    "Function List/Test case description": "FV-111: Validate 'Investment In Land' min (0)",
+    "Condition/Feature to be tested": "Investment in land must be 0 or greater",
+    "steps": "1. Navigate to Page 4. 2. Enter -1. 3. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-150",
+    "Function List/Test case description": "BR-038: Validate 'Investment In Land' is 0 if land is leased",
+    "Condition/Feature to be tested": "Conditional validation for leased land",
+    "steps": "1. Set 'Land Source' to 'Leased'. 2. Enter 'Investment In Land' as 100. 3. Attempt to proceed.",
+    "data set / values": "Land Source: Leased, Investment In Land: 100",
+    "expected_result": "Error message 'Investment In Land must be 0 if land is leased' is displayed."
+  },
+  {
+    "Test case No.": "TC-151",
+    "Function List/Test case description": "FV-112: Validate 'Investment In Building' min (0)",
+    "Condition/Feature to be tested": "Investment in building must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-152",
+    "Function List/Test case description": "FV-113: Validate 'Investment In Plant And Machinery' min (0)",
+    "Condition/Feature to be tested": "Investment in plant and machinery must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-153",
+    "Function List/Test case description": "FV-114: Validate 'Investment In Other Fixed Assets' min (0)",
+    "Condition/Feature to be tested": "Investment in other fixed assets must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-154",
+    "Function List/Test case description": "FV-115: Validate 'Working Capital' min (0)",
+    "Condition/Feature to be tested": "Working capital must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-155",
+    "Function List/Test case description": "FV-116: Read-only 'Total Project Cost'",
+    "Condition/Feature to be tested": "Field cannot be edited by user",
+    "steps": "1. Attempt to type into 'Total Project Cost'.",
+    "data set / values": "N/A",
+    "expected_result": "Field remains uneditable, input is rejected."
+  },
+  {
+    "Test case No.": "TC-156",
+    "Function List/Test case description": "FV-117: Validate 'Existing Investment In VFA' min (0)",
+    "Condition/Feature to be tested": "Existing investment in VFA must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-157",
+    "Function List/Test case description": "FV-118: Validate 'FDI Investment' min (0)",
+    "Condition/Feature to be tested": "FDI investment must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-158",
+    "Function List/Test case description": "FV-119: Validate 'Source Of FDI' max length (255 chars)",
+    "Condition/Feature to be tested": "Source max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-159",
+    "Function List/Test case description": "FV-120: Validate 'Own Funds Or Equity' min (0)",
+    "Condition/Feature to be tested": "Own funds or equity must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-160",
+    "Function List/Test case description": "FV-121: Validate 'Bank Loan' min (0)",
+    "Condition/Feature to be tested": "Bank loan must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-161",
+    "Function List/Test case description": "FV-122: Validate 'Name Of Bank Or Financial Institution' max length (255 chars)",
+    "Condition/Feature to be tested": "Name max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-162",
+    "Function List/Test case description": "FV-123: Validate 'Subsidy Or Grant' min (0)",
+    "Condition/Feature to be tested": "Subsidy or grant must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-163",
+    "Function List/Test case description": "FV-124: Validate 'Other Source Amount' min (0)",
+    "Condition/Feature to be tested": "Other source amount must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-164",
+    "Function List/Test case description": "FV-125: Validate 'Other Source Description' max length (255 chars)",
+    "Condition/Feature to be tested": "Description max length",
+    "steps": "1. Enter 256 chars. 2. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-165",
+    "Function List/Test case description": "FV-126: Read-only 'Total Financing'",
+    "Condition/Feature to be tested": "Field cannot be edited by user",
+    "steps": "1. Attempt to type into 'Total Financing'.",
+    "data set / values": "N/A",
+    "expected_result": "Field remains uneditable, input is rejected."
+  },
+  {
+    "Test case No.": "TC-166",
+    "Function List/Test case description": "BR-042: Validate 'Total Financing' equals 'Total Project Cost'",
+    "Condition/Feature to be tested": "Total financing must match total project cost",
+    "steps": "1. Enter values such that 'Total Financing' (400) != 'Total Project Cost' (500). 2. Attempt to proceed.",
+    "data set / values": "Total Financing: 400, Total Project Cost: 500",
+    "expected_result": "Error message 'Total Financing must equal Total Project Cost' is displayed."
+  },
+  {
+    "Test case No.": "TC-167",
+    "Function List/Test case description": "FV-127: Validate 'Total Water Requirement In KLD' min (0)",
+    "Condition/Feature to be tested": "Water requirement must be 0 or greater",
+    "steps": "1. Navigate to Page 5. 2. Enter -1. 3. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-168",
+    "Function List/Test case description": "FV-128: Mandatory 'Source Of Water'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Navigate to Page 5. 2. Do not select 'Source Of Water'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-169",
+    "Function List/Test case description": "FV-129: Validate 'Water Source Other Description' max length (255 chars)",
+    "Condition/Feature to be tested": "Description max length",
+    "steps": "1. Select 'Source Of Water' as 'other'. 2. Enter 256 chars. 3. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-170",
+    "Function List/Test case description": "FV-130: Validate 'Industrial Use Water In KLD' min (0)",
+    "Condition/Feature to be tested": "Industrial water use must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-171",
+    "Function List/Test case description": "FV-131: Validate 'Domestic Use Water In KLD' min (0)",
+    "Condition/Feature to be tested": "Domestic water use must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-172",
+    "Function List/Test case description": "FV-132: Validate 'Total Power Requirement In KVA' min (0)",
+    "Condition/Feature to be tested": "Power requirement must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-173",
+    "Function List/Test case description": "FV-133: Validate 'Connected Load In KW' min (0)",
+    "Condition/Feature to be tested": "Connected load must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-174",
+    "Function List/Test case description": "FV-134: Mandatory 'Source Of Power'",
+    "Condition/Feature to be tested": "Dropdown selection required",
+    "steps": "1. Navigate to Page 5. 2. Do not select 'Source Of Power'. 3. Attempt to proceed.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'This field is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-175",
+    "Function List/Test case description": "FV-135: Validate 'Power Source Other Description' max length (255 chars)",
+    "Condition/Feature to be tested": "Description max length",
+    "steps": "1. Select 'Source Of Power' as 'other'. 2. Enter 256 chars. 3. Enter 255 chars.",
+    "data set / values": "256 char string, 255 char string",
+    "expected_result": "Error for >255 chars; no error for 255 chars."
+  },
+  {
+    "Test case No.": "TC-176",
+    "Function List/Test case description": "FV-136: Validate 'Renewable Energy Percentage' range (0-100)",
+    "Condition/Feature to be tested": "Percentage must be between 0 and 100",
+    "steps": "1. Enter -1. 2. Enter 101. 3. Enter 0. 4. Enter 100.",
+    "data set / values": "-1, 101, 0, 100",
+    "expected_result": "Error for -1 and 101; no error for 0 and 100."
+  },
+  {
+    "Test case No.": "TC-177",
+    "Function List/Test case description": "FV-137: Validate 'Male Employment Direct' min (0)",
+    "Condition/Feature to be tested": "Male employment must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-178",
+    "Function List/Test case description": "FV-138: Validate 'Female Employment Direct' min (0)",
+    "Condition/Feature to be tested": "Female employment must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-179",
+    "Function List/Test case description": "FV-139: Read-only 'Total Direct Employment'",
+    "Condition/Feature to be tested": "Field cannot be edited by user",
+    "steps": "1. Attempt to type into 'Total Direct Employment'.",
+    "data set / values": "N/A",
+    "expected_result": "Field remains uneditable, input is rejected."
+  },
+  {
+    "Test case No.": "TC-180",
+    "Function List/Test case description": "FV-140: Validate 'Skilled Employment' min (0)",
+    "Condition/Feature to be tested": "Skilled employment must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-181",
+    "Function List/Test case description": "FV-141: Validate 'Semi Skilled Employment' min (0)",
+    "Condition/Feature to be tested": "Semi skilled employment must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-182",
+    "Function List/Test case description": "FV-142: Validate 'Unskilled Employment' min (0)",
+    "Condition/Feature to be tested": "Unskilled employment must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-183",
+    "Function List/Test case description": "FV-143: Validate 'Karnataka State Employment' min (0)",
+    "Condition/Feature to be tested": "Karnataka employment must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-184",
+    "Function List/Test case description": "FV-144: Validate 'Local District Employment' min (0)",
+    "Condition/Feature to be tested": "Local district employment must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-185",
+    "Function List/Test case description": "FV-145: Validate 'Indirect Employment' min (0)",
+    "Condition/Feature to be tested": "Indirect employment must be 0 or greater",
+    "steps": "1. Enter -1. 2. Enter 0.",
+    "data set / values": "-1, 0",
+    "expected_result": "Error for -1; no error for 0."
+  },
+  {
+    "Test case No.": "TC-186",
+    "Function List/Test case description": "FV-147, COND-019: Conditional mandatory 'Social Category For Benefit'",
+    "Condition/Feature to be tested": "Required if 'Whether Applying For Social Category Benefit' is 'yes'",
+    "steps": "1. Select 'Whether Applying For Social Category Benefit' as 'yes'. 2. Do not select 'Social Category For Benefit'. 3. Attempt to proceed.",
+    "data set / values": "Whether Applying For Social Category Benefit: yes",
+    "expected_result": "Error message 'This field is mandatory' is displayed for 'Social Category For Benefit'."
+  },
+  {
+    "Test case No.": "TC-187",
+    "Function List/Test case description": "FV-148: Validate 'Assistance Remarks' max length (1000 chars)",
+    "Condition/Feature to be tested": "Textarea max length",
+    "steps": "1. Navigate to Page 6. 2. Enter 1001 chars. 3. Enter 1000 chars.",
+    "data set / values": "1001 char string, 1000 char string",
+    "expected_result": "Error for >1000 chars; no error for 1000 chars."
+  },
+  {
+    "Test case No.": "TC-188",
+    "Function List/Test case description": "FV-149: Upload 'Company PAN Card' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Attempt to upload a .pdf file. 2. Attempt to upload a .txt file.",
+    "data set / values": "company_pan.pdf, company_pan.txt",
+    "expected_result": "Upload successful for .pdf; error for .txt."
+  },
+  {
+    "Test case No.": "TC-189",
+    "Function List/Test case description": "FV-150: Upload 'Company PAN Card' max size (2MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 1.5MB PDF. 2. Upload a 2.1MB PDF.",
+    "data set / values": "1.5MB PDF, 2.1MB PDF",
+    "expected_result": "Upload successful for 1.5MB; error for 2.1MB."
+  },
+  {
+    "Test case No.": "TC-190",
+    "Function List/Test case description": "FV-151: Upload 'Authorized Signatory Aadhaar Card' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Attempt to upload a .pdf file. 2. Attempt to upload a .doc file.",
+    "data set / values": "aadhaar.pdf, aadhaar.doc",
+    "expected_result": "Upload successful for .pdf; error for .doc."
+  },
+  {
+    "Test case No.": "TC-191",
+    "Function List/Test case description": "FV-152: Upload 'Authorized Signatory Aadhaar Card' max size (2MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 1.5MB PDF. 2. Upload a 2.1MB PDF.",
+    "data set / values": "1.5MB PDF, 2.1MB PDF",
+    "expected_result": "Upload successful for 1.5MB; error for 2.1MB."
+  },
+  {
+    "Test case No.": "TC-192",
+    "Function List/Test case description": "FV-153, COND-020: Upload 'Certificate Of Incorporation Or Registration' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Select 'Public Limited'. 2. Upload a .pdf file. 3. Upload a .txt file.",
+    "data set / values": "cert.pdf, cert.txt",
+    "expected_result": "Upload successful for .pdf; error for .txt."
+  },
+  {
+    "Test case No.": "TC-193",
+    "Function List/Test case description": "FV-154: Upload 'Certificate Of Incorporation Or Registration' max size (5MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 4MB PDF. 2. Upload a 5.1MB PDF.",
+    "data set / values": "4MB PDF, 5.1MB PDF",
+    "expected_result": "Upload successful for 4MB; error for 5.1MB."
+  },
+  {
+    "Test case No.": "TC-194",
+    "Function List/Test case description": "FV-155, COND-021: Upload 'GST Certificate' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Select 'Do You Have GST Number' as 'yes'. 2. Upload a .pdf file. 3. Upload a .doc file.",
+    "data set / values": "gst.pdf, gst.doc",
+    "expected_result": "Upload successful for .pdf; error for .doc."
+  },
+  {
+    "Test case No.": "TC-195",
+    "Function List/Test case description": "FV-156: Upload 'GST Certificate' max size (2MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 1.5MB PDF. 2. Upload a 2.1MB PDF.",
+    "data set / values": "1.5MB PDF, 2.1MB PDF",
+    "expected_result": "Upload successful for 1.5MB; error for 2.1MB."
+  },
+  {
+    "Test case No.": "TC-196",
+    "Function List/Test case description": "FV-157, COND-022: Upload 'Land Document Or Title Deed' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Select 'Land Availability Status' as 'available'. 2. Upload a .pdf file. 3. Upload a .txt file.",
+    "data set / values": "land.pdf, land.txt",
+    "expected_result": "Upload successful for .pdf; error for .txt."
+  },
+  {
+    "Test case No.": "TC-197",
+    "Function List/Test case description": "FV-158: Upload 'Land Document Or Title Deed' max size (10MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 9MB PDF. 2. Upload an 11MB PDF.",
+    "data set / values": "9MB PDF, 11MB PDF",
+    "expected_result": "Upload successful for 9MB; error for 11MB."
+  },
+  {
+    "Test case No.": "TC-198",
+    "Function List/Test case description": "FV-159: Upload 'Detailed Project Report' valid file type",
+    "Condition/Feature to be tested": "Accepts only .pdf",
+    "steps": "1. Attempt to upload a .pdf file. 2. Attempt to upload a .jpg file.",
+    "data set / values": "dpr.pdf, dpr.jpg",
+    "expected_result": "Upload successful for .pdf; error for .jpg."
+  },
+  {
+    "Test case No.": "TC-199",
+    "Function List/Test case description": "FV-160: Upload 'Detailed Project Report' max size (10MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 9MB PDF. 2. Upload an 11MB PDF.",
+    "data set / values": "9MB PDF, 11MB PDF",
+    "expected_result": "Upload successful for 9MB; error for 11MB."
+  },
+  {
+    "Test case No.": "TC-200",
+    "Function List/Test case description": "FV-161: Upload 'Bank Statement Or Net Worth Certificate' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Upload a .pdf file. 2. Upload a .doc file.",
+    "data set / values": "bank_statement.pdf, bank_statement.doc",
+    "expected_result": "Upload successful for .pdf; error for .doc."
+  },
+  {
+    "Test case No.": "TC-201",
+    "Function List/Test case description": "FV-162: Upload 'Bank Statement Or Net Worth Certificate' max size (5MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 4MB PDF. 2. Upload a 5.1MB PDF.",
+    "data set / values": "4MB PDF, 5.1MB PDF",
+    "expected_result": "Upload successful for 4MB; error for 5.1MB."
+  },
+  {
+    "Test case No.": "TC-202",
+    "Function List/Test case description": "FV-163, COND-023: Upload 'Partnership Deed' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Select 'Constitution Of Establishment' as 'partnership'. 2. Upload a .pdf file. 3. Upload a .txt file.",
+    "data set / values": "deed.pdf, deed.txt",
+    "expected_result": "Upload successful for .pdf; error for .txt."
+  },
+  {
+    "Test case No.": "TC-203",
+    "Function List/Test case description": "FV-164: Upload 'Partnership Deed' max size (5MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 4MB PDF. 2. Upload a 5.1MB PDF.",
+    "data set / values": "4MB PDF, 5.1MB PDF",
+    "expected_result": "Upload successful for 4MB; error for 5.1MB."
+  },
+  {
+    "Test case No.": "TC-204",
+    "Function List/Test case description": "FV-165: Upload 'Promoter Photograph' valid file type",
+    "Condition/Feature to be tested": "Accepts .jpg, .jpeg, .png",
+    "steps": "1. Attempt to upload a .jpg file. 2. Attempt to upload a .pdf file.",
+    "data set / values": "photo.jpg, photo.pdf",
+    "expected_result": "Upload successful for .jpg; error for .pdf."
+  },
+  {
+    "Test case No.": "TC-205",
+    "Function List/Test case description": "FV-166: Upload 'Promoter Photograph' max size (1MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 0.8MB JPG. 2. Upload a 1.1MB JPG.",
+    "data set / values": "0.8MB JPG, 1.1MB JPG",
+    "expected_result": "Upload successful for 0.8MB; error for 1.1MB."
+  },
+  {
+    "Test case No.": "TC-206",
+    "Function List/Test case description": "FV-167, COND-024: Upload 'Udyam Registration Certificate' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Select 'Is Existing MSME Unit' as 'yes'. 2. Upload a .pdf file. 3. Upload a .txt file.",
+    "data set / values": "udyam.pdf, udyam.txt",
+    "expected_result": "Upload successful for .pdf; error for .txt."
+  },
+  {
+    "Test case No.": "TC-207",
+    "Function List/Test case description": "FV-168: Upload 'Udyam Registration Certificate' max size (2MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 1.5MB PDF. 2. Upload a 2.1MB PDF.",
+    "data set / values": "1.5MB PDF, 2.1MB PDF",
+    "expected_result": "Upload successful for 1.5MB; error for 2.1MB."
+  },
+  {
+    "Test case No.": "TC-208",
+    "Function List/Test case description": "FV-169, COND-025: Upload 'Previous CAF Approval Letter' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Select 'Type Of Proposal' as 'expansion'. 2. Upload a .pdf file. 3. Upload a .txt file.",
+    "data set / values": "caf_letter.pdf, caf_letter.txt",
+    "expected_result": "Upload successful for .pdf; error for .txt."
+  },
+  {
+    "Test case No.": "TC-209",
+    "Function List/Test case description": "FV-170: Upload 'Previous CAF Approval Letter' max size (5MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 4MB PDF. 2. Upload a 5.1MB PDF.",
+    "data set / values": "4MB PDF, 5.1MB PDF",
+    "expected_result": "Upload successful for 4MB; error for 5.1MB."
+  },
+  {
+    "Test case No.": "TC-210",
+    "Function List/Test case description": "FV-171: Upload 'Any Other Document' valid file type",
+    "Condition/Feature to be tested": "Accepts .pdf, .jpg, .jpeg, .png",
+    "steps": "1. Upload a .pdf file. 2. Upload a .doc file.",
+    "data set / values": "other_doc.pdf, other_doc.doc",
+    "expected_result": "Upload successful for .pdf; error for .doc."
+  },
+  {
+    "Test case No.": "TC-211",
+    "Function List/Test case description": "FV-172: Upload 'Any Other Document' max size (5MB)",
+    "Condition/Feature to be tested": "File size limit enforcement",
+    "steps": "1. Upload a 4MB PDF. 2. Upload a 5.1MB PDF.",
+    "data set / values": "4MB PDF, 5.1MB PDF",
+    "expected_result": "Upload successful for 4MB; error for 5.1MB."
+  },
+  {
+    "Test case No.": "TC-212",
+    "Function List/Test case description": "FV-173: Validate 'Comment' max length (1000 chars) for JD DIC",
+    "Condition/Feature to be tested": "Comment field max length",
+    "steps": "1. Log in as JD DIC. 2. Enter 1001 chars in 'Comment'. 3. Enter 1000 chars.",
+    "data set / values": "1001 char string, 1000 char string",
+    "expected_result": "Error for >1000 chars; no error for 1000 chars."
+  },
+  {
+    "Test case No.": "TC-213",
+    "Function List/Test case description": "FV-174: Validate 'Comment' max length (1000 chars) for AD DIC",
+    "Condition/Feature to be tested": "Comment field max length",
+    "steps": "1. Log in as AD DIC. 2. Enter 1001 chars in 'Comment'. 3. Enter 1000 chars.",
+    "data set / values": "1001 char string, 1000 char string",
+    "expected_result": "Error for >1000 chars; no error for 1000 chars."
+  },
+  {
+    "Test case No.": "TC-214",
+    "Function List/Test case description": "FV-175: Validate 'Comment' max length (1000 chars) for DD DIC",
+    "Condition/Feature to be tested": "Comment field max length",
+    "steps": "1. Log in as DD DIC. 2. Enter 1001 chars in 'Comment'. 3. Enter 1000 chars.",
+    "data set / values": "1001 char string, 1000 char string",
+    "expected_result": "Error for >1000 chars; no error for 1000 chars."
+  },
+  {
+    "Test case No.": "TC-215",
+    "Function List/Test case description": "COND-001: Hide 'CAF Id' when 'Type Of Proposal' is 'new'",
+    "Condition/Feature to be tested": "Field hidden for 'new' proposal type",
+    "steps": "1. Select 'New' for 'New Or Existing Offline'. 2. Select 'new' for 'Type Of Proposal'.",
+    "data set / values": "Type Of Proposal: new",
+    "expected_result": "'CAF Id' dropdown is not displayed."
+  },
+  {
+    "Test case No.": "TC-216",
+    "Function List/Test case description": "COND-002: Conditional display of 'Corporate Identification Number'",
+    "Condition/Feature to be tested": "Visible for specific 'Constitution Of Establishment' types",
+    "steps": "1. Select 'Public Limited'. 2. Select 'Sole Proprietorship'.",
+    "data set / values": "Constitution: Public Limited, Sole Proprietorship",
+    "expected_result": "CIN field displayed for 'Public Limited', hidden for 'Sole Proprietorship'."
+  },
+  {
+    "Test case No.": "TC-217",
+    "Function List/Test case description": "COND-003: Conditional display of 'LLPIN Number'",
+    "Condition/Feature to be tested": "Visible when 'Constitution Of Establishment' is 'llp'",
+    "steps": "1. Select 'llp'. 2. Select 'Public Limited'.",
+    "data set / values": "Constitution: llp, Public Limited",
+    "expected_result": "LLPIN field displayed for 'llp', hidden for 'Public Limited'."
+  },
+  {
+    "Test case No.": "TC-218",
+    "Function List/Test case description": "COND-004: Conditional display of 'GST Number'",
+    "Condition/Feature to be tested": "Visible when 'Do You Have GST Number' is 'yes'",
+    "steps": "1. Select 'yes' for 'Do You Have GST Number'. 2. Select 'no'.",
+    "data set / values": "Do You Have GST Number: yes, no",
+    "expected_result": "GST Number field displayed for 'yes', hidden for 'no'."
+  },
+  {
+    "Test case No.": "TC-219",
+    "Function List/Test case description": "COND-005: Conditional display of 'Date Of Business Commencement'",
+    "Condition/Feature to be tested": "Visible when 'Type Of Proposal' is expansion/diversification/modernization",
+    "steps": "1. Select 'expansion' for 'Type Of Proposal'. 2. Select 'new'.",
+    "data set / values": "Type Of Proposal: expansion, new",
+    "expected_result": "Date Of Business Commencement field displayed for 'expansion', hidden for 'new'."
+  },
+  {
+    "Test case No.": "TC-220",
+    "Function List/Test case description": "COND-006: Conditional display of 'Correspondence Address' section",
+    "Condition/Feature to be tested": "Visible when 'Correspondence Address Same As Corporate' is unchecked",
+    "steps": "1. Check 'Correspondence Address Same As Corporate'. 2. Uncheck it.",
+    "data set / values": "Checkbox: checked, unchecked",
+    "expected_result": "Section hidden when checked, displayed when unchecked."
+  },
+  {
+    "Test case No.": "TC-221",
+    "Function List/Test case description": "COND-007: Conditional display of 'Authorized Signatory DIN'",
+    "Condition/Feature to be tested": "Visible for specific 'Constitution Of Establishment' types",
+    "steps": "1. Select 'Public Limited'. 2. Select 'Partnership'.",
+    "data set / values": "Constitution: Public Limited, Partnership",
+    "expected_result": "DIN field displayed for 'Public Limited', hidden for 'Partnership'."
+  },
+  {
+    "Test case No.": "TC-222",
+    "Function List/Test case description": "COND-008: Conditional display of 'Promoter DIN'",
+    "Condition/Feature to be tested": "Visible for specific 'Constitution Of Establishment' types",
+    "steps": "1. Select 'Public Limited'. 2. Select 'Partnership'.",
+    "data set / values": "Constitution: Public Limited, Partnership",
+    "expected_result": "Promoter DIN field displayed for 'Public Limited', hidden for 'Partnership'."
+  },
+  {
+    "Test case No.": "TC-223",
+    "Function List/Test case description": "COND-009: Conditional display of 'Udyam Registration Number'",
+    "Condition/Feature to be tested": "Visible when 'Is Existing MSME Unit' is 'yes'",
+    "steps": "1. Select 'yes' for 'Is Existing MSME Unit'. 2. Select 'no'.",
+    "data set / values": "Is Existing MSME Unit: yes, no",
+    "expected_result": "Udyam Reg No field displayed for 'yes', hidden for 'no'."
+  },
+  {
+    "Test case No.": "TC-224",
+    "Function List/Test case description": "COND-010: Conditional display of 'Pollution Category'",
+    "Condition/Feature to be tested": "Visible when 'Whether Pollution Causing Industry' is 'yes'",
+    "steps": "1. Select 'yes' for 'Whether Pollution Causing Industry'. 2. Select 'no'.",
+    "data set / values": "Whether Pollution Causing Industry: yes, no",
+    "expected_result": "Pollution Category dropdown displayed for 'yes', hidden for 'no'."
+  },
+  {
+    "Test case No.": "TC-225",
+    "Function List/Test case description": "COND-011: Conditional display of 'Survey Or Katha Number'",
+    "Condition/Feature to be tested": "Visible when 'Land Availability Status' is 'available'",
+    "steps": "1. Select 'available' for 'Land Availability Status'. 2. Select 'not available'.",
+    "data set / values": "Land Availability Status: available, not available",
+    "expected_result": "Survey/Katha Number field displayed for 'available', hidden for 'not available'."
+  },
+  {
+    "Test case No.": "TC-226",
+    "Function List/Test case description": "COND-012: Conditional display of 'Existing Plant Area In Acres'",
+    "Condition/Feature to be tested": "Visible when 'Type Of Proposal' is expansion/diversification/modernization",
+    "steps": "1. Select 'expansion' for 'Type Of Proposal'. 2. Select 'new'.",
+    "data set / values": "Type Of Proposal: expansion, new",
+    "expected_result": "Existing Plant Area In Acres field displayed for 'expansion', hidden for 'new'."
+  },
+  {
+    "Test case No.": "TC-227",
+    "Function List/Test case description": "COND-013: Conditional display of 'Existing Investment In VFA'",
+    "Condition/Feature to be tested": "Visible when 'Type Of Proposal' is expansion/diversification/modernization",
+    "steps": "1. Select 'expansion' for 'Type Of Proposal'. 2. Select 'new'.",
+    "data set / values": "Type Of Proposal: expansion, new",
+    "expected_result": "Existing Investment in VFA field displayed for 'expansion', hidden for 'new'."
+  },
+  {
+    "Test case No.": "TC-228",
+    "Function List/Test case description": "COND-014: Conditional display of 'Name Of Bank Or Financial Institution'",
+    "Condition/Feature to be tested": "Visible when 'Bank Loan' > 0",
+    "steps": "1. Enter 100 for 'Bank Loan'. 2. Enter 0 for 'Bank Loan'.",
+    "data set / values": "Bank Loan: 100, 0",
+    "expected_result": "Bank Name field displayed when > 0, hidden when 0."
+  },
+  {
+    "Test case No.": "TC-229",
+    "Function List/Test case description": "COND-015: Conditional display of 'Other Source Description'",
+    "Condition/Feature to be tested": "Visible when 'Other Source Amount' > 0",
+    "steps": "1. Enter 50 for 'Other Source Amount'. 2. Enter 0 for 'Other Source Amount'.",
+    "data set / values": "Other Source Amount: 50, 0",
+    "expected_result": "Other Source Description field displayed when > 0, hidden when 0."
+  },
+  {
+    "Test case No.": "TC-230",
+    "Function List/Test case description": "COND-016: Conditional display of 'Source Of FDI'",
+    "Condition/Feature to be tested": "Visible when 'FDI Investment' > 0",
+    "steps": "1. Enter 100 for 'FDI Investment'. 2. Enter 0 for 'FDI Investment'.",
+    "data set / values": "FDI Investment: 100, 0",
+    "expected_result": "Source of FDI field displayed when > 0, hidden when 0."
+  },
+  {
+    "Test case No.": "TC-231",
+    "Function List/Test case description": "COND-017: Conditional display of 'Water Source Other Description'",
+    "Condition/Feature to be tested": "Visible when 'Source Of Water' is 'other'",
+    "steps": "1. Select 'other' for 'Source Of Water'. 2. Select 'borewell'.",
+    "data set / values": "Source Of Water: other, borewell",
+    "expected_result": "Other Description field displayed for 'other', hidden for 'borewell'."
+  },
+  {
+    "Test case No.": "TC-232",
+    "Function List/Test case description": "COND-018: Conditional display of 'Power Source Other Description'",
+    "Condition/Feature to be tested": "Visible when 'Source Of Power' is 'other'",
+    "steps": "1. Select 'other' for 'Source Of Power'. 2. Select 'grid'.",
+    "data set / values": "Source Of Power: other, grid",
+    "expected_result": "Other Description field displayed for 'other', hidden for 'grid'."
+  },
+  {
+    "Test case No.": "TC-233",
+    "Function List/Test case description": "COND-020: Conditional display of 'Certificate Of Incorporation Or Registration'",
+    "Condition/Feature to be tested": "Visible for specific 'Constitution Of Establishment' types",
+    "steps": "1. Select 'Public Limited'. 2. Select 'Sole Proprietorship'.",
+    "data set / values": "Constitution: Public Limited, Sole Proprietorship",
+    "expected_result": "Upload field displayed for 'Public Limited', hidden for 'Sole Proprietorship'."
+  },
+  {
+    "Test case No.": "TC-234",
+    "Function List/Test case description": "COND-021: Conditional display of 'GST Certificate'",
+    "Condition/Feature to be tested": "Visible when 'Do You Have GST Number' is 'yes'",
+    "steps": "1. Select 'yes' for 'Do You Have GST Number'. 2. Select 'no'.",
+    "data set / values": "Do You Have GST Number: yes, no",
+    "expected_result": "Upload field displayed for 'yes', hidden for 'no'."
+  },
+  {
+    "Test case No.": "TC-235",
+    "Function List/Test case description": "COND-022: Conditional display of 'Land Document Or Title Deed'",
+    "Condition/Feature to be tested": "Visible when 'Land Availability Status' is 'available'",
+    "steps": "1. Select 'available' for 'Land Availability Status'. 2. Select 'not available'.",
+    "data set / values": "Land Availability Status: available, not available",
+    "expected_result": "Upload field displayed for 'available', hidden for 'not available'."
+  },
+  {
+    "Test case No.": "TC-236",
+    "Function List/Test case description": "COND-023: Conditional display of 'Partnership Deed'",
+    "Condition/Feature to be tested": "Visible when 'Constitution Of Establishment' is 'partnership'",
+    "steps": "1. Select 'partnership'. 2. Select 'Sole Proprietorship'.",
+    "data set / values": "Constitution: partnership, Sole Proprietorship",
+    "expected_result": "Upload field displayed for 'partnership', hidden for 'Sole Proprietorship'."
+  },
+  {
+    "Test case No.": "TC-237",
+    "Function List/Test case description": "COND-024: Conditional display of 'Udyam Registration Certificate'",
+    "Condition/Feature to be tested": "Visible when 'Is Existing MSME Unit' is 'yes'",
+    "steps": "1. Select 'yes' for 'Is Existing MSME Unit'. 2. Select 'no'.",
+    "data set / values": "Is Existing MSME Unit: yes, no",
+    "expected_result": "Upload field displayed for 'yes', hidden for 'no'."
+  },
+  {
+    "Test case No.": "TC-238",
+    "Function List/Test case description": "COND-025: Conditional display of 'Previous CAF Approval Letter'",
+    "Condition/Feature to be tested": "Visible when 'Type Of Proposal' is expansion/diversification/modernization",
+    "steps": "1. Select 'expansion' for 'Type Of Proposal'. 2. Select 'new'.",
+    "data set / values": "Type Of Proposal: expansion, new",
+    "expected_result": "Upload field displayed for 'expansion', hidden for 'new'."
+  },
+  {
+    "Test case No.": "TC-239",
+    "Function List/Test case description": "WF-001: End-to-end investor application submission",
+    "Condition/Feature to be tested": "Investor fills and submits the entire form",
+    "steps": "1. Log in as Investor. 2. Fill all mandatory fields across all pages. 3. Upload required documents. 4. Submit form.",
+    "data set / values": "Complete valid data, valid documents",
+    "expected_result": "Form submits successfully, application status changes to 'Submitted'."
+  },
+  {
+    "Test case No.": "TC-240",
+    "Function List/Test case description": "WF-002: JD DIC workflow: Add comments and forward to AD DIC",
+    "Condition/Feature to be tested": "JD DIC can add comments and forward application",
+    "steps": "1. Log in as JD DIC. 2. Open an application. 3. Add comments. 4. Select 'Forward to AD DIC'.",
+    "data set / values": "Valid comments (max 1000 chars)",
+    "expected_result": "Comments are saved, application status changes, forwarded to AD DIC."
+  },
+  {
+    "Test case No.": "TC-241",
+    "Function List/Test case description": "WF-002: JD DIC workflow: Revert to Applicant",
+    "Condition/Feature to be tested": "JD DIC can revert application to applicant",
+    "steps": "1. Log in as JD DIC. 2. Open an application. 3. Add comments. 4. Select 'Revert to Applicant'.",
+    "data set / values": "Valid comments",
+    "expected_result": "Comments are saved, application status changes to 'Reverted to Applicant'."
+  },
+  {
+    "Test case No.": "TC-242",
+    "Function List/Test case description": "WF-002: JD DIC workflow: Approve application",
+    "Condition/Feature to be tested": "JD DIC can approve application",
+    "steps": "1. Log in as JD DIC. 2. Open an application. 3. Add comments. 4. Select 'Approve'.",
+    "data set / values": "Valid comments",
+    "expected_result": "Comments are saved, application status changes to 'Approved'."
+  },
+  {
+    "Test case No.": "TC-243",
+    "Function List/Test case description": "WF-002: JD DIC workflow: Reject application",
+    "Condition/Feature to be tested": "JD DIC can reject application",
+    "steps": "1. Log in as JD DIC. 2. Open an application. 3. Add comments. 4. Select 'Reject'.",
+    "data set / values": "Valid comments",
+    "expected_result": "Comments are saved, application status changes to 'Rejected'."
+  },
+  {
+    "Test case No.": "TC-244",
+    "Function List/Test case description": "WF-002: JD DIC mandatory comment for actions",
+    "Condition/Feature to be tested": "Comment is mandatory for all JD DIC actions",
+    "steps": "1. Log in as JD DIC. 2. Open an application. 3. Do not add comments. 4. Attempt to 'Forward to AD DIC'.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'Comment is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-245",
+    "Function List/Test case description": "WF-002: JD DIC optional document upload",
+    "Condition/Feature to be tested": "JD DIC can upload supportive documents",
+    "steps": "1. Log in as JD DIC. 2. Open an application. 3. Upload a valid document. 4. Perform an action.",
+    "data set / values": "Valid PDF (1MB)",
+    "expected_result": "Document uploads successfully and is associated with the application."
+  },
+  {
+    "Test case No.": "TC-246",
+    "Function List/Test case description": "WF-003: AD DIC workflow: Add comments and forward to DD DIC",
+    "Condition/Feature to be tested": "AD DIC can add comments and forward application",
+    "steps": "1. Log in as AD DIC. 2. Open an application. 3. Add comments. 4. Select 'Forward to DD DIC'.",
+    "data set / values": "Valid comments",
+    "expected_result": "Comments are saved, application status changes, forwarded to DD DIC."
+  },
+  {
+    "Test case No.": "TC-247",
+    "Function List/Test case description": "WF-003: AD DIC mandatory comment for actions",
+    "Condition/Feature to be tested": "Comment is mandatory for AD DIC actions",
+    "steps": "1. Log in as AD DIC. 2. Open an application. 3. Do not add comments. 4. Attempt to 'Forward to DD DIC'.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'Comment is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-248",
+    "Function List/Test case description": "WF-003: AD DIC optional document upload",
+    "Condition/Feature to be tested": "AD DIC can upload supportive documents",
+    "steps": "1. Log in as AD DIC. 2. Open an application. 3. Upload a valid document. 4. Perform an action.",
+    "data set / values": "Valid PDF (1MB)",
+    "expected_result": "Document uploads successfully and is associated with the application."
+  },
+  {
+    "Test case No.": "TC-249",
+    "Function List/Test case description": "WF-004: DD DIC workflow: Add comments and forward to JD DIC",
+    "Condition/Feature to be tested": "DD DIC can add comments and forward application",
+    "steps": "1. Log in as DD DIC. 2. Open an application. 3. Add comments. 4. Select 'Forward to JD DIC'.",
+    "data set / values": "Valid comments",
+    "expected_result": "Comments are saved, application status changes, forwarded to JD DIC."
+  },
+  {
+    "Test case No.": "TC-250",
+    "Function List/Test case description": "WF-004: DD DIC workflow: Revert to AD DIC",
+    "Condition/Feature to be tested": "DD DIC can revert application to AD DIC",
+    "steps": "1. Log in as DD DIC. 2. Open an application. 3. Add comments. 4. Select 'Revert to AD DIC'.",
+    "data set / values": "Valid comments",
+    "expected_result": "Comments are saved, application status changes to 'Reverted to AD DIC'."
+  },
+  {
+    "Test case No.": "TC-251",
+    "Function List/Test case description": "WF-004: DD DIC mandatory comment for actions",
+    "Condition/Feature to be tested": "Comment is mandatory for DD DIC actions",
+    "steps": "1. Log in as DD DIC. 2. Open an application. 3. Do not add comments. 4. Attempt to 'Forward to JD DIC'.",
+    "data set / values": "N/A",
+    "expected_result": "Error message 'Comment is mandatory' is displayed."
+  },
+  {
+    "Test case No.": "TC-252",
+    "Function List/Test case description": "WF-004: DD DIC optional document upload",
+    "Condition/Feature to be tested": "DD DIC can upload supportive documents",
+    "steps": "1. Log in as DD DIC. 2. Open an application. 3. Upload a valid document. 4. Perform an action.",
+    "data set / values": "Valid PDF (1MB)",
+    "expected_result": "Document uploads successfully and is associated with the application."
+  },
+  {
+    "Test case No.": "TC-253",
+    "Function List/Test case description": "WF: Role-based access: JD DIC actions",
+    "Condition/Feature to be tested": "JD DIC has specific actions available",
+    "steps": "1. Log in as JD DIC. 2. Open an application.",
+    "data set / values": "N/A",
+    "expected_result": "JD DIC can see 'Revert to Applicant', 'Forward to AD DIC', 'Approve', 'Reject' actions."
+  },
+  {
+    "Test case No.": "TC-254",
+    "Function List/Test case description": "WF: Role-based access: AD DIC actions",
+    "Condition/Feature to be tested": "AD DIC has specific actions available",
+    "steps": "1. Log in as AD DIC. 2. Open an application.",
+    "data set / values": "N/A",
+    "expected_result": "AD DIC can only see 'Forward to DD DIC' action."
+  },
+  {
+    "Test case No.": "TC-255",
+    "Function List/Test case description": "WF: Role-based access: DD DIC actions",
+    "Condition/Feature to be tested": "DD DIC has specific actions available",
+    "steps": "1. Log in as DD DIC. 2. Open an application.",
+    "data set / values": "N/A",
+    "expected_result": "DD DIC can see 'Forward to JD DIC', 'Revert to AD DIC' actions."
+  },
+  {
+    "Test case No.": "TC-256",
+    "Function List/Test case description": "WF: Negative: Attempt JD DIC action by AD DIC",
+    "Condition/Feature to be tested": "Unauthorized role action",
+    "steps": "1. Log in as AD DIC. 2. Open an application. 3. Attempt to 'Approve' or 'Reject' (if UI allows, otherwise check logs).",
+    "data set / values": "N/A",
+    "expected_result": "Actions are disabled/hidden for AD DIC, or an authorization error is displayed/logged."
+  },
+  {
+    "Test case No.": "TC-257",
+    "Function List/Test case description": "API-001: CIN API successful authentication",
+    "Condition/Feature to be tested": "Valid CIN authenticates successfully",
+    "steps": "1. Enter a valid 'Corporate Identification Number'. 2. Observe system response.",
+    "data set / values": "Valid CIN: L12345KA2023ABC000000",
+    "expected_result": "CIN is authenticated successfully, no error message displayed."
+  },
+  {
+    "Test case No.": "TC-258",
+    "Function List/Test case description": "API-001: CIN API authentication failure",
+    "Condition/Feature to be tested": "Handle CIN API authentication failure",
+    "steps": "1. Enter invalid CIN. 2. Trigger CIN API call.",
+    "data set / values": "Invalid CIN (e.g., non-existent)",
+    "expected_result": "System displays an error message indicating CIN authentication failed."
+  },
+  {
+    "Test case No.": "TC-259",
+    "Function List/Test case description": "API-002: CIN API for LLPIN successful authentication",
+    "Condition/Feature to be tested": "Valid LLPIN authenticates successfully",
+    "steps": "1. Select 'llp' for 'Constitution Of Establishment'. 2. Enter a valid 'LLPIN Number'. 3. Observe system response.",
+    "data set / values": "Valid LLPIN: ABCDEFG",
+    "expected_result": "LLPIN is authenticated successfully, no error message displayed."
+  },
+  {
+    "Test case No.": "TC-260",
+    "Function List/Test case description": "API-002: CIN API for LLPIN authentication failure",
+    "Condition/Feature to be tested": "Handle CIN API authentication failure for LLPIN",
+    "steps": "1. Select 'llp'. 2. Enter invalid LLPIN. 3. Trigger CIN API call.",
+    "data set / values": "Invalid LLPIN (e.g., non-existent)",
+    "expected_result": "System displays an error message indicating LLPIN authentication failed."
+  },
+  {
+    "Test case No.": "TC-261",
+    "Function List/Test case description": "API-003: CIN API auto-fetch failure for 'Corporate Address Line 1'",
+    "Condition/Feature to be tested": "Handle CIN API failure to auto-fetch address",
+    "steps": "1. Select a company type (e.g., Public Limited). 2. Enter valid CIN, but simulate API returning no address or error.",
+    "data set / values": "Constitution: Public Limited, Valid CIN (API error)",
+    "expected_result": "System displays an error message or leaves 'Corporate Address Line 1' editable for manual entry."
+  },
+  {
+    "Test case No.": "TC-262",
+    "Function List/Test case description": "API-004: GST API successful validation",
+    "Condition/Feature to be tested": "Valid GST Number validates successfully",
+    "steps": "1. Select 'Yes' for GST. 2. Enter a valid 'GST Number'. 3. Observe system response.",
+    "data set / values": "Valid GST Number: 29ABCDE1234F1Z5",
+    "expected_result": "GST Number is validated successfully, no error message displayed."
+  },
+  {
+    "Test case No.": "TC-263",
+    "Function List/Test case description": "API-004: GST API validation failure",
+    "Condition/Feature to be tested": "Handle GST API validation failure",
+    "steps": "1. Select 'Yes' for GST. 2. Enter invalid GST Number. 3. Trigger GST API call.",
+    "data set / values": "Invalid GST Number (e.g., non-existent)",
+    "expected_result": "System displays an error message indicating GST validation failed."
+  },
+  {
+    "Test case No.": "TC-264",
+    "Function List/Test case description": "API-005: MCA API successful authentication for DIN",
+    "Condition/Feature to be tested": "Valid DIN authenticates successfully",
+    "steps": "1. Enter a valid 'Authorized Signatory DIN'. 2. Observe system response.",
+    "data set / values": "Valid DIN: 12345678",
+    "expected_result": "DIN is authenticated successfully, no error message displayed."
+  },
+  {
+    "Test case No.": "TC-265",
+    "Function List/Test case description": "API-005: MCA API authentication failure for DIN",
+    "Condition/Feature to be tested": "Handle MCA API authentication failure for DIN",
+    "steps": "1. Enter invalid DIN. 2. Trigger MCA API call.",
+    "data set / values": "Invalid DIN (e.g., non-existent)",
+    "expected_result": "System displays an error message indicating DIN authentication failed."
+  },
+  {
+    "Test case No.": "TC-266",
+    "Function List/Test case description": "API-006: DMS API document upload success",
+    "Condition/Feature to be tested": "Successful document upload via DMS API",
+    "steps": "1. Upload a valid document. 2. Verify document is stored (backend check).",
+    "data set / values": "Valid PDF (1MB)",
+    "expected_result": "Document uploads successfully, displayed in the form, and stored via DMS API."
+  },
+  {
+    "Test case No.": "TC-267",
+    "Function List/Test case description": "API-006: DMS API document upload failure",
+    "Condition/Feature to be tested": "Handle DMS API upload failure",
+    "steps": "1. Attempt to upload a document when DMS API is unavailable/returns error.",
+    "data set / values": "Valid PDF (1MB)",
+    "expected_result": "System displays an error message indicating document upload failed."
+  },
+  {
+    "Test case No.": "TC-268",
+    "Function List/Test case description": "DEP-001: Master data for 'Type Of Proposal'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Open 'Type Of Proposal' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays values from 'MASTER (Type of Proposal master table)'."
+  },
+  {
+    "Test case No.": "TC-269",
+    "Function List/Test case description": "DEP-002: Master data for 'CAF Id'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Select 'expansion' for 'Type Of Proposal'. 2. Open 'CAF Id' dropdown.",
+    "data set / values": "Type Of Proposal: expansion",
+    "expected_result": "Dropdown displays values from 'MASTER (Approved CAF IDs for logged-in investor)'."
+  },
+  {
+    "Test case No.": "TC-270",
+    "Function List/Test case description": "DEP-003: Master data for 'Constitution Of Establishment'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Open 'Constitution Of Establishment' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays values from 'MASTER (Constitution of Establishment master)'."
+  },
+  {
+    "Test case No.": "TC-271",
+    "Function List/Test case description": "DEP-004: Master data for 'Corporate Country'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Open 'Corporate Country' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays values from 'MASTER (Country master — ISO ALPHA codes)'."
+  },
+  {
+    "Test case No.": "TC-272",
+    "Function List/Test case description": "DEP-008: Master data for 'Corporate Country Code'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Open 'Corporate Country Code' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays values from 'MASTER (ISD Country Code master)'."
+  },
+  {
+    "Test case No.": "TC-273",
+    "Function List/Test case description": "DEP-009: Master data for 'Correspondence Country'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Open 'Correspondence Country' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays values from 'MASTER (Country master — ISO ALPHA codes)'."
+  },
+  {
+    "Test case No.": "TC-274",
+    "Function List/Test case description": "DEP-013: Master data for 'Correspondence Country Code'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Open 'Correspondence Country Code' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays values from 'MASTER (ISD Country Code master)'."
+  },
+  {
+    "Test case No.": "TC-275",
+    "Function List/Test case description": "DEP-014: Master data for 'Authorized Signatory Country'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Open 'Authorized Signatory Country' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays values from 'MASTER (Country master — ISO ALPHA codes)'."
+  },
+  {
+    "Test case No.": "TC-276",
+    "Function List/Test case description": "DEP-018: Master data for 'NIC Code'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Open 'NIC Code' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays values from 'MASTER (NIC Code master — National Industry Classification)'."
+  },
+  {
+    "Test case No.": "TC-277",
+    "Function List/Test case description": "DEP-019: Master data for 'Project Location District'",
+    "Condition/Feature to be tested": "Dropdown populated from master table",
+    "steps": "1. Open 'Project Location District' dropdown.",
+    "data set / values": "N/A",
+    "expected_result": "Dropdown displays values from 'MASTER (District master — Karnataka districts only)'."
+  },
+  {
+    "Test case No.": "TC-278",
+    "Function List/Test case description": "DEP-023: Master data for 'Type Of Assistance Required'",
+    "Condition/Feature to be tested": "Multi-select populated from master table",
+    "steps": "1. Open 'Type Of Assistance Required' multi-select.",
+    "data set / values": "N/A",
+    "expected_result": "Multi-select displays values from 'MASTER (Government Assistance / Incentive Scheme master)'."
+  },
+  {
+    "Test case No.": "TC-279",
+    "Function List/Test case description": "DEP-024: Cascading dropdown 'Corporate State'",
+    "Condition/Feature to be tested": "States filtered based on selected 'Corporate Country'",
+    "steps": "1. Select 'India' for 'Corporate Country'. 2. Open 'Corporate State' dropdown.",
+    "data set / values": "Corporate Country: India",
+    "expected_result": "'Corporate State' dropdown displays only states belonging to India."
+  },
+  {
+    "Test case No.": "TC-280",
+    "Function List/Test case description": "DEP-025: Cascading dropdown 'Corporate District'",
+    "Condition/Feature to be tested": "Districts filtered based on selected 'Corporate State'",
+    "steps": "1. Select 'Karnataka' for 'Corporate State'. 2. Open 'Corporate District' dropdown.",
+    "data set / values": "Corporate State: Karnataka",
+    "expected_result": "'Corporate District' dropdown displays only districts belonging to Karnataka."
+  },
+  {
+    "Test case No.": "TC-281",
+    "Function List/Test case description": "DEP-026: Cascading dropdown 'Corporate Taluk'",
+    "Condition/Feature to be tested": "Taluks filtered based on selected 'Corporate District'",
+    "steps": "1. Select 'Bengaluru Urban' for 'Corporate District'. 2. Open 'Corporate Taluk' dropdown.",
+    "data set / values": "Corporate District: Bengaluru Urban",
+    "expected_result": "'Corporate Taluk' dropdown displays only taluks belonging to Bengaluru Urban."
+  },
+  {
+    "Test case No.": "TC-282",
+    "Function List/Test case description": "DEP-027: Cascading dropdown 'Correspondence State'",
+    "Condition/Feature to be tested": "States filtered based on selected 'Correspondence Country'",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Select 'India' for 'Correspondence Country'. 3. Open 'Correspondence State' dropdown.",
+    "data set / values": "Correspondence Country: India",
+    "expected_result": "'Correspondence State' dropdown displays only states belonging to India."
+  },
+  {
+    "Test case No.": "TC-283",
+    "Function List/Test case description": "DEP-028: Cascading dropdown 'Correspondence District'",
+    "Condition/Feature to be tested": "Districts filtered based on selected 'Correspondence State'",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Select 'Karnataka' for 'Correspondence State'. 3. Open 'Correspondence District' dropdown.",
+    "data set / values": "Correspondence State: Karnataka",
+    "expected_result": "'Correspondence District' dropdown displays only districts belonging to Karnataka."
+  },
+  {
+    "Test case No.": "TC-284",
+    "Function List/Test case description": "DEP-029: Cascading dropdown 'Correspondence Taluk'",
+    "Condition/Feature to be tested": "Taluks filtered based on selected 'Correspondence District'",
+    "steps": "1. Uncheck 'Correspondence Address Same As Corporate'. 2. Select 'Bengaluru Urban' for 'Correspondence District'. 3. Open 'Correspondence Taluk' dropdown.",
+    "data set / values": "Correspondence District: Bengaluru Urban",
+    "expected_result": "'Correspondence Taluk' dropdown displays only taluks belonging to Bengaluru Urban."
+  },
+  {
+    "Test case No.": "TC-285",
+    "Function List/Test case description": "DEP-030: Cascading dropdown 'Authorized Signatory State'",
+    "Condition/Feature to be tested": "States filtered based on selected 'Authorized Signatory Country'",
+    "steps": "1. Select 'India' for 'Authorized Signatory Country'. 2. Open 'Authorized Signatory State' dropdown.",
+    "data set / values": "Authorized Signatory Country: India",
+    "expected_result": "'Authorized Signatory State' dropdown displays only states belonging to India."
+  },
+  {
+    "Test case No.": "TC-286",
+    "Function List/Test case description": "DEP-031: Cascading dropdown 'Authorized Signatory District'",
+    "Condition/Feature to be tested": "Districts filtered based on selected 'Authorized Signatory State'",
+    "steps": "1. Select 'Karnataka' for 'Authorized Signatory State'. 2. Open 'Authorized Signatory District' dropdown.",
+    "data set / values": "Authorized Signatory State: Karnataka",
+    "expected_result": "'Authorized Signatory District' dropdown displays only districts belonging to Karnataka."
+  },
+  {
+    "Test case No.": "TC-287",
+    "Function List/Test case description": "DEP-032: Cascading dropdown 'Authorized Signatory Taluk'",
+    "Condition/Feature to be tested": "Taluks filtered based on selected 'Authorized Signatory District'",
+    "steps": "1. Select 'Bengaluru Urban' for 'Authorized Signatory District'. 2. Open 'Authorized Signatory Taluk' dropdown.",
+    "data set / values": "Authorized Signatory District: Bengaluru Urban",
+    "expected_result": "'Authorized Signatory Taluk' dropdown displays only taluks belonging to Bengaluru Urban."
+  },
+  {
+    "Test case No.": "TC-288",
+    "Function List/Test case description": "DEP-033: Cascading dropdown 'Project Location Taluk'",
+    "Condition/Feature to be tested": "Taluks filtered based on selected 'Project Location District'",
+    "steps": "1. Select 'Bengaluru Urban' for 'Project Location District'. 2. Open 'Project Location Taluk' dropdown.",
+    "data set / values": "Project Location District: Bengaluru Urban",
+    "expected_result": "'Project Location Taluk' dropdown displays only taluks belonging to Bengaluru Urban."
+  },
+  {
+    "Test case No.": "TC-289",
+    "Function List/Test case description": "DEP-034: Cascading dropdown 'Project Location Hobli'",
+    "Condition/Feature to be tested": "Hoblis filtered based on selected 'Project Location Taluk'",
+    "steps": "1. Select 'Bengaluru North' for 'Project Location Taluk'. 2. Open 'Project Location Hobli' dropdown.",
+    "data set / values": "Project Location Taluk: Bengaluru North",
+    "expected_result": "'Project Location Hobli' dropdown displays only hoblis belonging to Bengaluru North."
+  },
+  {
+    "Test case No.": "TC-290",
+    "Function List/Test case description": "DEP-035: Cascading dropdown 'Project Location Village'",
+    "Condition/Feature to be tested": "Villages filtered based on selected 'Project Location Hobli'",
+    "steps": "1. Select 'Yelahanka' for 'Project Location Hobli'. 2. Open 'Project Location Village' dropdown.",
+    "data set / values": "Project Location Hobli: Yelahanka",
+    "expected_result": "'Project Location Village' dropdown displays only villages belonging to Yelahanka."
+  },
+  {
+    "Test case No.": "TC-291",
+    "Function List/Test case description": "DEP: Cascading dropdown reset on parent change",
+    "Condition/Feature to be tested": "Child dropdown resets if parent selection changes to incompatible value",
+    "steps": "1. Select 'India' for 'Corporate Country'. 2. Select 'Karnataka' for 'Corporate State'. 3. Change 'Corporate Country' to 'USA'.",
+    "data set / values": "Corporate Country: India -> USA, Corporate State: Karnataka",
+    "expected_result": "'Corporate State' dropdown is reset or cleared, or shows an appropriate message."
+  }
+]

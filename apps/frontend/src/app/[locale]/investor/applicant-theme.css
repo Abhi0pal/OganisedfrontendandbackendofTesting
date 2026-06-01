@@ -1,0 +1,46 @@
+:root {
+  --primary-color: #2563eb;
+  --primary-light-color: #EFF6FF;
+  --background-color: #ffffff;
+  --text-color: #111827;
+  --border-color: #e5e7eb;
+}
+
+/* Default Theme */
+html[data-theme="default"],
+html[data-theme="default"] body,
+body[data-tenant-theme="default"] {
+  --primary-color: #FFDB00;
+  --primary-light-color: #333333;
+  --font-family: 'Montserrat', sans-serif;
+  --bg-pattern: url("/img/bg-pattern/default.png");
+}
+
+/* NMC Theme */
+html[data-theme="nmc"],
+html[data-theme="nmc"] body {
+  --primary-color: #7a1e1c;
+  --primary-light-color: #F6EDE9;
+  --font-family: 'Montserrat', sans-serif;
+  --bg-pattern: url("/img/bg-pattern/nmc.png");
+}
+
+/* TRERA Theme */
+html[data-theme="trera"],
+html[data-theme="trera"] body,
+body[data-tenant-theme="trera"] {
+  --primary-color: #8F1F74;
+  --primary-light-color: #FAF0F6;
+  --font-family: 'Montserrat', sans-serif;
+  --bg-pattern: url("/img/bg-pattern/trera.png");
+}
+
+/* CPCB Theme */
+html[data-theme="cpcb"],
+html[data-theme="cpcb"] body,
+body[data-tenant-theme="cpcb"] {
+  --primary-color: #047857;
+  --primary-light-color: #EFF6E7;
+  --font-family: 'Montserrat', sans-serif;
+  --bg-pattern: url("/img/bg-pattern/cpcb.png");
+}

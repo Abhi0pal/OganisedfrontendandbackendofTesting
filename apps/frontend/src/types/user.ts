@@ -1,0 +1,33 @@
+export interface User {
+  id: string;
+  email: string;
+  userType: string;
+  roleId: number | null;
+  roleName: string;
+  roleIds?: number[];
+  roles?: { id: number; name: string }[];
+  isEmailVerified: number;
+  lastLoginAt: string;
+  name?: string;
+  hindiFullName?: string;
+  officeNo?: string;
+  mobile?: string;
+  isJurisdictionSpecific?: boolean | number;
+  deptId?: number | null;
+  districtId?: number | null;
+  tahsilId?: number;
+  circleId?: string | null;
+  blockId?: number;
+  officeId?: number;
+  divisionId?: number;
+  delegateOfficerNumber?: string;
+  delegateOfficerName?: string;
+  delegateOfficerEmail?: string;
+  npUserId?: string;
+  isForTesting?: number;
+  isActive?: boolean;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  tenantSlug?: string | null;
+  availableThemes?: unknown;
+}

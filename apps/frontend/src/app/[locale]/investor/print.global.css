@@ -1,0 +1,348 @@
+/* Screen-only utility */
+.print-only {
+    display: none;
+}
+
+@media print {
+    html,
+    body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background: #fff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    overflow: visible !important;
+    }
+
+    /* Hide non-print UI */
+    .no-print,
+    header,
+    nav,
+    footer,
+    .topbar,
+    .app-topbar,
+    .layout-topbar,
+    .menu,
+    .layout-menu,
+    .sidebar,
+    .app-sidebar,
+    .layout-sidebar,
+    .investor-sidebar,
+    .p-sidebar,
+    .p-sidebar-mask,
+    .p-toast,
+    .p-dialog,
+    .p-breadcrumb,
+    .p-menubar {
+    display: none !important;
+    }
+    /* ===== Force the Meta Card to 3 fixed columns in print ===== */
+    .print-view .print-page .row.g-4.align-items-center {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0 !important; /* avoid uneven spacing in print */
+    margin: 0 !important;
+    }
+
+    /* Each child column becomes exactly 1/3 width */
+    .print-view .print-page .row.g-4.align-items-center > [class^="col-"],
+    .print-view
+    .print-page
+    .row.g-4.align-items-center
+    > [class*=" col-"],
+    .print-view
+    .print-page
+    .row.g-4.align-items-center
+    > [class*="col-md-"] {
+    flex: 0 0 33.3333% !important;
+    max-width: 33.3333% !important;
+    padding: 4px !important; /* a little inner padding */
+    box-sizing: border-box !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    }
+
+    /* Tweak inner text and Tag for print clarity */
+    .print-view
+    .print-page
+    .row.g-4.align-items-center
+    .text-muted.small {
+    color: #000 !important;
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
+    }
+    .print-view .print-page .row.g-4.align-items-center .fw-semibold {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    }
+
+    /* PrimeReact Tag: render compact, inline in print */
+    .print-view .print-page .row.g-4.align-items-center .p-tag {
+    display: inline-block !important;
+    padding: 2px 6px !important;
+    font-size: 12px !important;
+    line-height: 1.1 !important;
+    border: 1px solid #000 !important; /* visible on B/W printers */
+    color: #000 !important;
+    background: #e5e5e5 !important;
+    }
+
+    /* Optional: hide icon glyphs in print for cleaner text */
+    .print-view .print-page .row.g-4.align-items-center .pi {
+    display: none !important;
+    }
+    /* Page size */
+    @page {
+    size: A4;
+    margin: 12mm 10mm;
+    }
+
+    /* PRINT WRAPPER (your printable page container) */
+    .print-page {
+    width: 190mm; /* 210 - left/right margins */
+    margin: 0 auto;
+    color: #000;
+    font-family: "Times New Roman", serif !important;
+    font-size: 14px;
+    line-height: 1.25;
+    padding-bottom: 18mm;
+    }
+
+    /* ---------- IMPORTANT LAYOUT RESETS ---------- */
+
+    /* 1) Make all outer layout wrappers full-width, single column */
+    .print-view #__next,
+    .print-view .layout-wrapper,
+    .print-view .layout-container,
+    .print-view .layout-main,
+    .print-view .layout-main-container,
+    .print-view .app-wrapper,
+    .print-view .content-wrapper,
+    .print-view .layout-content,
+    .print-view .content,
+    .print-view .content-area,
+    .print-view .main,
+    .print-view .main-content,
+    .print-view .investor-main-content,
+    .print-view main,
+    .print-view .container,
+    .print-view .container-fluid {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+    inset: auto !important;
+    }
+
+    /* 2) If parent layout is CSS Grid, collapse to one column */
+    .print-view .layout-wrapper,
+    .print-view .app-wrapper,
+    .print-view .investor-shell,
+    .print-view .grid,
+    .print-view [class*="grid"] {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    gap: 0 !important;
+    display: block !important; /* ensure it’s not grid during print */
+    }
+
+    /* 3) Remove any reserved left gutter/margins from sidebar layout */
+    .print-view .content,
+    .print-view .content-area,
+    .print-view .main,
+    .print-view .main-content,
+    .print-view .investor-main-content,
+    .print-view [style*="margin-left"],
+    .print-view [class*="content"] {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    }
+
+
+  /* 1) Hide the Print button in print */
+  .print-btn {
+    display: none !important;
+  }
+
+  /* 2) Ensure the right block stays at the far right in print */
+  /* Targets the right-hand container that wraps Printed on + Button */
+  .print-only .d-flex.align-items-end.gap-3 {
+    justify-content: flex-end !important; /* push to the right */
+    align-items: center !important;       /* vertical centering for the timestamp */
+    gap: 8px !important;                  /* a tidy gap on print */
+  }
+
+  /* Optional: tighten the timestamp block for print */
+  .print-only .text-end .text-muted.small {
+    font-size: 12px !important;
+    margin-bottom: 2px !important;
+    color: #000 !important;
+  }
+  .print-only .text-end .fw-semibold {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #000 !important;
+  }
+    /* 4) Make Bootstrap cols full width in print (no multi-col flex squeezing) */
+    .print-view [class*="col-"] {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    }
+
+    /* 5) Disable transforms that can clip/scale (some shells use this) */
+    .print-view [style*="transform"],
+    .print-view .transform,
+    .print-view .scale,
+    .print-view .translate {
+    transform: none !important;
+    }
+
+    /* 6) Stop table-responsive from cropping content */
+    .print-view .table-responsive {
+    overflow: visible !important;
+    height: auto !important;
+    max-width: none !important;
+    }
+
+    /* 7) Your existing card/table cosmetics (keep what you already had) */
+    .card,
+    .p-card,
+    .shadow,
+    .shadow-sm {
+    background: #fff !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+    padding: 6px !important;
+    margin-bottom: 12px !important;
+    }
+    .card-title,
+    .p-card-title,
+    h5,
+    h6 {
+    margin: 0 0 6px 0 !important;
+    padding-bottom: 4px !important;
+    font-weight: bold !important;
+    border-bottom: 1px solid #000 !important;
+    font-size: 15px !important;
+    }
+    .p-3 {
+    padding: 8px !important;
+    }
+    .bg-light {
+    background: #f8f9fa !important;
+    }
+    .fw-semibold {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    }
+    .text-muted {
+    color: #333 !important;
+    }
+    .pi-info-circle {
+    display: none !important;
+    }
+
+    table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    }
+    th,
+    td {
+    border: 1px solid #000 !important;
+    padding: 6px 8px !important;
+    font-size: 12px !important;
+    word-break: break-word !important;
+    vertical-align: top !important;
+    }
+    thead th {
+    background: #b91c1c !important;
+    color: #fff !important;
+    font-weight: bold !important;
+    }
+    .table-light th {
+    background: #e5e5e5 !important;
+    color: #000 !important;
+    }
+    tr,
+    td,
+    th {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    }
+
+    .page-break {
+    page-break-before: always !important;
+    }
+    .avoid-break {
+    page-break-inside: avoid !important;
+    }
+
+    /* Ensure your in-document print header/footer show */
+    .print-only {
+    display: block !important;
+    }
+    .print-actions {
+    display: none !important;
+    }
+    /* === 3 columns per row for field blocks in print === */
+
+    /* Make the field rows flex & wrap */
+    .print-view .print-page .row.g-3 {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0 !important; /* eliminate flex gap that can misalign borders */
+    margin: 0 !important;
+    }
+
+    /* Force exactly 3 columns */
+    .print-view .print-page .row.g-3 > [class^="col-"],
+    .print-view .print-page .row.g-3 > [class*=" col-"],
+    .print-view .print-page .row.g-3 > [class*="col-md-"] {
+    flex: 0 0 33.3333% !important;
+    max-width: 33.3333% !important;
+    padding: 4px !important; /* small inner padding between cards */
+    box-sizing: border-box !important;
+    }
+
+    /* Ensure inner field cards render consistently */
+    .print-view
+    .print-page
+    .row.g-3
+    > [class*="col-"]
+    .p-3.border.rounded {
+    height: 100% !important;
+    background: #fff !important;
+    border: 1px solid #000 !important; /* strong borders for print */
+    box-shadow: none !important;
+    padding: 8px !important;
+    }
+
+    /* Label/value cosmetics */
+    .print-view .print-page .row.g-3 .small.text-muted {
+    color: #000 !important;
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
+    }
+    .print-view .print-page .row.g-3 .fw-semibold.text-dark {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    }
+
+    /* Hide tooltip icons in print */
+    .print-view .print-page .row.g-3 .pi-info-circle {
+    display: none !important;
+    }
+
+    /* Avoid card breaking across pages */
+    .print-view .print-page .row.g-3 > [class*="col-"] {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    }
+}

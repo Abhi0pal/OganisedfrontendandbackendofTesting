@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+crewai
+langchain
+langchain-google-genai
+python-dotenv
+pandas
+openpyxl
+PyPDF2
+pypdfium2
+google-genai

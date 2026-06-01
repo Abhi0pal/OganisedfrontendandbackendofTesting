@@ -1,0 +1,250 @@
+{
+  "meta": {
+    "department_id": 1,
+    "service_id": "591.0",
+    "config_version": 1
+  },
+  "workflow_steps": [
+    {
+      "step": 1,
+      "step_name": "Investor Submission",
+      "role_id": 2,
+      "role_name": "investor",
+      "jurisdiction_level": "2",
+      "assignment_strategy": "ROLE",
+      "assignment_strategy_id": "1",
+      "sla_hours": 0,
+      "sla_breach_requires_reason": false,
+      "action_allowed_json": ["P", "I"],
+      "transition_map_json": {
+        "P": { "next_step": 2, "next_role_id": 4 }
+      },
+      "assignment_rule_json": {"role_id": 2, "strategy": "ROLE", "jurisdiction_level": "DISTRICT"},
+      "form_type_id": 1,
+      "current_role_id": 2,
+      "next_role_id": 4,
+      "approver_id": 0,
+      "forward_role_id": 4,
+      "revert_role_id": 0,
+      "can_revert_to_investor": "N",
+      "can_verify_document": "N",
+      "is_own_department": "Y",
+      "permissable_tab_form_id": "1",
+      "time_in_hours": "0",
+      "is_delay_reason_required": "N",
+      "document_show_last": "N",
+      "process_anytime": "N",
+      "subform_action_name": "",
+      "status": "PUBLISHED"
+    },
+    {
+      "step": 2,
+      "step_name": "Joint Director, DIC Processing",
+      "role_id": 4,
+      "role_name": "Joint_Director",
+      "jurisdiction_level": "2",
+      "assignment_strategy": "ROLE",
+	  "assignment_strategy_id": "1",
+      "sla_hours": 48,
+      "sla_breach_requires_reason": true,
+      "action_allowed_json": ["RBI", "F", "A", "R"],
+      "transition_map_json": {
+        "RBI": { "next_step": 1, "next_role_id": 2 },
+        "F": { "next_step": 3, "next_role_id": 5 },
+        "A": { "next_step": 0, "next_role_id": 2 },
+        "R": { "next_step": 0, "next_role_id": 2 }
+      },
+      "assignment_rule_json": {"role_id": 4,"strategy": "ROLE","jurisdiction_level": "DISTRICT"},
+      "form_type_id": 7,
+      "current_role_id": 4,
+      "next_role_id": 5,
+      "approver_id": 4,
+      "forward_role_id": 5,
+      "revert_role_id": 2,
+      "can_revert_to_investor": "Y",
+      "can_verify_document": "N",
+      "is_own_department": "Y",
+      "permissable_tab_form_id": "1",
+      "time_in_hours": "48",
+      "is_delay_reason_required": "Y",
+      "document_show_last": "N",
+      "process_anytime": "N",
+      "subform_action_name": "",
+      "status": "PUBLISHED"
+    },
+    {
+      "step": 3,
+      "step_name": "Assistant Director, DIC Processing",
+      "role_id": 5,
+      "role_name": "AD DIC",
+      "jurisdiction_level": "2",
+      "assignment_strategy": "ROLE",
+	  "assignment_strategy_id": "1",
+      "sla_hours": 72,
+      "sla_breach_requires_reason": {"role_id": 5,"strategy": "ROLE","jurisdiction_level": "DISTRICT"},
+      "action_allowed_json": ["F"],
+      "transition_map_json": {
+        "F": { "next_step": 4, "next_role_id": 6 }
+      },
+      "assignment_rule_json": {"role_id": 5,"strategy": "ROLE","jurisdiction_level": "DISTRICT"},
+      "form_type_id": 5,
+      "current_role_id": 5,
+      "next_role_id": 6,
+      "approver_id": 0,
+      "forward_role_id": 6,
+      "revert_role_id": 4,
+      "can_revert_to_investor": "N",
+      "can_verify_document": "Y",
+      "is_own_department": "Y",
+      "permissable_tab_form_id": "1",
+      "time_in_hours": "72",
+      "is_delay_reason_required": "N",
+      "document_show_last": "N",
+      "process_anytime": "N",
+      "subform_action_name": "",
+      "status": "PUBLISHED"
+    },
+    {
+      "step": 4,
+      "step_name": "Deputy Director, DIC Processing",
+      "role_id": 6,
+      "role_name": "DD DIC",
+      "jurisdiction_level": "2",
+      "assignment_strategy": "ROLE",
+	  "assignment_strategy_id": "1",
+      "sla_hours": 72,
+      "sla_breach_requires_reason": false,
+      "action_allowed_json": ["F", "RB"],
+      "transition_map_json": {
+        "F": { "next_step": 2, "next_role_id": 4 },
+        "RB": { "next_step": 3, "next_role_id": 5 }
+      },
+      "assignment_rule_json": {"role_id": 6,"strategy": "ROLE","jurisdiction_level": "DISTRICT"},,
+      "form_type_id": 8,
+      "current_role_id": 6,
+      "next_role_id": 4,
+      "approver_id": 0,
+      "forward_role_id": 4,
+      "revert_role_id": 5,
+      "can_revert_to_investor": "N",
+      "can_verify_document": "N",
+      "is_own_department": "Y",
+      "permissable_tab_form_id": "1",
+      "time_in_hours": "72",
+      "is_delay_reason_required": "N",
+      "document_show_last": "N",
+      "process_anytime": "N",
+      "subform_action_name": "",
+      "status": "PUBLISHED"
+    }
+  ],
+  "officer_forms": [
+    {
+      "step": 2,
+      "step_name": "Joint Director, DIC Processing",
+      "meta": {
+        "department_id": 1,
+        "service_id": "591.0",
+        "form_type_id": 7,
+        "form_name": "Joint Director, DIC Processing Form"
+      },
+      "page_masters": [
+        { "ref": "$P1", "page_name": "Joint Director Level", "name_in_hindi": null, "preference": 1 }
+      ],
+      "categories": [
+        { "ref": "$C1", "action": "INSERT_NEW", "category_name": "For Department Use Only", "name_in_hindi": null, "parent_id": 0, "is_active": true }
+      ],
+      "page_category_mappings": [
+        { "page_ref": "$P1", "category_ref": "$C1", "preference": 1, "help_text": null }
+      ],
+      "form_fields": [
+        { "ref": "$F1", "action": "INSERT_NEW", "name": "Comment", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F2", "action": "INSERT_NEW", "name": "Supportive Documents", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F_BTN1", "action": "INSERT_NEW", "name": "Revert To Applicant Button", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F_BTN2", "action": "INSERT_NEW", "name": "Forward To AD DIC", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F_BTN3", "action": "INSERT_NEW", "name": "Approve", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F_BTN4", "action": "INSERT_NEW", "name": "Reject", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true }
+      ],
+      "builder_fields": [
+        { "ref": "$BF1", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F1", "preference": 1, "input_type": "textarea", "custom_label": "Comment", "placeholder": null, "help_text": null, "grid_span": 6, "is_required": "Y", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": 1000, "pattern": null, "validation_rule": null, "layout_type": null },
+        { "ref": "$BF2", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F2", "preference": 2, "input_type": "file", "custom_label": "Supportive Documents", "placeholder": null, "help_text": null, "grid_span": 6, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": null, "layout_type": null },
+        { "ref": "$BF_BTN1", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F_BTN1", "preference": 3, "input_type": "button", "custom_label": "Revert to Applicant", "placeholder": null, "help_text": null, "grid_span": 3, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": {"action_code": "REVERT_TO_APPLICANT"}, "layout_type": null },
+        { "ref": "$BF_BTN2", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F_BTN2", "preference": 4, "input_type": "button", "custom_label": "Forward to AD DIC", "placeholder": null, "help_text": null, "grid_span": 3, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": {"action_code": "FORWARD"}, "layout_type": null },
+        { "ref": "$BF_BTN3", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F_BTN3", "preference": 5, "input_type": "button", "custom_label": "Approve", "placeholder": null, "help_text": null, "grid_span": 3, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": {"action_code": "APPROVE"}, "layout_type": null },
+        { "ref": "$BF_BTN4", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F_BTN4", "preference": 6, "input_type": "button", "custom_label": "Reject", "placeholder": null, "help_text": null, "grid_span": 3, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": {"action_code": "REJECT"}, "layout_type": null }
+      ],
+      "field_options": [],
+      "addmore_groups": [],
+      "addmore_columns": [],
+      "form_rules": []
+    },
+    {
+      "step": 3,
+      "step_name": "Assistant Director, DIC Processing",
+      "meta": {
+        "department_id": 1,
+        "service_id": "591.0",
+        "form_type_id": 5,
+        "form_name": "Assistant Director, DIC Processing Form"
+      },
+      "page_masters": [
+        { "ref": "$P1", "page_name": "AD DIC", "name_in_hindi": null, "preference": 1 }
+      ],
+      "categories": [
+        { "ref": "$C1", "action": "INSERT_NEW", "category_name": "For Department Use Only", "name_in_hindi": null, "parent_id": 0, "is_active": true }
+      ],
+      "page_category_mappings": [
+        { "page_ref": "$P1", "category_ref": "$C1", "preference": 1, "help_text": null }
+      ],
+      "form_fields": [
+        { "ref": "$F1", "action": "INSERT_NEW", "name": "Comment", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F2", "action": "INSERT_NEW", "name": "Supportive Documents", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F_BTN1", "action": "INSERT_NEW", "name": "Forward To DD DIC", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true }
+      ],
+      "builder_fields": [
+        { "ref": "$BF1", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F1", "preference": 1, "input_type": "textarea", "custom_label": "Comment", "placeholder": null, "help_text": null, "grid_span": 6, "is_required": "Y", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": 1000, "pattern": null, "validation_rule": null, "layout_type": null },
+        { "ref": "$BF2", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F2", "preference": 2, "input_type": "file", "custom_label": "Supportive Documents", "placeholder": null, "help_text": null, "grid_span": 6, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": null, "layout_type": null },
+        { "ref": "$BF_BTN1", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F_BTN1", "preference": 3, "input_type": "button", "custom_label": "Forward to DD DIC", "placeholder": null, "help_text": null, "grid_span": 3, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": {"action_code": "FORWARD"}, "layout_type": null }
+      ],
+      "field_options": [],
+      "addmore_groups": [],
+      "addmore_columns": [],
+      "form_rules": []
+    },
+    {
+      "step": 4,
+      "step_name": "Deputy Director, DIC Processing",
+      "meta": {
+        "department_id": 1,
+        "service_id": "591.0",
+        "form_type_id": 8,
+        "form_name": "Deputy Director, DIC Processing Form"
+      },
+      "page_masters": [
+        { "ref": "$P1", "page_name": "DD DIC", "name_in_hindi": null, "preference": 1 }
+      ],
+      "categories": [
+        { "ref": "$C1", "action": "INSERT_NEW", "category_name": "For Department Use Only", "name_in_hindi": null, "parent_id": 0, "is_active": true }
+      ],
+      "page_category_mappings": [
+        { "page_ref": "$P1", "category_ref": "$C1", "preference": 1, "help_text": null }
+      ],
+      "form_fields": [
+        { "ref": "$F1", "action": "INSERT_NEW", "name": "Comment", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F2", "action": "INSERT_NEW", "name": "Supportive Documents", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F_BTN1", "action": "INSERT_NEW", "name": "Forward To JD DIC", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true },
+        { "ref": "$F_BTN2", "action": "INSERT_NEW", "name": "Revert To AD DIC", "name_in_hindi": null, "category_ref": "$C1", "is_editable": "Y", "is_active": true }
+      ],
+      "builder_fields": [
+        { "ref": "$BF1", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F1", "preference": 1, "input_type": "textarea", "custom_label": "Comment", "placeholder": null, "help_text": null, "grid_span": 6, "is_required": "Y", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": 1000, "pattern": null, "validation_rule": null, "layout_type": null },
+        { "ref": "$BF2", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F2", "preference": 2, "input_type": "file", "custom_label": "Supportive Documents", "placeholder": null, "help_text": null, "grid_span": 6, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": null, "layout_type": null },
+        { "ref": "$BF_BTN1", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F_BTN1", "preference": 3, "input_type": "button", "custom_label": "Forward to JD DIC", "placeholder": null, "help_text": null, "grid_span": 3, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": {"action_code": "FORWARD"}, "layout_type": null },
+        { "ref": "$BF_BTN2", "page_ref": "$P1", "category_ref": "$C1", "field_ref": "$F_BTN2", "preference": 4, "input_type": "button", "custom_label": "Revert to AD DIC", "placeholder": null, "help_text": null, "grid_span": 3, "is_required": "N", "is_readonly": "N", "is_editable": "Y", "is_active": "Y", "min_length": null, "max_length": null, "pattern": null, "validation_rule": {"action_code": "REVERT"}, "layout_type": null }
+      ],
+      "field_options": [],
+      "addmore_groups": [],
+      "addmore_columns": [],
+      "form_rules": []
+    }
+  ]
+}

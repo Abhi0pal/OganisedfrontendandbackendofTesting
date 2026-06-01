@@ -1,0 +1,194 @@
+{
+  "serviceId": "591.0",
+  "serviceStatus": "ONBOARDED",
+  "documentTypes": [
+    {
+      "id": 15,
+      "name": "Identity Proof",
+      "checklists": [
+        {
+          "id": 129,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Company PAN Card",
+          "maxSizeMb": 2097152,
+          "isRequired": true,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null
+        },
+        {
+          "id": 205,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Authorized Signatory Aadhaar Card",
+          "maxSizeMb": 2097152,
+          "isRequired": true,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Company Incorporation Document",
+      "checklists": [
+        {
+          "id": 80,
+          "meta": { "comment": "This document is conditional and should be shown when 'Constitution Of Establishment' = 'public_limited' OR 'private_limited' OR 'one_person_company' OR 'section_8' OR 'llp' OR 'partnership'", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Certificate Of Incorporation Or Registration",
+          "maxSizeMb": 5242880,
+          "isRequired": false,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "name": "Statutory Registration - Industries",
+      "checklists": [
+        {
+          "id": 14,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "GST Certificate",
+          "maxSizeMb": 2097152,
+          "isRequired": false,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null,
+          "showCondition": { "value": "yes", "operator": "eq", "fieldName": "UK-FCL-00010_0", "isManualField": false }
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Proof of Ownership",
+      "checklists": [
+        {
+          "id": 937,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Land Document Or Title Deed",
+          "maxSizeMb": 10485760,
+          "isRequired": false,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null,
+          "showCondition": { "value": "available", "operator": "eq", "fieldName": "UK-FCL-00085_0", "isManualField": false }
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Project Report ( with Investment and Product Details and Line Diagram)",
+      "checklists": [
+        {
+          "id": 55,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Detailed Project Report",
+          "maxSizeMb": 10485760,
+          "isRequired": true,
+          "checkpoints": [],
+          "allowedFormats": ["pdf"],
+          "prescribedFormat": null
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Financial Document",
+      "checklists": [
+        {
+          "id": 1011,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Bank Statement Or Net Worth Certificate",
+          "maxSizeMb": 5242880,
+          "isRequired": true,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "name": "Agreement",
+      "checklists": [
+        {
+          "id": 11,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Partnership Deed",
+          "maxSizeMb": 5242880,
+          "isRequired": false,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null,
+          "showCondition": { "value": "partnership", "operator": "eq", "fieldName": "UK-FCL-00006_0", "isManualField": false }
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "name": "Photo",
+      "checklists": [
+        {
+          "id": 18,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Promoter Photograph",
+          "maxSizeMb": 1048576,
+          "isRequired": false,
+          "checkpoints": [],
+          "allowedFormats": ["jpg", "jpeg", "png"],
+          "prescribedFormat": null
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Miscellaneous Document",
+      "checklists": [
+        {
+          "id": 788,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Udyam Registration Certificate",
+          "maxSizeMb": 2097152,
+          "isRequired": false,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null,
+          "showCondition": { "value": "yes", "operator": "eq", "fieldName": "UK-FCL-00072_0", "isManualField": false }
+        },
+        {
+          "id": 1012,
+          "meta": { "comment": "This document is conditional and should be shown when 'Type Of Proposal' = 'expansion' OR 'diversification' OR 'modernization'", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Previous CAF Approval Letter",
+          "maxSizeMb": 5242880,
+          "isRequired": false,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null
+        },
+        {
+          "id": 344,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Any Other Document",
+          "maxSizeMb": 5242880,
+          "isRequired": false,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null
+        },
+        {
+          "id": 994,
+          "meta": { "comment": "", "extraFields": {}, "serviceStatus": "ONBOARDED" },
+          "name": "Supportive Documents",
+          "maxSizeMb": 5242880,
+          "isRequired": false,
+          "checkpoints": [],
+          "allowedFormats": ["pdf", "jpg", "jpeg", "png"],
+          "prescribedFormat": null
+        }
+      ]
+    }
+  ]
+}

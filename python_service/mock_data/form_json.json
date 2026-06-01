@@ -1,0 +1,5935 @@
+{
+  "meta": {
+    "department_id": 1,
+    "service_id": "591.0",
+    "form_type_id": 1,
+    "form_name": "Combined Application Form (CAF)"
+  },
+  "categories": [
+    {
+      "ref": "$C1",
+      "action": "INSERT_NEW",
+      "category_name": "Company Details",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C2",
+      "action": "INSERT_NEW",
+      "category_name": "Corporate Address",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C3",
+      "action": "INSERT_NEW",
+      "category_name": "Correspondence Address",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C4",
+      "action": "INSERT_NEW",
+      "category_name": "Authorized Signatory Details",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C5",
+      "action": "INSERT_NEW",
+      "category_name": "Promoter Details",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C6",
+      "action": "INSERT_NEW",
+      "category_name": "Project Basic Information",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C7",
+      "action": "INSERT_NEW",
+      "category_name": "Location Details",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C8",
+      "action": "INSERT_NEW",
+      "category_name": "Land Details",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C9",
+      "action": "INSERT_NEW",
+      "category_name": "Investment Details",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C10",
+      "action": "INSERT_NEW",
+      "category_name": "Financing Pattern",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C11",
+      "action": "INSERT_NEW",
+      "category_name": "Water Requirement",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C12",
+      "action": "INSERT_NEW",
+      "category_name": "Power Requirement",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C13",
+      "action": "INSERT_NEW",
+      "category_name": "Manpower Requirement",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    },
+    {
+      "ref": "$C14",
+      "action": "INSERT_NEW",
+      "category_name": "Government Assistance Details",
+      "name_in_hindi": null,
+      "parent_id": 0,
+      "is_active": true
+    }
+  ],
+  "form_fields": [
+    {
+      "ref": "$F1",
+      "action": "INSERT_NEW",
+      "name": "New Or Existing Offline",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F2",
+      "action": "INSERT_NEW",
+      "name": "Type Of Proposal",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F3",
+      "action": "INSERT_NEW",
+      "name": "CAF Id",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F4",
+      "action": "INSERT_NEW",
+      "name": "Name Of Company Unit Trust",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "N",
+      "is_active": true
+    },
+    {
+      "ref": "$F5",
+      "action": "INSERT_NEW",
+      "name": "Primary Activity Of Project",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F6",
+      "action": "INSERT_NEW",
+      "name": "Constitution Of Establishment",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "N",
+      "is_active": true
+    },
+    {
+      "ref": "$F7",
+      "action": "INSERT_NEW",
+      "name": "Company PAN Number",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "N",
+      "is_active": true
+    },
+    {
+      "ref": "$F8",
+      "action": "INSERT_NEW",
+      "name": "Corporate Identification Number",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F9",
+      "action": "INSERT_NEW",
+      "name": "LLPIN Number",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F10",
+      "action": "INSERT_NEW",
+      "name": "Do You Have GST Number",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F11",
+      "action": "INSERT_NEW",
+      "name": "GST Number",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F12",
+      "action": "INSERT_NEW",
+      "name": "Date Of Incorporation",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "N",
+      "is_active": true
+    },
+    {
+      "ref": "$F13",
+      "action": "INSERT_NEW",
+      "name": "Date Of Business Commencement",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F14",
+      "action": "INSERT_NEW",
+      "name": "Is A Startup Company",
+      "name_in_hindi": null,
+      "category_ref": "$C1",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F15",
+      "action": "INSERT_NEW",
+      "name": "Corporate Address Line 1",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F16",
+      "action": "INSERT_NEW",
+      "name": "Corporate Address Line 2",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F17",
+      "action": "INSERT_NEW",
+      "name": "Corporate Country",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F18",
+      "action": "INSERT_NEW",
+      "name": "Corporate State",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F19",
+      "action": "INSERT_NEW",
+      "name": "Corporate District",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F20",
+      "action": "INSERT_NEW",
+      "name": "Corporate Taluk",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F21",
+      "action": "INSERT_NEW",
+      "name": "Corporate City",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F22",
+      "action": "INSERT_NEW",
+      "name": "Corporate Pin Code",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F23",
+      "action": "INSERT_NEW",
+      "name": "Corporate Std Code",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F24",
+      "action": "INSERT_NEW",
+      "name": "Corporate Phone Number",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F25",
+      "action": "INSERT_NEW",
+      "name": "Corporate Country Code",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F26",
+      "action": "INSERT_NEW",
+      "name": "Corporate Mobile Number",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F27",
+      "action": "INSERT_NEW",
+      "name": "Corporate Email",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F28",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Address Same As Corporate",
+      "name_in_hindi": null,
+      "category_ref": "$C2",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F29",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Address Line 1",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F30",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Address Line 2",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F31",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Country",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F32",
+      "action": "INSERT_NEW",
+      "name": "Correspondence State",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F33",
+      "action": "INSERT_NEW",
+      "name": "Correspondence District",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F34",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Taluk",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F35",
+      "action": "INSERT_NEW",
+      "name": "Correspondence City",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F36",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Pin Code",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F37",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Std Code",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F38",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Phone Number",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F39",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Country Code",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F40",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Mobile Number",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F41",
+      "action": "INSERT_NEW",
+      "name": "Correspondence Email",
+      "name_in_hindi": null,
+      "category_ref": "$C3",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F42",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Name",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F43",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Designation",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F44",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory PAN",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F45",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Aadhaar",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F46",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Mobile Number",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F47",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Email",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F48",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory DIN",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F49",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Address Line 1",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F50",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Address Line 2",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F51",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Country",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F52",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory State",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F53",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory District",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F54",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Taluk",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F55",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory City",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F56",
+      "action": "INSERT_NEW",
+      "name": "Authorized Signatory Pin Code",
+      "name_in_hindi": null,
+      "category_ref": "$C4",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F57",
+      "action": "INSERT_NEW",
+      "name": "Promoter Name",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F58",
+      "action": "INSERT_NEW",
+      "name": "Promoter Designation",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F59",
+      "action": "INSERT_NEW",
+      "name": "Promoter Gender",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F60",
+      "action": "INSERT_NEW",
+      "name": "Promoter Social Category",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F61",
+      "action": "INSERT_NEW",
+      "name": "Promoter PAN",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F62",
+      "action": "INSERT_NEW",
+      "name": "Promoter Aadhaar",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F63",
+      "action": "INSERT_NEW",
+      "name": "Promoter Date Of Birth",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F64",
+      "action": "INSERT_NEW",
+      "name": "Promoter Mobile Number",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F65",
+      "action": "INSERT_NEW",
+      "name": "Promoter Email",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F66",
+      "action": "INSERT_NEW",
+      "name": "Promoter Share Percentage",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F67",
+      "action": "INSERT_NEW",
+      "name": "Promoter DIN",
+      "name_in_hindi": null,
+      "category_ref": "$C5",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F68",
+      "action": "INSERT_NEW",
+      "name": "Name Of Industrial Unit",
+      "name_in_hindi": null,
+      "category_ref": "$C6",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F69",
+      "action": "INSERT_NEW",
+      "name": "NIC Code",
+      "name_in_hindi": null,
+      "category_ref": "$C6",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F70",
+      "action": "INSERT_NEW",
+      "name": "Industry Type",
+      "name_in_hindi": null,
+      "category_ref": "$C6",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F71",
+      "action": "INSERT_NEW",
+      "name": "Products Or Services To Be Manufactured",
+      "name_in_hindi": null,
+      "category_ref": "$C6",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F72",
+      "action": "INSERT_NEW",
+      "name": "Is Existing MSME Unit",
+      "name_in_hindi": null,
+      "category_ref": "$C6",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F73",
+      "action": "INSERT_NEW",
+      "name": "Udyam Registration Number",
+      "name_in_hindi": null,
+      "category_ref": "$C6",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F74",
+      "action": "INSERT_NEW",
+      "name": "Whether Pollution Causing Industry",
+      "name_in_hindi": null,
+      "category_ref": "$C6",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F75",
+      "action": "INSERT_NEW",
+      "name": "Pollution Category",
+      "name_in_hindi": null,
+      "category_ref": "$C6",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F76",
+      "action": "INSERT_NEW",
+      "name": "Project Location District",
+      "name_in_hindi": null,
+      "category_ref": "$C7",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F77",
+      "action": "INSERT_NEW",
+      "name": "Project Location Taluk",
+      "name_in_hindi": null,
+      "category_ref": "$C7",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F78",
+      "action": "INSERT_NEW",
+      "name": "Project Location Hobli",
+      "name_in_hindi": null,
+      "category_ref": "$C7",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F79",
+      "action": "INSERT_NEW",
+      "name": "Project Location Village",
+      "name_in_hindi": null,
+      "category_ref": "$C7",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F80",
+      "action": "INSERT_NEW",
+      "name": "Project Location Zone",
+      "name_in_hindi": null,
+      "category_ref": "$C7",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F81",
+      "action": "INSERT_NEW",
+      "name": "Project Address Line 1",
+      "name_in_hindi": null,
+      "category_ref": "$C7",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F82",
+      "action": "INSERT_NEW",
+      "name": "Project Address Line 2",
+      "name_in_hindi": null,
+      "category_ref": "$C7",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F83",
+      "action": "INSERT_NEW",
+      "name": "Project Pin Code",
+      "name_in_hindi": null,
+      "category_ref": "$C7",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F84",
+      "action": "INSERT_NEW",
+      "name": "Industrial Area Or Estate Name",
+      "name_in_hindi": null,
+      "category_ref": "$C7",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F85",
+      "action": "INSERT_NEW",
+      "name": "Land Availability Status",
+      "name_in_hindi": null,
+      "category_ref": "$C8",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F86",
+      "action": "INSERT_NEW",
+      "name": "Land Source",
+      "name_in_hindi": null,
+      "category_ref": "$C8",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F87",
+      "action": "INSERT_NEW",
+      "name": "Total Land Required In Acres",
+      "name_in_hindi": null,
+      "category_ref": "$C8",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F88",
+      "action": "INSERT_NEW",
+      "name": "Built Up Area Required In Sq Ft",
+      "name_in_hindi": null,
+      "category_ref": "$C8",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F89",
+      "action": "INSERT_NEW",
+      "name": "Survey Or Katha Number",
+      "name_in_hindi": null,
+      "category_ref": "$C8",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F90",
+      "action": "INSERT_NEW",
+      "name": "Existing Plant Area In Acres",
+      "name_in_hindi": null,
+      "category_ref": "$C8",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F91",
+      "action": "INSERT_NEW",
+      "name": "Investment In Land",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F92",
+      "action": "INSERT_NEW",
+      "name": "Investment In Building",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F93",
+      "action": "INSERT_NEW",
+      "name": "Investment In Plant And Machinery",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F94",
+      "action": "INSERT_NEW",
+      "name": "Investment In Other Fixed Assets",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F95",
+      "action": "INSERT_NEW",
+      "name": "Total Fixed Capital Investment",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "N",
+      "is_active": true
+    },
+    {
+      "ref": "$F96",
+      "action": "INSERT_NEW",
+      "name": "Working Capital",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F97",
+      "action": "INSERT_NEW",
+      "name": "Total Project Cost",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "N",
+      "is_active": true
+    },
+    {
+      "ref": "$F98",
+      "action": "INSERT_NEW",
+      "name": "Existing Investment In VFA",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F99",
+      "action": "INSERT_NEW",
+      "name": "FDI Investment",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F100",
+      "action": "INSERT_NEW",
+      "name": "Source Of FDI",
+      "name_in_hindi": null,
+      "category_ref": "$C9",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F101",
+      "action": "INSERT_NEW",
+      "name": "Own Funds Or Equity",
+      "name_in_hindi": null,
+      "category_ref": "$C10",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F102",
+      "action": "INSERT_NEW",
+      "name": "Bank Loan",
+      "name_in_hindi": null,
+      "category_ref": "$C10",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F103",
+      "action": "INSERT_NEW",
+      "name": "Name Of Bank Or Financial Institution",
+      "name_in_hindi": null,
+      "category_ref": "$C10",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F104",
+      "action": "INSERT_NEW",
+      "name": "Subsidy Or Grant",
+      "name_in_hindi": null,
+      "category_ref": "$C10",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F105",
+      "action": "INSERT_NEW",
+      "name": "Other Source Amount",
+      "name_in_hindi": null,
+      "category_ref": "$C10",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F106",
+      "action": "INSERT_NEW",
+      "name": "Other Source Description",
+      "name_in_hindi": null,
+      "category_ref": "$C10",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F107",
+      "action": "INSERT_NEW",
+      "name": "Total Financing",
+      "name_in_hindi": null,
+      "category_ref": "$C10",
+      "is_editable": "N",
+      "is_active": true
+    },
+    {
+      "ref": "$F108",
+      "action": "INSERT_NEW",
+      "name": "Total Water Requirement In KLD",
+      "name_in_hindi": null,
+      "category_ref": "$C11",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F109",
+      "action": "INSERT_NEW",
+      "name": "Source Of Water",
+      "name_in_hindi": null,
+      "category_ref": "$C11",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F110",
+      "action": "INSERT_NEW",
+      "name": "Water Source Other Description",
+      "name_in_hindi": null,
+      "category_ref": "$C11",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F111",
+      "action": "INSERT_NEW",
+      "name": "Industrial Use Water In KLD",
+      "name_in_hindi": null,
+      "category_ref": "$C11",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F112",
+      "action": "INSERT_NEW",
+      "name": "Domestic Use Water In KLD",
+      "name_in_hindi": null,
+      "category_ref": "$C11",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F113",
+      "action": "INSERT_NEW",
+      "name": "Total Power Requirement In KVA",
+      "name_in_hindi": null,
+      "category_ref": "$C12",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F114",
+      "action": "INSERT_NEW",
+      "name": "Connected Load In KW",
+      "name_in_hindi": null,
+      "category_ref": "$C12",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F115",
+      "action": "INSERT_NEW",
+      "name": "Source Of Power",
+      "name_in_hindi": null,
+      "category_ref": "$C12",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F116",
+      "action": "INSERT_NEW",
+      "name": "Power Source Other Description",
+      "name_in_hindi": null,
+      "category_ref": "$C12",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F117",
+      "action": "INSERT_NEW",
+      "name": "Renewable Energy Percentage",
+      "name_in_hindi": null,
+      "category_ref": "$C12",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F118",
+      "action": "INSERT_NEW",
+      "name": "Male Employment Direct",
+      "name_in_hindi": null,
+      "category_ref": "$C13",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F119",
+      "action": "INSERT_NEW",
+      "name": "Female Employment Direct",
+      "name_in_hindi": null,
+      "category_ref": "$C13",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F120",
+      "action": "INSERT_NEW",
+      "name": "Total Direct Employment",
+      "name_in_hindi": null,
+      "category_ref": "$C13",
+      "is_editable": "N",
+      "is_active": true
+    },
+    {
+      "ref": "$F121",
+      "action": "INSERT_NEW",
+      "name": "Skilled Employment",
+      "name_in_hindi": null,
+      "category_ref": "$C13",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F122",
+      "action": "INSERT_NEW",
+      "name": "Semi Skilled Employment",
+      "name_in_hindi": null,
+      "category_ref": "$C13",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F123",
+      "action": "INSERT_NEW",
+      "name": "Unskilled Employment",
+      "name_in_hindi": null,
+      "category_ref": "$C13",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F124",
+      "action": "INSERT_NEW",
+      "name": "Karnataka State Employment",
+      "name_in_hindi": null,
+      "category_ref": "$C13",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F125",
+      "action": "INSERT_NEW",
+      "name": "Local District Employment",
+      "name_in_hindi": null,
+      "category_ref": "$C13",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F126",
+      "action": "INSERT_NEW",
+      "name": "Indirect Employment",
+      "name_in_hindi": null,
+      "category_ref": "$C13",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F127",
+      "action": "INSERT_NEW",
+      "name": "Type Of Assistance Required",
+      "name_in_hindi": null,
+      "category_ref": "$C14",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F128",
+      "action": "INSERT_NEW",
+      "name": "Whether Applying For Social Category Benefit",
+      "name_in_hindi": null,
+      "category_ref": "$C14",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F129",
+      "action": "INSERT_NEW",
+      "name": "Social Category For Benefit",
+      "name_in_hindi": null,
+      "category_ref": "$C14",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F130",
+      "action": "INSERT_NEW",
+      "name": "Whether Tumakuru Machine Tool Park",
+      "name_in_hindi": null,
+      "category_ref": "$C14",
+      "is_editable": "Y",
+      "is_active": true
+    },
+    {
+      "ref": "$F131",
+      "action": "INSERT_NEW",
+      "name": "Assistance Remarks",
+      "name_in_hindi": null,
+      "category_ref": "$C14",
+      "is_editable": "Y",
+      "is_active": true
+    }
+  ],
+  "page_masters": [
+    {
+      "ref": "$P1",
+      "page_name": "Company Details",
+      "name_in_hindi": null,
+      "preference": 1
+    },
+    {
+      "ref": "$P2",
+      "page_name": "Authorized Signatory And Promoter Details",
+      "name_in_hindi": null,
+      "preference": 2
+    },
+    {
+      "ref": "$P3",
+      "page_name": "Proposed Project Details",
+      "name_in_hindi": null,
+      "preference": 3
+    },
+    {
+      "ref": "$P4",
+      "page_name": "Project Finance",
+      "name_in_hindi": null,
+      "preference": 4
+    },
+    {
+      "ref": "$P5",
+      "page_name": "Project Requirement",
+      "name_in_hindi": null,
+      "preference": 5
+    },
+    {
+      "ref": "$P6",
+      "page_name": "Assistance",
+      "name_in_hindi": null,
+      "preference": 6
+    }
+  ],
+  "page_category_mappings": [
+    {
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "preference": 1,
+      "help_text": null
+    },
+    {
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "preference": 2,
+      "help_text": null
+    },
+    {
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "preference": 3,
+      "help_text": null
+    },
+    {
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "preference": 1,
+      "help_text": null
+    },
+    {
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "preference": 2,
+      "help_text": "This section is REPEATABLE (Add More rows). Minimum 1 promoter required."
+    },
+    {
+      "page_ref": "$P3",
+      "category_ref": "$C6",
+      "preference": 1,
+      "help_text": null
+    },
+    {
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "preference": 2,
+      "help_text": "Location refers to the proposed site for the industrial unit."
+    },
+    {
+      "page_ref": "$P3",
+      "category_ref": "$C8",
+      "preference": 3,
+      "help_text": null
+    },
+    {
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "preference": 1,
+      "help_text": "All investment values are in Indian Rupees (INR), in Lakhs."
+    },
+    {
+      "page_ref": "$P4",
+      "category_ref": "$C10",
+      "preference": 2,
+      "help_text": "Total Financing must equal Total Project Cost."
+    },
+    {
+      "page_ref": "$P5",
+      "category_ref": "$C11",
+      "preference": 1,
+      "help_text": null
+    },
+    {
+      "page_ref": "$P5",
+      "category_ref": "$C12",
+      "preference": 2,
+      "help_text": null
+    },
+    {
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "preference": 3,
+      "help_text": "Employment figures should be projected numbers after full commissioning."
+    },
+    {
+      "page_ref": "$P6",
+      "category_ref": "$C14",
+      "preference": 1,
+      "help_text": "Investor selects what government assistance/incentives they are applying for."
+    }
+  ],
+  "builder_fields": [
+    {
+      "ref": "$BF1",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F1",
+      "preference": 1,
+      "input_type": "radio",
+      "custom_label": "New Or Existing Offline",
+      "placeholder": null,
+      "help_text": "Existing Offline means industrial unit already in operation",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF2",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F2",
+      "preference": 2,
+      "input_type": "select",
+      "custom_label": "Type Of Proposal",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF3",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F3",
+      "preference": 3,
+      "input_type": "select",
+      "custom_label": "CAF Id",
+      "placeholder": null,
+      "help_text": "When a CAF ID is selected, data from that CAF will auto-populate this form",
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF4",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F4",
+      "preference": 4,
+      "input_type": "text",
+      "custom_label": "Name Of Company Unit Trust",
+      "placeholder": null,
+      "help_text": "Auto populated from investor registration details. Non-editable.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "N",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF5",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F5",
+      "preference": 5,
+      "input_type": "select",
+      "custom_label": "Primary Activity Of Project",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF6",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F6",
+      "preference": 6,
+      "input_type": "select",
+      "custom_label": "Constitution Of Establishment",
+      "placeholder": null,
+      "help_text": "Auto populated from investor registration. Non-editable.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "N",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF7",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F7",
+      "preference": 7,
+      "input_type": "text",
+      "custom_label": "Company PAN Number",
+      "placeholder": null,
+      "help_text": "Auto populated. Masked display.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "N",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 10,
+      "pattern": "^[A-Z]{5}[0-9]{4}[A-Z]{1}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF8",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F8",
+      "preference": 8,
+      "input_type": "text",
+      "custom_label": "Corporate Identification Number",
+      "placeholder": null,
+      "help_text": "Authenticated via CIN API",
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 21,
+      "pattern": "^[LUu]{1}[0-9]{5}[A-Za-z]{2}[0-9]{4}[A-Za-z]{3}[0-9]{6}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF9",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F9",
+      "preference": 9,
+      "input_type": "text",
+      "custom_label": "LLPIN Number",
+      "placeholder": null,
+      "help_text": "Limited Liability Partnership Identification Number.",
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 7,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF10",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F10",
+      "preference": 10,
+      "input_type": "radio",
+      "custom_label": "Do You Have GST Number",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF11",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F11",
+      "preference": 11,
+      "input_type": "text",
+      "custom_label": "GST Number",
+      "placeholder": null,
+      "help_text": "15-character alphanumeric GSTIN.",
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 15,
+      "pattern": "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF12",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F12",
+      "preference": 12,
+      "input_type": "date",
+      "custom_label": "Date Of Incorporation",
+      "placeholder": null,
+      "help_text": "Auto populated from investor registration.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "N",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF13",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F13",
+      "preference": 13,
+      "input_type": "date",
+      "custom_label": "Date Of Business Commencement",
+      "placeholder": null,
+      "help_text": "Should not be a future date.",
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "maxDate": "today",
+        "minAfterField": "Date Of Incorporation"
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF14",
+      "page_ref": "$P1",
+      "category_ref": "$C1",
+      "field_ref": "$F14",
+      "preference": 14,
+      "input_type": "radio",
+      "custom_label": "Is A Startup Company",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF15",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F15",
+      "preference": 1,
+      "input_type": "text",
+      "custom_label": "Corporate Address Line 1",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF16",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F16",
+      "preference": 2,
+      "input_type": "text",
+      "custom_label": "Corporate Address Line 2",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF17",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F17",
+      "preference": 3,
+      "input_type": "select",
+      "custom_label": "Corporate Country",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF18",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F18",
+      "preference": 4,
+      "input_type": "select",
+      "custom_label": "Corporate State",
+      "placeholder": null,
+      "help_text": "Cascading: depends on Corporate Country.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF19",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F19",
+      "preference": 5,
+      "input_type": "select",
+      "custom_label": "Corporate District",
+      "placeholder": null,
+      "help_text": "Cascading: depends on Corporate State.",
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF20",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F20",
+      "preference": 6,
+      "input_type": "select",
+      "custom_label": "Corporate Taluk",
+      "placeholder": null,
+      "help_text": "Cascading: depends on Corporate District.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF21",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F21",
+      "preference": 7,
+      "input_type": "text",
+      "custom_label": "Corporate City",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 50,
+      "pattern": null,
+      "validation_rule": {
+        "noSpecialChars": true
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF22",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F22",
+      "preference": 8,
+      "input_type": "text",
+      "custom_label": "Corporate Pin Code",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 10,
+      "pattern": null,
+      "validation_rule": {
+        "noSpecialChars": true
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF23",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F23",
+      "preference": 9,
+      "input_type": "text",
+      "custom_label": "Corporate Std Code",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 10,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF24",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F24",
+      "preference": 10,
+      "input_type": "text",
+      "custom_label": "Corporate Phone Number",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 15,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF25",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F25",
+      "preference": 11,
+      "input_type": "select",
+      "custom_label": "Corporate Country Code",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF26",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F26",
+      "preference": 12,
+      "input_type": "tel",
+      "custom_label": "Corporate Mobile Number",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 15,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF27",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F27",
+      "preference": 13,
+      "input_type": "email",
+      "custom_label": "Corporate Email",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 100,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF28",
+      "page_ref": "$P1",
+      "category_ref": "$C2",
+      "field_ref": "$F28",
+      "preference": 14,
+      "input_type": "checkbox",
+      "custom_label": "Correspondence Address Same As Corporate",
+      "placeholder": null,
+      "help_text": "If checked, Corporate Address is copied to Correspondence Address.",
+      "grid_span": 12,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF29",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F29",
+      "preference": 1,
+      "input_type": "text",
+      "custom_label": "Correspondence Address Line 1",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 300,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF30",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F30",
+      "preference": 2,
+      "input_type": "text",
+      "custom_label": "Correspondence Address Line 2",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 300,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF31",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F31",
+      "preference": 3,
+      "input_type": "select",
+      "custom_label": "Correspondence Country",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF32",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F32",
+      "preference": 4,
+      "input_type": "select",
+      "custom_label": "Correspondence State",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF33",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F33",
+      "preference": 5,
+      "input_type": "select",
+      "custom_label": "Correspondence District",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF34",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F34",
+      "preference": 6,
+      "input_type": "select",
+      "custom_label": "Correspondence Taluk",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF35",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F35",
+      "preference": 7,
+      "input_type": "text",
+      "custom_label": "Correspondence City",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 50,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF36",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F36",
+      "preference": 8,
+      "input_type": "text",
+      "custom_label": "Correspondence Pin Code",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 10,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF37",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F37",
+      "preference": 9,
+      "input_type": "text",
+      "custom_label": "Correspondence Std Code",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 10,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF38",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F38",
+      "preference": 10,
+      "input_type": "text",
+      "custom_label": "Correspondence Phone Number",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 15,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF39",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F39",
+      "preference": 11,
+      "input_type": "select",
+      "custom_label": "Correspondence Country Code",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF40",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F40",
+      "preference": 12,
+      "input_type": "tel",
+      "custom_label": "Correspondence Mobile Number",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 15,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF41",
+      "page_ref": "$P1",
+      "category_ref": "$C3",
+      "field_ref": "$F41",
+      "preference": 13,
+      "input_type": "email",
+      "custom_label": "Correspondence Email",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 100,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF42",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F42",
+      "preference": 1,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory Name",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 100,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF43",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F43",
+      "preference": 2,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory Designation",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 100,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF44",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F44",
+      "preference": 3,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory PAN",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 10,
+      "pattern": "^[A-Z]{5}[0-9]{4}[A-Z]{1}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF45",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F45",
+      "preference": 4,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory Aadhaar",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 12,
+      "pattern": "^\\d{12}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF46",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F46",
+      "preference": 5,
+      "input_type": "tel",
+      "custom_label": "Authorized Signatory Mobile Number",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 10,
+      "pattern": "^[6-9]\\d{9}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF47",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F47",
+      "preference": 6,
+      "input_type": "email",
+      "custom_label": "Authorized Signatory Email",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 100,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF48",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F48",
+      "preference": 7,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory DIN",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 8,
+      "pattern": "^[0-9]{8}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF49",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F49",
+      "preference": 8,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory Address Line 1",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF50",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F50",
+      "preference": 9,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory Address Line 2",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF51",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F51",
+      "preference": 10,
+      "input_type": "select",
+      "custom_label": "Authorized Signatory Country",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF52",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F52",
+      "preference": 11,
+      "input_type": "select",
+      "custom_label": "Authorized Signatory State",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF53",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F53",
+      "preference": 12,
+      "input_type": "select",
+      "custom_label": "Authorized Signatory District",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF54",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F54",
+      "preference": 13,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory Taluk",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF55",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F55",
+      "preference": 14,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory City",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 50,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF56",
+      "page_ref": "$P2",
+      "category_ref": "$C4",
+      "field_ref": "$F56",
+      "preference": 15,
+      "input_type": "text",
+      "custom_label": "Authorized Signatory Pin Code",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 6,
+      "pattern": "^\\d{6}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF57",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F57",
+      "preference": 1,
+      "input_type": "text",
+      "custom_label": "Promoter Name",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 100,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF58",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F58",
+      "preference": 2,
+      "input_type": "text",
+      "custom_label": "Promoter Designation",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 100,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF59",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F59",
+      "preference": 3,
+      "input_type": "select",
+      "custom_label": "Promoter Gender",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF60",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F60",
+      "preference": 4,
+      "input_type": "select",
+      "custom_label": "Promoter Social Category",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF61",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F61",
+      "preference": 5,
+      "input_type": "text",
+      "custom_label": "Promoter PAN",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 10,
+      "pattern": "^[A-Z]{5}[0-9]{4}[A-Z]{1}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF62",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F62",
+      "preference": 6,
+      "input_type": "text",
+      "custom_label": "Promoter Aadhaar",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 12,
+      "pattern": "^\\d{12}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF63",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F63",
+      "preference": 7,
+      "input_type": "date",
+      "custom_label": "Promoter Date Of Birth",
+      "placeholder": null,
+      "help_text": "Must not be a future date.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "maxDate": "today"
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF64",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F64",
+      "preference": 8,
+      "input_type": "tel",
+      "custom_label": "Promoter Mobile Number",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 10,
+      "pattern": "^[6-9]\\d{9}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF65",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F65",
+      "preference": 9,
+      "input_type": "email",
+      "custom_label": "Promoter Email",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 100,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF66",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F66",
+      "preference": 10,
+      "input_type": "number",
+      "custom_label": "Promoter Share Percentage",
+      "placeholder": null,
+      "help_text": "Total across all promoters must equal 100%.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0,
+        "max": 100
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF67",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "field_ref": "$F67",
+      "preference": 11,
+      "input_type": "text",
+      "custom_label": "Promoter DIN",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 8,
+      "pattern": "^[0-9]{8}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF68",
+      "page_ref": "$P3",
+      "category_ref": "$C6",
+      "field_ref": "$F68",
+      "preference": 1,
+      "input_type": "text",
+      "custom_label": "Name Of Industrial Unit",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF69",
+      "page_ref": "$P3",
+      "category_ref": "$C6",
+      "field_ref": "$F69",
+      "preference": 2,
+      "input_type": "select",
+      "custom_label": "NIC Code",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF70",
+      "page_ref": "$P3",
+      "category_ref": "$C6",
+      "field_ref": "$F70",
+      "preference": 3,
+      "input_type": "select",
+      "custom_label": "Industry Type",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF71",
+      "page_ref": "$P3",
+      "category_ref": "$C6",
+      "field_ref": "$F71",
+      "preference": 4,
+      "input_type": "textarea",
+      "custom_label": "Products Or Services To Be Manufactured",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 1000,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF72",
+      "page_ref": "$P3",
+      "category_ref": "$C6",
+      "field_ref": "$F72",
+      "preference": 5,
+      "input_type": "radio",
+      "custom_label": "Is Existing MSME Unit",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF73",
+      "page_ref": "$P3",
+      "category_ref": "$C6",
+      "field_ref": "$F73",
+      "preference": 6,
+      "input_type": "text",
+      "custom_label": "Udyam Registration Number",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 19,
+      "pattern": "^UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF74",
+      "page_ref": "$P3",
+      "category_ref": "$C6",
+      "field_ref": "$F74",
+      "preference": 7,
+      "input_type": "radio",
+      "custom_label": "Whether Pollution Causing Industry",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF75",
+      "page_ref": "$P3",
+      "category_ref": "$C6",
+      "field_ref": "$F75",
+      "preference": 8,
+      "input_type": "select",
+      "custom_label": "Pollution Category",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF76",
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "field_ref": "$F76",
+      "preference": 1,
+      "input_type": "select",
+      "custom_label": "Project Location District",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF77",
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "field_ref": "$F77",
+      "preference": 2,
+      "input_type": "text",
+      "custom_label": "Project Location Taluk",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF78",
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "field_ref": "$F78",
+      "preference": 3,
+      "input_type": "text",
+      "custom_label": "Project Location Hobli",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF79",
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "field_ref": "$F79",
+      "preference": 4,
+      "input_type": "text",
+      "custom_label": "Project Location Village",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF80",
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "field_ref": "$F80",
+      "preference": 5,
+      "input_type": "text",
+      "custom_label": "Project Location Zone",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF81",
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "field_ref": "$F81",
+      "preference": 6,
+      "input_type": "text",
+      "custom_label": "Project Address Line 1",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF82",
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "field_ref": "$F82",
+      "preference": 7,
+      "input_type": "text",
+      "custom_label": "Project Address Line 2",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF83",
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "field_ref": "$F83",
+      "preference": 8,
+      "input_type": "text",
+      "custom_label": "Project Pin Code",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 6,
+      "pattern": "^\\d{6}$",
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF84",
+      "page_ref": "$P3",
+      "category_ref": "$C7",
+      "field_ref": "$F84",
+      "preference": 9,
+      "input_type": "text",
+      "custom_label": "Industrial Area Or Estate Name",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF85",
+      "page_ref": "$P3",
+      "category_ref": "$C8",
+      "field_ref": "$F85",
+      "preference": 1,
+      "input_type": "select",
+      "custom_label": "Land Availability Status",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF86",
+      "page_ref": "$P3",
+      "category_ref": "$C8",
+      "field_ref": "$F86",
+      "preference": 2,
+      "input_type": "select",
+      "custom_label": "Land Source",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF87",
+      "page_ref": "$P3",
+      "category_ref": "$C8",
+      "field_ref": "$F87",
+      "preference": 3,
+      "input_type": "number",
+      "custom_label": "Total Land Required In Acres",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0.01,
+        "max": 9999
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF88",
+      "page_ref": "$P3",
+      "category_ref": "$C8",
+      "field_ref": "$F88",
+      "preference": 4,
+      "input_type": "number",
+      "custom_label": "Built Up Area Required In Sq Ft",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF89",
+      "page_ref": "$P3",
+      "category_ref": "$C8",
+      "field_ref": "$F89",
+      "preference": 5,
+      "input_type": "text",
+      "custom_label": "Survey Or Katha Number",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 100,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF90",
+      "page_ref": "$P3",
+      "category_ref": "$C8",
+      "field_ref": "$F90",
+      "preference": 6,
+      "input_type": "number",
+      "custom_label": "Existing Plant Area In Acres",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF91",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F91",
+      "preference": 1,
+      "input_type": "number",
+      "custom_label": "Investment In Land",
+      "placeholder": null,
+      "help_text": "Enter 0 if land is leased.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF92",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F92",
+      "preference": 2,
+      "input_type": "number",
+      "custom_label": "Investment In Building",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF93",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F93",
+      "preference": 3,
+      "input_type": "number",
+      "custom_label": "Investment In Plant And Machinery",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF94",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F94",
+      "preference": 4,
+      "input_type": "number",
+      "custom_label": "Investment In Other Fixed Assets",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF95",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F95",
+      "preference": 5,
+      "input_type": "number",
+      "custom_label": "Total Fixed Capital Investment",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "N",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF96",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F96",
+      "preference": 6,
+      "input_type": "number",
+      "custom_label": "Working Capital",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF97",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F97",
+      "preference": 7,
+      "input_type": "number",
+      "custom_label": "Total Project Cost",
+      "placeholder": null,
+      "help_text": "Auto-calculated.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "N",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF98",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F98",
+      "preference": 8,
+      "input_type": "number",
+      "custom_label": "Existing Investment In VFA",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF99",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F99",
+      "preference": 9,
+      "input_type": "number",
+      "custom_label": "FDI Investment",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF100",
+      "page_ref": "$P4",
+      "category_ref": "$C9",
+      "field_ref": "$F100",
+      "preference": 10,
+      "input_type": "text",
+      "custom_label": "Source Of FDI",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF101",
+      "page_ref": "$P4",
+      "category_ref": "$C10",
+      "field_ref": "$F101",
+      "preference": 1,
+      "input_type": "number",
+      "custom_label": "Own Funds Or Equity",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF102",
+      "page_ref": "$P4",
+      "category_ref": "$C10",
+      "field_ref": "$F102",
+      "preference": 2,
+      "input_type": "number",
+      "custom_label": "Bank Loan",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF103",
+      "page_ref": "$P4",
+      "category_ref": "$C10",
+      "field_ref": "$F103",
+      "preference": 3,
+      "input_type": "text",
+      "custom_label": "Name Of Bank Or Financial Institution",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF104",
+      "page_ref": "$P4",
+      "category_ref": "$C10",
+      "field_ref": "$F104",
+      "preference": 4,
+      "input_type": "number",
+      "custom_label": "Subsidy Or Grant",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF105",
+      "page_ref": "$P4",
+      "category_ref": "$C10",
+      "field_ref": "$F105",
+      "preference": 5,
+      "input_type": "number",
+      "custom_label": "Other Source Amount",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF106",
+      "page_ref": "$P4",
+      "category_ref": "$C10",
+      "field_ref": "$F106",
+      "preference": 6,
+      "input_type": "text",
+      "custom_label": "Other Source Description",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF107",
+      "page_ref": "$P4",
+      "category_ref": "$C10",
+      "field_ref": "$F107",
+      "preference": 7,
+      "input_type": "number",
+      "custom_label": "Total Financing",
+      "placeholder": null,
+      "help_text": "Auto-calculated.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "N",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF108",
+      "page_ref": "$P5",
+      "category_ref": "$C11",
+      "field_ref": "$F108",
+      "preference": 1,
+      "input_type": "number",
+      "custom_label": "Total Water Requirement In KLD",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF109",
+      "page_ref": "$P5",
+      "category_ref": "$C11",
+      "field_ref": "$F109",
+      "preference": 2,
+      "input_type": "select",
+      "custom_label": "Source Of Water",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF110",
+      "page_ref": "$P5",
+      "category_ref": "$C11",
+      "field_ref": "$F110",
+      "preference": 3,
+      "input_type": "text",
+      "custom_label": "Water Source Other Description",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF111",
+      "page_ref": "$P5",
+      "category_ref": "$C11",
+      "field_ref": "$F111",
+      "preference": 4,
+      "input_type": "number",
+      "custom_label": "Industrial Use Water In KLD",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF112",
+      "page_ref": "$P5",
+      "category_ref": "$C11",
+      "field_ref": "$F112",
+      "preference": 5,
+      "input_type": "number",
+      "custom_label": "Domestic Use Water In KLD",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF113",
+      "page_ref": "$P5",
+      "category_ref": "$C12",
+      "field_ref": "$F113",
+      "preference": 1,
+      "input_type": "number",
+      "custom_label": "Total Power Requirement In KVA",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF114",
+      "page_ref": "$P5",
+      "category_ref": "$C12",
+      "field_ref": "$F114",
+      "preference": 2,
+      "input_type": "number",
+      "custom_label": "Connected Load In KW",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF115",
+      "page_ref": "$P5",
+      "category_ref": "$C12",
+      "field_ref": "$F115",
+      "preference": 3,
+      "input_type": "select",
+      "custom_label": "Source Of Power",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF116",
+      "page_ref": "$P5",
+      "category_ref": "$C12",
+      "field_ref": "$F116",
+      "preference": 4,
+      "input_type": "text",
+      "custom_label": "Power Source Other Description",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 255,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF117",
+      "page_ref": "$P5",
+      "category_ref": "$C12",
+      "field_ref": "$F117",
+      "preference": 5,
+      "input_type": "number",
+      "custom_label": "Renewable Energy Percentage",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0,
+        "max": 100
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF118",
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "field_ref": "$F118",
+      "preference": 1,
+      "input_type": "number",
+      "custom_label": "Male Employment Direct",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF119",
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "field_ref": "$F119",
+      "preference": 2,
+      "input_type": "number",
+      "custom_label": "Female Employment Direct",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF120",
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "field_ref": "$F120",
+      "preference": 3,
+      "input_type": "number",
+      "custom_label": "Total Direct Employment",
+      "placeholder": null,
+      "help_text": "Auto-calculated.",
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "N",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF121",
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "field_ref": "$F121",
+      "preference": 4,
+      "input_type": "number",
+      "custom_label": "Skilled Employment",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF122",
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "field_ref": "$F122",
+      "preference": 5,
+      "input_type": "number",
+      "custom_label": "Semi Skilled Employment",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF123",
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "field_ref": "$F123",
+      "preference": 6,
+      "input_type": "number",
+      "custom_label": "Unskilled Employment",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF124",
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "field_ref": "$F124",
+      "preference": 7,
+      "input_type": "number",
+      "custom_label": "Karnataka State Employment",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "Y",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF125",
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "field_ref": "$F125",
+      "preference": 8,
+      "input_type": "number",
+      "custom_label": "Local District Employment",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF126",
+      "page_ref": "$P5",
+      "category_ref": "$C13",
+      "field_ref": "$F126",
+      "preference": 9,
+      "input_type": "number",
+      "custom_label": "Indirect Employment",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": {
+        "min": 0
+      },
+      "layout_type": null
+    },
+    {
+      "ref": "$BF127",
+      "page_ref": "$P6",
+      "category_ref": "$C14",
+      "field_ref": "$F127",
+      "preference": 1,
+      "input_type": "multiselect",
+      "custom_label": "Type Of Assistance Required",
+      "placeholder": null,
+      "help_text": "Select all applicable assistance/incentive schemes.",
+      "grid_span": 12,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF128",
+      "page_ref": "$P6",
+      "category_ref": "$C14",
+      "field_ref": "$F128",
+      "preference": 2,
+      "input_type": "radio",
+      "custom_label": "Whether Applying For Social Category Benefit",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF129",
+      "page_ref": "$P6",
+      "category_ref": "$C14",
+      "field_ref": "$F129",
+      "preference": 3,
+      "input_type": "select",
+      "custom_label": "Social Category For Benefit",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF130",
+      "page_ref": "$P6",
+      "category_ref": "$C14",
+      "field_ref": "$F130",
+      "preference": 4,
+      "input_type": "radio",
+      "custom_label": "Whether Tumakuru Machine Tool Park",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 6,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": null,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    },
+    {
+      "ref": "$BF131",
+      "page_ref": "$P6",
+      "category_ref": "$C14",
+      "field_ref": "$F131",
+      "preference": 5,
+      "input_type": "textarea",
+      "custom_label": "Assistance Remarks",
+      "placeholder": null,
+      "help_text": null,
+      "grid_span": 12,
+      "is_required": "N",
+      "is_readonly": "N",
+      "is_editable": "Y",
+      "is_active": "Y",
+      "min_length": null,
+      "max_length": 1000,
+      "pattern": null,
+      "validation_rule": null,
+      "layout_type": null
+    }
+  ],
+  "field_options": [
+    {
+      "builder_field_ref": "$BF1",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "New",
+          "value": "new"
+        },
+        {
+          "label": "Existing Offline",
+          "value": "existing_offline"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF2",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "New Project",
+          "value": "new_project"
+        },
+        {
+          "label": "Diversification",
+          "value": "diversification"
+        },
+        {
+          "label": "Modernization",
+          "value": "modernization"
+        },
+        {
+          "label": "Expansion",
+          "value": "expansion"
+        },
+        {
+          "label": "Closure",
+          "value": "closure"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF3",
+      "source_type": "MASTER",
+      "static_options": null,
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF5",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Manufacturing",
+          "value": "manufacturing"
+        },
+        {
+          "label": "Service",
+          "value": "service"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF6",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "LLP",
+          "value": "llp"
+        },
+        {
+          "label": "Private Limited",
+          "value": "private_limited"
+        },
+        {
+          "label": "Society",
+          "value": "society"
+        },
+        {
+          "label": "Public Limited",
+          "value": "public_limited"
+        },
+        {
+          "label": "Trust",
+          "value": "trust"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF10",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Yes",
+          "value": "yes"
+        },
+        {
+          "label": "No",
+          "value": "no"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF14",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Yes",
+          "value": "yes"
+        },
+        {
+          "label": "No",
+          "value": "no"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF17",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "India",
+          "value": "india"
+        },
+        {
+          "label": "United States",
+          "value": "united_states"
+        },
+        {
+          "label": "United Kingdom",
+          "value": "united_kingdom"
+        },
+        {
+          "label": "Canada",
+          "value": "canada"
+        },
+        {
+          "label": "Australia",
+          "value": "australia"
+        },
+        {
+          "label": "Germany",
+          "value": "germany"
+        },
+        {
+          "label": "France",
+          "value": "france"
+        },
+        {
+          "label": "Japan",
+          "value": "japan"
+        },
+        {
+          "label": "China",
+          "value": "china"
+        },
+        {
+          "label": "Brazil",
+          "value": "brazil"
+        },
+        {
+          "label": "Russia",
+          "value": "russia"
+        },
+        {
+          "label": "South Africa",
+          "value": "south_africa"
+        },
+        {
+          "label": "Italy",
+          "value": "italy"
+        },
+        {
+          "label": "Spain",
+          "value": "spain"
+        },
+        {
+          "label": "Netherlands",
+          "value": "netherlands"
+        },
+        {
+          "label": "Singapore",
+          "value": "singapore"
+        },
+        {
+          "label": "UAE",
+          "value": "uae"
+        },
+        {
+          "label": "Saudi Arabia",
+          "value": "saudi_arabia"
+        },
+        {
+          "label": "New Zealand",
+          "value": "new_zealand"
+        },
+        {
+          "label": "Switzerland",
+          "value": "switzerland"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF18",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Andhra Pradesh",
+          "value": "andhra_pradesh"
+        },
+        {
+          "label": "Arunachal Pradesh",
+          "value": "arunachal_pradesh"
+        },
+        {
+          "label": "Assam",
+          "value": "assam"
+        },
+        {
+          "label": "Bihar",
+          "value": "bihar"
+        },
+        {
+          "label": "Chhattisgarh",
+          "value": "chhattisgarh"
+        },
+        {
+          "label": "Goa",
+          "value": "goa"
+        },
+        {
+          "label": "Gujarat",
+          "value": "gujarat"
+        },
+        {
+          "label": "Haryana",
+          "value": "haryana"
+        },
+        {
+          "label": "Himachal Pradesh",
+          "value": "himachal_pradesh"
+        },
+        {
+          "label": "Jharkhand",
+          "value": "jharkhand"
+        },
+        {
+          "label": "Karnataka",
+          "value": "karnataka"
+        },
+        {
+          "label": "Kerala",
+          "value": "kerala"
+        },
+        {
+          "label": "Madhya Pradesh",
+          "value": "madhya_pradesh"
+        },
+        {
+          "label": "Maharashtra",
+          "value": "maharashtra"
+        },
+        {
+          "label": "Manipur",
+          "value": "manipur"
+        },
+        {
+          "label": "Meghalaya",
+          "value": "meghalaya"
+        },
+        {
+          "label": "Mizoram",
+          "value": "mizoram"
+        },
+        {
+          "label": "Nagaland",
+          "value": "nagaland"
+        },
+        {
+          "label": "Odisha",
+          "value": "odisha"
+        },
+        {
+          "label": "Punjab",
+          "value": "punjab"
+        },
+        {
+          "label": "Rajasthan",
+          "value": "rajasthan"
+        },
+        {
+          "label": "Sikkim",
+          "value": "sikkim"
+        },
+        {
+          "label": "Tamil Nadu",
+          "value": "tamil_nadu"
+        },
+        {
+          "label": "Telangana",
+          "value": "telangana"
+        },
+        {
+          "label": "Tripura",
+          "value": "tripura"
+        },
+        {
+          "label": "Uttar Pradesh",
+          "value": "uttar_pradesh"
+        },
+        {
+          "label": "Uttarakhand",
+          "value": "uttarakhand"
+        },
+        {
+          "label": "West Bengal",
+          "value": "west_bengal"
+        },
+        {
+          "label": "Andaman And Nicobar Islands",
+          "value": "andaman_and_nicobar_islands"
+        },
+        {
+          "label": "Chandigarh",
+          "value": "chandigarh"
+        },
+        {
+          "label": "Dadra And Nagar Haveli And Daman And Diu",
+          "value": "dadra_and_nagar_haveli_and_daman_and_diu"
+        },
+        {
+          "label": "Delhi",
+          "value": "delhi"
+        },
+        {
+          "label": "Jammu And Kashmir",
+          "value": "jammu_and_kashmir"
+        },
+        {
+          "label": "Ladakh",
+          "value": "ladakh"
+        },
+        {
+          "label": "Lakshadweep",
+          "value": "lakshadweep"
+        },
+        {
+          "label": "Puducherry",
+          "value": "puducherry"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF19",
+      "source_type": "STATIC",     
+	"static_options": [
+    { "label": "Bagalkot", "value": "bagalkot" },
+    { "label": "Ballari", "value": "ballari" },
+    { "label": "Belagavi", "value": "belagavi" },
+    { "label": "Bengaluru Rural", "value": "bengaluru_rural" },
+    { "label": "Bengaluru Urban", "value": "bengaluru_urban" },
+    { "label": "Bidar", "value": "bidar" },
+    { "label": "Chamarajanagar", "value": "chamarajanagar" },
+    { "label": "Chikballapur", "value": "chikballapur" },
+    { "label": "Chikkamagaluru", "value": "chikkamagaluru" },
+    { "label": "Chitradurga", "value": "chitradurga" },
+    { "label": "Dakshina Kannada", "value": "dakshina_kannada" },
+    { "label": "Davanagere", "value": "davanagere" },
+    { "label": "Dharwad", "value": "dharwad" },
+    { "label": "Gadag", "value": "gadag" },
+    { "label": "Hassan", "value": "hassan" },
+    { "label": "Haveri", "value": "haveri" },
+    { "label": "Kalaburagi", "value": "kalaburagi" },
+    { "label": "Kodagu", "value": "kodagu" },
+    { "label": "Kolar", "value": "kolar" },
+    { "label": "Koppal", "value": "koppal" },
+    { "label": "Mandya", "value": "mandya" },
+    { "label": "Mysuru", "value": "mysuru" },
+    { "label": "Raichur", "value": "raichur" },
+    { "label": "Ramanagara", "value": "ramanagara" },
+    { "label": "Shivamogga", "value": "shivamogga" },
+    { "label": "Tumakuru", "value": "tumakuru" },
+    { "label": "Udupi", "value": "udupi" },
+    { "label": "Uttara Kannada", "value": "uttara_kannada" },
+    { "label": "Vijayapura", "value": "vijayapura" },
+    { "label": "Yadgir", "value": "yadgir" },
+    { "label": "Almora", "value": "almora" },
+    { "label": "Bageshwar", "value": "bageshwar" },
+    { "label": "Chamoli", "value": "chamoli" },
+    { "label": "Champawat", "value": "champawat" },
+    { "label": "Dehradun", "value": "dehradun" },
+    { "label": "Haridwar", "value": "haridwar" },
+    { "label": "Nainital", "value": "nainital" },
+    { "label": "Pauri Garhwal", "value": "pauri_garhwal" },
+    { "label": "Pithoragarh", "value": "pithoragarh" },
+    { "label": "Rudraprayag", "value": "rudraprayag" },
+    { "label": "Tehri Garhwal", "value": "tehri_garhwal" },
+    { "label": "Udham Singh Nagar", "value": "udham_singh_nagar" },
+    { "label": "Uttarkashi", "value": "uttarkashi" },
+    { "label": "Ajmer", "value": "ajmer" },
+    { "label": "Alwar", "value": "alwar" },
+    { "label": "Anupgarh", "value": "anupgarh" },
+    { "label": "Balotra", "value": "balotra" },
+    { "label": "Banswara", "value": "banswara" },
+    { "label": "Baran", "value": "baran" },
+    { "label": "Barmer", "value": "barmer" },
+    { "label": "Beawar", "value": "beawar" },
+    { "label": "Bharatpur", "value": "bharatpur" },
+    { "label": "Bhilwara", "value": "bhilwara" },
+    { "label": "Bikaner", "value": "bikaner" },
+    { "label": "Bundi", "value": "bundi" },
+    { "label": "Chittorgarh", "value": "chittorgarh" },
+    { "label": "Churu", "value": "churu" },
+    { "label": "Dausa", "value": "dausa" },
+    { "label": "Deeg", "value": "deeg" },
+    { "label": "Dholpur", "value": "dholpur" },
+    { "label": "Didwana-Kuchaman", "value": "didwana_kuchaman" },
+    { "label": "Dungarpur", "value": "dungarpur" },
+    { "label": "Gangapur City", "value": "gangapur_city" },
+    { "label": "Hanumangarh", "value": "hanumangarh" },
+    { "label": "Jaipur", "value": "jaipur" },
+    { "label": "Jaipur Rural", "value": "jaipur_rural" },
+    { "label": "Jaisalmer", "value": "jaisalmer" },
+    { "label": "Jalore", "value": "jalore" },
+    { "label": "Jhalawar", "value": "jhalawar" },
+    { "label": "Jhunjhunu", "value": "jhunjhunu" },
+    { "label": "Jodhpur", "value": "jodhpur" },
+    { "label": "Jodhpur Rural", "value": "jodhpur_rural" },
+    { "label": "Karauli", "value": "karauli" },
+    { "label": "Kekri", "value": "kekri" },
+    { "label": "Khairthal-Tijara", "value": "khairthal_tijara" },
+    { "label": "Kota", "value": "kota" },
+    { "label": "Kotputli-Behror", "value": "kotputli_behror" },
+    { "label": "Nagaur", "value": "nagaur" },
+    { "label": "Neem Ka Thana", "value": "neem_ka_thana" },
+    { "label": "Pali", "value": "pali" },
+    { "label": "Phalodi", "value": "phalodi" },
+    { "label": "Pratapgarh", "value": "pratapgarh" },
+    { "label": "Rajsamand", "value": "rajsamand" },
+    { "label": "Salumber", "value": "salumber" },
+    { "label": "Sanchore", "value": "sanchore" },
+    { "label": "Sawai Madhopur", "value": "sawai_madhopur" },
+    { "label": "Shahpura", "value": "shahpura" },
+    { "label": "Sikar", "value": "sikar" },
+    { "label": "Sirohi", "value": "sirohi" },
+    { "label": "Sri Ganganagar", "value": "sri_ganganagar" },
+    { "label": "Tonk", "value": "tonk" },
+    { "label": "Udaipur", "value": "udaipur" }
+   ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF20",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Tijara",
+          "value": "tijara"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF25",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "+91",
+          "value": "+91"
+        },
+        {
+          "label": "+11",
+          "value": "+11"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF31",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "India",
+          "value": "india"
+        },
+        {
+          "label": "United States",
+          "value": "united_states"
+        },
+        {
+          "label": "United Kingdom",
+          "value": "united_kingdom"
+        },
+        {
+          "label": "Canada",
+          "value": "canada"
+        },
+        {
+          "label": "Australia",
+          "value": "australia"
+        },
+        {
+          "label": "Germany",
+          "value": "germany"
+        },
+        {
+          "label": "France",
+          "value": "france"
+        },
+        {
+          "label": "Japan",
+          "value": "japan"
+        },
+        {
+          "label": "China",
+          "value": "china"
+        },
+        {
+          "label": "Brazil",
+          "value": "brazil"
+        },
+        {
+          "label": "Russia",
+          "value": "russia"
+        },
+        {
+          "label": "South Africa",
+          "value": "south_africa"
+        },
+        {
+          "label": "Italy",
+          "value": "italy"
+        },
+        {
+          "label": "Spain",
+          "value": "spain"
+        },
+        {
+          "label": "Netherlands",
+          "value": "netherlands"
+        },
+        {
+          "label": "Singapore",
+          "value": "singapore"
+        },
+        {
+          "label": "UAE",
+          "value": "uae"
+        },
+        {
+          "label": "Saudi Arabia",
+          "value": "saudi_arabia"
+        },
+        {
+          "label": "New Zealand",
+          "value": "new_zealand"
+        },
+        {
+          "label": "Switzerland",
+          "value": "switzerland"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF32",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Andhra Pradesh",
+          "value": "andhra_pradesh"
+        },
+        {
+          "label": "Arunachal Pradesh",
+          "value": "arunachal_pradesh"
+        },
+        {
+          "label": "Assam",
+          "value": "assam"
+        },
+        {
+          "label": "Bihar",
+          "value": "bihar"
+        },
+        {
+          "label": "Chhattisgarh",
+          "value": "chhattisgarh"
+        },
+        {
+          "label": "Goa",
+          "value": "goa"
+        },
+        {
+          "label": "Gujarat",
+          "value": "gujarat"
+        },
+        {
+          "label": "Haryana",
+          "value": "haryana"
+        },
+        {
+          "label": "Himachal Pradesh",
+          "value": "himachal_pradesh"
+        },
+        {
+          "label": "Jharkhand",
+          "value": "jharkhand"
+        },
+        {
+          "label": "Karnataka",
+          "value": "karnataka"
+        },
+        {
+          "label": "Kerala",
+          "value": "kerala"
+        },
+        {
+          "label": "Madhya Pradesh",
+          "value": "madhya_pradesh"
+        },
+        {
+          "label": "Maharashtra",
+          "value": "maharashtra"
+        },
+        {
+          "label": "Manipur",
+          "value": "manipur"
+        },
+        {
+          "label": "Meghalaya",
+          "value": "meghalaya"
+        },
+        {
+          "label": "Mizoram",
+          "value": "mizoram"
+        },
+        {
+          "label": "Nagaland",
+          "value": "nagaland"
+        },
+        {
+          "label": "Odisha",
+          "value": "odisha"
+        },
+        {
+          "label": "Punjab",
+          "value": "punjab"
+        },
+        {
+          "label": "Rajasthan",
+          "value": "rajasthan"
+        },
+        {
+          "label": "Sikkim",
+          "value": "sikkim"
+        },
+        {
+          "label": "Tamil Nadu",
+          "value": "tamil_nadu"
+        },
+        {
+          "label": "Telangana",
+          "value": "telangana"
+        },
+        {
+          "label": "Tripura",
+          "value": "tripura"
+        },
+        {
+          "label": "Uttar Pradesh",
+          "value": "uttar_pradesh"
+        },
+        {
+          "label": "Uttarakhand",
+          "value": "uttarakhand"
+        },
+        {
+          "label": "West Bengal",
+          "value": "west_bengal"
+        },
+        {
+          "label": "Andaman And Nicobar Islands",
+          "value": "andaman_and_nicobar_islands"
+        },
+        {
+          "label": "Chandigarh",
+          "value": "chandigarh"
+        },
+        {
+          "label": "Dadra And Nagar Haveli And Daman And Diu",
+          "value": "dadra_and_nagar_haveli_and_daman_and_diu"
+        },
+        {
+          "label": "Delhi",
+          "value": "delhi"
+        },
+        {
+          "label": "Jammu And Kashmir",
+          "value": "jammu_and_kashmir"
+        },
+        {
+          "label": "Ladakh",
+          "value": "ladakh"
+        },
+        {
+          "label": "Lakshadweep",
+          "value": "lakshadweep"
+        },
+        {
+          "label": "Puducherry",
+          "value": "puducherry"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF33",
+      "source_type": "STATIC",     
+	  "static_options": [
+		{ "label": "Bagalkot", "value": "bagalkot" },
+		{ "label": "Ballari", "value": "ballari" },
+		{ "label": "Belagavi", "value": "belagavi" },
+		{ "label": "Bengaluru Rural", "value": "bengaluru_rural" },
+		{ "label": "Bengaluru Urban", "value": "bengaluru_urban" },
+		{ "label": "Bidar", "value": "bidar" },
+		{ "label": "Chamarajanagar", "value": "chamarajanagar" },
+		{ "label": "Chikballapur", "value": "chikballapur" },
+		{ "label": "Chikkamagaluru", "value": "chikkamagaluru" },
+		{ "label": "Chitradurga", "value": "chitradurga" },
+		{ "label": "Dakshina Kannada", "value": "dakshina_kannada" },
+		{ "label": "Davanagere", "value": "davanagere" },
+		{ "label": "Dharwad", "value": "dharwad" },
+		{ "label": "Gadag", "value": "gadag" },
+		{ "label": "Hassan", "value": "hassan" },
+		{ "label": "Haveri", "value": "haveri" },
+		{ "label": "Kalaburagi", "value": "kalaburagi" },
+		{ "label": "Kodagu", "value": "kodagu" },
+		{ "label": "Kolar", "value": "kolar" },
+		{ "label": "Koppal", "value": "koppal" },
+		{ "label": "Mandya", "value": "mandya" },
+		{ "label": "Mysuru", "value": "mysuru" },
+		{ "label": "Raichur", "value": "raichur" },
+		{ "label": "Ramanagara", "value": "ramanagara" },
+		{ "label": "Shivamogga", "value": "shivamogga" },
+		{ "label": "Tumakuru", "value": "tumakuru" },
+		{ "label": "Udupi", "value": "udupi" },
+		{ "label": "Uttara Kannada", "value": "uttara_kannada" },
+		{ "label": "Vijayapura", "value": "vijayapura" },
+		{ "label": "Yadgir", "value": "yadgir" },
+		{ "label": "Almora", "value": "almora" },
+		{ "label": "Bageshwar", "value": "bageshwar" },
+		{ "label": "Chamoli", "value": "chamoli" },
+		{ "label": "Champawat", "value": "champawat" },
+		{ "label": "Dehradun", "value": "dehradun" },
+		{ "label": "Haridwar", "value": "haridwar" },
+		{ "label": "Nainital", "value": "nainital" },
+		{ "label": "Pauri Garhwal", "value": "pauri_garhwal" },
+		{ "label": "Pithoragarh", "value": "pithoragarh" },
+		{ "label": "Rudraprayag", "value": "rudraprayag" },
+		{ "label": "Tehri Garhwal", "value": "tehri_garhwal" },
+		{ "label": "Udham Singh Nagar", "value": "udham_singh_nagar" },
+		{ "label": "Uttarkashi", "value": "uttarkashi" },
+		{ "label": "Ajmer", "value": "ajmer" },
+		{ "label": "Alwar", "value": "alwar" },
+		{ "label": "Anupgarh", "value": "anupgarh" },
+		{ "label": "Balotra", "value": "balotra" },
+		{ "label": "Banswara", "value": "banswara" },
+		{ "label": "Baran", "value": "baran" },
+		{ "label": "Barmer", "value": "barmer" },
+		{ "label": "Beawar", "value": "beawar" },
+		{ "label": "Bharatpur", "value": "bharatpur" },
+		{ "label": "Bhilwara", "value": "bhilwara" },
+		{ "label": "Bikaner", "value": "bikaner" },
+		{ "label": "Bundi", "value": "bundi" },
+		{ "label": "Chittorgarh", "value": "chittorgarh" },
+		{ "label": "Churu", "value": "churu" },
+		{ "label": "Dausa", "value": "dausa" },
+		{ "label": "Deeg", "value": "deeg" },
+		{ "label": "Dholpur", "value": "dholpur" },
+		{ "label": "Didwana-Kuchaman", "value": "didwana_kuchaman" },
+		{ "label": "Dungarpur", "value": "dungarpur" },
+		{ "label": "Gangapur City", "value": "gangapur_city" },
+		{ "label": "Hanumangarh", "value": "hanumangarh" },
+		{ "label": "Jaipur", "value": "jaipur" },
+		{ "label": "Jaipur Rural", "value": "jaipur_rural" },
+		{ "label": "Jaisalmer", "value": "jaisalmer" },
+		{ "label": "Jalore", "value": "jalore" },
+		{ "label": "Jhalawar", "value": "jhalawar" },
+		{ "label": "Jhunjhunu", "value": "jhunjhunu" },
+		{ "label": "Jodhpur", "value": "jodhpur" },
+		{ "label": "Jodhpur Rural", "value": "jodhpur_rural" },
+		{ "label": "Karauli", "value": "karauli" },
+		{ "label": "Kekri", "value": "kekri" },
+		{ "label": "Khairthal-Tijara", "value": "khairthal_tijara" },
+		{ "label": "Kota", "value": "kota" },
+		{ "label": "Kotputli-Behror", "value": "kotputli_behror" },
+		{ "label": "Nagaur", "value": "nagaur" },
+		{ "label": "Neem Ka Thana", "value": "neem_ka_thana" },
+		{ "label": "Pali", "value": "pali" },
+		{ "label": "Phalodi", "value": "phalodi" },
+		{ "label": "Pratapgarh", "value": "pratapgarh" },
+		{ "label": "Rajsamand", "value": "rajsamand" },
+		{ "label": "Salumber", "value": "salumber" },
+		{ "label": "Sanchore", "value": "sanchore" },
+		{ "label": "Sawai Madhopur", "value": "sawai_madhopur" },
+		{ "label": "Shahpura", "value": "shahpura" },
+		{ "label": "Sikar", "value": "sikar" },
+		{ "label": "Sirohi", "value": "sirohi" },
+		{ "label": "Sri Ganganagar", "value": "sri_ganganagar" },
+		{ "label": "Tonk", "value": "tonk" },
+		{ "label": "Udaipur", "value": "udaipur" }
+	  ],
+	"master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF34",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Tijara",
+          "value": "tijara"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF39",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "+91",
+          "value": "+91"
+        },
+        {
+          "label": "+11",
+          "value": "+11"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF51",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "India",
+          "value": "india"
+        },
+        {
+          "label": "United States",
+          "value": "united_states"
+        },
+        {
+          "label": "United Kingdom",
+          "value": "united_kingdom"
+        },
+        {
+          "label": "Canada",
+          "value": "canada"
+        },
+        {
+          "label": "Australia",
+          "value": "australia"
+        },
+        {
+          "label": "Germany",
+          "value": "germany"
+        },
+        {
+          "label": "France",
+          "value": "france"
+        },
+        {
+          "label": "Japan",
+          "value": "japan"
+        },
+        {
+          "label": "China",
+          "value": "china"
+        },
+        {
+          "label": "Brazil",
+          "value": "brazil"
+        },
+        {
+          "label": "Russia",
+          "value": "russia"
+        },
+        {
+          "label": "South Africa",
+          "value": "south_africa"
+        },
+        {
+          "label": "Italy",
+          "value": "italy"
+        },
+        {
+          "label": "Spain",
+          "value": "spain"
+        },
+        {
+          "label": "Netherlands",
+          "value": "netherlands"
+        },
+        {
+          "label": "Singapore",
+          "value": "singapore"
+        },
+        {
+          "label": "UAE",
+          "value": "uae"
+        },
+        {
+          "label": "Saudi Arabia",
+          "value": "saudi_arabia"
+        },
+        {
+          "label": "New Zealand",
+          "value": "new_zealand"
+        },
+        {
+          "label": "Switzerland",
+          "value": "switzerland"
+        }
+      ],
+      "master_table_id": 24,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF52",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Andhra Pradesh",
+          "value": "andhra_pradesh"
+        },
+        {
+          "label": "Arunachal Pradesh",
+          "value": "arunachal_pradesh"
+        },
+        {
+          "label": "Assam",
+          "value": "assam"
+        },
+        {
+          "label": "Bihar",
+          "value": "bihar"
+        },
+        {
+          "label": "Chhattisgarh",
+          "value": "chhattisgarh"
+        },
+        {
+          "label": "Goa",
+          "value": "goa"
+        },
+        {
+          "label": "Gujarat",
+          "value": "gujarat"
+        },
+        {
+          "label": "Haryana",
+          "value": "haryana"
+        },
+        {
+          "label": "Himachal Pradesh",
+          "value": "himachal_pradesh"
+        },
+        {
+          "label": "Jharkhand",
+          "value": "jharkhand"
+        },
+        {
+          "label": "Karnataka",
+          "value": "karnataka"
+        },
+        {
+          "label": "Kerala",
+          "value": "kerala"
+        },
+        {
+          "label": "Madhya Pradesh",
+          "value": "madhya_pradesh"
+        },
+        {
+          "label": "Maharashtra",
+          "value": "maharashtra"
+        },
+        {
+          "label": "Manipur",
+          "value": "manipur"
+        },
+        {
+          "label": "Meghalaya",
+          "value": "meghalaya"
+        },
+        {
+          "label": "Mizoram",
+          "value": "mizoram"
+        },
+        {
+          "label": "Nagaland",
+          "value": "nagaland"
+        },
+        {
+          "label": "Odisha",
+          "value": "odisha"
+        },
+        {
+          "label": "Punjab",
+          "value": "punjab"
+        },
+        {
+          "label": "Rajasthan",
+          "value": "rajasthan"
+        },
+        {
+          "label": "Sikkim",
+          "value": "sikkim"
+        },
+        {
+          "label": "Tamil Nadu",
+          "value": "tamil_nadu"
+        },
+        {
+          "label": "Telangana",
+          "value": "telangana"
+        },
+        {
+          "label": "Tripura",
+          "value": "tripura"
+        },
+        {
+          "label": "Uttar Pradesh",
+          "value": "uttar_pradesh"
+        },
+        {
+          "label": "Uttarakhand",
+          "value": "uttarakhand"
+        },
+        {
+          "label": "West Bengal",
+          "value": "west_bengal"
+        },
+        {
+          "label": "Andaman And Nicobar Islands",
+          "value": "andaman_and_nicobar_islands"
+        },
+        {
+          "label": "Chandigarh",
+          "value": "chandigarh"
+        },
+        {
+          "label": "Dadra And Nagar Haveli And Daman And Diu",
+          "value": "dadra_and_nagar_haveli_and_daman_and_diu"
+        },
+        {
+          "label": "Delhi",
+          "value": "delhi"
+        },
+        {
+          "label": "Jammu And Kashmir",
+          "value": "jammu_and_kashmir"
+        },
+        {
+          "label": "Ladakh",
+          "value": "ladakh"
+        },
+        {
+          "label": "Lakshadweep",
+          "value": "lakshadweep"
+        },
+        {
+          "label": "Puducherry",
+          "value": "puducherry"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF53",
+      "source_type": "MASTER",
+      "static_options": null,
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF59",
+      "source_type": "MASTER",
+      "static_options": null,
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF60",
+      "source_type": "MASTER",
+      "static_options": null,
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF69",
+      "source_type": "MASTER",
+      "static_options": null,
+      "master_table_id": 45,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF70",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Micro",
+          "value": "micro"
+        },
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF72",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Yes",
+          "value": "yes"
+        },
+        {
+          "label": "No",
+          "value": "no"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF74",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Yes",
+          "value": "yes"
+        },
+        {
+          "label": "No",
+          "value": "no"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF75",
+      "source_type": "MASTER",
+      "static_options": null,
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF76",
+      "source_type": "MASTER",
+	  "static_options": [
+		{ "label": "Bagalkot", "value": "bagalkot" },
+		{ "label": "Ballari", "value": "ballari" },
+		{ "label": "Belagavi", "value": "belagavi" },
+		{ "label": "Bengaluru Rural", "value": "bengaluru_rural" },
+		{ "label": "Bengaluru Urban", "value": "bengaluru_urban" },
+		{ "label": "Bidar", "value": "bidar" },
+		{ "label": "Chamarajanagar", "value": "chamarajanagar" },
+		{ "label": "Chikballapur", "value": "chikballapur" },
+		{ "label": "Chikkamagaluru", "value": "chikkamagaluru" },
+		{ "label": "Chitradurga", "value": "chitradurga" },
+		{ "label": "Dakshina Kannada", "value": "dakshina_kannada" },
+		{ "label": "Davanagere", "value": "davanagere" },
+		{ "label": "Dharwad", "value": "dharwad" },
+		{ "label": "Gadag", "value": "gadag" },
+		{ "label": "Hassan", "value": "hassan" },
+		{ "label": "Haveri", "value": "haveri" },
+		{ "label": "Kalaburagi", "value": "kalaburagi" },
+		{ "label": "Kodagu", "value": "kodagu" },
+		{ "label": "Kolar", "value": "kolar" },
+		{ "label": "Koppal", "value": "koppal" },
+		{ "label": "Mandya", "value": "mandya" },
+		{ "label": "Mysuru", "value": "mysuru" },
+		{ "label": "Raichur", "value": "raichur" },
+		{ "label": "Ramanagara", "value": "ramanagara" },
+		{ "label": "Shivamogga", "value": "shivamogga" },
+		{ "label": "Tumakuru", "value": "tumakuru" },
+		{ "label": "Udupi", "value": "udupi" },
+		{ "label": "Uttara Kannada", "value": "uttara_kannada" },
+		{ "label": "Vijayapura", "value": "vijayapura" },
+		{ "label": "Yadgir", "value": "yadgir" },
+		{ "label": "Almora", "value": "almora" },
+		{ "label": "Bageshwar", "value": "bageshwar" },
+		{ "label": "Chamoli", "value": "chamoli" },
+		{ "label": "Champawat", "value": "champawat" },
+		{ "label": "Dehradun", "value": "dehradun" },
+		{ "label": "Haridwar", "value": "haridwar" },
+		{ "label": "Nainital", "value": "nainital" },
+		{ "label": "Pauri Garhwal", "value": "pauri_garhwal" },
+		{ "label": "Pithoragarh", "value": "pithoragarh" },
+		{ "label": "Rudraprayag", "value": "rudraprayag" },
+		{ "label": "Tehri Garhwal", "value": "tehri_garhwal" },
+		{ "label": "Udham Singh Nagar", "value": "udham_singh_nagar" },
+		{ "label": "Uttarkashi", "value": "uttarkashi" },
+		{ "label": "Ajmer", "value": "ajmer" },
+		{ "label": "Alwar", "value": "alwar" },
+		{ "label": "Anupgarh", "value": "anupgarh" },
+		{ "label": "Balotra", "value": "balotra" },
+		{ "label": "Banswara", "value": "banswara" },
+		{ "label": "Baran", "value": "baran" },
+		{ "label": "Barmer", "value": "barmer" },
+		{ "label": "Beawar", "value": "beawar" },
+		{ "label": "Bharatpur", "value": "bharatpur" },
+		{ "label": "Bhilwara", "value": "bhilwara" },
+		{ "label": "Bikaner", "value": "bikaner" },
+		{ "label": "Bundi", "value": "bundi" },
+		{ "label": "Chittorgarh", "value": "chittorgarh" },
+		{ "label": "Churu", "value": "churu" },
+		{ "label": "Dausa", "value": "dausa" },
+		{ "label": "Deeg", "value": "deeg" },
+		{ "label": "Dholpur", "value": "dholpur" },
+		{ "label": "Didwana-Kuchaman", "value": "didwana_kuchaman" },
+		{ "label": "Dungarpur", "value": "dungarpur" },
+		{ "label": "Gangapur City", "value": "gangapur_city" },
+		{ "label": "Hanumangarh", "value": "hanumangarh" },
+		{ "label": "Jaipur", "value": "jaipur" },
+		{ "label": "Jaipur Rural", "value": "jaipur_rural" },
+		{ "label": "Jaisalmer", "value": "jaisalmer" },
+		{ "label": "Jalore", "value": "jalore" },
+		{ "label": "Jhalawar", "value": "jhalawar" },
+		{ "label": "Jhunjhunu", "value": "jhunjhunu" },
+		{ "label": "Jodhpur", "value": "jodhpur" },
+		{ "label": "Jodhpur Rural", "value": "jodhpur_rural" },
+		{ "label": "Karauli", "value": "karauli" },
+		{ "label": "Kekri", "value": "kekri" },
+		{ "label": "Khairthal-Tijara", "value": "khairthal_tijara" },
+		{ "label": "Kota", "value": "kota" },
+		{ "label": "Kotputli-Behror", "value": "kotputli_behror" },
+		{ "label": "Nagaur", "value": "nagaur" },
+		{ "label": "Neem Ka Thana", "value": "neem_ka_thana" },
+		{ "label": "Pali", "value": "pali" },
+		{ "label": "Phalodi", "value": "phalodi" },
+		{ "label": "Pratapgarh", "value": "pratapgarh" },
+		{ "label": "Rajsamand", "value": "rajsamand" },
+		{ "label": "Salumber", "value": "salumber" },
+		{ "label": "Sanchore", "value": "sanchore" },
+		{ "label": "Sawai Madhopur", "value": "sawai_madhopur" },
+		{ "label": "Shahpura", "value": "shahpura" },
+		{ "label": "Sikar", "value": "sikar" },
+		{ "label": "Sirohi", "value": "sirohi" },
+		{ "label": "Sri Ganganagar", "value": "sri_ganganagar" },
+		{ "label": "Tonk", "value": "tonk" },
+		{ "label": "Udaipur", "value": "udaipur" }
+	],
+	"master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF80",
+      "source_type": "MASTER",
+      "static_options": null,
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF85",
+      "source_type": "MASTER",
+      "static_options": [
+		{
+		  "label": "Owned",
+		  "value": "owned"
+		},
+		{
+		  "label": "Leased",
+		  "value": "leased"
+		},
+		{
+		  "label": "Rented",
+		  "value": "rented"
+		},
+		{
+		  "label": "Government Allotted",
+		  "value": "government_allotted"
+		},
+		{
+		  "label": "To Be Purchased",
+		  "value": "to_be_purchased"
+		},
+		{
+		  "label": "Not Identified",
+		  "value": "not_identified"
+		}
+	  ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF86",
+      "source_type": "MASTER",
+       "static_options": [
+		{
+		  "label": "KIADB (Karnataka Industrial Areas Development Board)",
+		  "value": "kiadb"
+		},
+		{
+		  "label": "Revenue Land",
+		  "value": "revenue_land"
+		},
+		{
+		  "label": "Private Land",
+		  "value": "private_land"
+		},
+		{
+		  "label": "Industrial Area / Estate",
+		  "value": "industrial_area_estate"
+		},
+		{
+		  "label": "SEZ (Special Economic Zone)",
+		  "value": "sez"
+		},
+		{
+		  "label": "Government Allotted Land",
+		  "value": "government_allotted"
+		}
+	  ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF109",
+      "source_type": "MASTER",
+      "static_options": [
+		{
+		  "label": "UJS (Urban Water Supply)",
+		  "value": "ujs"
+		},
+		{
+		  "label": "DMA (Municipal Supply)",
+		  "value": "dma"
+		},
+		{
+		  "label": "Borewell / Groundwater",
+		  "value": "borewell"
+		},
+		{
+		  "label": "River",
+		  "value": "river"
+		},
+		{
+		  "label": "Canal",
+		  "value": "canal"
+		}
+	  ],	
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF115",
+      "source_type": "MASTER",
+      "static_options": [
+		{
+		  "label": "UPCL / ESCOM (Electricity Distribution Company)",
+		  "value": "escom"
+		},
+		{
+		  "label": "Captive Power Plant",
+		  "value": "captive_power"
+		},
+		{
+		  "label": "Diesel Generator",
+		  "value": "diesel_generator"
+		},
+		{
+		  "label": "Solar Power",
+		  "value": "solar"
+		},
+		{
+		  "label": "Wind Power",
+		  "value": "wind"
+		},
+		{
+		  "label": "Hybrid (Solar + Grid / Generator)",
+		  "value": "hybrid"
+		}
+	  ],	
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF127",
+      "source_type": "MASTER",
+      "static_options": null,
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF128",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Yes",
+          "value": "yes"
+        },
+        {
+          "label": "No",
+          "value": "no"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF129",
+      "source_type": "MASTER",
+      "static_options": null,
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF130",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Yes",
+          "value": "yes"
+        },
+        {
+          "label": "No",
+          "value": "no"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    },
+    {
+      "builder_field_ref": "$BF28",
+      "source_type": "STATIC",
+      "static_options": [
+        {
+          "label": "Yes",
+          "value": "yes"
+        },
+        {
+          "label": "No",
+          "value": "no"
+        }
+      ],
+      "master_table_id": null,
+      "parent_builder_field_ref": null
+    }
+  ],
+  "addmore_groups": [
+    {
+      "ref": "$AG1",
+      "page_ref": "$P2",
+      "category_ref": "$C5",
+      "trigger_builder_field_ref": "$BF57",
+      "label": "Promoter Details",
+      "min_rows": 1,
+      "max_rows": 10
+    }
+  ],
+  "addmore_columns": [
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF57",
+      "col_order": 1
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF58",
+      "col_order": 2
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF59",
+      "col_order": 3
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF60",
+      "col_order": 4
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF61",
+      "col_order": 5
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF62",
+      "col_order": 6
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF63",
+      "col_order": 7
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF64",
+      "col_order": 8
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF65",
+      "col_order": 9
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF66",
+      "col_order": 10
+    },
+    {
+      "group_ref": "$AG1",
+      "builder_field_ref": "$BF67",
+      "col_order": 11
+    }
+  ],
+  "form_rules": [
+    {
+      "scope": "field",
+      "when_json": {
+        "field_ref": "$BF2",
+        "operator": "in",
+        "value": "expansion,diversification,modernization"
+      },
+      "then_json": {
+        "action": "show",
+        "target_refs": [
+          "$BF3"
+        ]
+      }
+    },
+    {
+      "scope": "field",
+      "when_json": {
+        "field_ref": "$BF6",
+        "operator": "in",
+        "value": "public_limited,private_limited,one_person_company,section_8,llp"
+      },
+      "then_json": {
+        "action": "show",
+        "target_refs": [
+          "$BF8"
+        ]
+      }
+    },
+    {
+      "scope": "field",
+      "when_json": {
+        "field_ref": "$BF6",
+        "operator": "equals",
+        "value": "llp"
+      },
+      "then_json": {
+        "action": "show",
+        "target_refs": [
+          "$BF9"
+        ]
+      }
+    },
+    {
+      "scope": "field",
+      "when_json": {
+        "field_ref": "$BF10",
+        "operator": "equals",
+        "value": "yes"
+      },
+      "then_json": {
+        "action": "show",
+        "target_refs": [
+          "$BF11"
+        ]
+      }
+    },
+    {
+      "scope": "category",
+      "when_json": {
+        "field_ref": "$BF28",
+        "operator": "equals",
+        "value": "false"
+      },
+      "then_json": {
+        "action": "show",
+        "target_refs": [
+          "$C3"
+        ]
+      }
+    },
+    {
+      "scope": "field",
+      "when_json": {
+        "field_ref": "$BF72",
+        "operator": "equals",
+        "value": "yes"
+      },
+      "then_json": {
+        "action": "show",
+        "target_refs": [
+          "$BF73"
+        ]
+      }
+    },
+    {
+      "scope": "field",
+      "when_json": {
+        "field_ref": "$BF74",
+        "operator": "equals",
+        "value": "yes"
+      },
+      "then_json": {
+        "action": "show",
+        "target_refs": [
+          "$BF75"
+        ]
+      }
+    },
+    {
+      "scope": "field",
+      "when_json": {
+        "field_ref": "$BF85",
+        "operator": "equals",
+        "value": "available"
+      },
+      "then_json": {
+        "action": "show",
+        "target_refs": [
+          "$BF89"
+        ]
+      }
+    },
+    {
+      "scope": "field",
+      "when_json": {
+        "field_ref": "$BF128",
+        "operator": "equals",
+        "value": "yes"
+      },
+      "then_json": {
+        "action": "show",
+        "target_refs": [
+          "$BF129"
+        ]
+      }
+    }
+  ]
+}

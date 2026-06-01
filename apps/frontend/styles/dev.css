@@ -1,0 +1,59 @@
+/* Add to your global CSS or component styles */
+.speakers-slider {
+  overflow: hidden;
+  width: 100%;
+}
+
+.slider__wrapper {
+  display: flex;
+  will-change: transform;
+}
+
+.slider__item {
+  flex: 0 0 auto;
+  width: 33.333%; /* 3 items visible */
+  padding: 0 15px;
+}
+
+.hideslidbtn {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.psslider__control {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .slider__item {
+    width: 50%; /* 2 items on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .slider__item {
+    width: 100%; /* 1 item on mobile */
+  }
+}
+
+
+.ticker-wrap {
+  display: inline-flex;
+  animation: ticker 50s linear infinite;
+  white-space: nowrap;
+}
+
+.ticker-wrap.paused {
+  animation-play-state: paused;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
